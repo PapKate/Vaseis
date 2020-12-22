@@ -45,7 +45,7 @@ namespace Vaseis
 
             var context = new VaseisDbContext(optionsBuilder.Options);
 
-            // Pull request test
+            // I implemented the users GUI
 
             // Make sure that the database exists
             // If the database doesn't exist, it gets created.
