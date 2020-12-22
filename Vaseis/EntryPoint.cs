@@ -45,6 +45,8 @@ namespace Vaseis
 
             var context = new VaseisDbContext(optionsBuilder.Options);
 
+            // Pull request test
+
             // Make sure that the database exists
             // If the database doesn't exist, it gets created.
             var result = await context.Database.EnsureCreatedAsync();
