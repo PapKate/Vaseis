@@ -41,7 +41,7 @@ namespace Vaseis
         {
             var optionsBuilder = new DbContextOptionsBuilder<VaseisDbContext>();
             optionsBuilder.UseMySql("Server=localhost;Database=Vaseis;Uid=root;Pwd=12345678;");
-            optionsBuilder.UseLoggerFactory(mLoggerFactory);
+            optionsBuilder.UseLoggerFactory(mLoggerFactory);     
 
             var context = new VaseisDbContext(optionsBuilder.Options);
 
@@ -90,7 +90,7 @@ namespace Vaseis
                 .RuleFor(x => x.Password, faker => faker.Random.String2(10, 20))
                 .RuleFor(x => x.Email, faker => faker.Person.Email)
                 .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 2))
-                .Generate(1000);
+                .Generate(100);
 
             context.Users.AddRange(users);
 
@@ -130,7 +130,7 @@ namespace Vaseis
             //    }
             //});
 
-            //// Add the user to the data base
+            //// Akdd the user to the data base
             //await context.SaveChangesAsync();
 
             #region Update

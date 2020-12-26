@@ -53,6 +53,16 @@ namespace Vaseis
         /// </summary>
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
+        ///<summary>
+        /// The path to the user's profile picture 
+        /// </summary>
+        public string ProfilePicture { get; set; }
+
+        /// <summary>
+        /// The years of experience
+        /// </summary>
+        public int YearsOfExpirience { get; set; }
+
         /// <summary>
         /// The full name
         /// </summary>
@@ -70,6 +80,7 @@ namespace Vaseis
         /// The related <see cref="CompanyDataModel"/>
         /// </summary>
         public CompanyDataModel Company { get; set; }
+
 
         #endregion
 
