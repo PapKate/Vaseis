@@ -263,7 +263,7 @@ namespace Vaseis
 
             #endregion
 
-            var companiesWithUsers = await context.Companies.Include(x => x.ParentSubjects).ToListAsync();
+            //var companiesWithUsers = await context.Companies.Include(x => x.ParentSubjects).ToListAsync();
 
             var companiesWithDepartments = await context.Companies.Include(x => x.Departments)
                                     .ToListAsync();

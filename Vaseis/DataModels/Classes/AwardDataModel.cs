@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vaseis
@@ -39,9 +40,6 @@ namespace Vaseis
         /// </summary>
         public IEnumerable<JobDataModel> Jobs { get; set; }
 
-
-
-      
         #endregion
 
         #endregion

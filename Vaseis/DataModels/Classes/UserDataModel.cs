@@ -49,6 +49,11 @@ namespace Vaseis
         /// </summary>
         public string Email { get; set; }
 
+        ///<summary>
+        /// The path to the user's profile picture 
+        /// </summary>
+        public string ProfilePicture { get; set; }
+
         /// <summary>
         /// The date the user was registered
         /// </summary>
