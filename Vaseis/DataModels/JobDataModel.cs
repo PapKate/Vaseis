@@ -33,22 +33,11 @@ namespace Vaseis
         /// </summary>
         public string Department{ get; set; }
 
-
-
-        #region Relationships
-
         /// <summary>
-        /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
+        /// The <see cref="CompanyDataModel.Id"/> of the related company
         /// </summary>
         public int CompanyId { get; set; }
 
-        /// <summary>
-        /// The related <see cref="CompanyDataModel"/>
-        /// </summary>
-        public CompanyDataModel Company { get; set; }
-
-
-        #endregion
         #endregion
 
         #region Constructors

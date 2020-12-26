@@ -23,6 +23,11 @@ namespace Vaseis
         public int InterviewGrade { get; set; }
 
         /// <summary>
+        /// Evaluatrorr's comments on thew interview
+        /// </summary>
+        public int Comments { get; set; }
+
+        /// <summary>
         /// Evaluatrorr's report grade
         /// </summary>
         public int ReportGrade { get; set; }

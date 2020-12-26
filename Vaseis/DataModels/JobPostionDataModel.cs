@@ -55,7 +55,7 @@ namespace Vaseis
         /// <summary>
         /// The job position subjects
         /// </summary>
-        public IEnumerable<SubjectDataModel> Awards { get; set; }
+        public IEnumerable<SubjectDataModel> relevantSubjects { get; set; }
 
 
 

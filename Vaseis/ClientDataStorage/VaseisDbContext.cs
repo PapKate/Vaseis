@@ -50,7 +50,7 @@ namespace Vaseis
         public DbSet<EvaluationDataModel> Evaluations { get; set; }
 
         /// <summary>
-        /// Thesubject's table
+        /// The subjects table
         /// </summary>
         public DbSet<SubjectDataModel> Subjects { get; set; }
 
@@ -93,9 +93,15 @@ namespace Vaseis
                 .HasForeignKey(x => x.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // modelBuilder.Entity<SybjectDataModel>()
-            //mono sta pollapla??
 
+            modelBuilder.Entity<SubjectDataModel>()
+            .HasMany(x => x.ParentSubjects)
+            .WithOne(x => x.Subject)
+            .HasPrincipalKey(x => x.Id)
+            .HasForeignKey(x => x.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+           
         }
 
         #endregion

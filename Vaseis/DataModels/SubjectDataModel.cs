@@ -38,12 +38,13 @@ namespace Vaseis
         /// <summary>
         /// The related <see cref="SubjectDataModel"/>
         /// </summary>
-        public SubjectDataModel Subject { get; set; }
+        public SubjectDataModel Subject{ get; set; }
 
         /// <summary>
         /// The subjects current sybject belnongs to 
         /// </summary>
         public IEnumerable<SubjectDataModel> ParentSubjects { get; set; }
+
 
         #endregion
 

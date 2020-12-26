@@ -85,6 +85,7 @@ namespace Vaseis
                 .RuleFor(x => x.Username, faker => faker.Person.UserName)
                 .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                 .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+                .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                 .RuleFor(x => x.Type, faker => faker.Random.Enum<UserType>())
                 .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(1, DateTime.Now))
                 .RuleFor(x => x.Password, faker => faker.Random.String2(10, 20))
