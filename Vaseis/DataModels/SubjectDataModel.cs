@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vaseis
 {
     /// <summary>
-    /// Represents a company
+    /// Represents the subject of a job position
     /// </summary>
-    public class CompanyDataModel
-    {
+    public class SubjectDataModel
+    { 
         #region Public Properties
-
+  
         /// <summary>
         /// The id
         /// </summary>
@@ -20,30 +19,33 @@ namespace Vaseis
         public int Id { get; set; }
 
         /// <summary>
-        /// The name
+        /// The subject's title
         /// </summary>
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// The date the company was created
+        /// The  subject's decription
         /// </summary>
-        public DateTime DateCreated { get; set; } = DateTime.Now;
+        public string Description { get; set; }
 
         #region Relationships
 
         /// <summary>
-        /// The related users
+        /// The <see cref="SubjectDataModel.Id"/> of the related <see cref="SubjectDataModel"/>
         /// </summary>
-        public IEnumerable<UserDataModel> Users { get; set; }
+        public int SubjectId { get; set; }
 
         /// <summary>
-        /// The related users
+        /// The related <see cref="SubjectDataModel"/>
         /// </summary>
-        public IEnumerable<JobDataModel> Jobs { get; set; }
+        public SubjectDataModel Subject{ get; set; }
+
+        /// <summary>
+        /// The subjects current sybject belnongs to 
+        /// </summary>
+        public IEnumerable<SubjectDataModel> ParentSubjects { get; set; }
 
 
-
-      
         #endregion
 
         #endregion
@@ -53,20 +55,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public CompanyDataModel()
+        public SubjectDataModel()
         {
 
         }
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// Returns a string that represents the current object
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => Name;
 
         #endregion
     }

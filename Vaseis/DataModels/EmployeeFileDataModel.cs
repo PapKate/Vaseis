@@ -24,11 +24,7 @@ namespace Vaseis
         /// </summary>
         public string Bio { get; set; }
 
-        /// <summary>
-        /// The years of experience
-        /// </summary>
-        public int YearsOfExpirience { get; set; }
-
+        
         #region Relationships
 
         /// <summary>

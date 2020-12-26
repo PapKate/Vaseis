@@ -39,6 +39,21 @@ namespace Vaseis
         /// </summary>
         public DbSet<JobDataModel> Jobs { get; set; }
 
+        /// <summary>
+        /// The job positions' table
+        /// </summary>
+        public DbSet<JobPositionDataModel> JobPositions { get; set; }
+
+        /// <summary>
+        /// The evaluations table
+        /// </summary>
+        public DbSet<EvaluationDataModel> Evaluations { get; set; }
+
+        /// <summary>
+        /// The subjects table
+        /// </summary>
+        public DbSet<SubjectDataModel> Subjects { get; set; }
+
         #endregion
 
         #region Constructors
@@ -77,6 +92,16 @@ namespace Vaseis
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<SubjectDataModel>()
+            .HasMany(x => x.ParentSubjects)
+            .WithOne(x => x.Subject)
+            .HasPrincipalKey(x => x.Id)
+            .HasForeignKey(x => x.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+           
         }
 
         #endregion

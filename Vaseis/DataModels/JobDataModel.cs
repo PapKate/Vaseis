@@ -17,6 +17,27 @@ namespace Vaseis
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+
+        /// <summary>
+        /// the job title 
+        /// </summary>
+        public string JobTitle{ get; set; }
+
+        /// <summary>
+        /// the job title 
+        /// </summary>
+        public int Salary{ get; set; }
+
+        /// <summary>
+        /// the job department
+        /// </summary>
+        public string Department{ get; set; }
+
+        /// <summary>
+        /// The <see cref="CompanyDataModel.Id"/> of the related company
+        /// </summary>
+        public int CompanyId { get; set; }
+
         #endregion
 
         #region Constructors
