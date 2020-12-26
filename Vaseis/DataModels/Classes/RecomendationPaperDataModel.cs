@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vaseis
 {
     /// <summary>
-    /// Represents an employee file
+    /// The recommendation papers
     /// </summary>
-    public class EmployeeFileDataModel
+    public class RecomendationPaperDataModel
     {
         #region Public Properties
 
@@ -20,31 +19,26 @@ namespace Vaseis
         public int Id { get; set; }
 
         /// <summary>
-        /// The bio
+        /// The name of the person who made the recommendation
         /// </summary>
-        public string Bio { get; set; }
+        public string Referee { get; set; }
 
         /// <summary>
-        /// The years of experience
+        /// The recommendation's text
         /// </summary>
-        public int YearsOfExpirience { get; set; }
+        public string Description { get; set; }
 
         #region Relationships
 
         /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related <see cref="UserDataModel"/>
+        /// The <see cref="UserDataModel.Id"/> of the related employee
         /// </summary>
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
         /// <summary>
-        /// The <see cref="JobDataModel.Id"/> of the related <see cref="JobDataModel"/>
+        /// The related employee
         /// </summary>
-        public int JobId { get; set; }
-
-        /// <summary>
-        /// The awards
-        /// </summary>
-        public IEnumerable<AwardDataModel> Awards { get; set; }
+        public UserDataModel Employee { get; set; }
 
         #endregion
 
@@ -55,7 +49,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeFileDataModel()
+        public RecomendationPaperDataModel()
         {
 
         }

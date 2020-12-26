@@ -31,4 +31,33 @@ namespace Vaseis
 
         #endregion
     }
+
+    public class UserJobRequests
+    {
+        #region Public Properties
+
+        public int Id { get; set; }
+
+        #region Relationship
+
+        public int UserId { get; set; }
+
+        public UserDataModel User { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public UserJobRequests()
+        {
+
+        }
+
+        #endregion
+    }
 }

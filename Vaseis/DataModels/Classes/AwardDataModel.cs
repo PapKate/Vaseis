@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Vaseis
 {
     /// <summary>
-    /// Represents an award
+    /// Represents the awards table in the data base
     /// </summary>
     public class AwardDataModel
     {
@@ -25,14 +25,14 @@ namespace Vaseis
         #region Relationships
 
         /// <summary>
-        /// The <see cref="EmployeeFileDataModel.Id"/> of the related <see cref="EmployeeFile"/>
+        /// The <see cref="UserDataModel.Id"/> of the related employee
         /// </summary>
-        public int EmployeeFileId { get; set; }
+        public int EmployeeId { get; set; }
 
         /// <summary>
-        /// The related <see cref="EmployeeFile"/>
+        /// The related employee
         /// </summary>
-        public EmployeeFileDataModel EmployeeFile { get; set; }
+        public UserDataModel Employee { get; set; }
 
         #endregion
 
@@ -47,6 +47,16 @@ namespace Vaseis
         {
 
         }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Returns a string that represents the current object
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => Name;
 
         #endregion
     }

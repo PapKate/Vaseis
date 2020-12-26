@@ -29,7 +29,53 @@ namespace Vaseis
         /// </summary>
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
+        /// <summary>
+        /// The name of the company's DOY
+        /// </summary>
+        public string DOY { get; set; }
+
+        /// <summary>
+        /// The name of the company's AFM
+        /// </summary>
+        public string AFM { get; set; }
+
+        /// <summary>
+        /// The company's telephone number
+        /// </summary>
+        public string TelephoneNumber { get; set; }
+
+        /// <summary>
+        /// The name of the city the company is located
+        /// </summary>
+        public string City { get; set; }
+
+        /// <summary>
+        /// The name of the country the company is located
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// The number of the street the company is located
+        /// </summary>
+        public string StreetNumber { get; set; }
+
+        /// <summary>
+        /// The name of the street the company is located
+        /// </summary>
+        public string StreetName { get; set; }
+
+        /// <summary>
+        /// The complete company's location
+        /// </summary>
+        [NotMapped]
+        public string Location => StreetName + " " + StreetNumber + ", " + City + " " + Country;  
+
         #region Relationships
+
+        /// <summary>
+        /// The related departments
+        /// </summary>
+        public IEnumerable<DepartmentDataModel> Departments { get; set; }
 
         /// <summary>
         /// The related users

@@ -15,19 +15,24 @@ namespace Vaseis
         public DbSet<CompanyDataModel> Companies { get; set; }
 
         /// <summary>
+        /// The departments
+        /// </summary>
+        public DbSet<DepartmentDataModel> Departments { get; set; }
+
+        /// <summary>
         /// The users table
         /// </summary>
         public DbSet<UserDataModel> Users { get; set; }
 
         /// <summary>
+        /// The manager employees table
+        /// </summary>
+        //public DbSet<ManagerEmployeePair> ManagerEmployees { get; set; }
+
+        /// <summary>
         /// The awards table
         /// </summary>
         public DbSet<AwardDataModel> Awards { get; set; }
-
-        /// <summary>
-        /// The employee files table
-        /// </summary>
-        public DbSet<EmployeeFileDataModel> EmployeeFiles { get; set; }
 
         /// <summary>
         /// The reports table
@@ -38,6 +43,36 @@ namespace Vaseis
         /// The jobs table
         /// </summary>
         public DbSet<JobDataModel> Jobs { get; set; }
+
+        /// <summary>
+        /// The degrees table
+        /// </summary>
+        public DbSet<DegreeDataModel> Degrees { get; set; }
+
+        /// <summary>
+        /// The hasDegrees table
+        /// </summary>
+        public DbSet<AcquiredDegreeDataModel> AcquiredDegrees { get; set; }
+
+        /// <summary>
+        /// THe certificates table
+        /// </summary>
+        public DbSet<CertificateDataModel> Certificates { get; set; }
+
+        /// <summary>
+        /// The recommendations table
+        /// </summary>
+        public DbSet<RecomendationPaperDataModel> RecomendationPapers { get; set; }
+
+        /// <summary>
+        /// The languages table
+        /// </summary>
+        public DbSet<LanguagesDataModel> Languages { get; set; }
+
+        /// <summary>
+        /// The projects table
+        /// </summary>
+        public DbSet<ProjectDataModel> Projects { get; set; }
 
         #endregion
 
@@ -64,19 +99,112 @@ namespace Vaseis
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EmployeeFileDataModel>()
+            #region User
+
+            // For the awards of a user...
+            modelBuilder.Entity<UserDataModel>()
+                // One user has many awards 
                 .HasMany(x => x.Awards)
-                .WithOne(x => x.EmployeeFile)
+                // Each award has one user
+                .WithOne(x => x.Employee)
+                // The principal key of the join is the User.Id
                 .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeFileId)
+                // The foreign key of the join is the Award.UserId
+                .HasForeignKey(x => x.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.ManagerEmployees)
+            //    .WithOne(x => x.Manager)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.ManagerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            // For the certificates of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Certificates)
+                .WithOne(x => x.Employee)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the recommendation papers of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.RecommendationPapers)
+                .WithOne(x => x.Employee)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the languages of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Languages)
+                .WithOne(x => x.Employee)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the projects of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Projects)
+                .WithOne(x => x.Employee)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the projects of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.AcquiredDegrees)
+                .WithOne(x => x.Employee)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Degree
+
+            modelBuilder.Entity<DegreeDataModel>()
+                .HasMany(x => x.AcquiredDegrees)
+                .WithOne(x => x.Degree)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.DegreeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Company
+
+            // For the users in a company
             modelBuilder.Entity<CompanyDataModel>()
                 .HasMany(x => x.Users)
                 .WithOne(x => x.Company)
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // For the departments in a company
+            modelBuilder.Entity<CompanyDataModel>()
+                .HasMany(x => x.Departments)
+                .WithOne(x => x.Company)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Department
+
+            // For the users in a department
+            modelBuilder.Entity<DepartmentDataModel>()
+                .HasMany(x => x.Users)
+                .WithOne(x => x.Department)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.DepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
         }
 
         #endregion
