@@ -35,11 +35,6 @@ namespace Vaseis
         /// </summary>
         public UserDataModel Employee { get; set; }
 
-        /// <summary>
-        /// The related users
-        /// </summary>
-        public IEnumerable<JobDataModel> Jobs { get; set; }
-
         #endregion
 
         #endregion
