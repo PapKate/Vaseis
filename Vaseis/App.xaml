@@ -4,6 +4,27 @@
              xmlns:local="clr-namespace:Vaseis"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Default Primary Color-->
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#002E54"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#9F1747"/>
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#002E54"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+
+            <!--Default Accent-->
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#397367"/>
+            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF"/>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
