@@ -178,6 +178,7 @@ namespace Vaseis
                             .RuleFor(x => x.Username, faker => faker.Person.UserName)
                             .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
+                            .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
@@ -234,6 +235,77 @@ namespace Vaseis
             //                                            .ToListAsync();
 
             #endregion
+
+            #region Evaluations
+
+            // Adds to the evaluations db context a list of evaluation data models
+            context.Evaluations.AddRange(new List<EvaluationDataModel>() // in memory
+            {
+                new EvaluationDataModel()
+                {
+                    FinalGrade = (float?)8.7,
+                    ReportGrade = (float)6.4,
+                    FilesGrade = (float)5.2,
+                    Comments = "falalalla",
+                    EvaluatorId = 11,
+                    JobPositionId = 2,
+                    EmployeeId = 4
+                },
+                new EvaluationDataModel()
+                {
+                    FinalGrade = (float?)8.0,
+                    ReportGrade = (float)6.9,
+                    FilesGrade = (float)9.2,
+                    Comments = "lwxamanaaman",
+                    EvaluatorId = 4,
+                    JobPositionId = 2,
+                    EmployeeId = 7,
+                }
+
+                });
+
+
+            // Add the evaluations(evaluationRequests-Results) to the database
+            await context.SaveChangesAsync();
+
+            // List that contains all the companies
+            var evaluations = await context.Evaluations.ToListAsync();
+
+
+            #endregion
+
+
+            #region Jobs
+
+            // Adds to the Jobs db context a list of Job data models
+            context.Jobs.AddRange(new List<JobDataModel>() // in memory
+            {
+                new JobDataModel()
+                {
+                    JobTitle = "Manager",
+                    Department = "",
+                    Salary = (int)1500,
+                    CompanyId = 4
+                },
+
+                 new JobDataModel()
+                {
+                    JobTitle = "Programmer",
+                    Department = "",
+                    Salary = (int)1500,
+                    CompanyId = 2
+                 }
+                });
+
+
+            // Add the evaluations(evaluationRequests-Results) to the database
+            await context.SaveChangesAsync();
+
+            // List that contains all the companies
+            var jobs = await context.Jobs.ToListAsync();
+
+            #endregion
+
 
             #region Update
 
