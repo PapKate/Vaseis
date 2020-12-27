@@ -20,42 +20,42 @@ namespace Vaseis
         /// <summary>
         /// Evaluatrorr's interview grade
         /// </summary>
-        public int InterviewGrade { get; set; }
+        public float? InterviewGrade { get; set; }
 
         /// <summary>
         /// Evaluatrorr's comments on thew interview
         /// </summary>
-        public int Comments { get; set; }
+        public string? Comments { get; set; }
 
         /// <summary>
         /// Evaluatrorr's report grade
         /// </summary>
-        public int ReportGrade { get; set; }
+        public float? ReportGrade { get; set; }
 
         /// <summary>
         /// Evaluatrorr's files grade
         /// </summary>
-        public int FilesGrade { get; set; }
+        public float? FilesGrade { get; set; }
 
         /// <summary>
         /// Evaluatrorr's final grade
         /// </summary>
-        public int FinalGrade { get; set; }
+        public float? FinalGrade { get; set; }
 
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related evaluator 
         /// </summary>
-        public int EvaluatorId { get; set; }
+        public int? EvaluatorId { get; set; }
 
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related employee 
         /// </summary>
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         /// <summary>
         /// The <see cref="JobPostionDataModel.Id"/> of the open job position
         /// </summary>
-        public int JobPositionId { get; set; }
+        public int? JobPositionId { get; set; }
 
         #region Relationships
         #endregion

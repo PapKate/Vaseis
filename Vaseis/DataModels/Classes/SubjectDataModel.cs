@@ -28,12 +28,17 @@ namespace Vaseis
         /// </summary>
         public string Description { get; set; }
 
+
+
+
         #region Relationships
+
+        #region recursion
 
         /// <summary>
         /// The <see cref="SubjectDataModel.Id"/> of the related <see cref="SubjectDataModel"/>
         /// </summary>
-        public int SubjectId { get; set; }
+        public int? SubjectId { get; set; }
 
         /// <summary>
         /// The related <see cref="SubjectDataModel"/>
@@ -45,6 +50,18 @@ namespace Vaseis
         /// </summary>
         public IEnumerable<SubjectDataModel> ParentSubjects { get; set; }
 
+        #endregion
+
+        /// <summary>
+        /// The <see cref="JobPositionDataModel.Id"/> of the related <see cref="JobPositionDataModel"/>
+        /// </summary>
+        public int? JobPositionId { get; set; }
+
+        /// <summary>
+        /// The related <see cref="SJobPositionDataModel"/>
+        /// </summary>
+        public JobPositionDataModel JobPosition { get; set; }
+      
 
         #endregion
 
