@@ -58,6 +58,7 @@ namespace Vaseis
 
             #region Companies
 
+            // Adds to the companies db context a list of company data models
             context.Companies.AddRange(new List<CompanyDataModel>() // in memory
             {
                 new CompanyDataModel()
@@ -110,6 +111,7 @@ namespace Vaseis
 
             #region Departments
 
+            // Creates a list of departments and fills it with every possible option
             var departmentOptionsList = new List<Department>() 
                                 { 
                                     Department.Research, 
@@ -122,98 +124,28 @@ namespace Vaseis
                                     Department.Accounting
                                 };
 
+            // For each and every company in the companies list...
             foreach(var company in companies)
             {
+                // For each department in the list with every possible option for a department's name...
                 foreach (var dep in departmentOptionsList)
                 {
+                    // Creates a department data model that has as department the department and the company from the according lists
                     var department = new DepartmentDataModel() { Department = dep, Company = company };
+                    // Adds the data model in the departments data model
                     context.Departments.Add(department);
                 }
             }
 
+            // Save changes
             await context.SaveChangesAsync();
 
+            // Parses the db set of departments to a list
             var departments = await context.Departments.ToListAsync();
 
             #endregion
 
             #region Users
-
-            //var users = new Faker<UserDataModel>()
-            //    .RuleFor(x => x.Username, faker => faker.Person.UserName)
-            //    .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
-            //    .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-            //    .RuleFor(x => x.Type, faker => faker.Random.Enum<UserType>())
-            //    .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(1, DateTime.Now))
-            //    .RuleFor(x => x.Password, faker => faker.Random.String2(10, 20))
-            //    .RuleFor(x => x.Email, faker => faker.Person.Email)
-            //    .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 2))
-            //    .Generate(1000);
-
-            //context.Users.AddRange(users);
-
-
-            var employees = new Faker<UserDataModel>()
-                            .RuleFor(x => x.Username, faker => faker.Person.UserName)
-                            .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
-                            .RuleFor(x => x.Email, faker => faker.Person.Email)
-                            .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
-                            .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
-                            .RuleFor(x => x.Type, faker => UserType.Employee)
-                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 3))
-                            .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
-                            .Generate(50);
-
-            context.Users.AddRange(employees);
-
-            await context.SaveChangesAsync();
-
-            // Add data to managers
-            foreach (var company in companies)
-            {
-                foreach (var department in company.Departments)
-                {
-                    var manager = new Faker<UserDataModel>()
-                            .RuleFor(x => x.Username, faker => faker.Person.UserName)
-                            .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
-                            .RuleFor(x => x.Email, faker => faker.Person.Email)
-                            .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
-                            .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
-                            .RuleFor(x => x.Type, faker => UserType.Manager)
-                            .RuleFor(x => x.Company, faker => company)
-                            .RuleFor(x => x.Department, faker => department)
-                            .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
-                            .Generate(1);
-                    context.Users.AddRange(manager);
-                }
-            }
-
-            await context.SaveChangesAsync();
-
-
-            var managers = await context.Users.Where(x => x.Type == UserType.Manager).ToListAsync();
-
-            //var employeesWithOutJoins = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
-
-            //var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
-            //                                            .Include(x => x.Certificates)
-            //                                            .Include(x => x.RecommendationPapers)
-            //                                            .Include(x => x.Languages)
-            //                                            .Where(x => x.Type == UserType.Employee)
-            //                                            .ToListAsync();
-
-            #endregion
-
-            //// Create the company data model
-            //var company = new CompanyDataModel();
-
-            //// Add the company to the database context (In memory)
-            //context.Companies.Add(company);
-
-            //// Add the company to the database
-            //await context.SaveChangesAsync();
 
             //// Create the user
             //context.Users.AddRange(new List<UserDataModel>()
@@ -240,6 +172,68 @@ namespace Vaseis
 
             //// Add the user to the data base
             //await context.SaveChangesAsync();
+
+            // Creates a list of user data model for the employees
+            var employees = new Faker<UserDataModel>()
+                            .RuleFor(x => x.Username, faker => faker.Person.UserName)
+                            .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
+                            .RuleFor(x => x.Email, faker => faker.Person.Email)
+                            .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
+                            .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+                            // The user type is employee
+                            .RuleFor(x => x.Type, faker => UserType.Employee)
+                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 3))
+                            .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
+                            .Generate(50);
+
+            // Adds the generated employees in the users db set
+            context.Users.AddRange(employees);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            // Add data to managers
+            // For each company in the companies list...
+            foreach (var company in companies)
+            {
+                // For each department in a company
+                foreach (var department in company.Departments)
+                {
+                    // Creates a manager
+                    var manager = new Faker<UserDataModel>()
+                            .RuleFor(x => x.Username, faker => faker.Person.UserName)
+                            .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
+                            .RuleFor(x => x.Email, faker => faker.Person.Email)
+                            .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
+                            .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+                            .RuleFor(x => x.Type, faker => UserType.Manager)
+                            .RuleFor(x => x.Company, faker => company)
+                            .RuleFor(x => x.Department, faker => department)
+                            .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
+                            .Generate(1);
+                    // Adds the generated manager to the users db set
+                    context.Users.AddRange(manager);
+                }
+            }
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            // Parses all the users from the db set the are of type manager to a list
+            var managers = await context.Users.Where(x => x.Type == UserType.Manager).ToListAsync();
+
+            //var employeesWithOutJoins = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
+
+            //var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
+            //                                            .Include(x => x.Certificates)
+            //                                            .Include(x => x.RecommendationPapers)
+            //                                            .Include(x => x.Languages)
+            //                                            .Where(x => x.Type == UserType.Employee)
+            //                                            .ToListAsync();
+
+            #endregion
 
             #region Update
 
