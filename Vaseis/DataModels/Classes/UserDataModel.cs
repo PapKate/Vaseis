@@ -45,6 +45,16 @@ namespace Vaseis
         public string LastName { get; set; }
 
         /// <summary>
+        /// The full name
+        /// </summary>
+        public string FullName
+        {
+            get => FirstName + " " + LastName;
+
+            set { }
+        }
+
+        /// <summary>
         /// The email
         /// </summary>
         public string Email { get; set; }
@@ -58,12 +68,6 @@ namespace Vaseis
         /// The date the user was registered
         /// </summary>
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// The full name
-        /// </summary>
-        [NotMapped]
-        public string FullName => FirstName + " " + LastName;
 
         /// <summary>
         /// The bio
