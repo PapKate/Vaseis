@@ -7,6 +7,16 @@ namespace Vaseis
 {
     public static class MaterialDesignStyles
     {
+        /// <summary>
+        /// The material design raised button
+        /// By default gets the mid hue (DArk Pink) as the background color
+        /// </summary>
         public static Style RaisedButton = Application.Current.Resources["MaterialDesignRaisedButton"] as Style;
+
+        /// <summary>
+        /// The material design flat button
+        /// By default gets the mid hue (DArk Pink) as the background color
+        /// </summary>
+        public static Style FlatButton = Application.Current.Resources["MaterialDesignFlatButton"] as Style;
     }
 }

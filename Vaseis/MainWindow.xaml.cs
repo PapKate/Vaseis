@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
-using MaterialDesignThemes.Wpf;
-
-using System.Linq;
-
+﻿
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,76 +10,113 @@ namespace Vaseis
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Constructors
+
         public MainWindow()
         {
             InitializeComponent();
+
             CreateGUI();
-
-            //Grid
-            //StackPanel
-            //UniformGrid
-            //WrapPanel
-            //Canvas
         }
 
-        public void CreateGUI()
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
+        private void CreateGUI()
         {
-            var border = new Border()
+            // The grid for the entire app's window
+            var windowGrid = new Grid();
+
+            // Set's a row with height auto
+            windowGrid.RowDefinitions.Add(new RowDefinition()
             {
-                BorderBrush = Brushes.BlanchedAlmond,
-                CornerRadius = new CornerRadius(50),
-                Background = Brushes.White,
-                Margin = new Thickness(100)
-                
+                Height = new GridLength(1, GridUnitType.Auto)
+            });
+
+            // Set's a row with height the remaining height left in the grid
+            windowGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
+
+            // The header component
+            var header = new HeaderComponent(this)
+            {
+                Title = "username",
+                ImagePath = @"pack://application:,,,/UI/Images/logo.png"
             };
 
-            //var grid = new Grid() 
-            //{
-            //};
+            // Adds to the window grid the header
+            windowGrid.Children.Add(header);
 
-            var stackPanel = new StackPanel();
+            // Defines the row the header is set to in the parent grid
+            Grid.SetRow(header, 0);
 
-            //grid.ColumnDefinitions.Add(new ColumnDefinition()
-            //{
-            //    Width = new GridLength(2, GridUnitType.Star)
-            //});
-            //grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-            // border.Child = grid;
-
-            var button1 = new Button
+            // A grid for the app that contains all the GUI elements except for the header
+            var appGrid = new Grid()
             {
-                Style = MaterialDesignStyles.RaisedButton,
-                Content = "Test",
-                Background = Brushes.Blue,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                FontSize = 12,
-                Width = 400
-        };
-
-            border.Child = button1;
-
-            //button1.Style = MaterialDesignStyles.RaisedButton;
-
-            stackPanel.Children.Add(border);
-
-            //Grid.SetColumnSpan(button1, 2);
-
-            var button2 = new Button()
-            {
-                Content = "Test 2",
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                Width = 400
+                // Sets the background to ghost white
+                Background = StyleHelpers.HexToBrush(Styles.GhostWhite)
             };
 
+            // Adds the app's grid to the window's grid
+            windowGrid.Children.Add(appGrid);
 
-            //Grid.SetColumn(button2, 1);
+            // Defines the row the app grind is set to in the parent grid
+            Grid.SetRow(appGrid, 1);
 
-            stackPanel.Children.Add(button2);
+            // Set's a column with width 
+            // kTODO: Set column's width to auto
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
 
-            Content = stackPanel;
+                //Width = new GridLength(1, GridUnitType.Auto)
+                Width = new GridLength(320, GridUnitType.Pixel)
+            });
+
+            // Set's a column with width the remaining width left in the grid
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+
+            });
+
+            // kTODO: Initialize the side menu component
+            var sideMenuGrid = new Grid()
+            {
+                Background = StyleHelpers.HexToBrush(Styles.DarkGray),
+            };
+
+            // Adds to the app's grid the side menu
+            appGrid.Children.Add(sideMenuGrid);
+            // Defines the column the side menu's grid is set to in the parent grid
+            Grid.SetColumn(sideMenuGrid, 0);
+
+            var stackPanel2 = new StackPanel()
+            {
+                Margin = new Thickness(24)
+            };
+
+            var editButton = ControlsFactory.CreateEditButton();
+
+            stackPanel2.Children.Add(editButton);
+
+            var closeButton2 = ControlsFactory.CreateCloseButton();
+
+            stackPanel2.Children.Add(closeButton2);
+
+            appGrid.Children.Add(stackPanel2);
+            Grid.SetColumn(stackPanel2, 1);
+           
+            // Sets the content as the window's grid
+            Content = windowGrid;
         }
+
+        #endregion
+
     }
 }

@@ -13,6 +13,18 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="450" Width="800">
-    
+        Title="Courabiedes" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        WindowStyle="None" 
+        AllowsTransparency="True">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="50"/>
+    </WindowChrome.WindowChrome>
+
 </Window>
+    
+    
