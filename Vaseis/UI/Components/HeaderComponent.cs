@@ -10,6 +10,8 @@ using System.Windows.Interop;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
+using static Vaseis.Styles;
+
 namespace Vaseis
 {
     class HeaderComponent : ContentControl
@@ -149,6 +151,41 @@ namespace Vaseis
         /// </summary>
         protected Image Image { get; private set; }
 
+        /// <summary>
+        /// The header's grid
+        /// </summary>
+        protected Grid HeaderGrid { get; private set; }
+
+        /// <summary>
+        /// The stack panel with the image and title text block
+        /// </summary>
+        protected StackPanel ImageAndTitleStackPanel { get; private set; }
+
+        /// <summary>
+        /// The app's title
+        /// </summary>
+        protected TextBlock AppTitle { get; private set; }
+
+        /// <summary>
+        /// The button control's stack panel
+        /// </summary>
+        protected StackPanel HeaderControlStackPanel { get; private set; }
+
+        /// <summary>
+        /// The minimize button
+        /// </summary>
+        protected Button MinimizeButton { get; private set; }
+
+        /// <summary>
+        /// The maximize button
+        /// </summary>
+        protected Button ExpandButton { get; private set; }
+
+        /// <summary>
+        /// The close button
+        /// </summary>
+        protected Button CloseButton { get; private set; }
+
         #endregion
 
         #region Dependency Properties
@@ -245,22 +282,22 @@ namespace Vaseis
         private void CreateGUI()
         {
             // The header's grid
-            var headerGrid = new Grid()
+            HeaderGrid = new Grid()
             {
                 // Has a dark blue color
-                Background = StyleHelpers.HexToBrush(Styles.DarkBlue),
+                Background = DarkBlue.HexToBrush(),
                 // Height is set to auto
                 Height = double.NaN
             };
 
             // A stack panel for the image and title 
-            var imageAndTitleStackPanel = new StackPanel()
+            ImageAndTitleStackPanel = new StackPanel()
             {
                 // Has horizontal orientation
                 Orientation = Orientation.Horizontal,
             };
 
-            // An image that fpr the Image property
+            // An image that for the Image property
             Image = new Image()
             {
                 Margin = new Thickness(16, 8, 8, 8),
@@ -274,39 +311,39 @@ namespace Vaseis
             };
 
             // Add's to the left stack panel the image
-            imageAndTitleStackPanel.Children.Add(Image);
+            ImageAndTitleStackPanel.Children.Add(Image);
 
             // A text block for the Title property
-            var titleTextBlock = new TextBlock()
+            TitleTextBlock = new TextBlock()
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Foreground = StyleHelpers.HexToBrush(Styles.GhostWhite),
-                FontFamily = new FontFamily("Calibri"),
+                Foreground = GhostWhite.HexToBrush(),
+                FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
                 FontStyle = FontStyles.Normal,
                 FontSize = 28
             };
 
             // Binds the text property of the text block to the Title property
-            titleTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title))
+            TitleTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title))
             {
                 Source = this
             });
 
             // Adds to the left stack panel the title text block
-            imageAndTitleStackPanel.Children.Add(titleTextBlock);
+            ImageAndTitleStackPanel.Children.Add(TitleTextBlock);
 
             // Adds to the header's grid the stack panel with the image and title
-            headerGrid.Children.Add(imageAndTitleStackPanel);
+            HeaderGrid.Children.Add(ImageAndTitleStackPanel);
 
             // A text block for the application's name
-            var appTitle = new TextBlock()
+            AppTitle = new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(8),
-                Foreground = StyleHelpers.HexToBrush(Styles.GhostWhite),
-                FontFamily = new FontFamily("Calibri"),
+                Foreground = GhostWhite.HexToBrush(),
+                FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
                 FontStyle = FontStyles.Normal,
                 FontSize = 36,
@@ -314,27 +351,27 @@ namespace Vaseis
             };
 
             // Adds to the header the text block with the application's name
-            headerGrid.Children.Add(appTitle);
+            HeaderGrid.Children.Add(AppTitle);
 
             #region Control Buttons 
 
             // A stack panel for the control buttons positioned to the parent's top right
-            var headerControlStackPanel = new StackPanel()
+            HeaderControlStackPanel = new StackPanel()
             {
-                Height = headerGrid.Height,
-                Width = headerGrid.Height,
+                Height = HeaderGrid.Height,
+                Width = HeaderGrid.Height,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Orientation = Orientation.Horizontal
             };
 
-            WindowChrome.SetIsHitTestVisibleInChrome(headerControlStackPanel, true);
+            WindowChrome.SetIsHitTestVisibleInChrome(HeaderControlStackPanel, true);
 
             // Adds to the header's grid the control buttons' stack panel
-            headerGrid.Children.Add(headerControlStackPanel);
+            HeaderGrid.Children.Add(HeaderControlStackPanel);
 
             // Creates a flat button with a minimize window icon
-            var minimizeButton = new Button()
+            MinimizeButton = new Button()
             {
                 Style = MaterialDesignStyles.FlatButton,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -345,7 +382,7 @@ namespace Vaseis
             };
 
             // Creates flat a button with a maximize window icon
-            var expandButton = new Button()
+            ExpandButton = new Button()
             {
                 Style = MaterialDesignStyles.FlatButton,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -356,7 +393,7 @@ namespace Vaseis
             };
 
             // Creates flat a button with a close window icon
-            var closeButton = new Button()
+            CloseButton = new Button()
             {
                 Style = MaterialDesignStyles.FlatButton,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -368,25 +405,25 @@ namespace Vaseis
             };
 
             // Adds to the right stack panel the minimize button
-            headerControlStackPanel.Children.Add(minimizeButton);
+            HeaderControlStackPanel.Children.Add(MinimizeButton);
 
             // Adds to the right stack panel the maximize button
-            headerControlStackPanel.Children.Add(expandButton);
+            HeaderControlStackPanel.Children.Add(ExpandButton);
 
             // Adds to the right stack panel the close button
-            headerControlStackPanel.Children.Add(closeButton);
+            HeaderControlStackPanel.Children.Add(CloseButton);
 
             // If minimize button is clicked, minimize the application's window
-            minimizeButton.Click += (s, e) => Window.WindowState = WindowState.Minimized;
+            MinimizeButton.Click += (s, e) => Window.WindowState = WindowState.Minimized;
             // If maximize button is clicked, maximize the application's window
-            expandButton.Click += (s, e) => Window.WindowState = Window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            ExpandButton.Click += (s, e) => Window.WindowState = Window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             // If close button is clicked, terminate the application
-            closeButton.Click += (s, e) => Window.Close();
+            CloseButton.Click += (s, e) => Window.Close();
 
             #endregion
 
             // Sets the ContentControl's content as the header's grid
-            Content = headerGrid;
+            Content = HeaderGrid;
         }
 
         /// <summary>

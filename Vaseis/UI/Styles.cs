@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 namespace Vaseis
 {
     /// <summary>
     /// Contains all the hexadecimal values for colors, universal font sizes, margins and paddings
     /// </summary>
-    public class Styles
+    public static class Styles
     {
         /// <summary>
         /// White color 
@@ -23,11 +24,6 @@ namespace Vaseis
         /// A dark blue color = purssian blue
         /// </summary>
         public const string DarkBlue = "002E54";
-
-        /// <summary>
-        /// A light shade of blue = cerulean crayola
-        /// </summary>
-        public const string LightBlue  = "06AED5";
 
         /// <summary>
         /// A dark green color = hookers green
@@ -52,8 +48,28 @@ namespace Vaseis
         /// <summary>
         /// Green color = Caribbean green
         /// </summary>
-        public const string Green = "35CE8D"; 
+        public const string Green = "35CE8D";
 
+        /// <summary>
+        /// A light blue color = Aero
+        /// </summary>
+        public const string LightBlue = "8EB8E5";
 
+        /// <summary>
+        /// Yellow color = Mustard
+        /// </summary>
+        public const string Yellow = "F5D547";
+
+        /// <summary>
+        /// A blue green color = Metallic seaweed
+        /// </summary>
+        public const string GreenBlue = "028090";
+
+        /// <summary>
+        /// Light orange color = Mandarin
+        /// </summary>
+        public const string Orange = "EF8354";
+
+        public static FontFamily Calibri = new FontFamily("Calibri");
     }
 }

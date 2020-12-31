@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using static Vaseis.Styles;
+
 namespace Vaseis
 {
     /// <summary>
@@ -47,7 +49,7 @@ namespace Vaseis
             var header = new HeaderComponent(this)
             {
                 Title = "username",
-                ImagePath = @"pack://application:,,,/UI/Images/logo.png"
+                ImagePath = @"pack://application:,,,/UI/Images/logo.png",
             };
 
             // Adds to the window grid the header
@@ -60,7 +62,7 @@ namespace Vaseis
             var appGrid = new Grid()
             {
                 // Sets the background to ghost white
-                Background = StyleHelpers.HexToBrush(Styles.GhostWhite)
+                Background = GhostWhite.HexToBrush()
             };
 
             // Adds the app's grid to the window's grid
@@ -75,7 +77,7 @@ namespace Vaseis
             {
 
                 //Width = new GridLength(1, GridUnitType.Auto)
-                Width = new GridLength(320, GridUnitType.Pixel)
+                Width = new GridLength(280, GridUnitType.Pixel)
             });
 
             // Set's a column with width the remaining width left in the grid
@@ -86,32 +88,18 @@ namespace Vaseis
             });
 
             // kTODO: Initialize the side menu component
-            var sideMenuGrid = new Grid()
-            {
-                Background = StyleHelpers.HexToBrush(Styles.DarkGray),
-            };
+            var sideMenuComponent = new SideMenuComponent();
 
             // Adds to the app's grid the side menu
-            appGrid.Children.Add(sideMenuGrid);
+            appGrid.Children.Add(sideMenuComponent);
             // Defines the column the side menu's grid is set to in the parent grid
-            Grid.SetColumn(sideMenuGrid, 0);
+            Grid.SetColumn(sideMenuComponent, 0);
 
-            var stackPanel2 = new StackPanel()
-            {
-                Margin = new Thickness(24)
-            };
+            var employeesPage = new EmployeesPage();
 
-            var editButton = ControlsFactory.CreateEditButton();
+            appGrid.Children.Add(employeesPage);
+            Grid.SetColumn(employeesPage, 1);
 
-            stackPanel2.Children.Add(editButton);
-
-            var closeButton2 = ControlsFactory.CreateCloseButton();
-
-            stackPanel2.Children.Add(closeButton2);
-
-            appGrid.Children.Add(stackPanel2);
-            Grid.SetColumn(stackPanel2, 1);
-           
             // Sets the content as the window's grid
             Content = windowGrid;
         }
