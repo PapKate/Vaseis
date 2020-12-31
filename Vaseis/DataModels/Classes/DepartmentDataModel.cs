@@ -25,6 +25,11 @@ namespace Vaseis
         /// </summary>
         public Department Department { get; set; }
 
+        /// <summary>
+        /// The department's color
+        /// </summary>
+        public string Color { get; set; }
+
         #region Relationships
 
         /// <summary>

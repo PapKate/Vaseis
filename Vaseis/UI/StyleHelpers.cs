@@ -13,8 +13,7 @@ namespace Vaseis
         /// Converts a hexadecimal value if correct to a brush color
         /// </summary>
         /// <param name="hexColor">The hexadecimal value of a color</param>
-        /// <returns></returns>
-        public static Brush HexToBrush(string hexColor)
+        public static Brush HexToBrush(this string hexColor)
         {
             // Converts hex values to colors
             var brushConverter = new BrushConverter();
@@ -22,6 +21,17 @@ namespace Vaseis
             var colorBrush = (Brush)brushConverter.ConvertFrom("#" + hexColor);
             // Returns the color 
             return colorBrush;
+        }
+
+        /// <summary>
+        /// Converts a  hexadecimal value if correct to a windows media color
+        /// </summary>
+        /// <param name="hexColor">The hexadecimal value of a color</param>
+        /// <returns></returns>
+        public static Color HexToColor(this string hexColor)
+        {
+            // Parses a string to a windows media color and returns it
+            return (Color)ColorConverter.ConvertFromString("#" + hexColor);
         }
 
         /// <summary>

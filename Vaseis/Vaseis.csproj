@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UI\Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="UI\Images\logo.png" />
   </ItemGroup>
 
