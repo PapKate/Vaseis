@@ -73,7 +73,7 @@ namespace Vaseis
 
             foreach(var user in userMenuData)
             {
-                if(user.UserType == UserType.Employee)
+                if(user.UserType == UserType.Evaluator)
                 {
                     foreach(var buttonData in user.UserTitleAndIconPage)
                     {
@@ -87,43 +87,6 @@ namespace Vaseis
                     }
                 }
             }
-
-            //var employeesPageButton = new SideMenuButtonComponent()
-            //{ 
-            //    PageTitle = "Employees",
-            //    PageIcon = PackIconKind.AccountGroup
-            //};
-
-            //var profilePageButton = new SideMenuButtonComponent()
-            //{
-            //    PageTitle = "Profile",
-            //    PageIcon = PackIconKind.AccountCircle
-            //};
-
-            //var reportsPageButton = new SideMenuButtonComponent()
-            //{
-            //    PageTitle = "Reports",
-            //    PageIcon = PackIconKind.ClipboardFlow
-            //};
-
-            //var companyPageButton = new SideMenuButtonComponent()
-            //{
-            //    PageTitle = "Company",
-            //    PageIcon = PackIconKind.Domain
-            //};
-
-            //var evaluationResultsPageButton = new SideMenuButtonComponent()
-            //{
-            //    PageTitle = "Evaluation results",
-            //    PageIcon = PackIconKind.ClipboardList
-            //};
-
-
-            //SideMenuContainer.Children.Add(profilePageButton);
-            //SideMenuContainer.Children.Add(companyPageButton);
-            //SideMenuContainer.Children.Add(employeesPageButton);
-            //SideMenuContainer.Children.Add(reportsPageButton);
-            //SideMenuContainer.Children.Add(evaluationResultsPageButton);
 
 
             Content = SideMenuBorder;
@@ -142,9 +105,9 @@ namespace Vaseis
                 { "Profile", PackIconKind.AccountCircle },
                 { "Company", PackIconKind.Domain },
                 { "Job requests", PackIconKind.ClipboardArrowUp },
-                { "My evaluations", PackIconKind.Domain },
+                { "My evaluations", PackIconKind.ClipboardAccount },
                 { "My job positions", PackIconKind.BriefcaseAccount },
-                { "Job positions", PackIconKind.Domain },
+                { "Job positions", PackIconKind.FolderSearch },
             };
 
             var employeeMenuData = new SideMenuUserData
@@ -176,10 +139,10 @@ namespace Vaseis
             {
                 { "Profile", PackIconKind.AccountCircle },
                 { "Company", PackIconKind.Domain },
-                { "Job requests", PackIconKind.ClipboardArrowUp },
-                { "My evaluations", PackIconKind.Domain },
-                { "My job positions", PackIconKind.Domain },
-                { "Job positions", PackIconKind.Domain },
+                { "Job requests", PackIconKind.ClipboardArrowDown },
+                { "My evaluations", PackIconKind.ClipboardEdit },
+                { "My job positions", PackIconKind.FolderEdit },
+                { "Job positions", PackIconKind.FolderSearch },
             };
 
             var evaluatorMenuData = new SideMenuUserData
@@ -193,10 +156,10 @@ namespace Vaseis
             var adminButtonsData = new Dictionary<string, PackIconKind>
             {
                 { "Profile", PackIconKind.AccountCircle },
-                { "Company", PackIconKind.Domain },
-                { "My evaluations", PackIconKind.ClipboardList },
-                { "My job positions", PackIconKind.FolderEdit },
-                { "Job positions", PackIconKind.FolderSearch },
+                { "Companies", PackIconKind.Domain },
+                { "Users", PackIconKind.AccountMultipleAdd },
+                { "Jobs", PackIconKind.FolderPlus },
+                { "Subjects", PackIconKind.TranscribeClose },
             };
 
             var adminMenuData = new SideMenuUserData
