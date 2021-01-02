@@ -25,7 +25,10 @@ namespace Vaseis
 
         public static Style AccentRaisedButton = Application.Current.Resources["MaterialDesignRaisedAccentButton"] as Style;
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Style TextBoxStyle = Application.Current.Resources["MaterialDesignOutlinedTextBox"] as Style;
 
         /// <summary>
         /// The material design flat button

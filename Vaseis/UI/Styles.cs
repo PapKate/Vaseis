@@ -66,6 +66,11 @@ namespace Vaseis
         public const string GreenBlue = "028090";
 
         /// <summary>
+        /// A light green blue color = Green sheen
+        /// </summary>
+        public const string LightGreenBlue = "70C1B3";
+
+        /// <summary>
         /// Light orange color = Mandarin
         /// </summary>
         public const string Orange = "EF8354";

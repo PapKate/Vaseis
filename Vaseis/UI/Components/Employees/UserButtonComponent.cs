@@ -46,7 +46,7 @@ namespace Vaseis
         /// <summary>
         /// The user's username
         /// </summary>
-        public string Username 
+        public string Username
         {
             get { return GetValue(UsernameProperty).ToString(); }
             set { SetValue(UsernameProperty, value); }

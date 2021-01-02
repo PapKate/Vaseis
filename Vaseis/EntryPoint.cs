@@ -112,16 +112,16 @@ namespace Vaseis
             #region Departments
 
             // Creates a list of departments and fills it with every possible option
-            var departmentOptionsList = new List<Department>() 
-                                { 
-                                    Department.Research, 
-                                    Department.Purchasing, 
-                                    Department.Production, 
-                                    Department.Marketing, 
-                                    Department.HumanResourceManagement, 
-                                    Department.Finance, 
-                                    Department.Development, 
-                                    Department.Accounting
+            var departmentOptionsList = new Dictionary<Department, string>()
+                                {
+                                    { Department.Research, "F5D547"},
+                                    { Department.Purchasing, "EF8354"},
+                                    { Department.Production, "8EB8E5"},
+                                    { Department.Marketing, "028090"},
+                                    { Department.HumanResourceManagement, "397367"},
+                                    { Department.Finance, "2E2E2E"},
+                                    { Department.Development, "9F1747"},
+                                    { Department.Accounting, "70C1B3"}
                                 };
 
             // For each and every company in the companies list...
@@ -131,7 +131,7 @@ namespace Vaseis
                 foreach (var dep in departmentOptionsList)
                 {
                     // Creates a department data model that has as department the department and the company from the according lists
-                    var department = new DepartmentDataModel() { Department = dep, Company = company };
+                    var department = new DepartmentDataModel() { Department = dep.Key, Company = company, Color = dep.Value };
                     // Adds the data model in the departments data model
                     context.Departments.Add(department);
                 }
@@ -184,6 +184,7 @@ namespace Vaseis
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
+                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 8))
                             .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 3))
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
                             .Generate(50);
@@ -274,7 +275,6 @@ namespace Vaseis
 
             #endregion
 
-
             #region Jobs
 
             // Adds to the Jobs db context a list of Job data models
@@ -305,7 +305,6 @@ namespace Vaseis
             var jobs = await context.Jobs.ToListAsync();
 
             #endregion
-
 
             #region Update
 
