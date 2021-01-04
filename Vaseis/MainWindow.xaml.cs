@@ -28,107 +28,88 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // The grid for the entire app's window
+            var windowGrid = new Grid();
 
+            // Set's a row with height auto
+            windowGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(1, GridUnitType.Auto)
+            });
 
+            // Set's a row with height the remaining height left in the grid
+            windowGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
 
-            //// The grid for the entire app's window
-            //var windowGrid = new Grid();
+            // The header component
+            var header = new HeaderComponent(this)
+            {
+                Title = "username",
+                ImagePath = @"pack://application:,,,/UI/Images/logo.png",
+            };
 
-            //// Set's a row with height auto
-            //windowGrid.RowDefinitions.Add(new RowDefinition()
-            //{
-            //    Height = new GridLength(1, GridUnitType.Auto)
-            //});
+            // Adds to the window grid the header
+            windowGrid.Children.Add(header);
 
-            //// Set's a row with height the remaining height left in the grid
-            //windowGrid.RowDefinitions.Add(new RowDefinition()
-            //{
-            //    Height = new GridLength(1, GridUnitType.Star)
-            //});
+            // Defines the row the header is set to in the parent grid
+            Grid.SetRow(header, 0);
 
-            //// The header component
-            //var header = new HeaderComponent(this)
-            //{
-            //    Title = "username",
-            //    ImagePath = @"pack://application:,,,/UI/Images/logo.png",
-            //};
+            // A grid for the app that contains all the GUI elements except for the header
+            var appGrid = new Grid()
+            {
+                // Sets the background to ghost white
+                Background = GhostWhite.HexToBrush()
+            };
 
-            //// Adds to the window grid the header
-            //windowGrid.Children.Add(header);
+            // Adds the app's grid to the window's grid
+            windowGrid.Children.Add(appGrid);
 
-            //// Defines the row the header is set to in the parent grid
-            //Grid.SetRow(header, 0);
-
-            //// A grid for the app that contains all the GUI elements except for the header
-            //var appGrid = new Grid()
-            //{
-            //    // Sets the background to ghost white
-            //    Background = GhostWhite.HexToBrush()
-            //};
-
-            //// Adds the app's grid to the window's grid
-            //windowGrid.Children.Add(appGrid);
-
-            //// Defines the row the app grind is set to in the parent grid
-            //Grid.SetRow(appGrid, 1);
+            // Defines the row the app grind is set to in the parent grid
+            Grid.SetRow(appGrid, 1);
 
             //// Set's a column with width 
             //// kTODO: Set column's width to auto
-            //appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            //{
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
 
-            //    //Width = new GridLength(1, GridUnitType.Auto)
-            //    Width = new GridLength(280, GridUnitType.Pixel)
-            //});
+                Width = new GridLength(280, GridUnitType.Pixel)
+            });
 
-            //// Set's a column with width the remaining width left in the grid
-            //appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            //{
-            //    Width = new GridLength(1, GridUnitType.Star)
+            // Set's a column with width the remaining width left in the grid
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Star)
 
-            //});
+            });
 
-            //// kTODO: Initialize the side menu component
-            //var sideMenuComponent = new SideMenuComponent();
+            // kTODO: Initialize the side menu component
+            var sideMenuComponent = new SideMenuComponent();
 
-            //// Adds to the app's grid the side menu
-            //appGrid.Children.Add(sideMenuComponent);
-            //// Defines the column the side menu's grid is set to in the parent grid
-            //Grid.SetColumn(sideMenuComponent, 0);
+            // Adds to the app's grid the side menu
+            appGrid.Children.Add(sideMenuComponent);
+            // Defines the column the side menu's grid is set to in the parent grid
+            Grid.SetColumn(sideMenuComponent, 0);
 
             //var employeesPage = new EmployeesPage();
 
 
             //appGrid.Children.Add(employeesPage);
 
-
-
-
             ////Grid.SetColumn(employeesPage, 1);
 
             //// Sets the content as the window's grid
             //Content = windowGrid;
 
-
-
-
             //Giatiiiiiiiiiiiiiiiiiiii den trexei?
 
+            var evaluationPage = new EvaluationResults();
 
+            appGrid.Children.Add(evaluationPage);
+            Grid.SetColumn(evaluationPage, 1);
 
-            //var windowGrid = new Grid();
-           
-            //windowGrid.RowDefinitions.Add(new RowDefinition()
-            //{
-            //    Height = new GridLength(1, GridUnitType.Auto)
-            //});
-
-
-            //var window = new LoginPage();
-
-            //windowGrid.Children.Add(window);
-
-            //Content = windowGrid;
+            Content = windowGrid;
 
             #endregion
 

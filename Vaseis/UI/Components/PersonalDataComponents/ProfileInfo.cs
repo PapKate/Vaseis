@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace Vaseis
 {
-    public class PersonalInfo : ContentControl { 
+    public class ProfileInfo : ContentControl { 
 
     #region Protected Properties
 
@@ -70,7 +70,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="FirstName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty FirstNameProperty = DependencyProperty.Register(nameof(FirstName), typeof(string), typeof(PersonalInfo));
+        public static readonly DependencyProperty FirstNameProperty = DependencyProperty.Register(nameof(FirstName), typeof(string), typeof(ProfileInfo));
 
         /// <summary>
         /// The User's LastName
@@ -84,7 +84,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="LastName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty LastNameProperty = DependencyProperty.Register(nameof(LastName), typeof(string), typeof(PersonalInfo));
+        public static readonly DependencyProperty LastNameProperty = DependencyProperty.Register(nameof(LastName), typeof(string), typeof(ProfileInfo));
 
         /// <summary>
         /// The Company Title
@@ -98,7 +98,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="CompanyGrade"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty CompanyProperty = DependencyProperty.Register(nameof(Company), typeof(string), typeof(PersonalInfo));
+        public static readonly DependencyProperty CompanyProperty = DependencyProperty.Register(nameof(Company), typeof(string), typeof(ProfileInfo));
 
         /// <summary>
         /// The User's Email
@@ -112,12 +112,12 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="Email"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty EmailProperty = DependencyProperty.Register(nameof(Email), typeof(string), typeof(PersonalInfo));
+        public static readonly DependencyProperty EmailProperty = DependencyProperty.Register(nameof(Email), typeof(string), typeof(ProfileInfo));
 
         #endregion
 
         #region Constructor
-        public PersonalInfo() {
+        public ProfileInfo() {
           CreateGUI();
         }
 

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Vaseis
 {
-    class MyEvaluations : ContentControl
+    class MyEvaluationsPage : ContentControl
     {
 
         #region Protected Properties
@@ -142,7 +142,7 @@ namespace Vaseis
 
         #region Constructor
 
-        public MyEvaluations()
+        public MyEvaluationsPage()
         {
             CreateGUI();
         }
@@ -154,12 +154,12 @@ namespace Vaseis
         private void CreateGUI()
         {
             //giatiii?!?!?
-            // EditIcon = new ControlsFactory.CreateEditButton();
+             EditIcon =  ControlsFactory.CreateEditButton();
 
             var dataTable = new DataTable();
 
 
-            List<MyEvaluations> evaluationsRow = new List<MyEvaluations>();
+            List<MyEvaluationsPage> evaluationsRow = new List<MyEvaluationsPage>();
 
 
             dataTable.Columns.Add("Employee", typeof(String));

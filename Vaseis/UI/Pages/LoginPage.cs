@@ -1,9 +1,12 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+
+using static Vaseis.Styles;
 
 namespace Vaseis
 {
@@ -44,11 +47,12 @@ namespace Vaseis
         /// <summary>
         /// The login screen login button
         /// </summary>
-        public Button Login { get; private set; }
+        public Button LoginButton { get; private set; }
 
         #endregion
 
         #region Dependency properties 
+
         #region Username
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// Identifies the <see cref="Username"/> dependency property
+        /// Identifies the <see cref="Password"/> dependency property
         /// </summary>
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password), typeof(string), typeof(LoginPage));
 
@@ -101,8 +105,6 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-
-
            // Wrong alignment & size
            //Misses X or wrong button & listeners?
 
@@ -114,29 +116,28 @@ namespace Vaseis
             {
                 Text = "Courabiedes",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 38,
-                FontWeight = FontWeights.Normal,
+                FontSize = 77,
+                FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkBlue.HexToBrush(),
             };
 
 
             WelcomeBackText = new TextBlock()
             {
-                Text = "Welcome Back",
+                Text = "Welcome Back!",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 32,
-                FontWeight = FontWeights.Normal,
+                FontSize = 50,
+                FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkPink.HexToBrush(),
+                Margin = new Thickness(15)
+
             };
 
 
             UsernameTextBlock = new TextBlock()
             {
-                Text = "Courabiedes",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                TextTrimming = TextTrimming.CharacterEllipsis,
+                Text = "username",
+                HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkBlue.HexToBrush(),
@@ -144,11 +145,11 @@ namespace Vaseis
 
             EnterUsername = new TextBox()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkBlue.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
+                Margin = new Thickness(8, 0, 8, 0)
             };
 
             // Binds the text property of the text box to the Username property
@@ -159,9 +160,8 @@ namespace Vaseis
 
             PasswordTextBlock = new TextBlock()
             {
-                Text = "Password",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                TextTrimming = TextTrimming.CharacterEllipsis,
+                Text = "password",
+                HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkBlue.HexToBrush(),
@@ -169,39 +169,51 @@ namespace Vaseis
 
             EnterPassword = new PasswordBox()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkBlue.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
+                Margin = new Thickness(8, 0, 8, 0)
             };
 
             // Binds the text property of the text boxto the Password property
-            UsernameTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Password))
+            PasswordTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Password))
             {
                 Source = this
             });
 
-            Login = new Button()
+            LoginButton = new Button()
             {
-                Style = MaterialDesignStyles.RaisedButton,
-                Content = "Login",
+                Width = 160,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Foreground = Styles.DarkPink.HexToBrush(),
-                Height = double.NaN,
-                Margin = new Thickness(15),
-                Padding = new Thickness(8),
+                Height = 45,
+                Margin = new Thickness(32),
                 BorderThickness = new Thickness(0),
+                Content = new TextBlock()
+                {
+                    FontSize = 28,
+                    FontFamily = Calibri,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = White.HexToBrush(),
+                    Text = "Login"
+                }
             };
+            // Sets the button's corner radius
+            ButtonAssist.SetCornerRadius(LoginButton, new CornerRadius(8));
 
             //creates a border hosy the username textbox
             var usernameBorder = new Border()
             {
                 BorderThickness = new Thickness(2),
-                BorderBrush = Styles.DarkBlue.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
-                CornerRadius = new CornerRadius(10),
+                BorderBrush = DarkBlue.HexToBrush(),
+                Background = White.HexToBrush(),
+                CornerRadius = new CornerRadius(8),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Width = 320,
             };
+
+            usernameBorder.Child = EnterUsername;
+          
 
             //creates a border hosy the password textbox
             var passwordBorder = new Border()
@@ -209,64 +221,87 @@ namespace Vaseis
                 BorderThickness = new Thickness(2),
                 BorderBrush = Styles.DarkBlue.HexToBrush(),
                 Background = Styles.White.HexToBrush(),
-                CornerRadius = new CornerRadius(10),
+                CornerRadius = new CornerRadius(8),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Width = 320,
+
             };
 
-            usernameBorder.Child = EnterUsername;
             passwordBorder.Child = EnterPassword;
 
-           
+            var passwordStackPanel = new StackPanel() 
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(24)
+            };
+
+            passwordStackPanel.Children.Add(PasswordTextBlock);
+            passwordStackPanel.Children.Add(passwordBorder);
+
+
+            var usernameStackPanel = new StackPanel() 
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(32)
+            };
+
+            usernameStackPanel.Children.Add(UsernameTextBlock);
+            usernameStackPanel.Children.Add(usernameBorder);
+
+            var middleGrid = new Grid()
+            {
+                Background = Styles.GhostWhite.HexToBrush(),
+            };
+
             //the column (stackpanel for the login components to be added in)
             var loginStackPanel = new StackPanel()
             {
                 Background = Styles.GhostWhite.HexToBrush(),
-                Width = 180,
+                Margin = new Thickness(0, -100, 0, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+                
             };
 
             loginStackPanel.Children.Add(AppName);
             loginStackPanel.Children.Add(WelcomeBackText);
-            loginStackPanel.Children.Add(UsernameTextBlock);
-            loginStackPanel.Children.Add(usernameBorder);
-            loginStackPanel.Children.Add(PasswordTextBlock);
-            loginStackPanel.Children.Add(passwordBorder);
-            loginStackPanel.Children.Add(Login);
+            loginStackPanel.Children.Add(usernameStackPanel);
+            loginStackPanel.Children.Add(passwordStackPanel);
+            loginStackPanel.Children.Add(LoginButton);
 
             #endregion
 
             #region LoginPage
 
             //the LoginPageGrid
-            var loginPageGrid = new Grid();
+            var loginPageGrid = new Grid()
+            { 
+                Background = DarkBlue.HexToBrush()
+            };
 
-            for (var i = 0; i <= 2; i++)
+            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
-                loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
-                {
-                    Width = new GridLength(1, GridUnitType.Auto)
-                });
-            }
+                Width = new GridLength(1, GridUnitType.Star)
+            });
 
-            //ColumnDefinition firstColumn = new ColumnDefinition();
-            //ColumnDefinition loginColumn = new ColumnDefinition();
-            //ColumnDefinition thirdColumn = new ColumnDefinition();
 
-            //loginPageGrid.ColumnDefinitions.Add(firstColumn);
+            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(640, GridUnitType.Pixel)
+            });
 
-            //how?
 
-            //loginColumn.Children.Add(loginStackPanel);
+            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            });
 
-            //loginPageGrid.set
+            middleGrid.Children.Add(loginStackPanel);
 
-            var firstColumn = new StackPanel() {
-                Background = Styles.DarkBlue.HexToBrush()
+            loginPageGrid.Children.Add(middleGrid);
 
-        };
-            var secondColumn = new StackPanel() { };
+            Grid.SetColumn(middleGrid, 1);
 
-            loginPageGrid.Children.Add(firstColumn);
-            loginPageGrid.Children.Add(loginStackPanel);
-            loginPageGrid.Children.Add(secondColumn);
+
 
             Content = loginPageGrid;
 

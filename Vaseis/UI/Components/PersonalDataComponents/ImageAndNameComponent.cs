@@ -7,10 +7,11 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static System.Net.Mime.MediaTypeNames;
+using Image = System.Windows.Controls.Image;
 
 namespace Vaseis.UI.Components.PersonalDataComponents
 {
-    public class ProfilePicture : ContentControl
+    public class ImageAndNameComponent : ContentControl
     {
         #region Protected Properties 
 
@@ -41,14 +42,14 @@ namespace Vaseis.UI.Components.PersonalDataComponents
         /// <summary>
         /// Identifies the <see cref="ImagePath"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty ImagePathProperty = DependencyProperty.Register(nameof(ImagePath), typeof(string), typeof(HeaderComponent), new PropertyMetadata(OnImagePathChanged));
+        public static readonly DependencyProperty ImagePathProperty = DependencyProperty.Register(nameof(ImagePath), typeof(string), typeof(ImageAndNameComponent), new PropertyMetadata(OnImagePathChanged));
 
         /// <summary>
         /// Handles the change of the <see cref="ImagePath"/> property
         /// </summary>
         private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sender = d as HeaderComponent;
+            var sender = d as ImageAndNameComponent;
 
             sender.OnImagePathChangedCore(e);
         }
@@ -65,7 +66,7 @@ namespace Vaseis.UI.Components.PersonalDataComponents
         /// <summary>
         /// Identifies the <see cref="Username"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ProfilePicture));
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ImageAndNameComponent));
 
         #endregion
 
@@ -83,7 +84,7 @@ namespace Vaseis.UI.Components.PersonalDataComponents
         #endregion
 
         #region Constructors
-        public ProfilePicture() 
+        public ImageAndNameComponent() 
         {
            CreateGUI();
         }
@@ -101,19 +102,20 @@ namespace Vaseis.UI.Components.PersonalDataComponents
             {
                 // Has horizontal orientation
                 Orientation = Orientation.Horizontal,
+                Margin = new Thickness(24)
             };
 
             // An image that for the Image property
             Image = new Image()
             {
-                Margin = new Thickness(16, 8, 8, 8),
-                Width = 40,
-                Height = 40,
+                Margin = new Thickness(8),
+                Width = 240,
+                Height = 240,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 // Fills the area it's to
                 Stretch = Stretch.Fill,
                 // Clips the image to a circle
-                Clip = new EllipseGeometry(new Point(20, 20), 20, 20),
+                Clip = new EllipseGeometry(new Point(120, 120), 120, 120),
             };
 
             // Add's to the left stack panel the image
@@ -130,7 +132,8 @@ namespace Vaseis.UI.Components.PersonalDataComponents
                 Foreground = Styles.GhostWhite.HexToBrush(),
                 FontWeight = FontWeights.Bold,
                 FontStyle = FontStyles.Normal,
-                FontSize = 28
+                FontFamily = Styles.Calibri,
+                FontSize = 32
             };
 
             // Binds the text property of the text block to the Username property
