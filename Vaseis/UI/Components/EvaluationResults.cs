@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Windows;
+﻿using System.Data;
 using System.Windows.Controls;
 
 namespace Vaseis
@@ -44,9 +36,6 @@ namespace Vaseis
 
         #endregion
 
-        
-
-
         #region Constructors
 
         public EvaluationResults()
@@ -55,7 +44,6 @@ namespace Vaseis
         }
 
         #endregion
-
 
         #region Private Methods 
 
@@ -71,10 +59,6 @@ namespace Vaseis
             //    Orientation = Orientation.Horizontal,
 
             //};
-
-
-
-
 
             //var dataTable = new DataTable();
 
@@ -98,64 +82,59 @@ namespace Vaseis
             //dataTable.Columns.Add("Edit", typeof(Button));
             //dataTable.Columns.Add("Finalize", typeof(Button));
 
-
-
             //foreach (var listItem in listItems)
             //{
             //    dataTable.Rows.Add(listItem);
             //}
 
 
-            var evaluationsDataTable = new DataTable();
+            //var evaluationsDataTable = new DataTable();
 
-            evaluationsDataTable.Columns.Add("Evaluator", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("Employee", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("Job", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("IG", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("RG", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("FG", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("Final Grade", typeof(TextBlock));
-            evaluationsDataTable.Columns.Add("Report", typeof(Expander));
-            evaluationsDataTable.Columns.Add("Interview Comments", typeof(Expander));
-            evaluationsDataTable.Columns.Add("Details", typeof(Expander));
-            evaluationsDataTable.Columns.Add("Edit", typeof(Button));
-            evaluationsDataTable.Columns.Add("Finalize", typeof(Button));
+            //evaluationsDataTable.Columns.Add("Evaluator", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("Employee", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("Job", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("IG", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("RG", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("FG", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("Final Grade", typeof(TextBlock));
+            //evaluationsDataTable.Columns.Add("Report", typeof(Expander));
+            //evaluationsDataTable.Columns.Add("Interview Comments", typeof(Expander));
+            //evaluationsDataTable.Columns.Add("Details", typeof(Expander));
+            //evaluationsDataTable.Columns.Add("Edit", typeof(Button));
+            //evaluationsDataTable.Columns.Add("Finalize", typeof(Button));
 
 
-            var hmm = new TextBlock()
-            {
-                Text = "hmmmmmm"
-            };
+            //var hmm = new TextBlock()
+            //{
+            //    Text = "hmmmmmm"
+            //};
 
-            var hmmm = new Expander() {
-            Header = "HFGBSOVGBFSF",      
-            Foreground = Styles.DarkPink.HexToBrush()
-            };
+            //var hmmm = new Expander() {
+            //Header = "HFGBSOVGBFSF",      
+            //Foreground = Styles.DarkPink.HexToBrush()
+            //};
             
-            hmmm.Content = "vsgbvdtjhnzdxnjzdehszehedhjhjndv bs";
+            //hmmm.Content = "vsgbvdtjhnzdxnjzdehszehedhjhjndv bs";
 
-            evaluationsDataTable.Rows.Add(hmm, hmm, hmmm, hmmm,hmmm );
+            //evaluationsDataTable.Rows.Add(hmm, hmm, hmmm, hmmm,hmmm );
 
-            //pageGrid.Children.Add(evaluationsDataTable);
+            ////pageGrid.Children.Add(evaluationsDataTable);
 
-            var datagrid = new DataGrid()
-            {
+            //var datagrid = new DataGrid()
+            //{
                
-                ItemsSource = evaluationsDataTable.AsDataView
-            };
+            //    //ItemsSource = evaluationsDataTable.
+            //};
 
-            pageGrid.Children.Add(datagrid);
+            //pageGrid.Children.Add(datagrid);
 
 
-            var ScrollViewContainer = new ScrollViewer()
-            {
-                Content = pageGrid
-            };
+            //var ScrollViewContainer = new ScrollViewer()
+            //{
+            //    Content = pageGrid
+            //};
 
-            Content = ScrollViewContainer;
-
-          
-              
+            //Content = ScrollViewContainer;
 
         }
 

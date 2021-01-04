@@ -20,6 +20,8 @@ namespace Vaseis
         /// </summary>
         protected NewUserInputDialogComponent CreateUserDialog { get; private set; }
 
+        protected NewCompanyDialogComponent CreateCompanyDialog { get; private set; }
+
         /// <summary>
         /// The error dialog
         /// </summary>
@@ -69,10 +71,9 @@ namespace Vaseis
                 Width = 240,
                 Height = 40,
                 Content = "Test",
-
             };
 
-            userButton.Click += ShowErrorDialog;
+            userButton.Click += ShowNewCompanyDialog;
             PageGrid.Children.Add(userButton);
 
             // Creates the add new user button
@@ -101,6 +102,23 @@ namespace Vaseis
             // Sets the is open property to true
             CreateUserDialog.DialogHost.IsOpen = true;
         }
+
+        /// <summary>
+        /// On click closes the dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowNewCompanyDialog(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            CreateCompanyDialog = new NewCompanyDialogComponent();
+            // Adds it to the page grid
+            PageGrid.Children.Add(CreateCompanyDialog);
+
+            // Sets the is open property to true
+            CreateCompanyDialog.DialogHost.IsOpen = true;
+        }
+
 
         /// <summary>
         /// On click closes the dialog

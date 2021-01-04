@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Vaseis
 {
@@ -14,14 +15,22 @@ namespace Vaseis
         /// <summary>
         /// The Bio Header Text
         /// </summary>
-        public TextBlock BioTextBlock{ get;  set; }
-
+        protected TextBlock BioTitle { get; private set; }
 
         /// <summary>
         /// The Bio 
         /// </summary>
-        public Expander BioExpander { get; set; }
+        protected TextBlock BioTextBlock { get; private set; }
 
+        /// <summary>
+        /// The stack panel containing bio text and the title
+        /// </summary>
+        protected StackPanel BioStackPanel { get; private set; }
+
+        /// <summary>
+        /// The bio's border
+        /// </summary>
+        protected Border BioBorder { get; private set; }
         #endregion
 
         #region Dependency Properties
@@ -29,16 +38,16 @@ namespace Vaseis
         /// <summary>
         /// The User's Bio
         /// </summary>
-        public string Bio
+        public string BioText
         {
             get { return GetValue(BioProperty).ToString(); }
             set { SetValue(BioProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="FirstName"/> dependency property
+        /// Identifies the <see cref="BioText"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty BioProperty = DependencyProperty.Register(nameof(Bio), typeof(string), typeof(BioComponent));
+        public static readonly DependencyProperty BioProperty = DependencyProperty.Register(nameof(BioText), typeof(string), typeof(BioComponent));
 
         #endregion
 
@@ -55,41 +64,71 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-            BioTextBlock = new TextBlock()
+            BioTitle = new TextBlock()
             {
                 Text = "Bio",
                 HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 28,
+                FontSize = 32,
                 FontWeight = FontWeights.Bold,
-                Foreground = Styles.DarkBlue.HexToBrush()
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Margin = new Thickness(0, 0, 0, 12)
             };
 
-            BioExpander = new Expander()
+            BioTextBlock = new TextBlock()
             { 
                 HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 24,
                 FontWeight = FontWeights.Normal,
-                Foreground = Styles.DarkBlue.HexToBrush(),
+                Foreground = Styles.DarkGray.HexToBrush(),
                 Background = Styles.White.HexToBrush(),
+                TextWrapping = TextWrapping.Wrap,
+                
             };
 
             // Binds the text property of the expander to the Bio property
-            BioExpander.SetBinding(TextBlock.TextProperty, new Binding(nameof(Bio))
+            BioTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(BioText))
             {
                 Source = this
             });
 
-
-            var bioStackPanel = new StackPanel()
+            var BioScrollViwer = new ScrollViewer()
             {
-                Background = Styles.White.HexToBrush()
+                VerticalAlignment = VerticalAlignment.Top,
+                Content = BioTextBlock,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+                CanContentScroll = true,
+                MaxHeight = 200
             };
 
-            bioStackPanel.Children.Add(BioTextBlock);
-            bioStackPanel.Children.Add(BioExpander);
+            BioStackPanel = new StackPanel()
+            {
+                Background = Styles.White.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(24),
+            };
+            // Adds the title to the stack panel
+            BioStackPanel.Children.Add(BioTitle);
+            // Adds the scroll viewer to the stack panel
+            BioStackPanel.Children.Add(BioScrollViwer);
 
-            Content = bioStackPanel;
+            // Bio's border
+            BioBorder = new Border()
+            {
+                // Adds corner radius
+                CornerRadius = new CornerRadius(8),
+                // No thickness
+                BorderThickness = new Thickness(0), 
+                // Adds a shadow
+                Effect = ControlsFactory.CreateShadow(),
+                Background = Styles.White.HexToBrush(),
+                Width = 1000,
+                Margin = new Thickness(24),
+            };
+
+            BioBorder.Child = BioStackPanel;
+
+            Content = BioBorder;
 
         }
 

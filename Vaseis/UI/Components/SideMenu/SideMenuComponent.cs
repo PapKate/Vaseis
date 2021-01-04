@@ -51,13 +51,7 @@ namespace Vaseis
                 
                 //BorderBrush = DarkGray.HexToBrush(),
                 //BorderThickness = new Thickness(0, 0, 1, 0)
-                Effect = new DropShadowEffect
-                {
-                    Color = DarkGray.HexToColor(),
-                    Direction = 320,
-                    ShadowDepth = 0,
-                    Opacity = 1
-                }
+                Effect = ControlsFactory.CreateShadow()
             };
 
             SideMenuContainer = new StackPanel()

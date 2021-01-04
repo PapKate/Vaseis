@@ -1,7 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,7 +7,7 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    class LoginPage : ContentControl   
+    public class LoginPage : ContentControl   
     {
         #region Public Properties
 
@@ -90,7 +87,6 @@ namespace Vaseis
 
         #endregion
 
-
         #region Constructor 
 
         public LoginPage()
@@ -100,9 +96,11 @@ namespace Vaseis
 
         #endregion
 
-
         #region Private Methods 
-
+        
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
            // Wrong alignment & size
@@ -312,8 +310,5 @@ namespace Vaseis
         }
 
         #endregion
-
-
-
     }
 }

@@ -11,7 +11,7 @@ namespace Vaseis
     /// <summary>
     /// Represents the "my evaluations" page of the evaluator
     /// </summary>
-    public class MyEvaluationsPage : EvaluationReportDialogComponent
+    public class EvaluatorMyEvaluationsPage : EvaluationReportDialogComponent
     {
         #region Protected Properties
 
@@ -32,13 +32,9 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Properties
-
-        #endregion
-
         #region Constructors
 
-        public MyEvaluationsPage()
+        public EvaluatorMyEvaluationsPage()
         {
             CreateGUI();
         }

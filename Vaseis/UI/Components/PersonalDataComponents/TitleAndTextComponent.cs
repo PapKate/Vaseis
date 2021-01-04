@@ -11,24 +11,29 @@ namespace Vaseis
     {
         #region Protected Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected StackPanel InfoStackPanel { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextBlock TitleBlock { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextBlock TextBlock { get; private set; }
 
-
         #endregion
-
-
 
         #region Dependency Properties
 
 
         /// <summary>
-        /// The TextAtrr
+        /// The title
         /// </summary>
-
         public string Title
         {
             get { return GetValue(TitleProperty).ToString(); }
@@ -36,12 +41,12 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// Identifies the <see cref=TitleGrade"/> dependency property
+        /// Identifies the <see cref=Title"/> dependency property
         /// </summary>
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(TitleAndTextComponent));
 
         /// <summary>
-        /// The User's Email
+        /// The text
         /// </summary>
         public string Text
         {
@@ -56,8 +61,6 @@ namespace Vaseis
 
         #endregion
 
-
-
         #region Constructors
 
         public TitleAndTextComponent()
@@ -67,20 +70,18 @@ namespace Vaseis
 
         #endregion
 
-
         #region Private Methods
 
-
-        private void CreateGUI() {
-
-
-
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
+        private void CreateGUI() 
+        {
             TitleBlock = new TextBlock()
             {
-                
                 HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 28,
+                FontSize = 32,
                 FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkGray.HexToBrush()
             };
@@ -93,15 +94,15 @@ namespace Vaseis
 
             TextBlock = new TextBlock()
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 24,
+                FontSize = 28,
                 FontWeight = FontWeights.Normal,
-                Foreground = Styles.DarkGray.HexToBrush()
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Margin = new Thickness(24, 0, 0, 0)
             };
 
             // Binds the text property of the text block to the Text property
-            TitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
+            TextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
             {
                 Source = this
             });
@@ -109,8 +110,7 @@ namespace Vaseis
             InfoStackPanel = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(24)
+                HorizontalAlignment = HorizontalAlignment.Left,
             };
 
             InfoStackPanel.Children.Add(TitleBlock);

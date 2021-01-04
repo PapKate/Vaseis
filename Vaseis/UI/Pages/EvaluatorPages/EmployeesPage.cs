@@ -61,7 +61,6 @@ namespace Vaseis
 
         #endregion
 
-
         #region Constructors
 
         public EmployeesPage()
