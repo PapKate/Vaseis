@@ -1,55 +1,26 @@
 ﻿using MaterialDesignThemes.Wpf;
-
-using System.Windows.Controls;
-using System.Windows;
-
 using static Vaseis.Styles;
-using System.Windows.Data;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Vaseis
 {
     /// <summary>
-    /// Pop up dialog for adding data
+    /// The evaluation report's dialog
     /// </summary>
-    public class AddDialogComponent : ContentControl
+    public class EvaluationReportDialogComponent : DialogBaseComponent
     {
-        #region Protected Properties
-
-        /// <summary>
-        /// The page's grid container
-        /// </summary>
-        protected Grid PageGrid { get; private set; }
-
-        /// <summary>
-        /// The add button that fires the dialog
-        /// </summary>
-        protected Button AddButton { get; private set; }
-
         /// <summary>
         /// The dialog host
         /// </summary>
-        protected DialogHost EvaluationReportDialog { get; private set; }
+        public DialogHost EvaluationReportDialogHost { get; private set; }
 
-        /// <summary>
-        /// The border that contains the dialog grid
-        /// </summary>
-        protected Border DialogBorder { get; private set; }
-
-        /// <summary>
-        /// The grid containing the dialog text inputs
-        /// </summary>
-        protected Grid DialogGrid { get; private set; }
-
-        /// <summary>
-        /// The panel containing all input
-        /// </summary>
-        protected WrapPanel InputWrapPanel { get; private set; }
-
-        /// <summary>
-        /// The dialog's title
-        /// </summary>
-        protected TextBlock DialogTitle { get; private set; }
+        #region Protected Properties
 
         /// <summary>
         /// The text input component for the username
@@ -87,6 +58,11 @@ namespace Vaseis
         protected TextBlock CommentsTextBlock { get; private set; }
 
         /// <summary>
+        /// The comments text box's border
+        /// </summary>
+        protected Border CommentsBorder { get; private set; }
+
+        /// <summary>
         /// The comments' input text area
         /// </summary>
         protected TextBox CommentsTextBox { get; private set; }
@@ -101,18 +77,15 @@ namespace Vaseis
         /// </summary>
         protected Button SaveButton { get; private set; }
 
-
         #endregion
 
         #region Dependency Properties
 
-
         #endregion
-
 
         #region Constructors
 
-        public AddDialogComponent()
+        public EvaluationReportDialogComponent()
         {
             CreateGUI();
         }
@@ -126,91 +99,52 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            DialogBorder = new Border()
-            {
-                BorderThickness = new Thickness(4),
-                Background = LightBlue.HexToBrush()
-            };
-
-            DialogGrid = new Grid()
-            { 
-                Width = 580,
-                Height = 700,
-                Background = White.HexToBrush(),
-                
-            };
-
-            DialogBorder.Child = DialogGrid;
-
-            EvaluationReportDialog = new DialogHost()
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                IsOpen = false,
-                CloseOnClickAway = true,
-                OverlayBackground = DarkGray.HexToBrush()
-                
-            };
-            
-            EvaluationReportDialog.DialogContent = DialogBorder;
-
-            InputWrapPanel = new WrapPanel()
-            {
-                Margin = new Thickness(0, 80, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-
-            DialogGrid.Children.Add(InputWrapPanel);
-
-            DialogTitle = new TextBlock()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Text = "Evaluation Report",
-                FontSize = 36,
-                FontWeight = FontWeights.Bold,
-                Foreground = DarkBlue.HexToBrush(),
-                Margin = new Thickness(24)
-            };
-            
-            DialogGrid.Children.Add(DialogTitle);
+            // The title of the dialog
+            DialogTitle.Text = "EvaluationReport";
 
             #region Input Data
 
+            // The input field for user
             UserNameInput = new TextInputComponent()
             {
+                Margin = new Thickness(24),
                 HintText = "Employee's username",
                 Width = 240,
-                Height = 36
             };
 
+            // The input field for job position
             JopPositionInput = new TextInputComponent()
             {
+                Margin = new Thickness(24),
                 HintText = "Job position",
                 Width = 240,
-                Height = 36
             };
 
+            // The input field for report's grade
             ReportGradeInput = new TextInputComponent()
             {
+                Margin = new Thickness(24),
                 HintText = "Report's grade",
                 Width = 240,
-                Height = 36
             };
 
+            // The input field for qualifications grade
             QualificationsGradeInput = new TextInputComponent()
             {
+                Margin = new Thickness(24),
                 HintText = "Qualification's grade",
                 Width = 240,
-                Height = 36
             };
 
+            // The input field for user
             InterviewGradeInput = new TextInputComponent()
             {
+                Margin = new Thickness(24),
                 HintText = "Interview's grade",
                 Width = 240,
-                Height = 36
             };
 
+            // Adds the input field to the input wrap panel
             InputWrapPanel.Children.Add(UserNameInput);
             InputWrapPanel.Children.Add(JopPositionInput);
             InputWrapPanel.Children.Add(ReportGradeInput);
@@ -219,18 +153,18 @@ namespace Vaseis
 
             #endregion
 
+            // Creates a stack panel for the comments area
             CommentsStackPanel = new StackPanel()
             {
+                Margin = new Thickness(24, 0, 24, 0),
                 Orientation = Orientation.Vertical,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Width = 540,
-                Margin = new Thickness(24, 24, 0, 0)
-
+                Width = 520
             };
-            
+
+            // Adds to the wrap panel the comments stack panel
             InputWrapPanel.Children.Add(CommentsStackPanel);
 
+            // The title block for comments
             CommentsTextBlock = new TextBlock()
             {
                 Text = "Interview comments",
@@ -238,66 +172,66 @@ namespace Vaseis
                 FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
+                Margin = new Thickness(0, 0, 0, 8)
             };
 
+            // Adds the text block to the comments' stack panel...
             CommentsStackPanel.Children.Add(CommentsTextBlock);
+            
 
-            var commentsBorder = new Border()
+            // The border for the comments inut area
+            CommentsBorder = new Border()
             {
+                BorderBrush = DarkGray.HexToBrush(),
                 BorderThickness = new Thickness(1),
-                BorderBrush = DarkPink.HexToBrush(),
-                CornerRadius = new CornerRadius(5),
-                Width = 532,
-                Height = 180,
+                CornerRadius = new CornerRadius(5)
             };
 
+            // The text input field for comments
             CommentsTextBox = new TextBox()
             {
-                Margin = new Thickness(4),
+                MinLines = 6,
                 FontFamily = Calibri,
                 FontSize = 20,
                 TextWrapping = TextWrapping.Wrap,
                 AcceptsReturn = true,
             };
 
+            // Adds to the border the input field for the comments
+            CommentsBorder.Child = CommentsTextBox;
 
-            commentsBorder.Child = CommentsTextBox;
+            // Adds tot he stack panel the border
+            CommentsStackPanel.Children.Add(CommentsBorder);
 
-            CommentsStackPanel.Children.Add(commentsBorder);
-
+            // Creates the save button
             SaveButton = StyleHelpers.CreateDialogButton(LightBlue, "Temporary save");
+            // Adds margin to the save button
+            SaveButton.Margin = new Thickness(0, 0, 12, 0);
+            // Adds the save button to the buttons' stack panel
+            DialogButtonsStackPanel.Children.Add(SaveButton);
 
-            InputWrapPanel.Children.Add(SaveButton);
+            // Creates the finalize and send button...
+            FinalizeButton = StyleHelpers.CreateDialogButton(HookersGreen, "Finalize and send");
+            // And adds margin to it
+            FinalizeButton.Margin = new Thickness(12, 0, 0, 0);
+            // Adds to the buttons' stack panel the finalize and send button
+            DialogButtonsStackPanel.Children.Add(FinalizeButton);
 
-            AddButton = ControlsFactory.CreateAddButton(DarkBlue);
 
-            AddButton.Click += ShowDialogOnClick;
-
-            var grid = new Grid()
-            {
-
-            };
-
-            grid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Star)
-            });
-
-            grid.Children.Add(AddButton);
-            grid.Children.Add(EvaluationReportDialog);
-            //grid.Children.Add(DialogGrid);
-
-            Content = grid;
+            // Sets the component's content to the dialog host
+            Content = DialogHost;
         }
-        
+
+
         /// <summary>
-        /// 
+        /// On click closes the dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowDialogOnClick(object sender, RoutedEventArgs e)
+        private void CloseDialogOnClick(object sender, RoutedEventArgs e)
         {
-            EvaluationReportDialog.IsOpen = true;
+            // Sets the dialog host's property is open to false
+            DialogHost.IsOpen = false;
         }
 
         #endregion

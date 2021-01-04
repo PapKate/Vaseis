@@ -12,12 +12,20 @@ namespace Vaseis
     /// <summary>
     /// The area filled with the employee buttons in the Employees page
     /// </summary>
-    public class EmployeeButtonsContainerComponent : ContentControl
+    public class UserButtonsContainerComponent : ContentControl
     {
+        #region Protected Properties
+
+        /// <summary>
+        ///  The grid container of all the user buttons
+        /// </summary>
+        protected Grid UserButtonsGrid { get; private set; }
+
+        #endregion
 
         #region Constructors
 
-        public EmployeeButtonsContainerComponent()
+        public UserButtonsContainerComponent()
         {
             CreateGUI();
         }
@@ -31,19 +39,23 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            var employeeButtonsGrid = new Grid()
+            // The grid containing the buttons
+            var UserButtonsGrid = new Grid()
             {
                 Margin = new Thickness(32),
             };
             
+            // For four times...
             for(var i  = 0; i <= 4 - 1; i++)
             {
-                employeeButtonsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+                // Adds to the buttons' grid a column
+                UserButtonsGrid.ColumnDefinitions.Add(new ColumnDefinition()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 });
             }
 
+            // Test list with users
             var users = new List<UserButtonComponent>()
             {
                 new UserButtonComponent(){ Username = "PapLA", FullName = "Labros Papadopoulos", Background = "ff4455".HexToBrush() },
@@ -70,36 +82,47 @@ namespace Vaseis
                 new UserButtonComponent(){ Username = "Matakia", FullName = "Tsomaros Vlachogiannis", Background = LightBlue.HexToBrush() },
             };
 
+            // Sets the column index to 0
             var columnIndex = 0;
+            // Sets the row index to 0
             var rowIndex = 0;
 
+            // For each user in the users list...
             foreach (var user in users)
             {
-                employeeButtonsGrid.Children.Add(user);
+                // Adds the user button to the grid
+                UserButtonsGrid.Children.Add(user);
 
+                // If it is the first column...
                 if(columnIndex == 0)
                 {
-                    employeeButtonsGrid.RowDefinitions.Add(new RowDefinition()
+                    // Adds a new row with fixed height
+                    UserButtonsGrid.RowDefinitions.Add(new RowDefinition()
                     {
                         Height = new GridLength(180, GridUnitType.Pixel)
                     });
                 }
 
+                // Sets the user to the according column index
                 Grid.SetColumn(user, columnIndex);
-
+                // Sets the user to the according row index
                 Grid.SetRow(user, rowIndex);
+                // Increments the column's index by 1
                 columnIndex++;
 
+                // If the column index is 4...
                 if (columnIndex == 4)
                 {
+                    // Sets column index to 0
                     columnIndex = 0;
+                    // Increments the row's index by 1
                     rowIndex++;
                 }
             }
 
-            Content = employeeButtonsGrid;
+            // The component's content is the grid
+            Content = UserButtonsGrid;
         }
-
 
         #endregion
 

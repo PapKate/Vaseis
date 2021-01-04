@@ -41,12 +41,9 @@ namespace Vaseis
             // Creates the dialog button
             var dialogButton = new Button()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
                 Background = background.HexToBrush(),
                 Height = 40,
                 Width = 200,
-                Margin = new Thickness(0, 32, 0, 32),
                 Content = new TextBlock()
                 {
                     Foreground = Styles.White.HexToBrush(),
