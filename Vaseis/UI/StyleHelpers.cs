@@ -1,5 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Vaseis
@@ -32,6 +34,36 @@ namespace Vaseis
         {
             // Parses a string to a windows media color and returns it
             return (Color)ColorConverter.ConvertFromString("#" + hexColor);
+        }
+
+        public static Button CreateDialogButton(string background, string text)
+        {
+            // Creates the dialog button
+            var dialogButton = new Button()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Background = background.HexToBrush(),
+                Height = 40,
+                Width = 200,
+                Margin = new Thickness(0, 32, 0, 32),
+                Content = new TextBlock()
+                {
+                    Foreground = Styles.White.HexToBrush(),
+                    FontSize = 24,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Styles.Calibri,
+                    Text = text
+                },
+                Padding = new Thickness(0),
+                BorderThickness = new Thickness(0),
+            };
+
+            // Adds a corner radius
+            ButtonAssist.SetCornerRadius(dialogButton, new CornerRadius(8));
+
+            // Returns the button
+            return dialogButton;
         }
 
         /// <summary>

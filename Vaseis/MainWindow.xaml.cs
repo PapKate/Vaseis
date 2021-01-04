@@ -69,8 +69,13 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-            //// Set's a column with width 
-            //// kTODO: Set column's width to auto
+
+            // Set's a column with width 
+            // kTODO: Set column's width to auto
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+           {
+
+            // Set's a column with width 
             appGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
 
@@ -84,7 +89,6 @@ namespace Vaseis
 
             });
 
-            // kTODO: Initialize the side menu component
             var sideMenuComponent = new SideMenuComponent();
 
             // Adds to the app's grid the side menu
@@ -93,6 +97,62 @@ namespace Vaseis
             Grid.SetColumn(sideMenuComponent, 0);
 
             //var employeesPage = new EmployeesPage();
+
+
+
+            var input = new TextInputComponent();
+            var test = new AddDialogComponent();
+            appGrid.Children.Add(test);
+            Grid.SetColumn(test, 1);
+
+            //appGrid.Children.Add(employeesPage);
+            //Grid.SetColumn(employeesPage, 1);
+
+            var er1 = new TextBox()
+            {
+                Width = 250,
+                Height = 80,
+                Background = Brushes.LightBlue
+            };
+
+            var er2 = new TextBox()
+            {
+                Width = 250,
+                Height = 80,
+                Background = Brushes.LightBlue
+            };
+
+
+            var er3 = new TextBox()
+            {
+                Width = 250,
+                Height = 80,
+                Background = Brushes.LightBlue
+            };
+
+
+            var er4 = new TextBox()
+            {
+                Width = 250,
+                Height = 80,
+                Background = Brushes.LightBlue,
+
+            };
+
+            var stak = new WrapPanel()
+            {
+
+            };
+
+            stak.Children.Add(er1);
+            stak.Children.Add(er4);
+            stak.Children.Add(er3);
+            stak.Children.Add(er2);
+
+            appGrid.Children.Add(stak);
+
+            Grid.SetColumn(stak, 1);
+
 
 
             //appGrid.Children.Add(employeesPage);

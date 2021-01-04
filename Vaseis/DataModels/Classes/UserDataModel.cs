@@ -137,8 +137,6 @@ namespace Vaseis
         /// </summary>
         public IEnumerable<LanguagesDataModel> Languages { get; set; }
 
-
-
         #endregion
 
         #endregion

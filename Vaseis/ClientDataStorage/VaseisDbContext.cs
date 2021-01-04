@@ -25,11 +25,6 @@ namespace Vaseis
         public DbSet<UserDataModel> Users { get; set; }
 
         /// <summary>
-        /// The manager employees table
-        /// </summary>
-        //public DbSet<ManagerEmployeePair> ManagerEmployees { get; set; }
-
-        /// <summary>
         /// The awards table
         /// </summary>
         public DbSet<AwardDataModel> Awards { get; set; }

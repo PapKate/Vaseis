@@ -44,17 +44,23 @@ namespace Vaseis
         protected TextBox SearchBar { get; private set; }
 
         /// <summary>
-        /// 
+        /// The stack panel containing the hint icon and text
         /// </summary>
         protected StackPanel HintStackPanel { get; private set; }
 
         /// <summary>
-        /// 
+        /// The hint icon
         /// </summary>
         protected PackIcon SearchIcon { get; private set; }
 
+        /// <summary>
+        /// The hint text
+        /// </summary>
         protected TextBlock HintTextBlock { get; private set; }
 
+        /// <summary>
+        /// The employee buttons grid
+        /// </summary>
         protected EmployeeButtonsContainerComponent EmployeeButtonsContainer { get; private set; }
 
         #endregion
@@ -136,7 +142,7 @@ namespace Vaseis
             HintStackPanel.Children.Add(SearchIcon);
             HintStackPanel.Children.Add(HintTextBlock);
 
-            HintAssist.SetForeground(SearchBar, StyleHelpers.HexToBrush(Styles.DarkPink));
+            HintAssist.SetForeground(SearchBar, DarkPink.HexToBrush());
             HintAssist.SetHint(SearchBar, HintStackPanel);
 
             SearchBarBorder.Child = SearchBar;

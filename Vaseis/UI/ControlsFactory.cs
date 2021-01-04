@@ -12,6 +12,41 @@ namespace Vaseis
     public static class ControlsFactory
     {
         /// <summary>
+        /// Creates an add button for the pages
+        /// </summary>
+        /// <param name="background">The hexadecimal value representing a color</param>
+        public static Button CreateAddButton(string background)
+        {
+            // Creates the add button
+            var addButton = new Button()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Background = background.HexToBrush(),
+                Height = 52,
+                Width = 120,
+                Margin = new Thickness(0, 0, 0, 32),
+                Content = new TextBlock()
+                {
+                    Foreground = Styles.White.HexToBrush(),
+                    FontSize = 28,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Styles.Calibri,
+                    Text = "Add"
+                },
+                Padding = new Thickness(0),
+                BorderThickness = new Thickness(0),
+            };
+
+            // Adds a corner radius
+            ButtonAssist.SetCornerRadius(addButton, new CornerRadius(8));
+            
+            // Returns the button
+            return addButton;
+        }
+
+
+        /// <summary>
         /// Creates a square button with a pack icon
         /// </summary>
         /// <param name="packIconKind"></param>
@@ -25,8 +60,11 @@ namespace Vaseis
                     Kind = packIconKind,
                     Width = 36,
                     Height = 36,
-                    Foreground = Styles.White.HexToBrush(),
-                },
+
+                Foreground = Styles.White.HexToBrush(),
+
+
+              },
                 Width = 40,
                 Height = 40,
                 Padding = new Thickness(0),
