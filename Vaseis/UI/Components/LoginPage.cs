@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Vaseis
 {
@@ -150,6 +151,12 @@ namespace Vaseis
                 Background = Styles.White.HexToBrush(),
             };
 
+            // Binds the text property of the text box to the Username property
+            UsernameTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Username))
+            {
+                Source = this
+            });
+
             PasswordTextBlock = new TextBlock()
             {
                 Text = "Password",
@@ -168,6 +175,12 @@ namespace Vaseis
                 Foreground = Styles.DarkBlue.HexToBrush(),
                 Background = Styles.White.HexToBrush(),
             };
+
+            // Binds the text property of the text boxto the Password property
+            UsernameTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Password))
+            {
+                Source = this
+            });
 
             Login = new Button()
             {
