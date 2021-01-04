@@ -136,7 +136,6 @@ namespace Vaseis
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 32,
                 FontWeight = FontWeights.Bold,
-               
             };
 
             // Binds the text property of the text block to the Username property
@@ -151,7 +150,6 @@ namespace Vaseis
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 FontSize = 24,
                 FontWeight = FontWeights.Normal,
-                
             };
 
             // Binds the text property of the text block to the FullName property

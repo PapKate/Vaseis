@@ -1,7 +1,5 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 using static Vaseis.Styles;
 
@@ -71,9 +69,16 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
+
+            // Set's a column with width 
+            // kTODO: Set column's width to auto
+            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+           {
+
             // Set's a column with width 
             appGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
+
                 Width = new GridLength(280, GridUnitType.Pixel)
             });
 
@@ -91,7 +96,9 @@ namespace Vaseis
             // Defines the column the side menu's grid is set to in the parent grid
             Grid.SetColumn(sideMenuComponent, 0);
 
-            var employeesPage = new EmployeesPage();
+            //var employeesPage = new EmployeesPage();
+
+
 
             var input = new TextInputComponent();
             var test = new AddDialogComponent();
@@ -147,11 +154,25 @@ namespace Vaseis
             Grid.SetColumn(stak, 1);
 
 
-            // Sets the content as the window's grid
+
+            //appGrid.Children.Add(employeesPage);
+
+            ////Grid.SetColumn(employeesPage, 1);
+
+            //// Sets the content as the window's grid
+            //Content = windowGrid;
+
+            //Giatiiiiiiiiiiiiiiiiiiii den trexei?
+
+            var evaluationPage = new EvaluationResults();
+
+            appGrid.Children.Add(evaluationPage);
+            Grid.SetColumn(evaluationPage, 1);
+
             Content = windowGrid;
+
+            #endregion
+
         }
-
-        #endregion
-
     }
 }
