@@ -64,6 +64,40 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="background"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static Button CreateDataButton(string background, string text)
+        {
+            // Creates the dialog button
+            var dataButton = new Button()
+            {
+                Background = background.HexToBrush(),
+                Height = 80,
+                Width = 280,
+                Content = new TextBlock()
+                {
+                    Foreground = Styles.DarkGray.HexToBrush(),
+                    FontSize = 32,
+                    FontWeight = FontWeights.SemiBold,
+                    FontFamily = Styles.Calibri,
+                    Text = text
+                },
+                Padding = new Thickness(8),
+                BorderThickness = new Thickness(0),
+                Margin = new Thickness(32)
+            };
+
+            // Adds a corner radius
+            ButtonAssist.SetCornerRadius(dataButton, new CornerRadius(8));
+
+            // Returns the button
+            return dataButton;
+        }
+
+        /// <summary>
         /// Creates an icon from the material design by defining the icon's color and pack icon kind
         /// </summary>
         /// <param name="color">The icon's color</param>

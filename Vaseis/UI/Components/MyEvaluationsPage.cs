@@ -21,7 +21,7 @@ namespace Vaseis
 
 
 
-        #region Depndency Properties
+        #region Dependency Properties
 
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Vaseis
             var dataTable = new DataTable();
 
 
-            List<MyEvaluationsPage> evaluationsRow = new List<MyEvaluationsPage>();
+           var evaluationsRow = new List<EvaluatorMyEvaluationsPage>();
 
 
             dataTable.Columns.Add("Employee", typeof(String));

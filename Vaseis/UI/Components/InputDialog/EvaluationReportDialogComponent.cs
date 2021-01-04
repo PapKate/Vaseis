@@ -79,10 +79,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Properties
-
-        #endregion
-
         #region Constructors
 
         public EvaluationReportDialogComponent()
@@ -222,17 +218,6 @@ namespace Vaseis
             Content = DialogHost;
         }
 
-
-        /// <summary>
-        /// On click closes the dialog
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CloseDialogOnClick(object sender, RoutedEventArgs e)
-        {
-            // Sets the dialog host's property is open to false
-            DialogHost.IsOpen = false;
-        }
 
         #endregion
 

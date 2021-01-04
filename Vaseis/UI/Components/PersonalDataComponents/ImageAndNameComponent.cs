@@ -9,11 +9,13 @@ using System.Windows.Media.Imaging;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
 
-namespace Vaseis.UI.Components.PersonalDataComponents
+namespace Vaseis
 {
     public class ImageAndNameComponent : ContentControl
     {
         #region Protected Properties 
+
+        public StackPanel ImageAndNameStackPanel { get; private set; }
 
         /// <summary>
         /// The profile Picture
@@ -23,7 +25,7 @@ namespace Vaseis.UI.Components.PersonalDataComponents
         /// <summary>
         /// The username
         /// </summary>
-        public TextBlock UsernameTextBlock { get; private set; }
+        public TextBlock TextBlock { get; private set; }
 
         #endregion
 
@@ -55,18 +57,18 @@ namespace Vaseis.UI.Components.PersonalDataComponents
         }
 
         /// <summary>
-        /// The username
+        /// The text
         /// </summary>
-        public string Username
+        public string Text
         {
-            get { return GetValue(UsernameProperty).ToString(); }
-            set { SetValue(UsernameProperty, value); }
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="Username"/> dependency property
+        /// Identifies the <see cref="Text"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ImageAndNameComponent));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(ImageAndNameComponent));
 
         #endregion
 
@@ -93,15 +95,16 @@ namespace Vaseis.UI.Components.PersonalDataComponents
 
         #region Private Methods
 
-
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
-
             // A stack panel for the image and title 
-            var ImageAndUsernameStackPanel = new StackPanel()
+            ImageAndNameStackPanel = new StackPanel()
             {
                 // Has horizontal orientation
-                Orientation = Orientation.Horizontal,
+                Orientation = Orientation.Vertical,
                 Margin = new Thickness(24)
             };
 
@@ -119,34 +122,31 @@ namespace Vaseis.UI.Components.PersonalDataComponents
             };
 
             // Add's to the left stack panel the image
-            ImageAndUsernameStackPanel.Children.Add(Image);
-
-            //Binding?
-
+            ImageAndNameStackPanel.Children.Add(Image);
 
             // A text block for the Title property
-            UsernameTextBlock = new TextBlock()
+            TextBlock = new TextBlock()
             {
-                DataContext = Username,
-                VerticalAlignment = VerticalAlignment.Center,
-                Foreground = Styles.GhostWhite.HexToBrush(),
+                DataContext = Text,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Foreground = Styles.DarkGray.HexToBrush(),
                 FontWeight = FontWeights.Bold,
-                FontStyle = FontStyles.Normal,
                 FontFamily = Styles.Calibri,
-                FontSize = 32
+                FontSize = 48
             };
 
             // Binds the text property of the text block to the Username property
-            UsernameTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Username))
+            TextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
             {
                 Source = this
             });
 
-            ImageAndUsernameStackPanel.Children.Add(UsernameTextBlock);
+            ImageAndNameStackPanel.Children.Add(TextBlock);
 
             //image & username alignment -> center enw!,
             //trexctblocks apo katw alignment -> left 
 
+            Content = ImageAndNameStackPanel;
         }
 
         /// <summary>

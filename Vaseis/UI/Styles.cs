@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Vaseis
@@ -38,7 +39,7 @@ namespace Vaseis
         /// <summary>
         /// A dark gray color = jet (font color) 
         /// </summary>
-        public const string DarkGray = "2E2E2E";
+        public const string DarkGray = "333333";
 
         /// <summary>
         /// A fiery red color = red pigment
@@ -75,6 +76,14 @@ namespace Vaseis
         /// </summary>
         public const string Orange = "EF8354";
 
+        /// <summary>
+        /// The default margin
+        /// </summary>
+        public static Thickness DeaultMargin = new Thickness(24);
+
+        /// <summary>
+        /// Calibri font family
+        /// </summary>
         public static FontFamily Calibri = new FontFamily("Calibri");
     }
 }

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\Images\employee.png" />
     <None Remove="UI\Images\logo.png" />
   </ItemGroup>
 
@@ -20,11 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="UI\Images\employee.png" />
     <Resource Include="UI\Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="UI\Components\Employees\PersonalData\" />
+    <Folder Include="UI\Pages\EmplyoeePages\" />
   </ItemGroup>
 
 </Project>
