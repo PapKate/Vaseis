@@ -25,8 +25,9 @@ namespace Vaseis
 
         public static Style AccentRaisedButton = Application.Current.Resources["MaterialDesignRaisedAccentButton"] as Style;
 
+        public static Style NameTextBox = Application.Current.Resources["MaterialDesignNameTextBox"] as Style;
 
-
+   
         /// <summary>
         /// The material design flat button
         /// By default gets the mid hue (DArk Pink) as the background color

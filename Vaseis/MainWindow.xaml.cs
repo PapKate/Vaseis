@@ -1,7 +1,5 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 using static Vaseis.Styles;
 
@@ -30,81 +28,110 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The grid for the entire app's window
-            var windowGrid = new Grid();
 
-            // Set's a row with height auto
-            windowGrid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Auto)
-            });
 
-            // Set's a row with height the remaining height left in the grid
-            windowGrid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Star)
-            });
 
-            // The header component
-            var header = new HeaderComponent(this)
-            {
-                Title = "username",
-                ImagePath = @"pack://application:,,,/UI/Images/logo.png",
-            };
+            //// The grid for the entire app's window
+            //var windowGrid = new Grid();
 
-            // Adds to the window grid the header
-            windowGrid.Children.Add(header);
+            //// Set's a row with height auto
+            //windowGrid.RowDefinitions.Add(new RowDefinition()
+            //{
+            //    Height = new GridLength(1, GridUnitType.Auto)
+            //});
 
-            // Defines the row the header is set to in the parent grid
-            Grid.SetRow(header, 0);
+            //// Set's a row with height the remaining height left in the grid
+            //windowGrid.RowDefinitions.Add(new RowDefinition()
+            //{
+            //    Height = new GridLength(1, GridUnitType.Star)
+            //});
 
-            // A grid for the app that contains all the GUI elements except for the header
-            var appGrid = new Grid()
-            {
-                // Sets the background to ghost white
-                Background = GhostWhite.HexToBrush()
-            };
+            //// The header component
+            //var header = new HeaderComponent(this)
+            //{
+            //    Title = "username",
+            //    ImagePath = @"pack://application:,,,/UI/Images/logo.png",
+            //};
 
-            // Adds the app's grid to the window's grid
-            windowGrid.Children.Add(appGrid);
+            //// Adds to the window grid the header
+            //windowGrid.Children.Add(header);
 
-            // Defines the row the app grind is set to in the parent grid
-            Grid.SetRow(appGrid, 1);
+            //// Defines the row the header is set to in the parent grid
+            //Grid.SetRow(header, 0);
 
-            // Set's a column with width 
-            // kTODO: Set column's width to auto
-            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
+            //// A grid for the app that contains all the GUI elements except for the header
+            //var appGrid = new Grid()
+            //{
+            //    // Sets the background to ghost white
+            //    Background = GhostWhite.HexToBrush()
+            //};
 
-                //Width = new GridLength(1, GridUnitType.Auto)
-                Width = new GridLength(280, GridUnitType.Pixel)
-            });
+            //// Adds the app's grid to the window's grid
+            //windowGrid.Children.Add(appGrid);
 
-            // Set's a column with width the remaining width left in the grid
-            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Star)
+            //// Defines the row the app grind is set to in the parent grid
+            //Grid.SetRow(appGrid, 1);
 
-            });
+            //// Set's a column with width 
+            //// kTODO: Set column's width to auto
+            //appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            //{
 
-            // kTODO: Initialize the side menu component
-            var sideMenuComponent = new SideMenuComponent();
+            //    //Width = new GridLength(1, GridUnitType.Auto)
+            //    Width = new GridLength(280, GridUnitType.Pixel)
+            //});
 
-            // Adds to the app's grid the side menu
-            appGrid.Children.Add(sideMenuComponent);
-            // Defines the column the side menu's grid is set to in the parent grid
-            Grid.SetColumn(sideMenuComponent, 0);
+            //// Set's a column with width the remaining width left in the grid
+            //appGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            //{
+            //    Width = new GridLength(1, GridUnitType.Star)
 
-            var employeesPage = new EmployeesPage();
+            //});
 
-            appGrid.Children.Add(employeesPage);
-            Grid.SetColumn(employeesPage, 1);
+            //// kTODO: Initialize the side menu component
+            //var sideMenuComponent = new SideMenuComponent();
 
-            // Sets the content as the window's grid
-            Content = windowGrid;
+            //// Adds to the app's grid the side menu
+            //appGrid.Children.Add(sideMenuComponent);
+            //// Defines the column the side menu's grid is set to in the parent grid
+            //Grid.SetColumn(sideMenuComponent, 0);
+
+            //var employeesPage = new EmployeesPage();
+
+
+            //appGrid.Children.Add(employeesPage);
+
+
+
+
+            ////Grid.SetColumn(employeesPage, 1);
+
+            //// Sets the content as the window's grid
+            //Content = windowGrid;
+
+
+
+
+            //Giatiiiiiiiiiiiiiiiiiiii den trexei?
+
+
+
+            //var windowGrid = new Grid();
+           
+            //windowGrid.RowDefinitions.Add(new RowDefinition()
+            //{
+            //    Height = new GridLength(1, GridUnitType.Auto)
+            //});
+
+
+            //var window = new LoginPage();
+
+            //windowGrid.Children.Add(window);
+
+            //Content = windowGrid;
+
+            #endregion
+
         }
-
-        #endregion
-
     }
 }
