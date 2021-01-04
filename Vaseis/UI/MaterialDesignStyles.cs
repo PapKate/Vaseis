@@ -13,7 +13,19 @@ namespace Vaseis
         /// </summary>
         public static Style RaisedButton = Application.Current.Resources["MaterialDesignRaisedButton"] as Style;
 
-       
+
+
+
+        public static Style NameTextBox = Application.Current.Resources["MaterialDesignNameTextBox"] as Style;
+
+   
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Style TextBoxStyle = Application.Current.Resources["MaterialDesignOutlinedTextBox"] as Style;
+
+
 
         /// <summary>
         /// The material design flat button
