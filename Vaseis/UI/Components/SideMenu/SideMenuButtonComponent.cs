@@ -90,6 +90,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the button stackpanel
             ButtonDataStackPanel = new StackPanel()
             {
                 Width = 274,
@@ -99,11 +100,11 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
 
+            // Creates the button icon
             ButtonIcon = new PackIcon()
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(4),
-                //Kind = PackIconKind.AddAlarm,
                 Foreground = DarkBlue.HexToBrush(),
                 Width = 40,
                 Height = 40
@@ -115,8 +116,10 @@ namespace Vaseis
                 Source = this
             });
 
+            // Adds the button icon to the button's stack panel
             ButtonDataStackPanel.Children.Add(ButtonIcon);
 
+            // Creates the button name text
             ButtonTitle = new TextBlock()
             {
                 Margin = new Thickness(12, 0, 0, 0),
@@ -136,17 +139,21 @@ namespace Vaseis
                 Source = this
             });
 
+            // Adds the button's name to the stack panel
             ButtonDataStackPanel.Children.Add(ButtonTitle);
 
+            // Creates a button for the stack panel
             SideMenuButton = new Button()
             {
                 Style = MaterialDesignStyles.FlatButton,
                 Height = 80,
                 Width = double.NaN,
                 Padding = new Thickness(8),
+                // With content the button's stack panel
                 Content = ButtonDataStackPanel
             };
 
+            // Sets the component's content to the side menu button
             Content = SideMenuButton;
         }
 

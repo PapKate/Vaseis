@@ -1,4 +1,7 @@
-﻿using System.Windows;
+using MaterialDesignThemes.Wpf;
+
+using System.Windows;
+
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
@@ -96,6 +99,7 @@ namespace Vaseis
             // Defines the column the side menu's grid is set to in the parent grid
             Grid.SetColumn(sideMenuComponent, 0);
 
+
             //var employeesPage = new EmployeesPage();
 
 
@@ -106,52 +110,20 @@ namespace Vaseis
             Grid.SetColumn(test, 1);
 
             //appGrid.Children.Add(employeesPage);
+
             //Grid.SetColumn(employeesPage, 1);
 
-            var er1 = new TextBox()
-            {
-                Width = 250,
-                Height = 80,
-                Background = Brushes.LightBlue
-            };
+            var myEvaluationsPage = new MyEvaluationsPage();
 
-            var er2 = new TextBox()
-            {
-                Width = 250,
-                Height = 80,
-                Background = Brushes.LightBlue
-            };
+            //appGrid.Children.Add(myEvaluationsPage);
 
+            //Grid.SetColumn(myEvaluationsPage, 1);
 
-            var er3 = new TextBox()
-            {
-                Width = 250,
-                Height = 80,
-                Background = Brushes.LightBlue
-            };
+            var users = new UsersPage();
 
+            appGrid.Children.Add(users);
 
-            var er4 = new TextBox()
-            {
-                Width = 250,
-                Height = 80,
-                Background = Brushes.LightBlue,
-
-            };
-
-            var stak = new WrapPanel()
-            {
-
-            };
-
-            stak.Children.Add(er1);
-            stak.Children.Add(er4);
-            stak.Children.Add(er3);
-            stak.Children.Add(er2);
-
-            appGrid.Children.Add(stak);
-
-            Grid.SetColumn(stak, 1);
+            Grid.SetColumn(users, 1);
 
 
 

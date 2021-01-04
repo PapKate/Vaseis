@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 
 using static Vaseis.Styles;
@@ -61,7 +57,7 @@ namespace Vaseis
         /// <summary>
         /// The employee buttons grid
         /// </summary>
-        protected EmployeeButtonsContainerComponent EmployeeButtonsContainer { get; private set; }
+        protected UserButtonsContainerComponent EmployeeButtonsContainer { get; private set; }
 
         #endregion
 
@@ -82,8 +78,10 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // The page's stack panel
             PageStackPanel = new StackPanel();
 
+            // The search command text block
             SearchComandText = new TextBlock()
             {
                 Text = "Enter an employee's username or full name",
@@ -95,9 +93,10 @@ namespace Vaseis
                 FontStyle = FontStyles.Normal,
                 FontSize = 40
             };
-
+            // Adds the search text block to the page's stack panel
             PageStackPanel.Children.Add(SearchComandText);
 
+            // Creates a border for the search input field
             SearchBarBorder = new Border()
             {
                 VerticalAlignment = VerticalAlignment.Center,
@@ -106,9 +105,10 @@ namespace Vaseis
                 Background = White.HexToBrush(),
                 CornerRadius = new CornerRadius(8)
             };
-
+            // Adds the border to the stack panel
             PageStackPanel.Children.Add(SearchBarBorder);
 
+            // Creates the search input field
             SearchBar = new TextBox()
             {
                 Width = 468,
@@ -118,17 +118,20 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush()
             };
 
+            // The input fields hint stack panel
             HintStackPanel = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Orientation = Orientation.Horizontal
             };
-
+            
+            // Creates an icon for the hint
             SearchIcon = StyleHelpers.MaterialIcon(DarkPink, PackIconKind.Magnify);
             SearchIcon.Height = 32;
             SearchIcon.Width = 32;
 
+            // Creates the hint's text
             HintTextBlock = new TextBlock()
             {
                 Text = "Search...",
@@ -138,21 +141,27 @@ namespace Vaseis
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal
             };
-
+            // Adds to the hint stack panel the icon
             HintStackPanel.Children.Add(SearchIcon);
+            // Adds to the hint stack panel the text
             HintStackPanel.Children.Add(HintTextBlock);
 
+            // Sets the text color of the hint to dark pink
             HintAssist.SetForeground(SearchBar, DarkPink.HexToBrush());
+            // Sets the hint to the search bar input field
             HintAssist.SetHint(SearchBar, HintStackPanel);
 
+            // Sets the border's content to the search bar input field
             SearchBarBorder.Child = SearchBar;
 
-            EmployeeButtonsContainer = new EmployeeButtonsContainerComponent()
+            // Creates the employees buttons with the container
+            EmployeeButtonsContainer = new UserButtonsContainerComponent()
             {
             };
-
+            // Adds the container to the page's stack panel
             PageStackPanel.Children.Add(EmployeeButtonsContainer);
 
+            // Creates a scroll viewer and sets its content to the page's stack panel
             ScrollViewer = new ScrollViewer()
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
@@ -160,8 +169,8 @@ namespace Vaseis
                 
             };
 
-            
 
+            // Sets the component's content to the scroll viewer
             Content = ScrollViewer;
         }
 

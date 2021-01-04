@@ -66,14 +66,15 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the input's text box
             InputTextBox = new TextBox()
             {
                 FontSize = 20,
                 Foreground = DarkGray.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = Brushes.Red
             };
 
+            // Creates the hint text
             HintTitleBlock = new TextBlock()
             {
                 Margin = new Thickness(8, 0, 0, 0),
@@ -82,17 +83,21 @@ namespace Vaseis
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                IsHitTestVisible = false
+                IsHitTestVisible = false,
             };
 
+            // Binds the hint's text to the hint text property
             HintTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(HintText))
             {
                 Source = this
             });
 
+            // Sets the text's color to dark pink
             HintAssist.SetForeground(InputTextBox, DarkPink.HexToBrush());
-            //HintAssist.SetHint(InputTextBox, "Test");
+            // Sets the hint to the input text box
+            HintAssist.SetHint(InputTextBox, HintTitleBlock);
 
+            // Sets the component's content to the input text box
             Content = InputTextBox;
         }
 
