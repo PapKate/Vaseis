@@ -19,11 +19,8 @@ namespace Vaseis
 
         #endregion
 
-
-
         #region Dependency Properties
-
-
+        
         /// <summary>
         /// The Employess's name
         /// </summary>

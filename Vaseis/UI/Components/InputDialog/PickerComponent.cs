@@ -77,7 +77,7 @@ namespace Vaseis
         {
             var sender = d as PickerComponent;
 
-            sender.OnOptionsNameChangedCore(e);
+            sender.OnDataNameChangedCore(e);
         }
 
         #endregion
@@ -160,7 +160,7 @@ namespace Vaseis
         /// Handles the change of the <see cref="OptionNames"/> property internally
         /// </summary>
         /// <param name="e">Event args</param>
-        private void OnOptionsNameChangedCore(DependencyPropertyChangedEventArgs e)
+        private void OnDataNameChangedCore(DependencyPropertyChangedEventArgs e)
         {
             // Get the new value
             var newValue = (IEnumerable<string>)e.NewValue;

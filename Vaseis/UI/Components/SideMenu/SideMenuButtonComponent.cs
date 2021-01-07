@@ -17,7 +17,7 @@ namespace Vaseis
         /// <summary>
         /// A side menu's button
         /// </summary>
-        protected Button SideMenuButton { get; private set; }
+        public Button SideMenuButton { get; private set; }
 
         /// <summary>
         /// The stack panel inside the button
@@ -35,40 +35,41 @@ namespace Vaseis
         /// </summary>
         protected TextBlock ButtonTitle { get; private set; }
 
+       
         #endregion
 
         #region Dependency Properties
 
-        #region PageIcon
+        #region Icon
 
         /// <summary>
         /// The material design icon
         /// </summary>
-        public PackIconKind PageIcon
+        public PackIconKind Icon
         {
             get { return (PackIconKind)GetValue(PageIconProperty); }
             set { SetValue(PageIconProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="PageIcon"/> dependency property
+        /// Identifies the <see cref="Icon"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty PageIconProperty = DependencyProperty.Register(nameof(PageIcon), typeof(PackIconKind), typeof(SideMenuButtonComponent));
+        public static readonly DependencyProperty PageIconProperty = DependencyProperty.Register(nameof(Icon), typeof(PackIconKind), typeof(SideMenuButtonComponent));
 
         #endregion
 
-        #region PageTitle
+        #region Title
 
-        public string PageTitle
+        public string Text
         {
             get { return GetValue(PageTitleProperty).ToString(); }
             set { SetValue(PageTitleProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="PageTitle"/> dependency property
+        /// Identifies the <see cref="Text"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty PageTitleProperty = DependencyProperty.Register(nameof(PageTitle), typeof(string), typeof(SideMenuButtonComponent));
+        public static readonly DependencyProperty PageTitleProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(SideMenuButtonComponent));
 
         #endregion
 
@@ -90,7 +91,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // Creates the button stackpanel
+            // Creates the button stack panel
             ButtonDataStackPanel = new StackPanel()
             {
                 Width = 274,
@@ -98,6 +99,7 @@ namespace Vaseis
                 Orientation = Orientation.Horizontal,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left,
+                
             };
 
             // Creates the button icon
@@ -111,7 +113,7 @@ namespace Vaseis
             };
 
             // Binds the text property of the text block to the PageIcon property
-            ButtonIcon.SetBinding(PackIcon.KindProperty, new Binding(nameof(PageIcon))
+            ButtonIcon.SetBinding(PackIcon.KindProperty, new Binding(nameof(Icon))
             {
                 Source = this
             });
@@ -134,7 +136,7 @@ namespace Vaseis
             };
            
             // Binds the text property of the text block to the PageTitle property
-            ButtonTitle.SetBinding(TextBlock.TextProperty, new Binding(nameof(PageTitle))
+            ButtonTitle.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
             {
                 Source = this
             });
@@ -149,10 +151,12 @@ namespace Vaseis
                 Height = 80,
                 Width = double.NaN,
                 Padding = new Thickness(8),
+                BorderThickness = new Thickness(0),
+                Background = White.HexToBrush(),
                 // With content the button's stack panel
                 Content = ButtonDataStackPanel
             };
-
+            
             // Sets the component's content to the side menu button
             Content = SideMenuButton;
         }

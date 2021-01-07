@@ -10,7 +10,7 @@ namespace Vaseis
     /// <summary>
     /// The create user dialog
     /// </summary>
-    public class DialogBaseComponent : ContentControl
+    public abstract class DialogBaseComponent : ContentControl
     {
         /// <summary>
         /// The dialog host
@@ -33,6 +33,11 @@ namespace Vaseis
         /// The panel containing all input
         /// </summary>
         protected WrapPanel InputWrapPanel { get; private set; }
+
+        /// <summary>
+        /// The scroll viewer for the input wrap panel
+        /// </summary>
+        protected ScrollViewer InputScrollViewer { get; private set; }
 
         /// <summary>
         /// The dialog's title
@@ -164,12 +169,19 @@ namespace Vaseis
             // And sets it to the third row
             Grid.SetRow(DialogButtonsStackPanel, 2);
 
-            
+            InputScrollViewer = new ScrollViewer()
+            {
+                VerticalAlignment = VerticalAlignment.Top,
+                // With content the bio's text block
+                Content = InputWrapPanel,
+                CanContentScroll = true,
+                MaxHeight = 680
+            };
 
             // Adds to the inner grid the wrap panel
-            DialogGrid.Children.Add(InputWrapPanel);
+            DialogGrid.Children.Add(InputScrollViewer);
             // And sets it to the second row of the dialog grid
-            Grid.SetRow(InputWrapPanel, 1);
+            Grid.SetRow(InputScrollViewer, 1);
 
             // Creates the dialog host
             DialogHost = new DialogHost()

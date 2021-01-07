@@ -16,22 +16,29 @@ namespace Vaseis
         /// <summary>
         /// The edit button
         /// </summary>
-        protected Button EditButton { get; private set; }
+        public Button EditButton { get; private set; }
 
         /// <summary>
         /// The save button
         /// </summary>
-        protected Button SaveButton { get; private set; }
+        public Button SaveButton { get; private set; }
 
         /// <summary>
         /// The cancel button
         /// </summary>
-        protected Button CancelButton { get; private set; }
+        public Button CancelButton { get; private set; }
 
         /// <summary>
         /// The container grid
         /// </summary>
-        protected Grid ButtonsGrid { get; private set; }
+        public Grid ButtonsGrid { get; private set; }
+
+        #endregion
+
+        #region Dependency Properties
+
+
+
         #endregion
 
         #region Constructors
@@ -50,7 +57,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-
             ButtonsGrid = new Grid()
             {
 
@@ -62,6 +68,7 @@ namespace Vaseis
             // Creates the save button
             SaveButton = ControlsFactory.CreateCheckButton();
             SaveButton.Click += SaveData;
+            SaveButton.Visibility = Visibility.Collapsed;
 
             // Adds it to the grid
             ButtonsGrid.Children.Add(SaveButton);
@@ -79,6 +86,7 @@ namespace Vaseis
             CancelButton = ControlsFactory.CreateCloseButton();
             CancelButton.Margin = new Thickness(0, 0, 24, 0);
             CancelButton.Click += CancelEdit;
+            CancelButton.Visibility = Visibility.Collapsed;
 
             // Adds it to the grid
             ButtonsGrid.Children.Add(CancelButton);
@@ -93,7 +101,7 @@ namespace Vaseis
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void SaveData(object sender, RoutedEventArgs e)
+        private void SaveData(object sender, RoutedEventArgs e)
         {
             CancelButton.Visibility = Visibility.Collapsed;
             SaveButton.Visibility = Visibility.Collapsed;
@@ -105,7 +113,7 @@ namespace Vaseis
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CancelEdit(object sender, RoutedEventArgs e)
+        private void CancelEdit(object sender, RoutedEventArgs e)
         {
             CancelButton.Visibility = Visibility.Collapsed;
             SaveButton.Visibility = Visibility.Collapsed;
@@ -117,12 +125,14 @@ namespace Vaseis
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void EditData(object sender, RoutedEventArgs e)
+        private void EditData(object sender, RoutedEventArgs e)
         {
             CancelButton.Visibility = Visibility.Visible;
             SaveButton.Visibility = Visibility.Visible;
             EditButton.Visibility = Visibility.Collapsed;
+           
         }
+
 
         #endregion
 

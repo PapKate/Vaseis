@@ -134,6 +134,15 @@ namespace Vaseis
 
         #endregion
 
+        #region Public Properties
+
+        /// <summary>
+        /// The application's window
+        /// </summary>
+        public Window Window { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -238,19 +247,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Protected Methods
-
-        /// <summary>
-        /// Handles the change of the <see cref="HeaderImageAndTitleComponent.ImagePath"/> property
-        /// </summary>
-        /// <param name="e">Event args</param>
-        protected virtual void OnImagePathChanged(DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
-        #endregion
-
         #region Constructors
 
         public HeaderComponent(Window window)
@@ -269,10 +265,18 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Methods
+
         /// <summary>
-        /// The application's window
+        /// Handles the change of the <see cref="HeaderImageAndTitleComponent.ImagePath"/> property
         /// </summary>
-        public Window Window { get; }
+        /// <param name="e">Event args</param>
+        protected virtual void OnImagePathChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        #endregion
 
         #region Private Methods
 
