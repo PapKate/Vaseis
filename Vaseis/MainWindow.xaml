@@ -27,6 +27,8 @@
 
     <Window.Resources>
         <ResourceDictionary>
+            <!--#region ScrollBar -->
+            
             <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -107,6 +109,63 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
+            <!--#endregion-->
+
+            <!--#region ToolTip -->
+
+            <Style TargetType="ToolTip">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--#endregion-->
+            <!--#region TabItem -->
+
+            <Style TargetType="local:TabItemComponent">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="local:TabItemComponent">
+                            <Border Name="Panel" Width="180" CornerRadius="8 8 0 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="28"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="{TemplateBinding Icon}" Grid.Column="0" Width="20" Height="20" Margin="4" Foreground="White"  VerticalAlignment="Center"/>
+                                    <TextBlock Text="{TemplateBinding Text}" Grid.Column="1" Margin="8 0 8 0" Foreground="White" FontSize="20" FontFamily="Calibri" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="2" 
+                                            Width="24"
+                                            Height="24"
+                                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                            Command="{TemplateBinding CloseCommand}"
+                                            >
+                                        <materialDesign:PackIcon Kind="Close" Width="20" Height="20" Foreground="White"   VerticalAlignment="Center"/>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Panel" Property="Background" Value="#9F1747" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Panel" Property="Background" Value="#002E54" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--#endregion-->
+            
+
         </ResourceDictionary>
     </Window.Resources>
 

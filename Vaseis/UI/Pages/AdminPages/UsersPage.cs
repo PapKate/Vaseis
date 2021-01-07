@@ -20,12 +20,20 @@ namespace Vaseis
         /// </summary>
         protected NewUserInputDialogComponent CreateUserDialog { get; private set; }
 
+        /// <summary>
+        /// The create new company dialog
+        /// </summary>
         protected NewCompanyDialogComponent CreateCompanyDialog { get; private set; }
 
         /// <summary>
         /// The error dialog
         /// </summary>
-        protected ErrorDialogComponent ErrorDialog { get; private set; }
+        protected MessageDialogComponent ErrorDialog { get; private set; }
+
+        /// <summary>
+        /// The finalized dialog
+        /// </summary>
+        protected MessageDialogComponent FinalizedDialog { get; private set; }
 
         /// <summary>
         /// The add/open dialog button
@@ -65,21 +73,57 @@ namespace Vaseis
             {
 
             };
+            var testStackPanel = new StackPanel() { VerticalAlignment = VerticalAlignment.Center };
+            PageGrid.Children.Add(testStackPanel);
 
             var userButton = new Button()
             {
                 Width = 240,
                 Height = 40,
-                Content = "Test",
+                Content = "User",
             };
 
-            userButton.Click += ShowNewCompanyDialog;
-            PageGrid.Children.Add(userButton);
+            userButton.Click += ShowUserDialogOnClick;
+            testStackPanel.Children.Add(userButton);
+
+            var companyButton = new Button()
+            {
+                Width = 240,
+                Height = 40,
+                Content = "Company",
+                Margin = new Thickness(60)
+
+            };
+
+            companyButton.Click += ShowNewCompanyDialog;
+            testStackPanel.Children.Add(companyButton);
+
+            var fianlButton = new Button()
+            {
+                Width = 240,
+                Height = 40,
+                Content = "Finalized",
+                Margin = new Thickness(60)
+
+            };
+
+            fianlButton.Click += ShowFinalizedDialog;
+            testStackPanel.Children.Add(fianlButton);
+
+            var error = new Button()
+            {
+                Width = 240,
+                Height = 40,
+                Content = "Error",
+            };
+
+            error.Click += ShowErrorDialog;
+            testStackPanel.Children.Add(error);
 
             // Creates the add new user button
             AddButton = ControlsFactory.CreateAddButton(DarkBlue);
             // On click opens the new user dialog
-            AddButton.Click += ShowDialogOnClick;
+            AddButton.Click += ShowUserDialogOnClick;
             // Adds the button to the page's grid
             PageGrid.Children.Add(AddButton);
 
@@ -88,11 +132,11 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// On click closes the dialog
+        /// On click shows the new user dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowDialogOnClick(object sender, RoutedEventArgs e)
+        private void ShowUserDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
             CreateUserDialog = new NewUserInputDialogComponent();
@@ -119,24 +163,46 @@ namespace Vaseis
             CreateCompanyDialog.DialogHost.IsOpen = true;
         }
 
-
         /// <summary>
-        /// On click closes the dialog
+        /// On click shows the error dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ShowErrorDialog(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            ErrorDialog = new ErrorDialogComponent()
+            ErrorDialog = new MessageDialogComponent()
             {
-                ErrorMessage = "Error! Incorrect username or password. Please try again."
+                Message = "Error! Incorrect username or password. Please try again.",
+                BrushColor = Red.HexToBrush(),
+                Title = "Error"
             };
             // Adds it to the page grid
             PageGrid.Children.Add(ErrorDialog);
 
             // Sets the is open property to true
             ErrorDialog.DialogHost.IsOpen = true;
+        }
+
+        /// <summary>
+        /// On click shows the finalized and sent dialog the dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowFinalizedDialog(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            FinalizedDialog = new MessageDialogComponent()
+            {
+                Message = "Your evaluation has been finalized and sent to a manager.",
+                BrushColor = HookersGreen.HexToBrush(),
+                Title = "Success"
+            };
+            // Adds it to the page grid
+            PageGrid.Children.Add(FinalizedDialog);
+
+            // Sets the is open property to true
+            FinalizedDialog.DialogHost.IsOpen = true;
         }
 
         #endregion

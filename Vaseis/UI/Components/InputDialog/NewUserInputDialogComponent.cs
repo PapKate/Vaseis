@@ -107,7 +107,7 @@ namespace Vaseis
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentPicker);
 
-            // The picker for user tpye
+            // The picker for user type
             UserTypePicker = new PickerComponent()
             {
                 HintText = "User type",
@@ -115,7 +115,6 @@ namespace Vaseis
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(UserTypePicker);
-
 
             // Creates the create a new user button
             CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create user");

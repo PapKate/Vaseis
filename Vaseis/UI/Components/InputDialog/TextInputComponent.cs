@@ -23,7 +23,7 @@ namespace Vaseis
         /// <summary>
         /// The input area
         /// </summary>
-        protected TextBox InputTextBox { get; private set; }
+        public TextBox InputTextBox { get; private set; }
 
         #endregion
 

@@ -1,6 +1,7 @@
 
 using MaterialDesignThemes.Wpf;
 
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -24,6 +25,8 @@ namespace Vaseis
         }
 
         #endregion
+
+        protected TabControl appTabControl { get; private set; }
 
         #region Private Methods
 
@@ -63,8 +66,8 @@ namespace Vaseis
             // A grid for the app that contains all the GUI elements except for the header
             var appGrid = new Grid()
             {
-                // Sets the background to ghost white
-                Background = GhostWhite.HexToBrush()
+                // Sets the background to white
+                Background = White.HexToBrush()
             };
 
             // Adds the app's grid to the window's grid
@@ -86,32 +89,58 @@ namespace Vaseis
 
             });
 
-            var sideMenuComponent = new SideMenuComponent();
+            var pagesGrid = new Grid();
+            appGrid.Children.Add(pagesGrid);
+            Grid.SetColumn(pagesGrid, 1);
+
+            appTabControl = new TabControl()
+            {
+                Background = GhostWhite.HexToBrush(),
+                BorderThickness = new Thickness(0, 8, 0, 0),
+                BorderBrush = DarkPink.HexToBrush()
+            };
+            pagesGrid.Children.Add(appTabControl);
+
+            var profilePage = new TabItemComponent()
+            {
+                Text = "Profile",
+                Icon = PackIconKind.AccountCircle,
+                Content = new ProfilePage()
+            };
+
+            appTabControl.Items.Add(profilePage);
+
+            var usersPage = new TabItemComponent()
+            {
+                Text = "Users",
+                Icon = PackIconKind.AccountMultipleAdd,
+                Content = new UsersPage()
+            };
+
+            appTabControl.Items.Add(usersPage);
+
+            var empMyEvPage = new TabItemComponent()
+            {
+                Text = "My evaluations",
+                Icon = PackIconKind.ClipboardAccount,
+                Content = new EmplyoeeMyEvaluationsPage()
+            };
+
+            appTabControl.Items.Add(empMyEvPage);
+
+            var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
 
             // Adds to the app's grid the side menu
             appGrid.Children.Add(sideMenuComponent);
             // Defines the column the side menu's grid is set to in the parent grid
             Grid.SetColumn(sideMenuComponent, 0);
 
-            var employeesPage = new EmployeesPage();
-            //appGrid.Children.Add(employeesPage);
-            //Grid.SetColumn(employeesPage, 1);
-
-            var evMyEvaluationsPage = new EvaluatorMyEvaluationsPage();
-            //appGrid.Children.Add(myEvaluationsPage);
-            //Grid.SetColumn(myEvaluationsPage, 1);
-
-            var users = new UsersPage();
-            appGrid.Children.Add(users);
-            Grid.SetColumn(users, 1);
-
-            //var userProfilePage = new ProfilePage();
-            //appGrid.Children.Add(userProfilePage);
-            //Grid.SetColumn(userProfilePage, 1);
 
             // Sets the content as the window's grid
             Content = windowGrid;
         }
+
+        
 
         #endregion
 

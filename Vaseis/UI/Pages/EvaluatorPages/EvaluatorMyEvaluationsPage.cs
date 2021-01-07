@@ -52,7 +52,6 @@ namespace Vaseis
             // The page's grid
             PageGrid = new Grid()
             {
-
             };
 
             // Creates the add new user button

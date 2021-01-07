@@ -40,6 +40,51 @@ namespace Vaseis
         /// </summary>
         protected Button AddDepartmentButton { get; private set; }
 
+        /// <summary>
+        /// The new input box
+        /// </summary>
+        protected TextBox InputTextBox { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent CompanyName { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent AFM { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent DOY { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent TelephoneNumber { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent Country { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent City { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent StreetAddress { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent StreetNumber { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -61,35 +106,86 @@ namespace Vaseis
             // Sets the dialog's title
             DialogTitle.Text = "New company form";
 
-            // Creates a list with all the required text input field name's
-            CompanyInputFields = new List<string>()
+            CompanyName = new TextInputComponent()
             {
-                "Company name",
-                "AFM",
-                "DOY",
-                "DateCreated",
-                "Telephone number",
-                "Country",
-                "City",
-                "Street address name",
-                "Street address number",
+                // With hint text the name
+                HintText = "Company name",
+                Margin = new Thickness(24),
+                Width = 240
             };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(CompanyName);
 
-            // For each name in the list...
-            foreach (var inputField in CompanyInputFields)
+            AFM = new TextInputComponent()
             {
-                // Creates a new text input component
-                var inputTextBox = new TextInputComponent()
-                {
-                    // With hint text the name
-                    HintText = inputField,
-                    Margin = new Thickness(24),
-                    Width = 240
-                };
+                // With hint text the name
+                HintText = "AFM",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(AFM);
 
-                // And adds it to the dialog's input wrap panel
-                InputWrapPanel.Children.Add(inputTextBox);
-            }
+            DOY = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "DOY",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(DOY);
+
+            TelephoneNumber = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "Telephone number",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(TelephoneNumber);
+
+            Country = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "Country",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(Country);
+
+            City = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "City",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(City);
+
+            StreetAddress = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "Street address name",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(StreetAddress);
+
+            StreetNumber = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "Street address number",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(StreetNumber);
+
             //kTODO: add the date picker to factor controls with parameter hint text
             // Creates a date picker - calendar field
             DateCreatedPicker = new DatePicker()
@@ -100,7 +196,7 @@ namespace Vaseis
                 FontSize = 20
             };
             // Adds a hint to the date picker
-            HintAssist.SetHint(DateCreatedPicker, "Date created");
+            ControlsFactory.CreateHint("Date created", DateCreatedPicker);
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DateCreatedPicker);
 
@@ -110,7 +206,7 @@ namespace Vaseis
                 // With hint text the name
                 HintText = "Department",
                 Margin = new Thickness(24),
-                Width = 200
+                Width = 220
             };
             InputWrapPanel.Children.Add(DepartmentTextBox);
 
@@ -128,7 +224,7 @@ namespace Vaseis
                 Height = 28,
                 Padding = new Thickness(0),
                 BorderThickness = new Thickness(0),
-                Margin = new Thickness(-12, 0, 0, 0)
+                Margin = new Thickness(-16, 0, 0, 0)
             };
 
             ButtonAssist.SetCornerRadius(AddDepartmentButton, new CornerRadius(8));
@@ -145,32 +241,47 @@ namespace Vaseis
             // Sets the component's content to the dialog host
             Content = DialogHost;
         }
-        
+
+        /// <summary>
+        /// The user's input text on department text box
+        /// </summary>
+        private string inputText;
+
         /// <summary>
         /// Creates a department input field
         /// </summary>
         private void CreateDepartmentInputField(object sender, RoutedEventArgs e)
         {
-            CreateInputField("Department");
+            inputText = DepartmentTextBox.InputTextBox.Text;
+            CreateInputField(inputText);
         }
+
 
         /// <summary>
         /// Creates a new input field
         /// </summary>
         /// <param name="inputHint">The hint text</param>
-        private void CreateInputField(string inputHint)
+        private void CreateInputField(string inputText)
         {
             // Creates a new text input component
-            var inputTextBox = new TextInputComponent()
+            InputTextBox = new TextBox()
             {
                 // With hint text the name
-                HintText = inputHint,
+                Text = inputText,
                 Margin = new Thickness(24),
-                Width = 240
+                Width = 240,
+                FontSize = 20,
+                Foreground = DarkGray.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
             };
+            // Adds a hint
+            ControlsFactory.CreateHint("Department", InputTextBox);
+
+            // Sets the first department's input text to null
+            DepartmentTextBox.InputTextBox.Text = "";
 
             // And adds it to the dialog's input wrap panel
-            InputWrapPanel.Children.Add(inputTextBox);
+            InputWrapPanel.Children.Add(InputTextBox);
         }
 
 

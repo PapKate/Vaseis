@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="UI\Components\Employees\PersonalData\" />
-    <Folder Include="UI\Pages\EmplyoeePages\" />
   </ItemGroup>
 
 </Project>

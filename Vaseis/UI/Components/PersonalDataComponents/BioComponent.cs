@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Vaseis
 {
@@ -13,14 +9,29 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
+        /// The grid containing the bio text block and text box
+        /// </summary>
+        protected Grid BioTextGrid { get; private set; }
+
+        /// <summary>
+        /// The bio text box
+        /// </summary>
+        public TextBox BioTextBox { get; private set; }
+
+        /// <summary>
         /// The Bio Header Text
         /// </summary>
         protected TextBlock BioTitle { get; private set; }
 
         /// <summary>
+        /// The bio block's scroll viewer
+        /// </summary>
+        protected ScrollViewer BioScrollViwer { get; private set; }
+
+        /// <summary>
         /// The Bio 
         /// </summary>
-        protected TextBlock BioTextBlock { get; private set; }
+        public TextBlock BioTextBlock { get; private set; }
 
         /// <summary>
         /// The stack panel containing bio text and the title
@@ -40,7 +51,7 @@ namespace Vaseis
         /// </summary>
         public string BioText
         {
-            get { return GetValue(BioProperty).ToString(); }
+            get { return (string)GetValue(BioProperty); }
             set { SetValue(BioProperty, value); }
         }
 
@@ -64,6 +75,7 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+            // Creates the bio's title
             BioTitle = new TextBlock()
             {
                 Text = "Bio",
@@ -75,6 +87,10 @@ namespace Vaseis
                 Margin = new Thickness(0, 0, 0, 12)
             };
 
+            // Creates the bio's grid
+            BioTextGrid = new Grid();
+
+            // Creates the bio's text block
             BioTextBlock = new TextBlock()
             { 
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -83,7 +99,6 @@ namespace Vaseis
                 Foreground = Styles.DarkGray.HexToBrush(),
                 Background = Styles.White.HexToBrush(),
                 TextWrapping = TextWrapping.Wrap,
-                
             };
 
             // Binds the text property of the expander to the Bio property
@@ -92,14 +107,33 @@ namespace Vaseis
                 Source = this
             });
 
-            var BioScrollViwer = new ScrollViewer()
+            // Creates the bio's scroll viewer
+            BioScrollViwer = new ScrollViewer()
             {
                 VerticalAlignment = VerticalAlignment.Top,
+                // With content the bio's text block
                 Content = BioTextBlock,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
                 CanContentScroll = true,
                 MaxHeight = 200
             };
+            // Adds it to the bio's grid
+            BioTextGrid.Children.Add(BioScrollViwer);
+
+            // Creates the bio's text box
+            BioTextBox = new TextBox()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                FontSize = 24,
+                FontWeight = FontWeights.Normal,
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Background = Styles.White.HexToBrush(),
+                TextWrapping = TextWrapping.Wrap,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                MaxHeight = 200,
+                Visibility = Visibility.Collapsed
+            };
+            // Adds it to the bio's grid
+            BioTextGrid.Children.Add(BioTextBox);
 
             BioStackPanel = new StackPanel()
             {
@@ -110,7 +144,7 @@ namespace Vaseis
             // Adds the title to the stack panel
             BioStackPanel.Children.Add(BioTitle);
             // Adds the scroll viewer to the stack panel
-            BioStackPanel.Children.Add(BioScrollViwer);
+            BioStackPanel.Children.Add(BioTextGrid);
 
             // Bio's border
             BioBorder = new Border()
@@ -129,7 +163,6 @@ namespace Vaseis
             BioBorder.Child = BioStackPanel;
 
             Content = BioBorder;
-
         }
 
         #endregion
