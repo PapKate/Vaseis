@@ -7,7 +7,7 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class LoginPage : ContentControl   
+    public class loginPage : ContentControl   
     {
         #region Public Properties
 
@@ -64,7 +64,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="Username"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(LoginPage));
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ProfilePage));
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="Password"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password), typeof(string), typeof(LoginPage));
+        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password), typeof(string), typeof(ProfilePage));
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace Vaseis
 
         #region Constructor 
 
-        public LoginPage()
+        public loginPage()
         {
             CreateGUI();
         }

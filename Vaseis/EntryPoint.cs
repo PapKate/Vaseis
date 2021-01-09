@@ -85,7 +85,7 @@ namespace Vaseis
                     StreetName = "Cocoan",
                     StreetNumber = "24",
                     TelephoneNumber = "(+1) 1501199811",
-                    DateCreated = new DateTime(19, 11, 25)
+                    DateCreated = new DateTime(2019, 11, 25)
                 },
 
                 new CompanyDataModel()
@@ -98,9 +98,9 @@ namespace Vaseis
                     StreetName = "Lidl",
                     StreetNumber = "27",
                     TelephoneNumber = "(+41) 2412202012",
-                    DateCreated = new DateTime(20, 1, 11)
+                    DateCreated = new DateTime(2020, 1, 11)
                 },
-               
+
                 new CompanyDataModel()
                 {
                     Name = "cEID",
@@ -111,7 +111,7 @@ namespace Vaseis
                     StreetName = "Filippimenos",
                     StreetNumber = "2",
                     TelephoneNumber = "(+41) 2612202012",
-                    DateCreated = new DateTime(19, 2, 62)
+                    DateCreated = new DateTime(2019, 2, 2)
                 },
 
                    new CompanyDataModel()
@@ -124,7 +124,7 @@ namespace Vaseis
                     StreetName = "Pantelehmonos",
                     StreetNumber = "12",
                     TelephoneNumber = "(+41) 2612202012",
-                    DateCreated = new DateTime(20, 10, 10)
+                    DateCreated = new DateTime(2020, 10, 10)
                 },
 
                     new CompanyDataModel()
@@ -137,9 +137,9 @@ namespace Vaseis
                     StreetName = "Apollonws",
                     StreetNumber = "8",
                     TelephoneNumber = "(+30) 2612202212",
-                    DateCreated = new DateTime(20, 10, 20)
+                    DateCreated = new DateTime(2020, 10, 20)
                 },
-                  
+
                 new CompanyDataModel()
                 {
                     Name = "BatterButlers",
@@ -150,7 +150,7 @@ namespace Vaseis
                     StreetName = "Pantanashs",
                     StreetNumber = "4",
                     TelephoneNumber = "(+60) 2610202212",
-                    DateCreated = new DateTime(20, 10, 19)
+                    DateCreated = new DateTime(2020, 10, 19)
                 },
 
                    new CompanyDataModel()
@@ -163,7 +163,7 @@ namespace Vaseis
                     StreetName = "Menedhmou",
                     StreetNumber = "20",
                     TelephoneNumber = "(+41) 2229002212",
-                    DateCreated = new DateTime(18, 5, 4)
+                    DateCreated = new DateTime(2018, 5, 4)
                 },
 
                      new CompanyDataModel()
@@ -176,7 +176,7 @@ namespace Vaseis
                     StreetName = "Zacharia",
                     StreetNumber = "2",
                     TelephoneNumber = "(+41) 2229034008",
-                    DateCreated = new DateTime(18, 5, 6)
+                    DateCreated = new DateTime(2018, 5, 6)
                 },
 
                    new CompanyDataModel()
@@ -189,50 +189,35 @@ namespace Vaseis
                     StreetName = "Queen Elizabeta's",
                     StreetNumber = "666",
                     TelephoneNumber = "(+30) 2229035208",
-                    DateCreated = new DateTime(4, 5, 8)
-                },
-
-
-
+                    DateCreated = new DateTime(2018, 5, 6)
+                }
 
             });
 
-            // Add the companies to the database
+                       // Add the companies to the database
             await context.SaveChangesAsync();
 
             // List that contains all the companies
             var companies = await context.Companies.ToListAsync();
 
-            #endregion
 
-            #region Departments
+     
 
-            // Creates a list of departments and fills it with every possible option
-            var departmentOptionsList = new Dictionary<Department, string>()
+        #endregion
+
+        #region Departments
+
+        // Creates a list of departments and fills it with every possible option
+        var departmentOptionsList = new Dictionary<Department, string>()
                                 {
                                     { Department.Research, "F5D547"},
-                                    { Department.Sales, "EF8354"},
+                                    { Department.Purchasing, "EF8354"},
                                     { Department.Production, "8EB8E5"},
                                     { Department.Marketing, "028090"},
                                     { Department.HumanResourceManagement, "397367"},
                                     { Department.Finance, "2E2E2E"},
                                     { Department.Development, "9F1747"},
-                                    { Department.Sales, "70C1B3"},
-                                    { Department.Promotion, "70F1B3"},
-                                    { Department.AppDevelopment, "70A1B3"},
-                                    { Department.CyberSecurity, "7SC1B3"},
-                                    { Department.WebsiteDevelopment, "70C1N3"},
-                                    { Department.Accounnting, "70POB3"},
-                                    { Department.SocialMedia, "70PAB3"},
-                                    { Department.Accounnting, "PAO1B3"},
-                                    { Department.Payment, "70C1POA"},
-                                    { Department.Secretary, "70CEJW3"},
-                                    { Department.Promo, "XOC1B3"},
-                                    { Department.Design, "XAC1B3"},
-                                    { Department.Search, "XIC1B3"},
-                                    { Department.Branch, "9290bb" },
-                                    { Department.Lawyer, "00C1B3"},
-                                    { Department.Informatics, "70CXA3"}
+                                    { Department.Accounting, "70C1B3"}
                                 };
 
             // For each and every company in the companies list...
@@ -348,13 +333,15 @@ namespace Vaseis
                                                         .Include(x => x.Certificates)
                                                         .Include(x => x.RecommendationPapers)
                                                         .Include(x => x.Languages)
-                                                        .Where(x => x.Type == UserType.Employee)
+                                                        .Where(x => x.Type == UserType.Evaluator)
                                                         .ToListAsync();
 
 
             #endregion
 
             #region Evaluations
+
+            //The evaluator's and Employee ids aint right
 
             // Creates a list of user data model for the evaluations
             var evaluation = new Faker<EvaluationDataModel>()
@@ -363,6 +350,9 @@ namespace Vaseis
                           .RuleFor(x => x.FilesGrade, faker => faker.Random.Float())
                           .RuleFor(x => x.FinalGrade, faker => faker.Random.Float())
                           .RuleFor(x => x.Comments, faker => faker.Rant.Review())
+                          .RuleFor(x => x.EvaluatorId, faker => faker.Random.Int(181,581))
+                          .RuleFor(x => x.EmployeeId, faker => faker.Random.Int(1, 100))
+                          .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 20))
                           .Generate(100);
 
             // Adds the generated employees in the users db set
@@ -379,22 +369,44 @@ namespace Vaseis
 
             #region Jobs
 
-            ///Either all companies will have the same deprtments or ?
+            // Either all companies will have the same deprtments or ?
 
-            // Creates a list of Job data model 
-            var jobs = new Faker<JobDataModel>()
-                            .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
-                            .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
-                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1,10))
-                            .RuleFor(x => x.Department, faker => faker.Random.Int(1,21))
-                            .Generate(100);
+            //Creates a list of Job data model
+           var jobs = new Faker<JobDataModel>()
+                           .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
+                           .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
+                           .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 10))
+                           .RuleFor(x => x.Department, faker => faker.Random.Int(1, 8))
+                           .Generate(100);
 
-            // Adds the generated jobs in the users db set
+           // Adds the generated jobs in the users db set
             context.Jobs.AddRange(jobs);
 
-            // Saves changes
+           // Saves changes
             await context.SaveChangesAsync();
 
+
+            #endregion
+
+            #region Job Position
+
+           // Evaluator ID?
+
+            ///// Creates a list of Job Position data model
+            //var jobPositions = new Faker<JobPositionDataModel>()
+            //                .RuleFor(x => x.AnnouncementDate, faker => faker.Date.Past(5, DateTime.Now))
+            //           //     .RuleFor(x => x.SubmissionDate, faker => faker.Date.Future(1, DateTime.Now))
+            //          //      .RuleFor(x => x.StartDate, faker => faker.Date.Future(1, DateTime.Now))
+            //                .RuleFor(x => x.JobId, faker => faker.Random.Int(1, 100))
+            //                .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 10))
+            //                .RuleFor(x => x.EvaluatorId, faker => faker.Random.Int(181, 581))
+            //                .Generate(100);
+
+          // // Adds the generated jobs in the users db set
+          //  context.Jobs.AddRange(jobs);
+
+          ////  Saves changes
+          //  await context.SaveChangesAsync();
 
             #endregion
 
