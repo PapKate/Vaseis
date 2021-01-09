@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 
+using Bogus.Distributions.Gaussian;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +99,102 @@ namespace Vaseis
                     StreetNumber = "27",
                     TelephoneNumber = "(+41) 2412202012",
                     DateCreated = new DateTime(20, 1, 11)
-                }
+                },
+               
+                new CompanyDataModel()
+                {
+                    Name = "cEID",
+                    AFM = "101090018",
+                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
+                    Country = "Greece",
+                    City = "Patras",
+                    StreetName = "Filippimenos",
+                    StreetNumber = "2",
+                    TelephoneNumber = "(+41) 2612202012",
+                    DateCreated = new DateTime(19, 2, 62)
+                },
+
+                   new CompanyDataModel()
+                {
+                    Name = "Caravel",
+                    AFM = "101000018",
+                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
+                    Country = "Greece",
+                    City = "Patras",
+                    StreetName = "Pantelehmonos",
+                    StreetNumber = "12",
+                    TelephoneNumber = "(+41) 2612202012",
+                    DateCreated = new DateTime(20, 10, 10)
+                },
+
+                    new CompanyDataModel()
+                {
+                    Name = "Blossom",
+                    AFM = "101000218",
+                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
+                    Country = "Greece",
+                    City = "Patras",
+                    StreetName = "Apollonws",
+                    StreetNumber = "8",
+                    TelephoneNumber = "(+30) 2612202212",
+                    DateCreated = new DateTime(20, 10, 20)
+                },
+                  
+                new CompanyDataModel()
+                {
+                    Name = "BatterButlers",
+                    AFM = "101000210",
+                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
+                    Country = "Greece",
+                    City = "Patras",
+                    StreetName = "Pantanashs",
+                    StreetNumber = "4",
+                    TelephoneNumber = "(+60) 2610202212",
+                    DateCreated = new DateTime(20, 10, 19)
+                },
+
+                   new CompanyDataModel()
+                {
+                    Name = "ToSpitiTouLaou",
+                    AFM = "101000238",
+                    DOY = "Δ.Ο.Υ. ΧΑΛΚΙΔΑΣ",
+                    Country = "Greece",
+                    City = "Chalkis",
+                    StreetName = "Menedhmou",
+                    StreetNumber = "20",
+                    TelephoneNumber = "(+41) 2229002212",
+                    DateCreated = new DateTime(18, 5, 4)
+                },
+
+                     new CompanyDataModel()
+                {
+                    Name = "YardTalesAndFlavours",
+                    AFM = "101000408",
+                    DOY = "Δ.Ο.Υ. ΕΡΕΤΡΙΑΣ",
+                    Country = "Greece",
+                    City = "Eretria",
+                    StreetName = "Zacharia",
+                    StreetNumber = "2",
+                    TelephoneNumber = "(+41) 2229034008",
+                    DateCreated = new DateTime(18, 5, 6)
+                },
+
+                   new CompanyDataModel()
+                {
+                    Name = "Google",
+                    AFM = "101008408",
+                    DOY = "Δ.Ο.Υ. ΚΑΡΔΙΤΣΑΣ ",
+                    Country = "Malta",
+                    City = "Oslo",
+                    StreetName = "Queen Elizabeta's",
+                    StreetNumber = "666",
+                    TelephoneNumber = "(+30) 2229035208",
+                    DateCreated = new DateTime(4, 5, 8)
+                },
+
+
+
+
             });
 
             // Add the companies to the database
@@ -122,22 +218,21 @@ namespace Vaseis
                                     { Department.Finance, "2E2E2E"},
                                     { Department.Development, "9F1747"},
                                     { Department.Sales, "70C1B3"},
-                                    { Department.Promotion, "70C1B3"},
-                                    { Department.AppDevelopment, "70C1B3"},
-                                    { Department.CyberSecurity, "70C1B3"},
-                                    { Department.WebsiteDevelopment, "70C1B3"},
-                                    { Department.Accounnting, "70C1B3"},
-                                    { Department.SocialMedia, "70C1B3"},
-                                    { Department.Accounnting, "70C1B3"},
-                                    { Department.Payment, "70C1B3"},
-                                    { Department.Secretary, "70C1B3"},
-                                    { Department.Promo, "70C1B3"},
-                                    { Department.Design, "70C1B3"},
-                                    { Department.Search, "70C1B3"},
-                                    { Department.Branch, "9237bb" };
-                                    { Department.Payment, "70C1B3"},
-                                    { Department.Payment, "70C1B3"},
-                                    { Department.Payment, "70C1B3"},
+                                    { Department.Promotion, "70F1B3"},
+                                    { Department.AppDevelopment, "70A1B3"},
+                                    { Department.CyberSecurity, "7SC1B3"},
+                                    { Department.WebsiteDevelopment, "70C1N3"},
+                                    { Department.Accounnting, "70POB3"},
+                                    { Department.SocialMedia, "70PAB3"},
+                                    { Department.Accounnting, "PAO1B3"},
+                                    { Department.Payment, "70C1POA"},
+                                    { Department.Secretary, "70CEJW3"},
+                                    { Department.Promo, "XOC1B3"},
+                                    { Department.Design, "XAC1B3"},
+                                    { Department.Search, "XIC1B3"},
+                                    { Department.Branch, "9290bb" },
+                                    { Department.Lawyer, "00C1B3"},
+                                    { Department.Informatics, "70CXA3"}
                                 };
 
             // For each and every company in the companies list...
@@ -177,7 +272,7 @@ namespace Vaseis
                             .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 8))
                             .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 3))
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
-                            .Generate(50);
+                            .Generate(100);
 
             // Adds the generated employees in the users db set
             context.Users.AddRange(employees);
@@ -213,86 +308,93 @@ namespace Vaseis
             // Saves changes
             await context.SaveChangesAsync();
 
-            // Parses all the users from the db set the are of type manager to a list
+            // Parses all the users from the db set the are of type evaluator to a list
             var managers = await context.Users.Where(x => x.Type == UserType.Manager).ToListAsync();
 
-            //var employeesWithOutJoins = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
+            // Add data to evaluators
+            // For each company in the companies list...
+            foreach (var company in companies)
+            {
+                // For each department in a company
+                foreach (var department in company.Departments)
+                {
+                    // Creates a evaluator
+                    var evaluator = new Faker<UserDataModel>()
+                            .RuleFor(x => x.Username, faker => faker.Person.UserName)
+                            .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
+                            .RuleFor(x => x.Email, faker => faker.Person.Email)
+                            .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
+                            .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+                            .RuleFor(x => x.Type, faker => UserType.Evaluator)
+                            .RuleFor(x => x.Company, faker => company)
+                            .RuleFor(x => x.Department, faker => department)
+                            .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
+                            .Generate(5);
+                    // Adds the generated evaluator to the users db set
+                    context.Users.AddRange(evaluator);
+                }
+            }
 
-            //var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
-            //                                            .Include(x => x.Certificates)
-            //                                            .Include(x => x.RecommendationPapers)
-            //                                            .Include(x => x.Languages)
-            //                                            .Where(x => x.Type == UserType.Employee)
-            //                                            .ToListAsync();
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            // Parses all the users from the db set the are of type evaluator to a list
+            var evaluators = await context.Users.Where(x => x.Type == UserType.Evaluator).ToListAsync();
+
+            var employeesWithOutJoins = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
+
+            var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
+                                                        .Include(x => x.Certificates)
+                                                        .Include(x => x.RecommendationPapers)
+                                                        .Include(x => x.Languages)
+                                                        .Where(x => x.Type == UserType.Employee)
+                                                        .ToListAsync();
+
 
             #endregion
 
             #region Evaluations
 
-            // Adds to the evaluations db context a list of evaluation data models
-            context.Evaluations.AddRange(new List<EvaluationDataModel>() // in memory
-            {
-                new EvaluationDataModel()
-                {
-                    FinalGrade = (float?)8.7,
-                    ReportGrade = (float)6.4,
-                    FilesGrade = (float)5.2,
-                    Comments = "falalalla",
-                    EvaluatorId = 11,
-                    JobPositionId = 2,
-                    EmployeeId = 4
-                },
-                new EvaluationDataModel()
-                {
-                    FinalGrade = (float?)8.0,
-                    ReportGrade = (float)6.9,
-                    FilesGrade = (float)9.2,
-                    Comments = "lwxamanaaman",
-                    EvaluatorId = 4,
-                    JobPositionId = 2,
-                    EmployeeId = 7,
-                }
+            // Creates a list of user data model for the evaluations
+            var evaluation = new Faker<EvaluationDataModel>()
+                          .RuleFor(x => x.InterviewGrade, faker => faker.Random.Float())
+                          .RuleFor(x => x.ReportGrade, faker => faker.Random.Float())
+                          .RuleFor(x => x.FilesGrade, faker => faker.Random.Float())
+                          .RuleFor(x => x.FinalGrade, faker => faker.Random.Float())
+                          .RuleFor(x => x.Comments, faker => faker.Rant.Review())
+                          .Generate(100);
 
-                });
+            // Adds the generated employees in the users db set
+            context.Evaluations.AddRange(evaluation);
 
-
-            // Add the evaluations(evaluationRequests-Results) to the database
+            // Saves changes
             await context.SaveChangesAsync();
 
-            // List that contains all the companies
-            var evaluations = await context.Evaluations.ToListAsync();
+            //edw 8elei mia sunarthsh opou analoga me to department 8a vazei kai ta analoga IDs sotus managers, evaluators klp
+
 
 
             #endregion
 
             #region Jobs
 
-            // Adds to the Jobs db context a list of Job data models
-            context.Jobs.AddRange(new List<JobDataModel>() // in memory
-            {
-                new JobDataModel()
-                {
-                    JobTitle = "Manager",
-                    Department = "",
-                    Salary = (int)1500,
-                    CompanyId = 4
-                },
+            ///Either all companies will have the same deprtments or ?
 
-                 new JobDataModel()
-                {
-                    JobTitle = "Programmer",
-                    Department = "",
-                    Salary = (int)1500,
-                    CompanyId = 2
-                 }
-                });
+            // Creates a list of Job data model 
+            var jobs = new Faker<JobDataModel>()
+                            .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
+                            .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
+                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1,10))
+                            .RuleFor(x => x.Department, faker => faker.Random.Int(1,21))
+                            .Generate(100);
 
+            // Adds the generated jobs in the users db set
+            context.Jobs.AddRange(jobs);
 
-            // Add the evaluations(evaluationRequests-Results) to the database
+            // Saves changes
             await context.SaveChangesAsync();
 
-            // List that contains all the companies
-            var jobs = await context.Jobs.ToListAsync();
 
             #endregion
 

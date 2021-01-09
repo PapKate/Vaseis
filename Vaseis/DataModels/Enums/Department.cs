@@ -9,28 +9,28 @@ namespace Vaseis
     /// </summary>
     public enum Department
     {
-        Production,
-        Research,
-        Development,
-        Marketing,
-        HumanResourceManagement,   //deliverades
-        Accounting,
-        Finance,
-        Sales,
-        Promotion,
-        AppDevelopment,
-        CyberSecurity,
-        WebsiteDevelopment,
-        SocialMedia,
-        Accounnting,
-        Payment,
-        Secretary,
-        Promo,
-        Design,
-        Search,
-        Branch,    //manages the external branches
-        Lawyer,
-        Informatics,   //teh phone center
+        Production = 0,
+        Research = 1,
+        Development = 2,
+        Marketing = 3,
+        HumanResourceManagement = 4,   //deliverades
+        Accounting = 5,
+        Finance = 6,
+        Sales = 7,
+        Promotion = 8,
+        AppDevelopment = 9,
+        CyberSecurity = 10,
+        WebsiteDevelopment = 11,
+        SocialMedia = 12,
+        Accounnting = 13,
+        Payment = 14,
+        Secretary = 15,
+        Promo = 16,
+        Design = 17,
+        Search = 18,
+        Branch = 19,    //manages the external branches
+        Lawyer = 20,
+        Informatics = 21,   //teh phone center
 
     }
 }

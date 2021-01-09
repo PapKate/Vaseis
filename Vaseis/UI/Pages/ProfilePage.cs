@@ -84,6 +84,23 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region Username
+
+        /// <summary>
+        /// The user's username
+        /// </summary>
+        public string Username
+        {
+            get { return GetValue(UsernameProperty).ToString(); }
+            set { SetValue(UsernameProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Username"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(LoginPage));
+
+        #endregion
 
 
         #endregion

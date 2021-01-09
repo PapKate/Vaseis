@@ -27,6 +27,12 @@ namespace Vaseis
         /// </summary>
         public string? Comments { get; set; }
 
+
+        /// <summary>
+        ///The report Id for this evaluation
+        /// </summary>
+        public int  ReportId { get; set; }
+
         /// <summary>
         /// Evaluatrorr's report grade
         /// </summary>
