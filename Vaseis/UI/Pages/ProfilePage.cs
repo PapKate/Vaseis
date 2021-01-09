@@ -103,6 +103,24 @@ namespace Vaseis
 
         #endregion
 
+        #region Image
+
+        /// <summary>
+        /// The user's username
+        /// </summary>
+        public string Username
+        {
+            get { return GetValue(UsernameProperty).ToString(); }
+            set { SetValue(UsernameProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Username"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ProfilePage));
+
+        #endregion
+
         #region List of awards
 
         /// <summary>
@@ -353,9 +371,15 @@ namespace Vaseis
 
             ImageAndTitle = new ImageAndNameComponent()
             {
-                Text = "username",
-                ImagePath = @"pack://application:,,,/UI/Images/employee.png",
+                Text = Username,
+                ImagePath =  Image,
             };
+
+            // Binds the imagePath property to the Image dependency property
+             ImageAndTitle.SetBinding(ImageAndNameComponent.ImagePathProperty, new Binding(nameof(Image)));
+            // Binds the Text property to the Username dependency property
+             ImageAndTitle.SetBinding(ImageAndNameComponent.TextProperty, new Binding(nameof(Username)));
+
 
             PersonalDataStackPanel.Children.Add(ImageAndTitle);
 
