@@ -115,13 +115,29 @@ namespace Vaseis
             var departmentOptionsList = new Dictionary<Department, string>()
                                 {
                                     { Department.Research, "F5D547"},
-                                    { Department.Purchasing, "EF8354"},
+                                    { Department.Sales, "EF8354"},
                                     { Department.Production, "8EB8E5"},
                                     { Department.Marketing, "028090"},
                                     { Department.HumanResourceManagement, "397367"},
                                     { Department.Finance, "2E2E2E"},
                                     { Department.Development, "9F1747"},
-                                    { Department.Accounting, "70C1B3"}
+                                    { Department.Sales, "70C1B3"},
+                                    { Department.Promotion, "70C1B3"},
+                                    { Department.AppDevelopment, "70C1B3"},
+                                    { Department.CyberSecurity, "70C1B3"},
+                                    { Department.WebsiteDevelopment, "70C1B3"},
+                                    { Department.Accounnting, "70C1B3"},
+                                    { Department.SocialMedia, "70C1B3"},
+                                    { Department.Accounnting, "70C1B3"},
+                                    { Department.Payment, "70C1B3"},
+                                    { Department.Secretary, "70C1B3"},
+                                    { Department.Promo, "70C1B3"},
+                                    { Department.Design, "70C1B3"},
+                                    { Department.Search, "70C1B3"},
+                                    { Department.Branch, "9237bb" };
+                                    { Department.Payment, "70C1B3"},
+                                    { Department.Payment, "70C1B3"},
+                                    { Department.Payment, "70C1B3"},
                                 };
 
             // For each and every company in the companies list...
@@ -146,32 +162,6 @@ namespace Vaseis
             #endregion
 
             #region Users
-
-            //// Create the user
-            //context.Users.AddRange(new List<UserDataModel>()
-            //{ 
-            //    new UserDataModel()
-            //    {
-            //        FirstName = "Vaso",
-            //        LastName = "Kokkala",
-            //        Type = UserType.Administrator,
-            //        CompanyId = company.Id,
-            //        Password = "12345678",
-            //        Username = "Vaso"
-            //    },
-            //    new UserDataModel()
-            //    {
-            //        FirstName = "Katerina",
-            //        LastName = "Papadopoulou",
-            //        Type = UserType.Manager,
-            //        CompanyId = company.Id,
-            //        Password = "12345678",
-            //        Username = "PapKate"
-            //    }
-            //});
-
-            //// Add the user to the data base
-            //await context.SaveChangesAsync();
 
             // Creates a list of user data model for the employees
             var employees = new Faker<UserDataModel>()

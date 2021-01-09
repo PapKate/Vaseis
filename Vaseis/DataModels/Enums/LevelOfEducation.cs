@@ -5,8 +5,10 @@
     /// </summary>
     public enum LevelOfEducation
     {
-        AEI,
-        TEI,
-        IEK
+        University,
+        College,
+        PolitechnicSchool,
+        IEK,
+        AEI
     }
 }

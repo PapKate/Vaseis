@@ -12,10 +12,25 @@ namespace Vaseis
         Production,
         Research,
         Development,
-        Purchasing,
         Marketing,
-        HumanResourceManagement,
+        HumanResourceManagement,   //deliverades
         Accounting,
-        Finance
+        Finance,
+        Sales,
+        Promotion,
+        AppDevelopment,
+        CyberSecurity,
+        WebsiteDevelopment,
+        SocialMedia,
+        Accounnting,
+        Payment,
+        Secretary,
+        Promo,
+        Design,
+        Search,
+        Branch,    //manages the external branches
+        Lawyer,
+        Informatics,   //teh phone center
+
     }
 }
