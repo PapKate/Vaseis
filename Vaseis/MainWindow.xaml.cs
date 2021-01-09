@@ -101,14 +101,14 @@ namespace Vaseis
             };
             pagesGrid.Children.Add(appTabControl);
 
-            var profilePage = new TabItemComponent()
-            {
-                Text = "Profile",
-                Icon = PackIconKind.AccountCircle,
-                Content = new ProfilePage()
-            };
+            //var profilePage = new TabItemComponent()
+            //{
+            //    Text = "Profile",
+            //    Icon = PackIconKind.AccountCircle,
+            //    Content = new ProfilePage()
+            //};
 
-            appTabControl.Items.Add(profilePage);
+            //appTabControl.Items.Add(profilePage);
 
             var usersPage = new TabItemComponent()
             {
@@ -127,6 +127,17 @@ namespace Vaseis
             };
 
             appTabControl.Items.Add(empMyEvPage);
+
+            var companyPage = new TabItemComponent()
+            {
+                Text = "Company",
+                Icon = PackIconKind.Domain,
+                Content = new CompanyPage()
+            };
+
+            appTabControl.Items.Add(companyPage);
+
+
 
             var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
 

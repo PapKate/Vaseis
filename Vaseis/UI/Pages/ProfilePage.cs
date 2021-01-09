@@ -108,7 +108,7 @@ namespace Vaseis
         /// <summary>
         /// The user's username
         /// </summary>
-        public string Username
+        public string? Username
         {
             get { return GetValue(UsernameProperty).ToString(); }
             set { SetValue(UsernameProperty, value); }
@@ -459,7 +459,7 @@ namespace Vaseis
             // Sets the border to the second column of the page's grid
             Grid.SetColumn(Bar, 1);
 
-            CompanyDataStackPanel = new StackPanel()
+            CompanyDataStackPanel = new  StackPanel()
             {
                 Margin = new Thickness(32),
             };
