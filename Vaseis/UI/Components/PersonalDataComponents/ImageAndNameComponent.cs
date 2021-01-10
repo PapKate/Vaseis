@@ -37,7 +37,7 @@ namespace Vaseis
         /// </summary>
         public string ImagePath
         {
-            get { return GetValue(ImagePathProperty).ToString(); }
+            get { return (string)GetValue(ImagePathProperty); }
             set { SetValue(ImagePathProperty, value); }
         }
 

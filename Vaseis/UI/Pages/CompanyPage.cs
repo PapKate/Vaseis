@@ -4,14 +4,25 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
+
+    //The number of the managers and the departments is missing because we have only 8 departments(fixed)
+    //and every deprtment has one manager. So number of managers = number of departments = 8
+
     class CompanyPage : ContentControl
     {
-        #region Protected Properties
 
+        #region Protected Properties
+        /// <summary>
+        /// The company's Picture
+        /// </summary>
+        public Image Image { get; private set; }
 
         /// <summary>
         /// The page's grid
@@ -56,15 +67,280 @@ namespace Vaseis
 
 
         /// <summary>
-        /// The path of the image
+        ///Company image Path
+        /// </summary>
+        public string ImagePath
+        {
+            get { return (string)GetValue(ImagePathProperty); }
+            set { SetValue(ImagePathProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ImagePath"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ImagePathProperty = DependencyProperty.Register(nameof(ImagePath), typeof(string), typeof(CompanyPage), new PropertyMetadata(OnImagePathChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="ImagePath"/> property
+        /// </summary>
+        private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as CompanyPage;
+
+            sender.OnImagePathChangedCore(e);
+        }
+        #endregion
+
+        #region AFM 
+
+        /// <summary>
+        /// The Company's AFM
+        /// </summary>
+        public string AFM
+        {
+            get { return (string)GetValue(AFMProperty); }
+            set { SetValue(AFMProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AFM"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty AFMProperty = DependencyProperty.Register(nameof(AFM), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region DOY 
+
+        /// <summary>
+        /// The Company's DOY
+        /// </summary>
+        public string DOY
+        {
+            get { return (string)GetValue(DOYProperty); }
+            set { SetValue(DOYProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DOY"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DOYProperty = DependencyProperty.Register(nameof(DOY), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Country
+        /// <summary>
+        /// The Company's Country
+        /// </summary>
+        public string Country
+        {
+            get { return (string)GetValue(CountryProperty); }
+            set { SetValue(CountryProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Country"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CountryProperty = DependencyProperty.Register(nameof(Country), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region City 
+
+        /// <summary>
+        /// The Company's City
+        /// </summary>
+        public string City
+        {
+            get { return (string)GetValue(CityProperty); }
+            set { SetValue(CityProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AFM"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CityProperty = DependencyProperty.Register(nameof(City), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Address 
+
+        /// <summary>
+        /// The Company's Address
+        /// </summary>
+        public string Address
+        {
+            get { return (string)GetValue(AddressProperty); }
+            set { SetValue(AddressProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Address"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty AddressProperty = DependencyProperty.Register(nameof(Address), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Telephone 
+
+        /// <summary>
+        /// The Company's Telephone
+        /// </summary>
+        public string Telephone
+        {
+            get { return (string)GetValue(TelephoneProperty); }
+            set { SetValue(TelephoneProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Telephone"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty TelephoneProperty = DependencyProperty.Register(nameof(Telephone), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Date pf Creation 
+
+        /// <summary>
+        /// The Company's Date of Creation
+        /// </summary>
+        public string DateCreated
+        {
+            get { return (string)GetValue(DateCreatedProperty); }
+            set { SetValue(DateCreatedProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DateCreated"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DateCreatedProperty = DependencyProperty.Register(nameof(DateCreated), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Logo 
+
+        /// <summary>
+        /// The Company's Logo(name-title)
+        /// </summary>
+        public string Logo
+        {
+            get { return (string)GetValue(LogoProperty); }
+            set { SetValue(LogoProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Logo"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty LogoProperty = DependencyProperty.Register(nameof(Logo), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region AboutText 
+
+        /// <summary>
+        /// The Company's AboutText (just like Bio)
+        /// </summary>
+        public string AboutText
+        {
+            get { return (string)GetValue(AboutTextProperty); }
+            set { SetValue(AboutTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AboutText"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty AboutTextProperty = DependencyProperty.Register(nameof(AboutText), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Number of Employees 
+
+        /// <summary>
+        /// How many Employeess a Comnpany has
+        /// </summary>
+        public string NumberOfEmployees
+        {
+            get { return (string)GetValue(NumberOfEmployeesProperty); }
+            set { SetValue(NumberOfEmployeesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfEmployees"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfEmployeesProperty = DependencyProperty.Register(nameof(NumberOfEmployees), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+
+        #region Number of Evaluators 
+
+        /// <summary>
+        /// How many Evaluators a Comnpany has
+        /// </summary>
+        public string NumberOfEvaluators
+        {
+            get { return (string)GetValue(NumberOfEvaluatorsProperty); }
+            set { SetValue(NumberOfEvaluatorsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfEvaluators"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfEvaluatorsProperty = DependencyProperty.Register(nameof(NumberOfEvaluators), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Number of Jobs 
+
+        /// <summary>
+        /// How many Jobs a Comnpany has
+        /// </summary>
+        public string NumberOfJobs
+        {
+            get { return (string)GetValue(NumberOfJobsProperty); }
+            set { SetValue(NumberOfJobsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfJobs"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfJobsProperty = DependencyProperty.Register(nameof(NumberOfJobs), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Number of Job Positions 
+
+        /// <summary>
+        ///  How many availavle Job Positions a Comnpany has
+        /// </summary>
+        public string NumberOfJobPositions
+        {
+            get { return (string)GetValue(NumberOfJobPositionsProperty); }
+            set { SetValue(NumberOfJobPositionsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfJobPositions"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfJobPositionsProperty = DependencyProperty.Register(nameof(NumberOfJobPositions), typeof(string), typeof(CompanyPage));
 
         #endregion
 
         #endregion
+
+
 
         #region Protected Methods
 
-        #endregion
+        /// <summary>
+        /// Handles the change of the <see cref="HeaderImageAndTitleComponent.ImagePath"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnImagePathChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+#       endregion
 
 
         #region private Methods
@@ -101,10 +377,17 @@ namespace Vaseis
             };
 
             //The Companby's image and logotype
-             var Image = new ImageAndNameComponent()
+             var Image = new Image()
             {
-                ImagePath = "https://images.unsplash.com/photo-1578439231583-9eca0a363860?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
-            };
+                 Margin = new Thickness(8),
+                 Width = 240,
+                 Height = 240,
+                 HorizontalAlignment = HorizontalAlignment.Center,
+                 // Fills the area it's to
+                 Stretch = Stretch.Fill,
+                 // Clips the image to a circle
+                 Clip = new EllipseGeometry(new Point(120, 120), 120, 120),
+             };
 
             // Adds the stack panel to the page
             CompanyInfoStackPanel.Children.Add(Image);
@@ -117,9 +400,12 @@ namespace Vaseis
             var AFMData = new TitleAndTextComponent()
             {
                 Title = "AFM",
-                Text = "2487146329",
+                Text = AFM,
                 Margin = new Thickness(8)
             };
+            // Binds the AFMData property to the afm dependency property
+            AFMData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(AFM)));
+
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(AFMData);
@@ -128,9 +414,11 @@ namespace Vaseis
             var DOYData = new TitleAndTextComponent()
             {
                 Title = "DOY",
-                Text = "DOY AMALIADAS",
+                Text = DOY,
                 Margin = new Thickness(8)
             };
+            // Binds the DoyData property to the Doy dependency property
+            DOYData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DOY)));
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(DOYData);
@@ -139,9 +427,11 @@ namespace Vaseis
             var CountryData = new TitleAndTextComponent()
             {
                 Title = "Country",
-                Text = "Greece",
+                Text = Country,
                 Margin = new Thickness(8)
             };
+            // Binds the countryData block property to the Country dependency property
+            CountryData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Country)));
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(CountryData);
@@ -150,9 +440,11 @@ namespace Vaseis
             var CityData = new TitleAndTextComponent()
             {
                 Title = "City",
-                Text = "Eretria",
+                Text = City,
                 Margin = new Thickness(8)
             };
+            // Binds the CityData block property to the City dependency property
+            CityData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(City)));
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(CityData);
@@ -161,9 +453,11 @@ namespace Vaseis
             var AddressData = new TitleAndTextComponent()
             {
                 Title = "Address",
-                Text = "Filoippimenos 8 ",
+                Text = Address,
                 Margin = new Thickness(8)
             };
+            // Binds the AddressData block property to the ImagePath dependency property
+            AddressData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Address)));
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(AddressData);
@@ -172,12 +466,28 @@ namespace Vaseis
             var TelephoneData = new TitleAndTextComponent()
             {
                 Title = "Telephone",
-                Text = "2229037706",
+                Text = Telephone,
                 Margin = new Thickness(8)
             };
+            // Binds the iTelephoneData block property to the ImagePath dependency property
+            TelephoneData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Telephone)));
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(TelephoneData);
+
+            //Creates the DateCreated textBlock
+            var DateCreatedData = new TitleAndTextComponent()
+            {
+                Title = "Created on",
+                Text = Telephone,
+                Margin = new Thickness(8)
+            };
+            // Binds the DateCreatedData block property to the DateCreated dependency property
+            DateCreatedData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DateCreated)));
+
+            //adds it to the info column
+            CompanyInfoStackPanel.Children.Add(DateCreatedData);
+
 
             #endregion
 
@@ -225,25 +535,21 @@ namespace Vaseis
                 Text = "Logo",
             };
             TopStackPanel.Children.Add(LogoBlock);
+            // Binds the Logo block property to the Logo dependency property
+            LogoBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Logo)));
 
 
             #region About
 
-             AboutTile = new BioComponent() 
+            AboutTile = new BioComponent() 
             { 
                BioTextTitle = "About",
                Margin = new Thickness(32),
-               BioText = "Space Exploration Technologies Corp. (SpaceX) is an American aerospace manufacturer and space transportation services company headquartered in Hawthorne, California. It was founded in 2002 by Elon Musk with the goal of reducing space transportation costs to enable the colonization of Mars.[9][10][11] SpaceX has developed several launch vehicles, as well as the Dragon cargo spacecraft and the Starlink satellite constellation (providing internet access), and has flown humans to the International Space Station on the SpaceX Dragon 2."
-
-            + "SpaceX's achievements include the first privately funded liquid-propellant rocket to reach orbit (Falcon 1 in 2008,[12] the first private company to successfully launch, orbit, and recover a spacecraft (Dragon in 2010), the first private company to send a spacecraft to the International Space Station (Dragon in 2012),[13] the first vertical take-off and vertical propulsive landing for an orbital rocket (Falcon 9 in 2015), the first reuse of an orbital rocket (Falcon 9 in 2017), the first to launch a private spacecraft into orbit around the Sun (Falcon Heavy's payload of a Tesla Roadster in 2018), and the first private company to send astronauts to orbit and to the International Space Station(SpaceX Crew Dragon Demo-2 and SpaceX Crew-1 missions in 2020).[14] As of 31 December 2020, SpaceX has flown 20 [15] [16] cargo resupply missions to the International Space Station(ISS) under a partnership with NASA,[17] as well as an uncrewed demonstration flight of the human-rated Dragon 2 spacecraft(Crew Dragon Demo-1) on 2 March 2019, and the first crewed Dragon 2 flight on 30 May 2020.[14]"
-
-            + "In December 2015, a Falcon 9 accomplished a propulsive vertical landing.This was the first such achievement by a rocket for orbital spaceflight.[18] In April 2016, with the launch of SpaceX CRS-8, SpaceX successfully vertically landed the first stage on an ocean drone ship landing platform.[19] In May 2016, in another first, SpaceX again landed the first stage, but during a significantly more energetic geostationary transfer orbit (GTO) mission.[20] In March 2017, SpaceX became the first to successfully re-launch and land the first stage of an orbital rocket.[21] In January 2020, with the third launch of the Starlink project, SpaceX became the largest commercial satellite constellation operator in the world.[22][23]"
-
-            + " In September 2016, Musk unveiled the Interplanetary Transport System — subsequently renamed Starship — a privately funded launch system to develop spaceflight technology for use in crewed interplanetary spaceflight.In 2017, Musk unveiled an updated configuration of the system which is intended to handle interplanetary missions plus become the primary SpaceX orbital vehicle after the early 2020s, as SpaceX has announced it intends to eventually replace its existing Falcon 9 launch vehicles and Dragon space capsule fleet with Starship, even in the Earth-orbit satellite delivery market.[24][25][26]:24:50–27:05 Starship is planned to be fully reusable and will be the largest rocket ever on its debut, scheduled for the early 2020s."
-           
+               BioText =AboutText
             };
+            // Binds the aBOUT property to the aBOUTcOMPANYTEXT dependency property
+            AboutTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(AboutText)));
 
-        
 
             TopStackPanel.Children.Add(AboutTile);
 
@@ -252,26 +558,26 @@ namespace Vaseis
 
             #region Company has tiles
 
-            //the bottom grid with the colourful tiles
+            //the bottom grid with the colourful tiles (what does the company consist of)
             var CompanyHasDataGrid = new UniformGrid()
             {
                 Columns = 3
             };
 
-
-
             var employeeTextBlock = new UserButtonComponent() { 
                FullName = "Employees",
-               Username = "1000",
+               Username = NumberOfEmployees,
                Background = "ff4455".HexToBrush()
             };
+            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees)));
 
             CompanyHasDataGrid.Children.Add(employeeTextBlock);
 
             var managersTextBlock = new UserButtonComponent()
             {
                 FullName = "Managers",
-                Username = "40",
+                Username = "8",
                 Background = "ff4455".HexToBrush()
             };
 
@@ -280,16 +586,18 @@ namespace Vaseis
             var evaluatorsTextBlock = new UserButtonComponent()
             {
                 FullName = "Evaluators",
-                Username = "120",
+                Username = NumberOfEvaluators,
                 Background = "ff4455".HexToBrush()
             };
+            // Binds the EvaluatorsBlock property to the NumberOfEvaluators dependency property
+            evaluatorsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEvaluators)));
 
             CompanyHasDataGrid.Children.Add(evaluatorsTextBlock);
 
             var departmentsTextBlock = new UserButtonComponent()
             {
                 FullName = "Departments",
-                Username = "40",
+                Username = "8",
                 Background = "ff4455".HexToBrush()
             };
 
@@ -299,19 +607,23 @@ namespace Vaseis
             var jobsTextBlock = new UserButtonComponent()
             {
                 FullName = "Jobs",
-                Username = "211",
+                Username = NumberOfJobs,
                 Background = "ff4455".HexToBrush()
             };
-
+            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            jobsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobs)));
+           
             CompanyHasDataGrid.Children.Add(jobsTextBlock);
 
 
             var jobPositionsTextBlock = new UserButtonComponent()
             {
                 FullName = "Open Job Positions",
-                Username = "18",
+                Username = NumberOfJobPositions,
                 Background = "ff4455".HexToBrush()
             };
+            // Binds the Jobpositions property to the NumberOfJobPositions dependency property
+            jobPositionsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobPositions)));
 
             CompanyHasDataGrid.Children.Add(jobPositionsTextBlock);
 
@@ -325,10 +637,7 @@ namespace Vaseis
             Grid.SetColumn(TopStackPanel, 2);
 
 
-            //  Grid.SetColumn(TopStackPanel, 2);
-
             Content = PageGrid;
-
 
         }
 
@@ -367,7 +676,35 @@ namespace Vaseis
 
         #endregion
 
+        #region onImagePathChangedCore
 
+        /// <summary>
+        /// Handles the change of the <see cref="ImagePath"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnImagePathChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (string)e.NewValue;
+
+            if (newValue == null)
+            {
+                Image.Source = null;
+            }
+            else
+            {
+                // Create the bitmap image
+                var bitmapImage = new BitmapImage(new Uri(newValue));
+
+                // Set it to the image
+                Image.Source = bitmapImage;
+            }
+
+            // Further handle the change
+            OnImagePathChanged(e);
+        }
+
+        #endregion
 
         #endregion
     }
