@@ -252,6 +252,7 @@ namespace Vaseis
                     JobPositionId = 2,
                     EmployeeId = 4
                 },
+
                 new EvaluationDataModel()
                 {
                     FinalGrade = (float?)8.0,
@@ -262,8 +263,7 @@ namespace Vaseis
                     JobPositionId = 2,
                     EmployeeId = 7,
                 }
-
-                });
+            });
 
 
             // Add the evaluations(evaluationRequests-Results) to the database
@@ -304,6 +304,40 @@ namespace Vaseis
             // List that contains all the companies
             var jobs = await context.Jobs.ToListAsync();
 
+            #endregion
+
+            #region Degrees
+
+            // Generates the degrees
+            var degrees = new Faker<DegreeDataModel>()
+                            .RuleFor(x => x.Title, faker => faker.Random.Enum<DegreeTitle>())
+                            .RuleFor(x => x.School, faker => faker.Random.Enum<School>())
+                            .RuleFor(x => x.LevelOfEducation, faker => faker.Random.Enum<LevelOfEducation>())
+                            .Generate(100);
+
+            // Adds the generated degrees in the degrees db set
+            context.Degrees.AddRange(degrees);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region AcquiredDegrees
+
+            // Generates the acquired degrees
+            var acquiredDegrees = new Faker<AcquiredDegreeDataModel>()
+                            .RuleFor(x => x.Grade, faker => faker.Random.Int(5,10))
+                            .RuleFor(x => x.YearEarned, faker => faker.Date.Past(30, DateTime.Now))
+                            .RuleFor(x => x.EmployeeId, faker => faker.Random.Int(1, 50))
+                            .RuleFor(x => x.DegreeId, faker => faker.Random.Int(1, 40))
+                            .Generate(60);
+
+            // Adds the generated acquired degrees in the acquired degrees db set
+            context.AcquiredDegrees.AddRange(acquiredDegrees);
+
+            // Saves changes
+            await context.SaveChangesAsync();
             #endregion
 
             #region Update

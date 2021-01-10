@@ -17,7 +17,6 @@ namespace Vaseis
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-
         /// <summary>
         /// the job title 
         /// </summary>

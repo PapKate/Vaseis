@@ -103,11 +103,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-           // Wrong alignment & size
-           //Misses X or wrong button & listeners?
-
-
-            //on eof thew three colums in login screen (the central one)
             #region Login Column
 
             AppName = new TextBlock()
@@ -304,8 +299,6 @@ namespace Vaseis
             Content = loginPageGrid;
 
             #endregion
-
-
 
         }
 

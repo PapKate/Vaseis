@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows;
 
 using static Vaseis.Styles;
 
@@ -7,16 +7,16 @@ using static Vaseis.Styles;
 namespace Vaseis
 {
     /// <summary>
-    /// Represents the "my evaluations" page of the evaluator
+    /// The manager's reports page
     /// </summary>
-    public class EvaluatorMyEvaluationsPage : ContentControl
+    public class ManagerReportsPage : ContentControl
     {
         #region Protected Properties
 
         /// <summary>
         /// The new evaluation dialog
         /// </summary>
-        protected EvaluationDialogComponent EvaluationDialog { get; private set; }
+        protected ReportDialogComponent ReportDialog { get; private set; }
 
         /// <summary>
         /// The add/open dialog button
@@ -28,13 +28,13 @@ namespace Vaseis
         /// </summary>
         protected Grid PageGrid { get; private set; }
 
-        protected EvaluatorDataGridComponent DataGrid { get; private set; }
+        protected ReportsDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public EvaluatorMyEvaluationsPage()
+        public ManagerReportsPage()
         {
             CreateGUI();
         }
@@ -53,9 +53,9 @@ namespace Vaseis
             {
             };
 
-            DataGrid = new EvaluatorDataGridComponent(PageGrid)
+            DataGrid = new ReportsDataGridComponent(PageGrid)
             {
-                
+
             };
             PageGrid.Children.Add(DataGrid);
 

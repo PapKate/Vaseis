@@ -1,19 +1,19 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Controls;
 
 namespace Vaseis
 {
-    public class EmplyoeeMyEvaluationsPage : ContentControl
+    public class EvaluatorJobPosition : ContentControl
     {
-        #region Protected Properties
-
-        #endregion
 
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmplyoeeMyEvaluationsPage()
+        public EvaluatorJobPosition()
         {
             CreateGUI();
         }
@@ -25,17 +25,16 @@ namespace Vaseis
         private void CreateGUI()
         {
             var pageGrid = new Grid();
-
-            var dataGrid2 = new EmployeeDataGridComponent()
+            var jobPositionDialogue = new JobPositionDialog()
             {
+                IsDialogOpen = true
             };
-
-            pageGrid.Children.Add(dataGrid2);
-
-
-
-
+            pageGrid.Children.Add(jobPositionDialogue);
             Content = pageGrid;
+        
+        
+        
+        
         }
 
         #endregion

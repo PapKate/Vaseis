@@ -31,7 +31,8 @@ namespace Vaseis
 
         #region Dependency Properties
 
-
+        #region ImagePath
+        
         /// <summary>
         /// The path of the image
         /// </summary>
@@ -56,6 +57,10 @@ namespace Vaseis
             sender.OnImagePathChangedCore(e);
         }
 
+        #endregion
+
+        #region Text
+
         /// <summary>
         /// The text
         /// </summary>
@@ -69,6 +74,8 @@ namespace Vaseis
         /// Identifies the <see cref="Text"/> dependency property
         /// </summary>
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(ImageAndNameComponent));
+
+        #endregion
 
         #endregion
 
@@ -142,9 +149,6 @@ namespace Vaseis
             });
 
             ImageAndNameStackPanel.Children.Add(TextBlock);
-
-            //image & username alignment -> center enw!,
-            //trexctblocks apo katw alignment -> left 
 
             Content = ImageAndNameStackPanel;
         }
