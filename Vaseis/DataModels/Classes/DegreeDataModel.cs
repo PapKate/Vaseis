@@ -21,12 +21,12 @@ namespace Vaseis
         /// <summary>
         /// The degree's name
         /// </summary>
-        public string Title { get; set; }
+        public DegreeTitle Title { get; set; }
 
         /// <summary>
         /// The name of the institution
         /// </summary>
-        public string School { get; set; }
+        public School School { get; set; }
 
         /// <summary>
         /// The level of education 
@@ -62,7 +62,7 @@ namespace Vaseis
         /// Returns a string that represents the current object
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => Title;
+        public override string ToString() => Title.ToString();
 
         #endregion
     }

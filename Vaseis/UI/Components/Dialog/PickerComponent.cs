@@ -38,6 +38,24 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region Text
+
+        /// <summary>
+        /// The required input text helper
+        /// </summary>
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Text"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(PickerComponent));
+
+        #endregion
+
         #region HintText
 
         /// <summary>
@@ -45,7 +63,7 @@ namespace Vaseis
         /// </summary>
         public string HintText
         {
-            get { return GetValue(HintTextProperty).ToString(); }
+            get { return (string)GetValue(HintTextProperty); }
             set { SetValue(HintTextProperty, value); }
         }
 
@@ -125,8 +143,13 @@ namespace Vaseis
                 FontFamily = Calibri,
                 FontSize = 20,
                 FontWeight = FontWeights.Normal,
-                ItemsSource = OptionItems
+                ItemsSource = OptionItems,
             };
+
+            OptionPicker.SetBinding(ComboBox.TextProperty, new Binding(nameof(Text))
+            { 
+                Source = this
+            });
 
             // The hint text
             HintTitleBlock = new TextBlock()

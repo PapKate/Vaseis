@@ -84,6 +84,7 @@ namespace Vaseis
         {
             _ = tabControl ?? throw new ArgumentNullException(nameof(tabControl));
 
+            // When fired removes the tab item 
             CloseCommand = new RelayCommand(() => tabControl.Items.Remove(this));
         }
 

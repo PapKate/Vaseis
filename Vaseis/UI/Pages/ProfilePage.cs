@@ -84,12 +84,15 @@ namespace Vaseis
 
         #region Dependency Properties
 
-
+        
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         public ProfilePage()
         {
             CreateGUI();
@@ -126,6 +129,8 @@ namespace Vaseis
             });
 
             #endregion
+
+           
 
             PersonalDataStackPanel = new StackPanel()
             {
@@ -211,7 +216,10 @@ namespace Vaseis
 
             EditButtons = new EditComponent
             {
-                HorizontalAlignment = HorizontalAlignment.Right
+                HorizontalAlignment = HorizontalAlignment.Right,
+                EditCommand = new RelayCommand(() => { BioTile.IsEditable = true; }),
+                SaveCommand = new RelayCommand(() => { BioTile.IsEditable = false; BioTile.SaveEdit = true; }),
+                CancelCommand = new RelayCommand(() => { BioTile.IsEditable = false; BioTile.SaveEdit = false; }),
             };
             CompanyDataStackPanel.Children.Add(EditButtons);
 
@@ -288,8 +296,10 @@ namespace Vaseis
             // Sets the scroll viewer on the third column
             Grid.SetColumn(DataScrollViewer, 2);
 
+            
+
             var NavigationMenu = new NavigationMenuComponent()
-            { 
+            {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Margin = new Thickness(24)
@@ -298,42 +308,7 @@ namespace Vaseis
             PageGrid.Children.Add(NavigationMenu);
             Grid.SetColumn(NavigationMenu, 2);
 
-            EditButtons.EditButton.Click += EditProfile;
-            EditButtons.CancelButton.Click += CanelEditProfile;
-            EditButtons.SaveButton.Click += SaveEditProfile;
-
             Content = PageGrid;
-        }
-
-        /// <summary>
-        /// Hides the text block and reveals the text box
-        /// </summary>
-        private void EditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Collapsed;
-            BioTile.BioTextBox.Visibility = Visibility.Visible;
-
-            BioTile.BioTextBox.Text = BioTile.BioTextBlock.Text;
-        }
-
-        /// <summary>
-        /// Hides the text box and reveals the text block with its old text 
-        /// </summary>
-        private void CanelEditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Visible;
-            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Hides the text box and reveals the text block with its updated text 
-        /// </summary>
-        private void SaveEditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Visible;
-            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
-
-            BioTile.BioTextBlock.Text = BioTile.BioTextBox.Text;
         }
 
         #endregion
