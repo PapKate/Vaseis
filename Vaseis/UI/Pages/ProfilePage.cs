@@ -92,7 +92,7 @@ namespace Vaseis
         /// </summary>
         public string Image
         {
-            get { return GetValue(ImageProperty).ToString(); }
+            get { return (string)GetValue(ImageProperty); }
             set { SetValue(ImageProperty, value); }
         }
 
@@ -103,14 +103,14 @@ namespace Vaseis
 
         #endregion
 
-        #region Image
+        #region Username
 
         /// <summary>
         /// The user's username
         /// </summary>
-        public string? Username
+        public string Username
         {
-            get { return GetValue(UsernameProperty).ToString(); }
+            get { return (string)GetValue(UsernameProperty); }
             set { SetValue(UsernameProperty, value); }
         }
 
@@ -183,7 +183,7 @@ namespace Vaseis
         /// </summary>
         public string FirstName
         {
-            get { return GetValue(FirstNameProperty).ToString(); }
+            get { return (string)GetValue(FirstNameProperty); }
             set { SetValue(FirstNameProperty, value); }
         }
 
@@ -201,7 +201,7 @@ namespace Vaseis
         /// </summary>
         public string LastName
         {
-            get { return GetValue(LastNameProperty).ToString(); }
+            get { return (string)GetValue(LastNameProperty); }
             set { SetValue(LastNameProperty, value); }
         }
 
@@ -219,7 +219,7 @@ namespace Vaseis
         /// </summary>
         public string Company
         {
-            get { return GetValue(CompanyProperty).ToString(); }
+            get { return (string)GetValue(CompanyProperty); }
             set { SetValue(CompanyProperty, value); }
         }
 
@@ -237,7 +237,7 @@ namespace Vaseis
         /// </summary>
         public string Email
         {
-            get { return GetValue(EmailProperty).ToString(); }
+            get { return (string)GetValue(EmailProperty); }
             set { SetValue(EmailProperty, value); }
         }
 
@@ -255,7 +255,7 @@ namespace Vaseis
         /// </summary>
         public string Job
         {
-            get { return GetValue(JobProperty).ToString(); }
+            get { return (string)GetValue(JobProperty); }
             set { SetValue(JobProperty, value); }
         }
 
@@ -273,7 +273,7 @@ namespace Vaseis
         /// </summary>
         public string Department
         {
-            get { return GetValue(DepartmentProperty).ToString(); }
+            get { return (string)GetValue(DepartmentProperty); }
             set { SetValue(DepartmentProperty, value); }
         }
 
@@ -291,7 +291,7 @@ namespace Vaseis
         /// </summary>
         public string BioText
         {
-            get { return GetValue(BioTextProperty).ToString(); }
+            get { return (string)GetValue(BioTextProperty); }
             set { SetValue(BioTextProperty, value); }
         }
 
@@ -309,7 +309,7 @@ namespace Vaseis
         /// </summary>
         public string? EvaluatorsAverage
         {
-            get { return GetValue(EvaluatorsAverageProperty).ToString(); }
+            get { return (string)GetValue(EvaluatorsAverageProperty); }
             set { SetValue(EvaluatorsAverageProperty, value); }
         }
 
@@ -420,15 +420,15 @@ namespace Vaseis
             // Creates the company text blocks
             var CompanyData = new TitleAndTextComponent()
             {
-                Title = Company,
-                Text = "EnchantmentLab",
+                Title = "Company",
+                Text = Company,
                 Margin = new Thickness(24)
             };
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(CompanyData);
 
-            // Binds theCompanyData property to the Username property
-            CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Email)));
+            // Binds theCompanyData property to the Company property
+            CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Company)));
 
 
             // Creates the email text blocks
@@ -514,6 +514,7 @@ namespace Vaseis
             // Creates a bio tile
             BioTile = new BioComponent()
             {
+                BioTextTitle = "Bio",
                 Margin = new Thickness(32),
                 BioText = BioText
             };
