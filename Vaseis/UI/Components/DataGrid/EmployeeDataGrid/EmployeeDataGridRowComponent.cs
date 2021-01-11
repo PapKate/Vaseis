@@ -18,6 +18,11 @@ namespace Vaseis
         /// </summary>
         protected TextBlock ResultTextBlock { get; private set; }
 
+        /// <summary>
+        /// The row's border
+        /// </summary>
+        protected Border RowBorder { get; private set; }
+
         #endregion
 
         #region Dependency Properties
@@ -68,7 +73,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            var border = new Border()
+            RowBorder = new Border()
             {
                 BorderThickness = new Thickness(0, 0, 0, 1),
                 BorderBrush = DarkPink.HexToBrush(),
@@ -77,7 +82,7 @@ namespace Vaseis
                 
             };
 
-            border.Child = RowDataGrid;
+            RowBorder.Child = RowDataGrid;
 
             // Creates the result text block
             ResultTextBlock = new TextBlock()
@@ -99,7 +104,7 @@ namespace Vaseis
                 Source = this
             });
 
-            Content = border;
+            Content = RowBorder;
         }
 
         /// <summary>

@@ -94,6 +94,7 @@ namespace Vaseis
             // Creates and adds the header's row
             DataGridHeader = ControlsFactory.CreateDataGridRowGrid();
 
+            // Creates the header's border
             HeaderBorder = new Border()
             {
                 BorderThickness = new Thickness(0, 0, 0, 2),
@@ -101,13 +102,16 @@ namespace Vaseis
                 VerticalAlignment = VerticalAlignment.Center,
                 Padding = new Thickness(12)
             };
+            // Sets the header's child as the header grid
             HeaderBorder.Child = DataGridHeader;
 
+            // Creates the text blocks
             EvaluatorTextBlock = CreateHeaderTextBlock(0, "Evaluator", "Evaluator");
             EmployeeTextBlock = CreateHeaderTextBlock(1, "Employee", "Employee");
             JobTextBlock = CreateHeaderTextBlock(2, "Job position", "Job position");
             DepartmentTextBlock = CreateHeaderTextBlock(3, "Department", "Department");
 
+            // Sets the component's content as the header border
             Content = HeaderBorder;
         }
 
