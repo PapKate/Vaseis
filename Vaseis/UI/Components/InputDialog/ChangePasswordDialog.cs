@@ -14,9 +14,14 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
+        /// The currentPassword
+        /// </summary>
+        protected string CurrentPasswordDependency{ get; private set; }
+
+        /// <summary>
         /// Old passward Input
         /// </summary>
-        protected TextInputComponent OldPasswordInput { get; private set; }
+        protected TextInputComponent CurrentPasswordInput { get; private set; }
 
         /// <summary>
         /// Old passward Input
@@ -32,6 +37,24 @@ namespace Vaseis
         /// The button that sends the values when user is done
         /// </summary>
         protected Button OkButton { get; private set; }
+
+        #endregion
+
+        #region Dependency Property 
+
+        /// <summary>
+        /// This is the password we will get from the database to compare it to th one that the user will give us 
+        /// </summary>
+        public string CurrentPassword
+        {
+            get { return (string)GetValue(CurrentPasswordProperty); }
+            set { SetValue(CurrentPasswordProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CurrentPassword"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CurrentPasswordProperty = DependencyProperty.Register(nameof(CurrentPassword), typeof(string), typeof(ChangePasswordDialog));
 
         #endregion
 
@@ -55,17 +78,17 @@ namespace Vaseis
             //Sets the dialog's title
             DialogTitle.Text = "Change Password";
 
+            //CurrentPasswordDependency
 
-
-            OldPasswordInput = new TextInputComponent()
+            // we shall compare the database's current password to the one that th euser will give us
+            //in this input field
+            CurrentPasswordInput = new TextInputComponent()
             {
                 // With hint text the name
-                HintText = "Old password",
+                HintText = "Current password",
                 Margin = new Thickness(24),
                 Width = 240
             };
-            // And adds it to the dialog's input wrap panel
-          //  InputWrapPanel.Children.Add(OldPasswordInput);
 
             NewPasswordInput = new TextInputComponent()
             {
@@ -74,9 +97,7 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
-            // And adds it to the dialog's input wrap panel
-           // InputWrapPanel.Children.Add(NewPasswordInput);
-
+   
             TypeAgainNewPasswordInput = new TextInputComponent()
             {
                 // With hint text the name
@@ -84,13 +105,11 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
-            // And adds it to the dialog's input wrap panel
-           /// InputWrapPanel.Children.Add(TypeAgainNewPasswordInput);
 
             //i use a stack panel so that the input fields are set in a column
             var ChangePasswordStackpanel = new StackPanel();
 
-            ChangePasswordStackpanel.Children.Add(OldPasswordInput);
+            ChangePasswordStackpanel.Children.Add(CurrentPasswordInput);
             ChangePasswordStackpanel.Children.Add(NewPasswordInput);
             ChangePasswordStackpanel.Children.Add(TypeAgainNewPasswordInput);
 

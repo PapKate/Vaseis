@@ -379,7 +379,7 @@ namespace Vaseis
 
             #endregion
 
-            #region personal data 
+            #region Personal Data 
 
             PersonalDataStackPanel = new StackPanel()
             {
@@ -696,6 +696,9 @@ namespace Vaseis
             // Creates a new user dialog
             ChangePasswordDialog = new ChangePasswordDialog();
             // Adds it to the page grid
+
+           //gia na mhn kollaei sto ena column to prwto 
+            Grid.SetColumnSpan(ChangePasswordDialog, 3);
             PageGrid.Children.Add(ChangePasswordDialog);
 
             // Sets the is open property to true
