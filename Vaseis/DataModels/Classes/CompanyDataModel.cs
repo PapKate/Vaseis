@@ -64,6 +64,11 @@ namespace Vaseis
         /// </summary>
         public string StreetName { get; set; }
 
+        ///<summary>
+        /// The path to the company's  picture 
+        /// </summary>
+        public string CompanyPicture { get; set; }
+
         /// <summary>
         /// The complete company's location
         /// </summary>

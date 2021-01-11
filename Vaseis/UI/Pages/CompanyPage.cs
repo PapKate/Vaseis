@@ -325,6 +325,46 @@ namespace Vaseis
 
         #endregion
 
+
+        #region Number of  Departments
+
+        /// <summary>
+        ///  How many Departments a Comnpany has
+        /// </summary>
+        public string NumberOfDepartments
+        {
+            get { return (string)GetValue(NumberOfDepartmentsProperty); }
+            set { SetValue(NumberOfDepartmentsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfDepartments"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfDepartmentsProperty = DependencyProperty.Register(nameof(NumberOfDepartments), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+        #region Number of Managers
+
+        /// <summary>
+        ///  How many Managers a Comnpany has
+        /// </summary>
+        public string NumberOfManagers
+        {
+            get { return (string)GetValue(NumberOfManagersProperty); }
+            set { SetValue(NumberOfManagersProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfManagers"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfManagersProperty = DependencyProperty.Register(nameof(NumberOfManagers), typeof(string), typeof(CompanyPage));
+
+        #endregion
+
+
+
+
         #endregion
 
 
@@ -569,7 +609,7 @@ namespace Vaseis
                Username = NumberOfEmployees,
                Background = "ff4455".HexToBrush()
             };
-            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            // Binds the employeeTextBlock property to the NumberOfEmployees dependency property
             employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees)));
 
             CompanyHasDataGrid.Children.Add(employeeTextBlock);
@@ -577,9 +617,11 @@ namespace Vaseis
             var managersTextBlock = new UserButtonComponent()
             {
                 FullName = "Managers",
-                Username = "8",
+                Username = NumberOfManagers,
                 Background = "ff4455".HexToBrush()
             };
+            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            managersTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees)));
 
             CompanyHasDataGrid.Children.Add(managersTextBlock);
 
@@ -597,9 +639,11 @@ namespace Vaseis
             var departmentsTextBlock = new UserButtonComponent()
             {
                 FullName = "Departments",
-                Username = "8",
+                Username = NumberOfDepartments,
                 Background = "ff4455".HexToBrush()
-            };
+            };    
+            // Binds the DepartmentsBlock property to the NumberOfDepartments dependency property
+            departmentsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfDepartments)));
 
             CompanyHasDataGrid.Children.Add(departmentsTextBlock);
 

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using static Vaseis.Styles;
+using static Vaseis.MaterialDesignStyles;
 
 
 namespace Vaseis
@@ -14,6 +15,11 @@ namespace Vaseis
     public class ProfilePage : ContentControl
     {
         #region Protected Properties
+
+        /// <summary>
+        /// The change password dialog component
+        /// </summary>
+        protected ChangePasswordDialog ChangePasswordDialog { get; private set; }
 
         /// <summary>
         /// The page's grid
@@ -51,14 +57,19 @@ namespace Vaseis
         protected TextBlock JobTitleBlock { get; private set; }
 
         /// <summary>
-        /// The department
+        /// The user's department TextBlock
         /// </summary>
         protected TextBlock DepartmentTitleBlock { get; private set; }
 
         /// <summary>
-        /// The bio
+        /// The bioComponent (TextBlock- TextBox)
         /// </summary>
         protected BioComponent BioTile { get; private set; }
+
+        /// <summary>
+        /// The user's eail BioComponent (editText - textBlock)
+        /// </summary>
+        protected EmailComponent EmailData { get; private set; }
 
         /// <summary>
         /// The grid for the file data
@@ -79,6 +90,11 @@ namespace Vaseis
         /// The user's rec papers
         /// </summary>
         protected TitleAndListComponent RecommendationPapersContainer { get; private set; }
+
+        /// <summary>
+        /// The Change Password Button that opens a dialogue button
+        /// </summary>
+        protected Button ChangePassword { get; private set; }
 
         #endregion
 
@@ -363,6 +379,8 @@ namespace Vaseis
 
             #endregion
 
+            #region personal data 
+
             PersonalDataStackPanel = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Top,
@@ -431,18 +449,44 @@ namespace Vaseis
             CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Company)));
 
 
-            // Creates the email text blocks
-            var EmailData = new TitleAndTextComponent()
-            {
-                Title = "Email",
-                Text = Email,
-                Margin = new Thickness(24)
+            // Creates the email BioComponent
+         
+
+            EmailData = new EmailComponent()
+            { 
+            Email = Email,
+            Margin = new Thickness(24)
             };
+
+            // Binds the text property of the EmailData.Text to the Email property
+            EmailData.SetBinding(EmailComponent.EmailProperty, new Binding(nameof(Email)));
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(EmailData);
 
-            // Binds the text property of the EmailData.Text to the Email property
-            EmailData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Email)));
+
+            #region Change Password
+
+            //The changepassword Button 
+            ChangePassword = new Button()
+            {
+                Style = FlatButton,
+                Background = Styles.GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = Styles.DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Styles.Calibri,
+                    Text = "  Change Password"
+                },
+            };
+
+            ChangePassword.Click += ShowChangePasswordDialogOnClick;
+            PersonalDataStackPanel.Children.Add(ChangePassword);
+
+            #endregion
 
             #endregion
 
@@ -458,6 +502,10 @@ namespace Vaseis
             PageGrid.Children.Add(Bar);
             // Sets the border to the second column of the page's grid
             Grid.SetColumn(Bar, 1);
+
+            #endregion
+
+            #region Bio and Employee File
 
             CompanyDataStackPanel = new  StackPanel()
             {
@@ -567,6 +615,7 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(CertificatesContainer);
             CompanyDataStackPanel.Children.Add(RecommendationPapersContainer);
 
+
             var DataScrollViewer = new ScrollViewer()
             {
                 VerticalAlignment = VerticalAlignment.Top,
@@ -576,6 +625,8 @@ namespace Vaseis
             PageGrid.Children.Add(DataScrollViewer);
             // Sets the scroll viewer on the third column
             Grid.SetColumn(DataScrollViewer, 2);
+
+            #endregion
 
             var NavigationMenu = new NavigationMenuComponent()
             { 
@@ -601,8 +652,11 @@ namespace Vaseis
         {
             BioTile.BioTextBlock.Visibility = Visibility.Collapsed;
             BioTile.BioTextBox.Visibility = Visibility.Visible;
-
             BioTile.BioTextBox.Text = BioTile.BioTextBlock.Text;
+
+            EmailData.EmailTextBlock.Visibility = Visibility.Collapsed;
+            EmailData.EmailTextBox.Visibility = Visibility.Visible;
+            EmailData.EmailTextBox.Text = EmailData.EmailTextBlock.Text;
         }
 
         /// <summary>
@@ -612,6 +666,9 @@ namespace Vaseis
         {
             BioTile.BioTextBlock.Visibility = Visibility.Visible;
             BioTile.BioTextBox.Visibility = Visibility.Collapsed;
+
+            EmailData.EmailTextBlock.Visibility = Visibility.Visible;
+            EmailData.EmailTextBox.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -621,9 +678,30 @@ namespace Vaseis
         {
             BioTile.BioTextBlock.Visibility = Visibility.Visible;
             BioTile.BioTextBox.Visibility = Visibility.Collapsed;
-
             BioTile.BioTextBlock.Text = BioTile.BioTextBox.Text;
+
+            EmailData.EmailTextBlock.Visibility = Visibility.Visible;
+            EmailData.EmailTextBox.Visibility = Visibility.Collapsed;
+            EmailData.EmailTextBlock.Text = EmailData.EmailTextBox.Text;
+
         }
+
+        /// <summary>
+        /// On click shows the change password dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowChangePasswordDialogOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            ChangePasswordDialog = new ChangePasswordDialog();
+            // Adds it to the page grid
+            PageGrid.Children.Add(ChangePasswordDialog);
+
+            // Sets the is open property to true
+            ChangePasswordDialog.DialogHost.IsOpen = true;
+        }
+
 
         #endregion
 
