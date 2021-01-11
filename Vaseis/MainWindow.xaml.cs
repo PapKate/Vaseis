@@ -153,14 +153,14 @@ namespace Vaseis
 
             appTabControl.Items.Add(reportsPage);
 
-            var jobPositionDialogue = new TabItemComponent()
+            var jobPositionTotal = new TabItemComponent()
             {
                 Text = "Job positions",
-                Icon = PackIconKind.FolderEdit,
-                Content = new EvaluatorJobPosition()
+                Icon = PackIconKind.FolderInformation,
+                Content = new EvaluatorJobPositionsPage()
             };
 
-            appTabControl.Items.Add(jobPositionDialogue);
+            appTabControl.Items.Add(jobPositionTotal);
 
             var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
 

@@ -172,25 +172,25 @@ namespace Vaseis
                 Source = this
             });
 
-            // Creates and adds the evaluator's text block to the row's stack panel
+            // Creates and adds the employee's text block to the row's stack panel
             EmployeeTextBlock = CreateAndAddRowItem(1);
-            // Binds the evaluator's text block to the evaluator's name
+            // Binds the employee's text block to the employee's name
             EmployeeTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(EmployeeName))
             {
                 Source = this
             });
 
-            // Creates and adds the evaluator's text block to the row's stack panel
+            // Creates and adds the job position's text block to the row's stack panel
             JobTextBlock = CreateAndAddRowItem(2);
-            // Binds the evaluator's text block to the evaluator's name
+            // Binds the job position's text block to the job's name
             JobTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobName))
             {
                 Source = this
             });
 
-            // Creates and adds the evaluator's text block to the row's stack panel
+            // Creates and adds the department's text block to the row's stack panel
             DepartmentTextBlock = CreateAndAddRowItem(3);
-            // Binds the evaluator's text block to the evaluator's name
+            // Binds the department's text block to the department's name
             DepartmentTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DepartmentName))
             {
                 Source = this
