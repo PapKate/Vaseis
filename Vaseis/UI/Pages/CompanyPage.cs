@@ -15,14 +15,14 @@ namespace Vaseis
     //The number of the managers and the departments is missing because we have only 8 departments(fixed)
     //and every deprtment has one manager. So number of managers = number of departments = 8
 
-    class CompanyPage : ContentControl
+  public class CompanyPage : ContentControl
     {
 
         #region Protected Properties
         /// <summary>
         /// The company's Picture
         /// </summary>
-        public Image Image { get; private set; }
+        public Image Image { get; protected set; }
 
         /// <summary>
         /// The page's grid
@@ -33,11 +33,6 @@ namespace Vaseis
         /// The stack panel for the company data
         /// </summary>
         protected StackPanel CompanyInfoStackPanel { get; private set; }
-
-        /// <summary>
-        /// The image and logo of the company
-        /// </summary>
-        protected ImageAndNameComponent ImageAndLogo { get; private set; }
 
         /// <summary>
         /// The separator bar

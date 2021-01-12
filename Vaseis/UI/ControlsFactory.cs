@@ -32,7 +32,6 @@ namespace Vaseis
             var rowGrid = new Grid()
             {
                 Height = 52,
-
             };
 
             for (var i = 0; i <= 3; i++)

@@ -110,6 +110,19 @@ namespace Vaseis
             fianlButton.Click += ShowFinalizedDialog;
             testStackPanel.Children.Add(fianlButton);
 
+            var eh = new CompaniesComponent() { 
+            Logotype = "Coca Cola Light",
+            About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
+            Afm = "6149633580325",
+            Doy ="ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
+            Countryy = "Greece",
+            CITY = "Amaliada",
+            Addresss = "gamw ta info sas",
+            Tele = "2229037751",
+            DateOfCreation = "121854"
+            };
+            testStackPanel.Children.Add(eh);
+
             var error = new Button()
             {
                 Width = 240,
