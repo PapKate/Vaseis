@@ -15,6 +15,11 @@ namespace Vaseis
         /// </summary>
         public Grid PageGrid { get; }
 
+        /// <summary>
+        /// The report
+        /// </summary>
+        public ReportDataModel Report { get; }
+
         #region Protected Properties
 
         /// <summary>
@@ -31,6 +36,11 @@ namespace Vaseis
         /// The report
         /// </summary>
         protected TextBlock ReportTextBlock { get; private set; }
+
+        /// <summary>
+        /// The report's status text block
+        /// </summary>
+        protected TextBlock StatusTextBlock { get; private set; }
 
         /// <summary>
         /// More details text
@@ -56,40 +66,91 @@ namespace Vaseis
         
         #region Dependency Properties
 
-        #region Report
+        //#region Report
 
-        /// <summary>
-        /// The interview's comments
-        /// </summary>
-        public string Report
-        {
-            get { return (string)GetValue(ReportProperty); }
-            set { SetValue(ReportProperty, value); }
-        }
+        ///// <summary>
+        ///// The interview's comments
+        ///// </summary>
+        //public string Report
+        //{
+        //    get { return (string)GetValue(ReportProperty); }
+        //    set { SetValue(ReportProperty, value); }
+        //}
 
-        /// <summary>
-        /// Identifies the <see cref="Report"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty ReportProperty = DependencyProperty.Register(nameof(Report), typeof(string), typeof(ReportsDataGridRowComponent));
+        ///// <summary>
+        ///// Identifies the <see cref="Report"/> dependency property
+        ///// </summary>
+        //public static readonly DependencyProperty ReportProperty = DependencyProperty.Register(nameof(Report), typeof(string), typeof(ReportsDataGridRowComponent));
 
-        #endregion
+        //#endregion
+
+        //#region ReportStatus
+
+        ///// <summary>
+        ///// The interview's comments
+        ///// </summary>
+        //public bool IsWritten
+        //{
+        //    get { return (bool)GetValue(ReportStatusProperty); }
+        //    set { SetValue(ReportStatusProperty, value); }
+        //}
+
+        ///// <summary>
+        ///// Identifies the <see cref="IsWritten"/> dependency property
+        ///// </summary>
+        //public static readonly DependencyProperty ReportStatusProperty = DependencyProperty.Register(nameof(IsWritten), typeof(bool), typeof(ReportsDataGridRowComponent), new PropertyMetadata(OnStatusChanged));
+
+        ///// <summary>
+        ///// Handles the change of the <see cref="IsWritten"/> property
+        ///// </summary>
+        //private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var sender = d as ReportsDataGridRowComponent;
+
+        //    sender.OnStatusChangedCore(e);
+        //}
+
+        //#endregion
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ReportsDataGridRowComponent()
-        {
-
-        }
-
-        public ReportsDataGridRowComponent(Grid pageGrid)
+        public ReportsDataGridRowComponent(Grid pageGrid, ReportDataModel report)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Report = report ?? throw new ArgumentNullException(nameof(report));
             CreateGUI();
+
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="Report"/>
+        /// </summary>
+        public void Update()
+        {
+            EvaluatorName = Report.Evaluator.Username;
+            EmployeeName = Report.Employee.Username;
+            JobName = Report.Employee.Job.JobTitle;
+            DepartmentName = Report.Employee.Job.Department;
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the change of the <see cref="IsWritten"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnStatusChanged(DependencyPropertyChangedEventArgs e)
+        {
+
         }
 
         #endregion
@@ -101,6 +162,23 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the report's status text block
+            StatusTextBlock = new TextBlock()
+            {
+                FontSize = 28,
+                FontFamily = Calibri,
+                Foreground = DarkGray.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = "Empty"
+            };
+            // Adds it to the grid's header
+            RowDataGrid.Children.Add(StatusTextBlock);
+            // Sets the column where it starts
+            Grid.SetColumn(StatusTextBlock, 5);
+            // Sets the column span
+            Grid.SetColumnSpan(StatusTextBlock, 3);
+            
             //Creates the more details text
             MoreDetailsTextBlock = new TextBlock()
             {
@@ -228,6 +306,27 @@ namespace Vaseis
             PageGrid.Children.Add(finalizedDialog);
         }
 
+        /// <summary>
+        /// Handles the change of the <see cref="EditCommand"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnStatusChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+
+            if (newValue == true)
+            {
+                StatusTextBlock.Text = "Written";
+            }
+            else
+                StatusTextBlock.Text = "Empty";
+
+            // For a child's further modification
+            OnStatusChanged(e);
+
+            newValue = false;
+        }
         #endregion
     }
 }

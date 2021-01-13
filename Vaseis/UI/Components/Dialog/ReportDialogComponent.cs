@@ -26,17 +26,22 @@ namespace Vaseis
         /// <summary>
         /// The text input component for the username
         /// </summary>
-        protected TextInputComponent UserNameInput { get; private set; }
+        protected TextBlock UserNameTextBlock { get; private set; }
 
         /// <summary>
         /// The text input component for the username
         /// </summary>
-        protected TextInputComponent JopPositionInput { get; private set; }
+        protected TextBlock JopPositionTextBlock { get; private set; }
 
         /// <summary>
         /// The department picker component
         /// </summary>
-        protected PickerComponent DepartmentPicker { get; private set; }
+        protected TextBlock DepartmentTextBlock { get; private set; }
+
+        /// <summary>
+        /// The evaluator's picker
+        /// </summary>
+        protected PickerComponent EvaluatorPicker { get; private set; }
 
         /// <summary>
         /// The stack panel for the comments section
@@ -110,9 +115,22 @@ namespace Vaseis
             {
                 // Add the text from the row to the input text in the dialog accordingly
                 ParagraphTextBox.Text = EvaluatorDataGridRow.InterviewComments;
-                UserNameInput.Text = EvaluatorDataGridRow.EmployeeName;
-                JopPositionInput.Text = EvaluatorDataGridRow.JobName;
+                UserNameTextBlock.Text = EvaluatorDataGridRow.EmployeeName;
+                JopPositionTextBlock.Text = EvaluatorDataGridRow.JobName;
+                EvaluatorPicker.Text = EvaluatorDataGridRow.EvaluatorName;
             }
+
+            // If the row is not null...
+            if (ReportDataGridRow != null)
+            {
+                // Add the text from the row to the input text in the dialog accordingly
+                ParagraphTextBox.Text = ReportDataGridRow.Report;
+                UserNameTextBlock.Text = ReportDataGridRow.EmployeeName;
+                DepartmentTextBlock.Text = ReportDataGridRow.DepartmentName;
+                JopPositionTextBlock.Text = ReportDataGridRow.JobName;
+                EvaluatorPicker.Text = ReportDataGridRow.EvaluatorName;
+            }
+
         }
 
         /// <summary>
@@ -122,6 +140,30 @@ namespace Vaseis
         protected virtual void TemporarySaveOnClick(RoutedEventArgs e)
         { 
         
+        }
+
+        protected TextBlock CreateAndAddTextBlock()
+        {
+            var border = new Border()
+            {
+                Margin = new Thickness(24),
+                Width = 240,
+                BorderBrush = DarkGray.HexToBrush(),
+                BorderThickness = new Thickness(0, 0, 0, 1)
+            };
+            // Creates a new text block
+            var textBlock = new TextBlock()
+            {
+                FontSize = 24,
+                FontFamily = Calibri,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            border.Child = textBlock;
+            // Adds it to the input wrap panel
+            InputWrapPanel.Children.Add(border);
+
+            // Returns the text block
+            return textBlock;
         }
 
         #endregion
@@ -137,34 +179,23 @@ namespace Vaseis
             DialogTitle.Text = "Employee report";
 
             // The input field for user
-            UserNameInput = new TextInputComponent()
-            {
-                Margin = new Thickness(24),
-                HintText = "Employee's username",
-                Width = 240,
-                
-            };
-            // Adds the input field to the input wrap panel
-            InputWrapPanel.Children.Add(UserNameInput);
+            UserNameTextBlock = CreateAndAddTextBlock();
 
             // The input field for job position
-            JopPositionInput = new TextInputComponent()
-            {
-                Margin = new Thickness(24),
-                HintText = "Job position",
-                Width = 240,
-            };
-            // Adds the input field to the input wrap panel
-            InputWrapPanel.Children.Add(JopPositionInput);
+            JopPositionTextBlock = CreateAndAddTextBlock();
 
             // The picker for department
-            DepartmentPicker = new PickerComponent()
+            DepartmentTextBlock = CreateAndAddTextBlock();
+
+            EvaluatorPicker = new PickerComponent()
             {
-                HintText = "Department",
-                OptionNames = new List<string> { "Yeet", "Boom", "Potato", "Bazooka", "Development" }
+                OptionNames = new List<string> { "Yeet", "Boom", "Potato", "Bazooka", "PapLabros" },
+                HintText = "Evaluator",
+                Width = 240,
+                FontFamily = Calibri
             };
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(DepartmentPicker);
+            
+            InputWrapPanel.Children.Add(EvaluatorPicker);
 
             // Creates a stack panel for the comments area
             TextStackPanel = new StackPanel()
@@ -252,9 +283,6 @@ namespace Vaseis
             {
                 // Sets the row's values according to the matching input in the dialog
                 EvaluatorDataGridRow.InterviewComments = ParagraphTextBox.Text;
-                EvaluatorDataGridRow.EmployeeName = UserNameInput.Text;
-                EvaluatorDataGridRow.JobName = JopPositionInput.Text;
-                EvaluatorDataGridRow.DepartmentName = DepartmentPicker.Text;
                 DialogHost.IsOpen = false;
             }
             // If the report row exists...
@@ -262,9 +290,10 @@ namespace Vaseis
             {
                 // Sets the row's values according to the matching input in the dialog
                 ReportDataGridRow.Report = ParagraphTextBox.Text;
-                ReportDataGridRow.EmployeeName = UserNameInput.Text;
-                ReportDataGridRow.JobName = JopPositionInput.Text;
-                ReportDataGridRow.DepartmentName = DepartmentPicker.Text;
+                if (ParagraphTextBox.Text != "")
+                    ReportDataGridRow.IsWritten = true;
+                else
+                    ReportDataGridRow.IsWritten = false;
                 DialogHost.IsOpen = false;
             }
             TemporarySaveOnClick(e);

@@ -1,9 +1,11 @@
 ﻿
 using MaterialDesignThemes.Wpf;
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 using static Vaseis.Styles;
@@ -20,6 +22,8 @@ namespace Vaseis
         protected TextBlock MessageBlock { get; private set; }
 
         protected Button OkButton { get; private set; }
+
+        protected EmployeeJobRequestsDataGridRowComponent JobPositionRequestDataGridRow { get; private set; }
 
         #endregion
 
@@ -79,12 +83,37 @@ namespace Vaseis
 
         #endregion
 
+        #region OkCommand
+
+        /// <summary>
+        /// The edit command
+        /// </summary>
+        public ICommand OkCommand
+        {
+            get { return (ICommand)GetValue(OkCommandProperty); }
+            set { SetValue(OkCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="OkCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty OkCommandProperty = DependencyProperty.Register(nameof(OkCommand), typeof(ICommand), typeof(MessageDialogComponent));
+
+        #endregion
+
         #endregion
 
         #region Constructors
 
         public MessageDialogComponent()
         {
+            CreateGUI();
+        }
+
+        public MessageDialogComponent(EmployeeJobRequestsDataGridRowComponent jobPositionRequestDataGridRow)
+        {
+            JobPositionRequestDataGridRow = jobPositionRequestDataGridRow ?? throw new ArgumentNullException(nameof(jobPositionRequestDataGridRow));
+
             CreateGUI();
         }
 
@@ -97,18 +126,19 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Binds the dialog's title
             DialogTitle.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title))
             {
                 Source = this
             });
 
+            // Binds the dialog's foreground color
             DialogTitle.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(BrushColor))
             {
                 Source = this
             });
 
-            //DialogTitle.Foreground = DarkBlue.HexToBrush();
-
+            // Creates a message text block
             MessageBlock = new TextBlock()
             {
                 TextAlignment = TextAlignment.Center,
@@ -125,9 +155,10 @@ namespace Vaseis
             {
                 Source = this
             });
-
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(MessageBlock);
 
+            // Creates an OK button
             OkButton = new Button()
             {
                 Background = DarkBlue.HexToBrush(),
@@ -144,18 +175,24 @@ namespace Vaseis
                 Padding = new Thickness(0),
                 BorderThickness = new Thickness(0),
             };
+            // Binds its command
+            OkButton.SetBinding(Button.CommandProperty, new Binding(nameof(OkCommand))
+            { 
+                Source = this
+            });
 
             // Adds a corner radius
             ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
             OkButton.Click += CloseDialogOnClick;
-
+            // And background property
             OkButton.SetBinding(Button.BackgroundProperty, new Binding(nameof(BrushColor))
             {
                 Source = this
             });
-
+            // Adds it to the button's stack panel
             DialogButtonsStackPanel.Children.Add(OkButton);
 
+            // Sets the component's content as the dialog host
             Content = DialogHost;
         }
 

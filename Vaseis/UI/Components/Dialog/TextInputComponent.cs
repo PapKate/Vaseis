@@ -87,7 +87,7 @@ namespace Vaseis
             // Creates the input's text box
             InputTextBox = new TextBox()
             {
-                FontSize = 20,
+                FontSize = 24,
                 Foreground = DarkGray.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Padding = new Thickness(4, 0, 4, 0)
@@ -102,7 +102,7 @@ namespace Vaseis
             HintTitleBlock = new TextBlock()
             {
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,

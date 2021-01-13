@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,17 @@ namespace Vaseis
         /// The name
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The day it was handed
+        /// </summary>
+        public DateTime AcquiredDate { get; set; }
+
+        /// <summary>
+        /// The complete awards title
+        /// </summary>
+        [NotMapped]
+        public string AwardData => $"{Name}, {AcquiredDate}";
 
         #region Relationships
 

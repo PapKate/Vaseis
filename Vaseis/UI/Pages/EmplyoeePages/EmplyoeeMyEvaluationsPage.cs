@@ -26,7 +26,7 @@ namespace Vaseis
         {
             var pageGrid = new Grid();
 
-            var dataGrid2 = new EmployeeDataGridComponent()
+            var dataGrid2 = new EmployeeMyEvaluationsDataGridComponent()
             {
             };
 

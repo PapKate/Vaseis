@@ -81,7 +81,6 @@ namespace Vaseis
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
@@ -101,6 +100,30 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            // Query the reports of the manager and add them as rows to the data grid
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="NewRow"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnNewRowChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
         #region Private Methods
 
         /// <summary>
@@ -111,34 +134,31 @@ namespace Vaseis
             InfoDataStackPanel = new StackPanel();
 
             // Creates and adds the header's row
-            DataGridHeader = new BaseDataGridHeaderComponent
+            DataGridHeader = new ReportDataGridHeaderComponent()
             {
                 Margin = new Thickness(-36, 0, 0, 0)
             };
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
 
-            // Creates and adds a row to the data grid
-            var row = new ReportsDataGridRowComponent(PageGrid)
-            {
-                EvaluatorName = "PapLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior developer",
-                DepartmentName = "Development",
-            };
+            //// Creates and adds a row to the data grid
+            //var row = new ReportsDataGridRowComponent(PageGrid)
+            //{
+              
+            //};
 
-            InfoDataStackPanel.Children.Add(row);
+            //InfoDataStackPanel.Children.Add(row);
 
-            // Creates and adds a row to the data grid
-            var row2 = new ReportsDataGridRowComponent(PageGrid)
-            {
-                EvaluatorName = "PapBoomBommLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior developer",
-                DepartmentName = "Development",
-            };
+            //// Creates and adds a row to the data grid
+            //var row2 = new ReportsDataGridRowComponent(PageGrid)
+            //{
+            //    EvaluatorName = "PapBoomBommLabros",
+            //    EmployeeName = "PapKaterina",
+            //    JobName = "Junior developer",
+            //    DepartmentName = "Development",
+            //};
 
-            InfoDataStackPanel.Children.Add(row2);
+            //InfoDataStackPanel.Children.Add(row2);
 
             // Sets the component's content to the info data grid
             Content = InfoDataStackPanel;
@@ -171,6 +191,8 @@ namespace Vaseis
                 // Sets the new row value to false
                 NewRow = false;
             }
+
+            OnNewRowChanged(e);
         }
 
 

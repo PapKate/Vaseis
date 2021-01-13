@@ -11,7 +11,7 @@ namespace Vaseis
         /// </summary>
         protected Grid PageGrid { get; private set; }
 
-        protected JobPositionsDataGridComponent DataGrid { get; private set; }
+        protected EvaluatorJobPositionsDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Vaseis
             {
             };
 
-            DataGrid = new JobPositionsDataGridComponent(PageGrid)
+            DataGrid = new EvaluatorJobPositionsDataGridComponent(PageGrid)
             {
 
             };

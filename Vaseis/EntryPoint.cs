@@ -35,15 +35,11 @@ namespace Vaseis
             thread.Start();
         }
 
-        public static readonly LoggerFactory mLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
+    
 
         private static async Task SetUpAsync()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<VaseisDbContext>();
-            optionsBuilder.UseMySql("Server=localhost;Database=Vaseis;Uid=root;Pwd=12345678;");
-            optionsBuilder.UseLoggerFactory(mLoggerFactory);
-
-            var context = new VaseisDbContext(optionsBuilder.Options);
+            var context = Services.GetDbContext;
 
             // I implemented the users GUI
 

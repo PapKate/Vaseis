@@ -59,27 +59,9 @@ namespace Vaseis
             };
             PageGrid.Children.Add(DataGrid);
 
-            // Creates the add new user button
-            AddButton = ControlsFactory.CreateAddButton(DarkBlue);
-            // On click opens the new user dialog
-            AddButton.Click += ShowDialogOnClick;
-
-
-            // Adds the button to the page's grid
-            PageGrid.Children.Add(AddButton);
-
+           
             // Sets the component's content to the page's grid
             Content = PageGrid;
-        }
-
-        /// <summary>
-        /// On click closes the dialog
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowDialogOnClick(object sender, RoutedEventArgs e)
-        {
-            DataGrid.NewRow = true;
         }
 
         #endregion

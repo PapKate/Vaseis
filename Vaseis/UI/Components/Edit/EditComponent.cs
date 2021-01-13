@@ -46,14 +46,14 @@ namespace Vaseis
         /// </summary>
         public ICommand EditCommand
         {
-            get { return (ICommand)GetValue(EditProperty); }
-            set { SetValue(EditProperty, value); }
+            get { return (ICommand)GetValue(EditCommandProperty); }
+            set { SetValue(EditCommandProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="EditCommand"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty EditProperty = DependencyProperty.Register(nameof(EditCommand), typeof(ICommand), typeof(EditComponent));
+        public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register(nameof(EditCommand), typeof(ICommand), typeof(EditComponent));
 
         #endregion
 

@@ -63,7 +63,7 @@ namespace Vaseis
             {
                 rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
                 {
-                    Width = new GridLength(60, GridUnitType.Pixel)
+                    Width = new GridLength(70, GridUnitType.Pixel)
                 });
             }
 
@@ -82,7 +82,7 @@ namespace Vaseis
             {
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
@@ -108,7 +108,7 @@ namespace Vaseis
                 Width = 240,
                 Margin = new Thickness(24),
                 Foreground = DarkGray.HexToBrush(),
-                FontSize = 20
+                FontSize = 24
             };
             // Adds a hint to the date picker
             ControlsFactory.CreateHint(hintText, datePicker);
@@ -154,11 +154,11 @@ namespace Vaseis
         #region Control Buttons
 
         /// <summary>
-        /// Creates a square button with a pack icon
+        /// Creates a square button with a pack icon and specified color
         /// </summary>
         /// <param name="packIconKind"></param>
         /// <returns></returns>
-        public static Button CreateControlButton(PackIconKind packIconKind)
+        public static Button CreateControlButton(PackIconKind packIconKind, string backgroundColor)
         {
             var button = new Button()
             {
@@ -173,6 +173,7 @@ namespace Vaseis
                 Height = 40,
                 Padding = new Thickness(0),
                 BorderThickness = new Thickness(0),
+                Background = backgroundColor.HexToBrush()
             };
 
             ButtonAssist.SetCornerRadius(button, new CornerRadius(8));
@@ -186,9 +187,7 @@ namespace Vaseis
         /// <returns></returns>
         public static Button CreateEditButton()
         {
-            var button = CreateControlButton(PackIconKind.Edit);
-
-            button.Background = StyleHelpers.HexToBrush(Styles.DarkPink);
+            var button = CreateControlButton(PackIconKind.Edit, DarkPink);
 
             return button;
         }
@@ -199,9 +198,7 @@ namespace Vaseis
         /// <returns></returns>
         public static Button CreateCloseButton()
         {
-            var button = CreateControlButton(PackIconKind.Close);
-
-            button.Background = StyleHelpers.HexToBrush(Styles.Red);
+            var button = CreateControlButton(PackIconKind.Close, Red);
 
             return button;
         }
@@ -212,9 +209,7 @@ namespace Vaseis
         /// <returns></returns>
         public static Button CreateCheckButton()
         {
-            var button = CreateControlButton(PackIconKind.Check);
-
-            button.Background = StyleHelpers.HexToBrush(Styles.Green);
+            var button = CreateControlButton(PackIconKind.Check, Green);
       
             return button;
         }
@@ -225,11 +220,8 @@ namespace Vaseis
         /// <returns></returns>
         public static Button CreateBackButton()
         {
-            var button = CreateControlButton(PackIconKind.ArrowLeftBold);
-
-            button.Background = StyleHelpers.HexToBrush(Styles.Green);
-
-
+            var button = CreateControlButton(PackIconKind.ArrowLeftBold, HookersGreen);
+            
             return button;
         }
 
@@ -239,10 +231,8 @@ namespace Vaseis
         /// <returns></returns>
         public static Button CreateFinalizeButton()
         {
-            var button = CreateControlButton(PackIconKind.ArrowUpBold);
-
-            button.Background = HookersGreen.HexToBrush();
-
+            var button = CreateControlButton(PackIconKind.ArrowUpBold, HookersGreen);
+            
             return button;
         }
 

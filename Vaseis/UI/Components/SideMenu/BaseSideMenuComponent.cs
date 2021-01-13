@@ -19,6 +19,11 @@ namespace Vaseis
         /// </summary>
         public TabControl TabControl { get; }
 
+        /// <summary>
+        /// The user
+        /// </summary>
+        public UserDataModel User { get; }
+
         #endregion
 
         #region Protected Properties
@@ -46,10 +51,11 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="tabControl">The tab control</param>
-        public BaseSideMenuComponent(TabControl tabControl)
+        public BaseSideMenuComponent(TabControl tabControl, UserDataModel user)
         {
-            CreateGUI();
+            User = user ?? throw new System.ArgumentNullException(nameof(user));
             TabControl = tabControl ?? throw new System.ArgumentNullException(nameof(tabControl));
+            CreateGUI();
         }
 
         #endregion
