@@ -28,9 +28,6 @@ namespace Vaseis
         /// </summary>
         public string Description { get; set; }
 
-
-
-
         #region Relationships
 
         #region recursion
@@ -42,13 +39,13 @@ namespace Vaseis
 
         /// <summary>
         /// The related <see cref="SubjectDataModel"/>
-        /// </summary>
+        /// </summary>+
         public SubjectDataModel Subject{ get; set; }
 
         /// <summary>
-        /// The subjects current sybject belnongs to 
+        /// The more specific subjects that belong to this subject
         /// </summary>
-        public IEnumerable<SubjectDataModel> ParentSubjects { get; set; }
+        public IEnumerable<SubjectDataModel> ChildrenSubjects { get; set; }
 
         #endregion
 
@@ -58,7 +55,7 @@ namespace Vaseis
         public int? JobPositionId { get; set; }
 
         /// <summary>
-        /// The related <see cref="SJobPositionDataModel"/>
+        /// The related <see cref="JobPositionDataModel"/>
         /// </summary>
         public JobPositionDataModel JobPosition { get; set; }
       

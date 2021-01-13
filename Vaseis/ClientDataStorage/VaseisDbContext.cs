@@ -234,12 +234,11 @@ namespace Vaseis
             #region Subject
 
             modelBuilder.Entity<SubjectDataModel>()
-                .HasMany(x => x.ParentSubjects)
+                .HasMany(x => x.ChildrenSubjects)
                 .WithOne(x => x.Subject)
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             #endregion
 

@@ -63,6 +63,21 @@ namespace Vaseis
         /// </summary>
         public static readonly DependencyProperty BioProperty = DependencyProperty.Register(nameof(BioText), typeof(string), typeof(BioComponent));
 
+        /// <summary>
+        /// The Bio's Title
+        /// </summary>
+        public string BioTextTitle
+        {
+            get { return (string)GetValue(BioTextTitleProperty); }
+            set { SetValue(BioTextTitleProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BioTextTitle"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty BioTextTitleProperty = DependencyProperty.Register(nameof(BioTextTitle), typeof(string), typeof(BioComponent));
+
+
         #endregion
 
         #region IsEditable
@@ -160,7 +175,7 @@ namespace Vaseis
             // Creates the bio's title
             BioTitle = new TextBlock()
             {
-                Text = "Bio",
+                Text = BioTextTitle,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 FontSize = 32,
@@ -169,6 +184,13 @@ namespace Vaseis
                 Margin = new Thickness(0, 0, 0, 12),
                 Width = 960
             };
+
+            // Binds the text property of the BiooTitle to the BioTextTitle property
+            BioTitle.SetBinding(TextBlock.TextProperty, new Binding(nameof(BioTextTitle))
+            {
+                Source = this
+            });
+
 
             // Creates the bio's grid
             BioTextGrid = new Grid();

@@ -12,9 +12,29 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
-        /// A list that contains all input field's hint texts
+        /// The new user  Username input 
         /// </summary>
-        protected List<string> UserInputFields { get; private set; }
+        protected TextInputComponent UsernameInput { get; private set; }
+
+        /// <summary>
+        /// The new user  email input 
+        /// </summary>
+        protected TextInputComponent EmailInput { get; private set; }
+
+        /// <summary>
+        /// The new user  lastname input 
+        /// </summary>
+        protected TextInputComponent LastNameInput { get; private set; }
+
+        /// <summary>
+        /// The new user  firstname input 
+        /// </summary>
+        protected TextInputComponent FirstNameInput { get; private set; }
+
+        /// <summary>
+        /// The new user  jobposition input 
+        /// </summary>
+        protected TextInputComponent JobPositionInput { get; private set; }
 
         /// <summary>
         /// The picker component for company
@@ -38,6 +58,57 @@ namespace Vaseis
 
         #endregion
 
+        #region Dependency Properties
+        //The Ienumerable Porperties such as Companies, Departments etc, dont need OnPathChanged because the 
+        //are used in pickerComponents which have it already implemented in pickerComponentClass
+
+        #region Companies 
+
+        public IEnumerable<string> OptionCompanies
+        {
+            get { return (IEnumerable<string>)GetValue(OptionCompaniesProperty); }
+            set { SetValue(OptionCompaniesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="OptionCompanies"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty OptionCompaniesProperty = DependencyProperty.Register(nameof(OptionCompanies), typeof(IEnumerable<string>), typeof(NewUserInputDialogComponent));
+
+        #endregion
+
+        #region Companies 
+
+        public IEnumerable<string> OptionDepartments
+        {
+            get { return (IEnumerable<string>)GetValue(OptionDepartmentsProperty); }
+            set { SetValue(OptionDepartmentsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="OptionDepartments"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty OptionDepartmentsProperty = DependencyProperty.Register(nameof(OptionDepartments), typeof(IEnumerable<string>), typeof(NewUserInputDialogComponent));
+
+        #endregion
+
+        #region Companies 
+
+        public IEnumerable<string> OptionUserTypes
+        {
+            get { return (IEnumerable<string>)GetValue(OptionUserTypesProperty); }
+            set { SetValue(OptionUserTypesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="OptionUserTypes"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty OptionUserTypesProperty = DependencyProperty.Register(nameof(OptionUserTypes), typeof(IEnumerable<string>), typeof(NewUserInputDialogComponent));
+
+        #endregion
+
+        #endregion
+
         #region Constructors
 
         public NewUserInputDialogComponent()
@@ -56,32 +127,52 @@ namespace Vaseis
         {
             // Sets the dialog text to new user form
             DialogTitle.Text = "New user form";
-            
-            // Creates a list with all the input fields
-            UserInputFields = new List<string>()
+
+            // Creates a text input component...
+            UsernameInput = new TextInputComponent()
             {
-                "Username",
-                "Email",
-                "First name",
-                "Last name",
-                "Job position",
+                // With hint text the text 
+                HintText = "username",
+                Margin = new Thickness(24),
+                Width = 240
             };
+            InputWrapPanel.Children.Add(UsernameInput);
 
-            // For each name in the list...
-            foreach(var inputField in UserInputFields)
+            FirstNameInput = new TextInputComponent()
             {
-                // Creates a text input component...
-                var inputTextBox = new TextInputComponent()
-                {
-                    // With hint text the text 
-                    HintText = inputField,
-                    Margin = new Thickness(24),
-                    Width = 240
-                };
+                // With hint text the text 
+                HintText = "First name",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            InputWrapPanel.Children.Add(FirstNameInput);
 
-                // Adds it to the input wrap panel of the dialog grid
-                InputWrapPanel.Children.Add(inputTextBox);
-            }
+            LastNameInput = new TextInputComponent()
+            {
+                // With hint text the text 
+                HintText = "Last name",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            InputWrapPanel.Children.Add(LastNameInput);
+
+            EmailInput = new TextInputComponent()
+            {
+                // With hint text the text 
+                HintText = "Email",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            InputWrapPanel.Children.Add(EmailInput);
+
+            JobPositionInput = new TextInputComponent()
+            {
+                // With hint text the text 
+                HintText = "Job position",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            InputWrapPanel.Children.Add(JobPositionInput);
 
             // Test list
             var newList = new List<string> { "Yeet", "Boom", "Potato" };
@@ -115,6 +206,58 @@ namespace Vaseis
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(UserTypePicker);
+
+            //taken as dependencies
+
+            //// The picker for company
+            //CompanyPicker = new PickerComponent()
+            //{
+            //    HintText = "Company",
+            //    OptionNames = OptionsCompanies
+            //};
+
+            //    CompanyPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionCompanies))
+            //{
+            //    Source = this
+            //});
+
+
+            //// Adds the picker to the wrap panel
+            //InputWrapPanel.Children.Add(CompanyPicker);
+
+            //// The picker for department
+            //DepartmentPicker = new PickerComponent()
+            //{
+            //    HintText = "Department",
+            //    OptionNames = OptionsDepartments
+            //};
+            //    DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionDepartments))
+            //{
+            //    Source = this
+            //});
+
+
+            //// Adds it to the wrap panel
+            //InputWrapPanel.Children.Add(DepartmentPicker);
+
+            //// The picker for user type
+            //UserTypePicker = new PickerComponent()
+            //{
+            //    HintText = "User type",
+            //    OptionNames = OptionsUserTypes
+            //};
+            //    UsertypePicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionUserTypes))
+            //{
+            //    Source = this
+            //});
+
+
+            //// Adds it to the wrap panel
+            //InputWrapPanel.Children.Add(UserTypePicker);
+
+
+
+
 
             // Creates the create a new user button
             CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create user");

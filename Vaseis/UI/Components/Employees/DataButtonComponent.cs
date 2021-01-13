@@ -76,7 +76,7 @@ namespace Vaseis
         public static readonly DependencyProperty FullNameProperty = DependencyProperty.Register(nameof(FullName), typeof(string), typeof(DataButtonComponent));
 
         #endregion
-
+        
         #endregion
 
         #region Constructors

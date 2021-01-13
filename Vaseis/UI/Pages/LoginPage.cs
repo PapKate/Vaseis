@@ -11,7 +11,7 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class LoginPage : ContentControl   
+    public class loginPage : ContentControl   
     {
         #region Public Properties
 
@@ -54,7 +54,7 @@ namespace Vaseis
 
         #region Constructor 
 
-        public LoginPage()
+        public loginPage()
         {
             CreateGUI();
         }
@@ -72,7 +72,7 @@ namespace Vaseis
 
             AppName = new TextBlock()
             {
-                Text = "Courabiedes",
+                Text = "Cotton-field Workers",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontSize = 77,
                 FontWeight = FontWeights.Bold,
