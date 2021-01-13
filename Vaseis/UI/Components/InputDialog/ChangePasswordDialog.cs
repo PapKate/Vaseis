@@ -21,17 +21,17 @@ namespace Vaseis
         /// <summary>
         /// Old passward Input
         /// </summary>
-        protected TextInputComponent CurrentPasswordInput { get; private set; }
+        protected PasswordBox CurrentPasswordInput { get; private set; }
 
         /// <summary>
         /// Old passward Input
         /// </summary>
-        protected TextInputComponent NewPasswordInput { get; private set; }
+        protected PasswordBox NewPasswordInput { get; private set; }
 
         /// <summary>
         /// Old passward Input
         /// </summary>
-        protected TextInputComponent TypeAgainNewPasswordInput { get; private set; }
+        protected PasswordBox TypeAgainNewPasswordInput { get; private set; }
 
         /// <summary>
         /// The button that sends the values when user is done
@@ -82,26 +82,64 @@ namespace Vaseis
 
             // we shall compare the database's current password to the one that th euser will give us
             //in this input field
-            CurrentPasswordInput = new TextInputComponent()
+
+            var HintOldPasswordTitleBlock = new TextBlock()
+            {
+                Margin = new Thickness(8, 0, 0, 0),
+                Foreground = DarkPink.HexToBrush(),
+                FontSize = 20,
+                FontFamily = Calibri,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontWeight = FontWeights.Normal,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                IsHitTestVisible = false,
+                Text = "Current Password"
+            };
+
+            CurrentPasswordInput = new PasswordBox()
             {
                 // With hint text the name
-                HintText = "Current password",
+                Margin = new Thickness(24),
+                Width = 240
+
+            };
+
+            var HintNewPasswordTitleBlock = new TextBlock()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(8, 0, 0, 0),
+                Foreground = DarkPink.HexToBrush(),
+                FontSize = 20,
+                FontFamily = Calibri,
+                FontWeight = FontWeights.Normal,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                IsHitTestVisible = false,
+                Text = "New Password"
+            };
+
+            NewPasswordInput = new PasswordBox()
+            {
+                // With hint text the name
                 Margin = new Thickness(24),
                 Width = 240
             };
 
-            NewPasswordInput = new TextInputComponent()
+            var HintConfirmNewPasswordTitleBlock = new TextBlock()
             {
-                // With hint text the name
-                HintText = "New password",
-                Margin = new Thickness(24),
-                Width = 240
+                Margin = new Thickness(8, 0, 0, 0),
+                Foreground = DarkPink.HexToBrush(),
+                FontSize = 20,
+                FontFamily = Calibri,
+                FontWeight = FontWeights.Normal,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                IsHitTestVisible = false,
+                Text = "Confirm Password"
             };
-   
-            TypeAgainNewPasswordInput = new TextInputComponent()
+
+            TypeAgainNewPasswordInput = new PasswordBox()
             {
                 // With hint text the name
-                HintText = "Verify new password",
                 Margin = new Thickness(24),
                 Width = 240
             };
@@ -109,8 +147,11 @@ namespace Vaseis
             //i use a stack panel so that the input fields are set in a column
             var ChangePasswordStackpanel = new StackPanel();
 
+            ChangePasswordStackpanel.Children.Add(HintOldPasswordTitleBlock);
             ChangePasswordStackpanel.Children.Add(CurrentPasswordInput);
+            ChangePasswordStackpanel.Children.Add(HintNewPasswordTitleBlock);
             ChangePasswordStackpanel.Children.Add(NewPasswordInput);
+            ChangePasswordStackpanel.Children.Add(HintConfirmNewPasswordTitleBlock);
             ChangePasswordStackpanel.Children.Add(TypeAgainNewPasswordInput);
 
 

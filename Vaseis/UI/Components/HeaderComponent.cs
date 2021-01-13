@@ -351,7 +351,7 @@ namespace Vaseis
                 FontWeight = FontWeights.Bold,
                 FontStyle = FontStyles.Normal,
                 FontSize = 36,
-                Text = "Courabiedes"
+                Text = "Cotton-field Workers"
             };
 
             // Adds to the header the text block with the application's name

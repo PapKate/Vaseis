@@ -26,6 +26,11 @@ namespace Vaseis
         protected NewCompanyDialogComponent CreateCompanyDialog { get; private set; }
 
         /// <summary>
+        /// The create new subject dialog
+        /// </summary>
+        protected NewSubjectDialogComponent CreateSubjectDialog { get; private set; }
+
+        /// <summary>
         /// The error dialog
         /// </summary>
         protected MessageDialogComponent ErrorDialog { get; private set; }
@@ -98,6 +103,17 @@ namespace Vaseis
             companyButton.Click += ShowNewCompanyDialog;
             testStackPanel.Children.Add(companyButton);
 
+            var subjectButton = new Button()
+            {
+                Width = 240,
+                Height = 40,
+                Content = "Subject",
+                Margin = new Thickness(60)
+            };
+
+            subjectButton.Click += ShowNewSubjectDialog;
+            testStackPanel.Children.Add(subjectButton);
+
             var fianlButton = new Button()
             {
                 Width = 240,
@@ -110,18 +126,8 @@ namespace Vaseis
             fianlButton.Click += ShowFinalizedDialog;
             testStackPanel.Children.Add(fianlButton);
 
-            var eh = new CompaniesComponent() { 
-            Logotype = "Coca Cola Light",
-            About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-            Afm = "6149633580325",
-            Doy ="ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
-            Countryy = "Greece",
-            CITY = "Amaliada",
-            Addresss = "gamw ta info sas",
-            Tele = "2229037751",
-            DateOfCreation = "121854"
-            };
-            testStackPanel.Children.Add(eh);
+      
+
 
             var error = new Button()
             {
@@ -196,6 +202,25 @@ namespace Vaseis
             // Sets the is open property to true
             ErrorDialog.DialogHost.IsOpen = true;
         }
+
+        /// <summary>
+        /// On click shows the error dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowNewSubjectDialog(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            CreateSubjectDialog = new NewSubjectDialogComponent()
+            { 
+            };
+            // Adds it to the page grid
+            PageGrid.Children.Add(CreateSubjectDialog);
+
+            // Sets the is open property to true
+            CreateSubjectDialog.DialogHost.IsOpen = true;
+        }
+
 
         /// <summary>
         /// On click shows the finalized and sent dialog the dialog

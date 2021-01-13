@@ -112,7 +112,7 @@ namespace Vaseis
 
             AppName = new TextBlock()
             {
-                Text = "Courabiedes",
+                Text = "Cotton-field Workers",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontSize = 77,
                 FontWeight = FontWeights.Bold,

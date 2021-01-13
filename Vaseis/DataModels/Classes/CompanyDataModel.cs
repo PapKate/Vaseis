@@ -25,6 +25,11 @@ namespace Vaseis
         public string Name { get; set; }
 
         /// <summary>
+        /// Just for the ui one color
+        /// </summary>
+        public string CompanyColor { get; set; }
+
+        /// <summary>
         /// The date the company was created
         /// </summary>
         public DateTime DateCreated { get; set; } = DateTime.Now;
@@ -86,6 +91,11 @@ namespace Vaseis
         /// The related users
         /// </summary>
         public IEnumerable<UserDataModel> Users { get; set; }
+
+        /// <summary>
+        /// The related Jobs
+        /// </summary>
+        public IEnumerable<JobDataModel> Jobs { get; set; }
 
         #endregion
 

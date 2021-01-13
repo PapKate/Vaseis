@@ -77,7 +77,7 @@ namespace Vaseis
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 32,
+                FontSize = 28,
                 FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkGray.HexToBrush(),
                 Text = "Email"
@@ -90,7 +90,7 @@ namespace Vaseis
             EmailTextBlock = new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
-                FontSize = 20,
+                FontSize = 24,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkGray.HexToBrush(),
              
@@ -105,7 +105,7 @@ namespace Vaseis
             //The editable user's email section
             EmailTextBox = new TextBox() {
                 HorizontalAlignment = HorizontalAlignment.Left,
-                FontSize = 20,
+                FontSize = 24,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkGray.HexToBrush(),
                 TextWrapping = TextWrapping.Wrap,

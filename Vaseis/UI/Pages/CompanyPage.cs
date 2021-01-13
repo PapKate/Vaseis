@@ -414,7 +414,6 @@ namespace Vaseis
             //The Companby's image and logotype
              var Image = new Image()
             {
-                 Margin = new Thickness(8),
                  Width = 240,
                  Height = 240,
                  HorizontalAlignment = HorizontalAlignment.Center,
@@ -436,10 +435,13 @@ namespace Vaseis
             {
                 Title = "AFM",
                 Text = AFM,
-                Margin = new Thickness(8)
-            };
+                Margin = new Thickness(12),
+        };
             // Binds the AFMData property to the afm dependency property
-            AFMData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(AFM)));
+            AFMData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(AFM))
+            {
+                Source = this
+            });
 
 
             //adds it to the info column
@@ -450,10 +452,13 @@ namespace Vaseis
             {
                 Title = "DOY",
                 Text = DOY,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the DoyData property to the Doy dependency property
-            DOYData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DOY)));
+            DOYData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DOY))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(DOYData);
@@ -463,10 +468,13 @@ namespace Vaseis
             {
                 Title = "Country",
                 Text = Country,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the countryData block property to the Country dependency property
-            CountryData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Country)));
+            CountryData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Country))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(CountryData);
@@ -476,10 +484,13 @@ namespace Vaseis
             {
                 Title = "City",
                 Text = City,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the CityData block property to the City dependency property
-            CityData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(City)));
+            CityData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(City))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(CityData);
@@ -489,10 +500,13 @@ namespace Vaseis
             {
                 Title = "Address",
                 Text = Address,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the AddressData block property to the ImagePath dependency property
-            AddressData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Address)));
+            AddressData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Address))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(AddressData);
@@ -502,10 +516,13 @@ namespace Vaseis
             {
                 Title = "Telephone",
                 Text = Telephone,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the iTelephoneData block property to the ImagePath dependency property
-            TelephoneData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Telephone)));
+            TelephoneData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Telephone))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(TelephoneData);
@@ -515,10 +532,13 @@ namespace Vaseis
             {
                 Title = "Created on",
                 Text = Telephone,
-                Margin = new Thickness(8)
+                Margin = new Thickness(12),
             };
             // Binds the DateCreatedData block property to the DateCreated dependency property
-            DateCreatedData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DateCreated)));
+            DateCreatedData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DateCreated))
+            {
+                Source = this
+            });
 
             //adds it to the info column
             CompanyInfoStackPanel.Children.Add(DateCreatedData);
@@ -559,7 +579,6 @@ namespace Vaseis
             EditButtons.SaveButton.Click += SaveEditProfile;
 
 
-
             //JustlIKE Bio text
             var LogoBlock = new TextBlock()
             {
@@ -571,7 +590,10 @@ namespace Vaseis
             };
             TopStackPanel.Children.Add(LogoBlock);
             // Binds the Logo block property to the Logo dependency property
-            LogoBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Logo)));
+            LogoBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Logo))
+            {
+                Source = this
+            });
 
 
             #region About
@@ -583,7 +605,10 @@ namespace Vaseis
                BioText =AboutText
             };
             // Binds the aBOUT property to the aBOUTcOMPANYTEXT dependency property
-            AboutTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(AboutText)));
+            AboutTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(AboutText))
+            {
+                Source = this
+            });
 
 
             TopStackPanel.Children.Add(AboutTile);
@@ -605,7 +630,10 @@ namespace Vaseis
                Background = "ff4455".HexToBrush()
             };
             // Binds the employeeTextBlock property to the NumberOfEmployees dependency property
-            employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees)));
+            employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
+            {
+                Source = this
+            });
 
             CompanyHasDataGrid.Children.Add(employeeTextBlock);
 
@@ -616,7 +644,10 @@ namespace Vaseis
                 Background = "ff4455".HexToBrush()
             };
             // Binds the JobsTextBlock property to the NumberOfJobs dependency property
-            managersTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees)));
+            managersTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
+            {
+                Source = this
+            });
 
             CompanyHasDataGrid.Children.Add(managersTextBlock);
 
@@ -627,7 +658,10 @@ namespace Vaseis
                 Background = "ff4455".HexToBrush()
             };
             // Binds the EvaluatorsBlock property to the NumberOfEvaluators dependency property
-            evaluatorsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEvaluators)));
+            evaluatorsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEvaluators))
+            {
+                Source = this
+            });
 
             CompanyHasDataGrid.Children.Add(evaluatorsTextBlock);
 
@@ -638,7 +672,10 @@ namespace Vaseis
                 Background = "ff4455".HexToBrush()
             };    
             // Binds the DepartmentsBlock property to the NumberOfDepartments dependency property
-            departmentsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfDepartments)));
+            departmentsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfDepartments))
+            {
+                Source = this
+            });
 
             CompanyHasDataGrid.Children.Add(departmentsTextBlock);
 
@@ -650,7 +687,10 @@ namespace Vaseis
                 Background = "ff4455".HexToBrush()
             };
             // Binds the JobsTextBlock property to the NumberOfJobs dependency property
-            jobsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobs)));
+            jobsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobs))
+            {
+                Source = this
+            });
            
             CompanyHasDataGrid.Children.Add(jobsTextBlock);
 
@@ -662,7 +702,10 @@ namespace Vaseis
                 Background = "ff4455".HexToBrush()
             };
             // Binds the Jobpositions property to the NumberOfJobPositions dependency property
-            jobPositionsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobPositions)));
+            jobPositionsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobPositions))
+            {
+                Source = this
+            });
 
             CompanyHasDataGrid.Children.Add(jobPositionsTextBlock);
 

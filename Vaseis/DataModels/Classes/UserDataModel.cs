@@ -49,6 +49,7 @@ namespace Vaseis
         /// </summary>
         public string FullName
         {
+
             get => FirstName + " " + LastName;
 
             set { }

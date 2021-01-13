@@ -264,6 +264,24 @@ namespace Vaseis
 
         #endregion
 
+        #region YearsOfExperiece
+
+        /// <summary>
+        /// The user's YearsOfExperiece
+        /// </summary>
+        public string YearsOfExperiece
+        {
+            get { return (string)GetValue(YearsOfExperieceProperty); }
+            set { SetValue(YearsOfExperieceProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="YearsOfExperiece"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty YearsOfExperieceProperty = DependencyProperty.Register(nameof(YearsOfExperiece), typeof(string), typeof(ProfilePage));
+
+        #endregion
+
         #region Job
 
         /// <summary>
@@ -384,7 +402,7 @@ namespace Vaseis
             PersonalDataStackPanel = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(24)
+                Margin = new Thickness(16)
             };
 
             ImageAndTitle = new ImageAndNameComponent()
@@ -394,9 +412,15 @@ namespace Vaseis
             };
 
             // Binds the imagePath property to the Image dependency property
-             ImageAndTitle.SetBinding(ImageAndNameComponent.ImagePathProperty, new Binding(nameof(Image)));
+             ImageAndTitle.SetBinding(ImageAndNameComponent.ImagePathProperty, new Binding(nameof(Image))
+             {
+                 Source = this
+             });
             // Binds the Text property to the Username dependency property
-             ImageAndTitle.SetBinding(ImageAndNameComponent.TextProperty, new Binding(nameof(Username)));
+             ImageAndTitle.SetBinding(ImageAndNameComponent.TextProperty, new Binding(nameof(Username))
+             {
+                 Source = this
+             });
 
 
             PersonalDataStackPanel.Children.Add(ImageAndTitle);
@@ -413,53 +437,78 @@ namespace Vaseis
             {
                 Title = "First name",
                 Text =FirstName,
-                Margin = new Thickness(24)
+                Margin = new Thickness(16)
             };
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(FirstNameData);
 
             // Binds the FirstNameData.Text property of the text block to the FirstName property
-            FirstNameData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(FirstName)));
+            FirstNameData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(FirstName))
+            {
+                Source = this
+            });
 
             // Creates the last name text blocks
             var LastNameData = new TitleAndTextComponent()
             {
                 Title = "Last name",
                 Text = LastName,
-                Margin = new Thickness(24)
-
+                Margin = new Thickness(16)
             };
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(LastNameData);
 
             // Binds the LastName text to the LastName property
-            LastNameData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(LastName)));
+            LastNameData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(LastName))
+            {
+                Source = this
+            });
 
             // Creates the company text blocks
             var CompanyData = new TitleAndTextComponent()
             {
                 Title = "Company",
                 Text = Company,
-                Margin = new Thickness(24)
+                Margin = new Thickness(16)
             };
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(CompanyData);
 
             // Binds theCompanyData property to the Company property
-            CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Company)));
+            CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Company))
+            {
+                Source = this
+            });
 
+            // Creates the users yearsofexp data
+            var YearsOfXp = new TitleAndTextComponent()
+            {
+                Title = "Years of experience",
+                Text = Company,
+                Margin = new Thickness(16),
+            };
+            // Adds them to the stack panel
+            PersonalDataStackPanel.Children.Add(YearsOfXp);
+
+            // Binds theCompanyData property to the Company property
+            YearsOfXp.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(YearsOfExperiece))
+            {
+                Source = this
+            });
 
             // Creates the email BioComponent
-         
 
             EmailData = new EmailComponent()
             { 
             Email = Email,
-            Margin = new Thickness(24)
+                Margin = new Thickness(16)
             };
 
             // Binds the text property of the EmailData.Text to the Email property
-            EmailData.SetBinding(EmailComponent.EmailProperty, new Binding(nameof(Email)));
+            EmailData.SetBinding(EmailComponent.EmailProperty, new Binding(nameof(Email))
+            {
+                Source = this
+            });
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(EmailData);
 
@@ -496,7 +545,7 @@ namespace Vaseis
                 Background = DarkBlue.HexToBrush(),
                 CornerRadius = new CornerRadius(4),
                 Width = 8,
-                Margin = new Thickness(0, 24, 0, 24)
+                Margin = new Thickness(16)
             };
             // Adds the border to the page's grid
             PageGrid.Children.Add(Bar);
@@ -529,7 +578,10 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(JobTitleBlock);
 
             // Binds the text property of the titleblock to the Job property
-            JobTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Job)));
+            JobTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Job))
+            {
+                Source = this
+            });
 
             //The evaluators Average 
             var EvalsAverage = new TextBlock()
@@ -543,7 +595,10 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(EvalsAverage);
 
             // Binds the text property of the text block to the Evaluator's Average property
-            EvalsAverage.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluatorsAverage)));
+            EvalsAverage.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluatorsAverage))
+            {
+                Source = this
+            });
 
 
             DepartmentTitleBlock = new TextBlock()
@@ -557,7 +612,10 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
 
             // Binds the text property of the text block to the Department property
-            DepartmentTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Email)));
+            DepartmentTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Email))
+            {
+                Source = this
+            });
 
             // Creates a bio tile
             BioTile = new BioComponent()
@@ -570,7 +628,10 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(BioTile);
 
             // Binds the text property of the BioComponent to the BioText property
-            BioTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(BioText)));
+            BioTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(BioText))
+            {
+                Source = this
+            });
 
 
             FileDataGrid = new UniformGrid()
@@ -587,7 +648,10 @@ namespace Vaseis
             };
 
             // Binds the list property of the AwardsContainer to the AwardsList property
-            AwardsContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(Awards)));
+            AwardsContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(Awards))
+            {
+                Source = this
+            });
 
             CertificatesContainer = new TitleAndListComponent()
             {
@@ -598,7 +662,10 @@ namespace Vaseis
 
 
             // Binds the list property of the CertificatesContainer to the CertificatesList property
-            CertificatesContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(Certificates)));
+            CertificatesContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(Certificates))
+            {
+                Source = this
+            });
 
             RecommendationPapersContainer = new TitleAndListComponent()
             {
@@ -608,7 +675,10 @@ namespace Vaseis
             };
 
             // Binds the list property of the RecommendationPapersContainer to the RecommendationPapersList property
-            RecommendationPapersContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(RecommendationPapers)));
+            RecommendationPapersContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(RecommendationPapers))
+            {
+                Source = this
+            });
 
 
             CompanyDataStackPanel.Children.Add(AwardsContainer);

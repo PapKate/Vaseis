@@ -137,6 +137,25 @@ namespace Vaseis
 
             appTabControl.Items.Add(companyPage);
 
+              var companiesPage = new TabItemComponent()
+            {
+                Text = "Companies",
+                Icon = PackIconKind.Domain,
+                Content = new CompaniesPage()
+            };
+
+            appTabControl.Items.Add(companiesPage);
+
+            var UserComponent = new TabItemComponent()
+            {
+                Text = "UserCompoent",
+                Icon = PackIconKind.ClipboardAccount,
+                Content = new AdminsUsersPage()
+            };
+
+            appTabControl.Items.Add(UserComponent);
+
+        
 
 
             var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
