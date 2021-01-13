@@ -1,6 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -156,33 +155,5 @@ namespace Vaseis
 
         #endregion
 
-    }
-
-    public class UserButtonComponent : DataButtonComponent
-    {
-        #region Public Properties
-
-        /// <summary>
-        /// The user
-        /// </summary>
-        public UserDataModel User { get; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="user">The user</param>
-        public UserButtonComponent(UserDataModel user)
-        {
-            User = user ?? throw new ArgumentNullException(nameof(user));
-
-            Username = user.Username;
-            FullName = user.FullName;
-        }
-
-        #endregion
     }
 }

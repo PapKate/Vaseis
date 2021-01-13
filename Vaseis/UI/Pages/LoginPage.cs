@@ -11,7 +11,10 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class loginPage : ContentControl   
+    /// <summary>
+    /// The login page
+    /// </summary>
+    public class LoginPage : ContentControl   
     {
         #region Public Properties
 
@@ -52,9 +55,18 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Properties
+
+        /// <summary>
+        /// The page's grid
+        /// </summary>
+        protected Grid PageGrid { get; private set; }
+
+        #endregion
+
         #region Constructor 
 
-        public loginPage()
+        public LoginPage()
         {
             CreateGUI();
         }
@@ -68,17 +80,20 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            #region Login Column
+            //the LoginPageGrid
+            PageGrid = new Grid()
+            {
+                Background = DarkBlue.HexToBrush()
+            };
 
             AppName = new TextBlock()
             {
                 Text = "Cotton-field Workers",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                FontSize = 77,
+                FontSize = 70,
                 FontWeight = FontWeights.Bold,
-                Foreground = Styles.DarkBlue.HexToBrush(),
+                Foreground = DarkBlue.HexToBrush(),
             };
-
 
             WelcomeBackText = new TextBlock()
             {
@@ -86,11 +101,10 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontSize = 50,
                 FontWeight = FontWeights.Bold,
-                Foreground = Styles.DarkPink.HexToBrush(),
+                Foreground = DarkPink.HexToBrush(),
                 Margin = new Thickness(15)
 
             };
-
 
             UsernameTextBlock = new TextBlock()
             {
@@ -106,7 +120,7 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
-                Foreground = Styles.DarkBlue.HexToBrush(),
+                Foreground = DarkBlue.HexToBrush(),
                 Margin = new Thickness(8, 0, 8, 0)
             };
 
@@ -116,7 +130,7 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
-                Foreground = Styles.DarkBlue.HexToBrush(),
+                Foreground = DarkBlue.HexToBrush(),
             };
 
             EnterPassword = new PasswordBox()
@@ -124,7 +138,7 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
-                Foreground = Styles.DarkBlue.HexToBrush(),
+                Foreground = DarkBlue.HexToBrush(),
                 Margin = new Thickness(8, 0, 8, 0)
             };
 
@@ -152,6 +166,15 @@ namespace Vaseis
                     if (user == null)
                     {
                         // The user entered invalid credentials...
+                        var errorDialog = new MessageDialogComponent()
+                        {
+                            Message = "Invalid credentials! Please try again.",
+                            Title = "Error",
+                            BrushColor = Red.HexToBrush(),
+                            IsDialogOpen = true
+                        };
+                        // Adds the dialog to the grid
+                        PageGrid.Children.Add(errorDialog);
 
                         // Return
                         return;
@@ -178,16 +201,15 @@ namespace Vaseis
             usernameBorder.Child = EnterUsername;
           
 
-            //creates a border hosy the password textbox
+            // creates a border hosy the password textbox
             var passwordBorder = new Border()
             {
                 BorderThickness = new Thickness(2),
-                BorderBrush = Styles.DarkBlue.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
+                BorderBrush = DarkBlue.HexToBrush(),
+                Background = White.HexToBrush(),
                 CornerRadius = new CornerRadius(8),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Width = 320,
-
             };
 
             passwordBorder.Child = EnterPassword;
@@ -213,14 +235,16 @@ namespace Vaseis
 
             var middleGrid = new Grid()
             {
-                Background = Styles.GhostWhite.HexToBrush(),
+                Background = GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Center
             };
+            PageGrid.Children.Add(middleGrid);
 
-            //the column (stackpanel for the login components to be added in)
+            //the column (stack panel for the login components to be added in)
             var loginStackPanel = new StackPanel()
             {
-                Background = Styles.GhostWhite.HexToBrush(),
-                Margin = new Thickness(0, -100, 0, 0),
+                Background = GhostWhite.HexToBrush(),
+                Margin = new Thickness(32, -100, 32, 0),
                 VerticalAlignment = VerticalAlignment.Center,
                 
             };
@@ -231,44 +255,9 @@ namespace Vaseis
             loginStackPanel.Children.Add(passwordStackPanel);
             loginStackPanel.Children.Add(LoginButton);
 
-            #endregion
-
-            #region LoginPage
-
-            //the LoginPageGrid
-            var loginPageGrid = new Grid()
-            { 
-                Background = DarkBlue.HexToBrush()
-            };
-
-            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Star)
-            });
-
-
-            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(640, GridUnitType.Pixel)
-            });
-
-
-            loginPageGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Star)
-            });
-
             middleGrid.Children.Add(loginStackPanel);
 
-            loginPageGrid.Children.Add(middleGrid);
-
-            Grid.SetColumn(middleGrid, 1);
-
-
-
-            Content = loginPageGrid;
-
-            #endregion
+            Content = PageGrid;
 
         }
 

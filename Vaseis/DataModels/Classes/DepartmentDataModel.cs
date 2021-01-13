@@ -18,12 +18,12 @@ namespace Vaseis
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The department's name
         /// </summary>
-        public Department Department { get; set; }
+        public Department DepartmentName { get; set; }
 
         /// <summary>
         /// The department's color
@@ -46,6 +46,11 @@ namespace Vaseis
         /// The users (employees, evaluators, managers)
         /// </summary>
         public IEnumerable<UserDataModel> Users { get; set; }
+
+        /// <summary>
+        /// The jobs of the department
+        /// </summary>
+        public IEnumerable<JobDataModel> Jobs { get; set; }
 
         #endregion
 

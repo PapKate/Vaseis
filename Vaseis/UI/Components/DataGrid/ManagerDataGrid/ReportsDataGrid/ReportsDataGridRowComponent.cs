@@ -63,7 +63,7 @@ namespace Vaseis
         protected Button FinalizeButton { get; private set; }
 
         #endregion
-        
+
         #region Dependency Properties
 
         //#region Report
@@ -84,33 +84,33 @@ namespace Vaseis
 
         //#endregion
 
-        //#region ReportStatus
+        #region ReportStatus
 
-        ///// <summary>
-        ///// The interview's comments
-        ///// </summary>
-        //public bool IsWritten
-        //{
-        //    get { return (bool)GetValue(ReportStatusProperty); }
-        //    set { SetValue(ReportStatusProperty, value); }
-        //}
+        /// <summary>
+        /// The interview's comments
+        /// </summary>
+        public bool IsWritten
+        {
+            get { return (bool)GetValue(ReportStatusProperty); }
+            set { SetValue(ReportStatusProperty, value); }
+        }
 
-        ///// <summary>
-        ///// Identifies the <see cref="IsWritten"/> dependency property
-        ///// </summary>
-        //public static readonly DependencyProperty ReportStatusProperty = DependencyProperty.Register(nameof(IsWritten), typeof(bool), typeof(ReportsDataGridRowComponent), new PropertyMetadata(OnStatusChanged));
+        /// <summary>
+        /// Identifies the <see cref="IsWritten"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ReportStatusProperty = DependencyProperty.Register(nameof(IsWritten), typeof(bool), typeof(ReportsDataGridRowComponent), new PropertyMetadata(OnStatusChanged));
 
-        ///// <summary>
-        ///// Handles the change of the <see cref="IsWritten"/> property
-        ///// </summary>
-        //private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    var sender = d as ReportsDataGridRowComponent;
+        /// <summary>
+        /// Handles the change of the <see cref="IsWritten"/> property
+        /// </summary>
+        private static void OnStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ReportsDataGridRowComponent;
 
-        //    sender.OnStatusChangedCore(e);
-        //}
+            sender.OnStatusChangedCore(e);
+        }
 
-        //#endregion
+        #endregion
 
         #endregion
 
@@ -136,8 +136,8 @@ namespace Vaseis
         {
             EvaluatorName = Report.Evaluator.Username;
             EmployeeName = Report.Employee.Username;
-            JobName = Report.Employee.Job.JobTitle;
-            DepartmentName = Report.Employee.Job.Department;
+            JobName = Report.Employee.JobPosition.Job.JobTitle;
+            DepartmentName = Report.Employee.JobPosition.Job.Department.DepartmentName.ToString();
         }
 
         #endregion

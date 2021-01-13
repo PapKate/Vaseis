@@ -25,14 +25,9 @@ namespace Vaseis
         public DbSet<UserDataModel> Users { get; set; }
 
         /// <summary>
-        /// The awards table
+        /// The users and job files pairs table
         /// </summary>
-        public DbSet<AwardDataModel> Awards { get; set; }
-
-        /// <summary>
-        /// The reports table
-        /// </summary>
-        public DbSet<ReportDataModel> Reports { get; set; }
+        public DbSet<UsersJobFilesPairDataModel> UsersJobFilesPairs { get; set; }
 
         /// <summary>
         /// The jobs table
@@ -42,7 +37,12 @@ namespace Vaseis
         /// <summary>
         /// The job positions table
         /// </summary>
-        public DbSet<JobPositionDataModel> Jobpositions { get; set; }
+        public DbSet<JobPositionDataModel> JobPositions { get; set; }
+
+        /// <summary>
+        /// The reports table
+        /// </summary>
+        public DbSet<ReportDataModel> Reports { get; set; }
 
         /// <summary>
         /// The evaluations table
@@ -50,11 +50,14 @@ namespace Vaseis
         public DbSet<EvaluationDataModel> Evaluations { get; set; }
 
         /// <summary>
+        /// The job position requests table
+        /// </summary>
+        public DbSet<JobPositionRequestDataModel> JobPositionRequests { get; set; }
+
+        /// <summary>
         /// The subjects table
         /// </summary>
         public DbSet<SubjectDataModel> Subjects { get; set; }
-
-
 
         /// <summary>
         /// The degrees table
@@ -75,7 +78,12 @@ namespace Vaseis
         /// The recommendations table
         /// </summary>
         public DbSet<RecomendationPaperDataModel> RecomendationPapers { get; set; }
-
+        
+        /// <summary>
+        /// The awards table
+        /// </summary>
+        public DbSet<AwardDataModel> Awards { get; set; }
+        
         /// <summary>
         /// The languages table
         /// </summary>
@@ -85,8 +93,6 @@ namespace Vaseis
         /// The projects table
         /// </summary>
         public DbSet<ProjectDataModel> Projects { get; set; }
-
-
 
         #endregion
 
@@ -127,13 +133,6 @@ namespace Vaseis
                 .HasForeignKey(x => x.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<UserDataModel>()
-            //    .HasMany(x => x.ManagerEmployees)
-            //    .WithOne(x => x.Manager)
-            //    .HasPrincipalKey(x => x.Id)
-            //    .HasForeignKey(x => x.ManagerId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             // For the certificates of a user...
             modelBuilder.Entity<UserDataModel>()
                 .HasMany(x => x.Certificates)
@@ -166,13 +165,37 @@ namespace Vaseis
                 .HasForeignKey(x => x.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // For the projects of a user...
+            // For the acquired degrees of a user...
             modelBuilder.Entity<UserDataModel>()
                 .HasMany(x => x.AcquiredDegrees)
                 .WithOne(x => x.Employee)
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the job position requests of an employee...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.JobPositionRequests)
+            //    .WithOne(x => x.Employee)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EmployeeId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the evaluations of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.Evaluations)
+            //    .WithOne(x => x.Employee)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EmployeeId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the reports of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.Reports)
+            //    .WithOne(x => x.Employee)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EmployeeId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
 
@@ -217,6 +240,26 @@ namespace Vaseis
                 .HasForeignKey(x => x.DepartmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // For the jobs in a department
+            modelBuilder.Entity<DepartmentDataModel>()
+                .HasMany(x => x.Jobs)
+                .WithOne(x => x.Department)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.DepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Job
+
+            // For the subjects related to a JobPosition
+            modelBuilder.Entity<JobDataModel>()
+                .HasMany(x => x.JobPositions)
+                .WithOne(x => x.Job)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.JobId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             #endregion
 
             #region JobPosiion
@@ -228,7 +271,15 @@ namespace Vaseis
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.JobPositionId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
+            // For the job position requests related to a JobPosition
+            modelBuilder.Entity<JobPositionDataModel>()
+                .HasMany(x => x.JobPositionRequests)
+                .WithOne(x => x.JobPosition)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.JobPositionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             #endregion
 
             #region Subject

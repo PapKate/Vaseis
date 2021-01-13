@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using static Vaseis.Styles;
 using static Vaseis.MaterialDesignStyles;
-
+using System;
 
 namespace Vaseis
 {
@@ -14,6 +14,16 @@ namespace Vaseis
     /// </summary>
     public class ProfilePage : ContentControl
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The user
+        /// </summary>
+        public UserDataModel User { get; }
+
+        #endregion
+
+
         #region Protected Properties
 
         /// <summary>
@@ -69,7 +79,7 @@ namespace Vaseis
         /// <summary>
         /// The user's eail BioComponent (editText - textBlock)
         /// </summary>
-        protected EmailComponent EmailData { get; private set; }
+        protected EditableTextComponent EmailData { get; private set; }
 
         /// <summary>
         /// The grid for the file data
@@ -360,8 +370,10 @@ namespace Vaseis
         /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
-        public ProfilePage()
+        public ProfilePage(UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -407,21 +419,9 @@ namespace Vaseis
 
             ImageAndTitle = new ImageAndNameComponent()
             {
-                Text = Username,
+                Text = User.Username,
                 ImagePath =  Image,
             };
-
-            // Binds the imagePath property to the Image dependency property
-             ImageAndTitle.SetBinding(ImageAndNameComponent.ImagePathProperty, new Binding(nameof(Image))
-             {
-                 Source = this
-             });
-            // Binds the Text property to the Username dependency property
-             ImageAndTitle.SetBinding(ImageAndNameComponent.TextProperty, new Binding(nameof(Username))
-             {
-                 Source = this
-             });
-
 
             PersonalDataStackPanel.Children.Add(ImageAndTitle);
 
@@ -474,13 +474,7 @@ namespace Vaseis
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(CompanyData);
 
-            // Binds theCompanyData property to the Company property
-            CompanyData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Company))
-            {
-                Source = this
-            });
-
-            // Creates the users yearsofexp data
+            // Creates the users years of exp data
             var YearsOfXp = new TitleAndTextComponent()
             {
                 Title = "Years of experience",
@@ -498,37 +492,32 @@ namespace Vaseis
 
             // Creates the email BioComponent
 
-            EmailData = new EmailComponent()
+            EmailData = new EditableTextComponent()
             { 
-            Email = Email,
+                Text = User.Email,
+                Title = "Email",
                 Margin = new Thickness(16)
             };
 
-            // Binds the text property of the EmailData.Text to the Email property
-            EmailData.SetBinding(EmailComponent.EmailProperty, new Binding(nameof(Email))
-            {
-                Source = this
-            });
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(EmailData);
 
-
             #region Change Password
 
-            //The changepassword Button 
+            //The change password Button 
             ChangePassword = new Button()
             {
                 Style = FlatButton,
-                Background = Styles.GhostWhite.HexToBrush(),
+                Background = GhostWhite.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Content = new TextBlock()
                 {
-                    Foreground = Styles.DarkBlue.HexToBrush(),
+                    Foreground = DarkBlue.HexToBrush(),
                     FontSize = 18,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     FontWeight = FontWeights.Normal,
-                    FontFamily = Styles.Calibri,
-                    Text = "  Change Password"
+                    FontFamily = Calibri,
+                    Text = "Change password"
                 },
             };
 
@@ -683,11 +672,9 @@ namespace Vaseis
                 Source = this
             });
 
-
             CompanyDataStackPanel.Children.Add(AwardsContainer);
             CompanyDataStackPanel.Children.Add(CertificatesContainer);
             CompanyDataStackPanel.Children.Add(RecommendationPapersContainer);
-
 
             var DataScrollViewer = new ScrollViewer()
             {
@@ -771,7 +758,7 @@ namespace Vaseis
             PageGrid.Children.Add(ChangePasswordDialog);
 
             // Sets the is open property to true
-            ChangePasswordDialog.DialogHost.IsOpen = true;
+            ChangePasswordDialog.IsDialogOpen = true;
         }
 
         #endregion

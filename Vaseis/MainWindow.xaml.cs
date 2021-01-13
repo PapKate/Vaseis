@@ -1,6 +1,8 @@
 
 using MaterialDesignThemes.Wpf;
 
+using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +34,7 @@ namespace Vaseis
         /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
-        private void CreateGUI()
+        private async void CreateGUI()
         {
             // The grid for the entire app's window
             var windowGrid = new Grid();
@@ -163,37 +165,41 @@ namespace Vaseis
             };
             appTabControl.Items.Add(reports);
 
-          
+            var manager = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+
+
+            var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
+            appGrid.Children.Add(ManagerSideMenu);
 
             var logInPage = new LoginPage();
 
-            logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
-            {
-                if (e.Type == UserType.Administrator)
-                {
+            //logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
+            //{
+            //    if (e.Type == UserType.Administrator)
+            //    {
 
-                }
-                else if (e.Type == UserType.Evaluator)
-                {
-                    var sideMenuComponent = new EvaluatorSideMenuComponent(appTabControl, e);
+            //    }
+            //    else if (e.Type == UserType.Evaluator)
+            //    {
+            //        var sideMenuComponent = new EvaluatorSideMenuComponent(appTabControl, e);
 
-                    // Adds to the app's grid the side menu
-                    appGrid.Children.Add(sideMenuComponent);
-                }
-                else if (e.Type == UserType.Manager)
-                {
-                    var sideMenuComponent = new ManagerSideMenuComponent(appTabControl, e);
+            //        // Adds to the app's grid the side menu
+            //        appGrid.Children.Add(sideMenuComponent);
+            //    }
+            //    else if (e.Type == UserType.Manager)
+            //    {
+            //        var sideMenuComponent = new ManagerSideMenuComponent(appTabControl, e);
 
-                    // Adds to the app's grid the side menu
-                    appGrid.Children.Add(sideMenuComponent);
-                }
+            //        // Adds to the app's grid the side menu
+            //        appGrid.Children.Add(sideMenuComponent);
+            //    }
 
-                windowGrid.Children.Remove(logInPage);
-            });
+            //    windowGrid.Children.Remove(logInPage);
+            //});
 
-            windowGrid.Children.Add(logInPage);
+            //windowGrid.Children.Add(logInPage);
 
-            Grid.SetRow(logInPage, 1);
+            //Grid.SetRow(logInPage, 1);
 
             // Sets the content as the window's grid
             Content = windowGrid;

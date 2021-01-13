@@ -100,14 +100,12 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-            var employees = await Services.GetDbContext.Users.Where(x => x.Type == UserType.Employee && x.DepartmentId == Manager.DepartmentId).ToListAsync();
+            var employees = await Services.GetDbContext.Users.Where(x => x.Type == UserType.Employee && x.CompanyId == Manager.CompanyId).ToListAsync();
 
             // For every employee...
             foreach(var employee in employees)
                 // Create and add the user button
                 EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
-
-
         }
 
         #endregion

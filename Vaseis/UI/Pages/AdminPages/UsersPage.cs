@@ -114,8 +114,6 @@ namespace Vaseis
             subjectButton.Click += ShowNewSubjectDialog;
             testStackPanel.Children.Add(subjectButton);
 
-            var fianlButton = new Button();
-
             var epevaluation = new Button()
             {
                 Width = 240,
@@ -137,7 +135,7 @@ namespace Vaseis
             //report.Click += ShowReportDialog;
             testStackPanel.Children.Add(report);
 
-            var fianlButton = new Button()
+            var fianlizedButton = new Button()
             {
                 Width = 240,
                 Height = 40,
@@ -145,7 +143,7 @@ namespace Vaseis
             };
 
             //fianlButton.Click += ShowFinalizedDialog;
-            testStackPanel.Children.Add(fianlButton);
+            testStackPanel.Children.Add(fianlizedButton);
 
             var error = new Button()
             {
@@ -182,7 +180,7 @@ namespace Vaseis
             PageGrid.Children.Add(CreateCompanyDialog);
 
             // Sets the is open property to true
-            CreateCompanyDialog.DialogHost.IsOpen = true;
+           // CreateCompanyDialog.DialogHost.IsOpen = true;
         }
 
         /// <summary>
@@ -200,7 +198,7 @@ namespace Vaseis
             PageGrid.Children.Add(CreateSubjectDialog);
 
             // Sets the is open property to true
-            CreateSubjectDialog.DialogHost.IsOpen = true;
+            //CreateSubjectDialog.DialogHost.IsOpen = true;
         }
 
         ///// <summary>
