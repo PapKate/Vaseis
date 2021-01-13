@@ -109,7 +109,7 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// On click closes the dialog
+        /// On click shows the evaluation dialog
         /// </summary>
         private void ShowRowDialog(object sender, RoutedEventArgs e)
         {

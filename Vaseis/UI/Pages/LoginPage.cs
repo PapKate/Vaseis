@@ -1,4 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
+
+using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -48,45 +52,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency properties 
-
-        #region Username
-
-        /// <summary>
-        /// The user's username
-        /// </summary>
-        public string Username
-        {
-            get { return GetValue(UsernameProperty).ToString(); }
-            set { SetValue(UsernameProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Username"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(LoginPage));
-
-        #endregion
-
-        #region Password
-        /// <summary>
-        /// The user's username
-        /// </summary>
-        public string Password
-        {
-            get { return GetValue(PasswordProperty).ToString(); }
-            set { SetValue(PasswordProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Password"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password), typeof(string), typeof(LoginPage));
-
-        #endregion
-
-        #endregion
-
         #region Constructor 
 
         public LoginPage()
@@ -129,7 +94,7 @@ namespace Vaseis
 
             UsernameTextBlock = new TextBlock()
             {
-                Text = "username",
+                Text = "Username",
                 HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
@@ -145,15 +110,9 @@ namespace Vaseis
                 Margin = new Thickness(8, 0, 8, 0)
             };
 
-            // Binds the text property of the text box to the Username property
-            UsernameTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Username))
-            {
-                Source = this
-            });
-
             PasswordTextBlock = new TextBlock()
             {
-                Text = "password",
+                Text = "Password",
                 HorizontalAlignment = HorizontalAlignment.Left,
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
@@ -169,12 +128,6 @@ namespace Vaseis
                 Margin = new Thickness(8, 0, 8, 0)
             };
 
-            // Binds the text property of the text boxto the Password property
-            PasswordTextBlock.SetBinding(TextBox.TextProperty, new Binding(nameof(Password))
-            {
-                Source = this
-            });
-
             LoginButton = new Button()
             {
                 Width = 160,
@@ -189,7 +142,24 @@ namespace Vaseis
                     FontWeight = FontWeights.Bold,
                     Foreground = White.HexToBrush(),
                     Text = "Login"
-                }
+                },
+                Command = new RelayCommand(async () => 
+                {
+                    // Attempt to get the user with the inserted credentials
+                    var user = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Username == EnterUsername.Text && x.Password == EnterPassword.Password);
+
+                    // If a user isn't found...
+                    if (user == null)
+                    {
+                        // The user entered invalid credentials...
+
+                        // Return
+                        return;
+                    }
+
+                    // Fire the event
+                    UserConnected(this, user);
+                })
             };
             // Sets the button's corner radius
             ButtonAssist.SetCornerRadius(LoginButton, new CornerRadius(8));
@@ -301,6 +271,15 @@ namespace Vaseis
             #endregion
 
         }
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// Fires every time a user connects to the application
+        /// </summary>
+        public event EventHandler<UserDataModel> UserConnected = (sender, e) => { };
 
         #endregion
     }

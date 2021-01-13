@@ -2,6 +2,7 @@
 
 using MaterialDesignThemes.Wpf;
 
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Vaseis
@@ -33,7 +34,7 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="tabControl">The tab control</param>
-        public EmployeeSideMenuComponent(TabControl tabControl) : base(tabControl)
+        public EmployeeSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
             CreateGUI();
         }
@@ -46,12 +47,42 @@ namespace Vaseis
         {
             // Create and add the my job requests button
             MyJobRequestsButton = CreateAndAddSideMenuButton("My job requests", PackIconKind.ClipboardArrowUp);
+            // On click opens in a tab the my job requests page
+            MyJobRequestsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "My job requests",
+                    Icon = PackIconKind.ClipboardArrowUp,
+                    Content = new EmployeeMyJobRequestsPage()
+                });
+            });
 
             // Create and add the my evaluations button
             MyEvaluationsButton = CreateAndAddSideMenuButton("My evaluations", PackIconKind.ClipboardAccount);
+            // On click opens in a tab the my evaluations page
+            MyEvaluationsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "My evaluations",
+                    Icon = PackIconKind.ClipboardAccount,
+                    Content = new EmplyoeeMyEvaluationsPage()
+                });
+            });
 
             // Create and add the job positions button
             JobPositionsButton = CreateAndAddSideMenuButton("Job positions", PackIconKind.FolderSearch);
+            // On click opens in a tab the job positions page
+            JobPositionsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Job positions",
+                    Icon = PackIconKind.FolderSearch,
+                    Content = new EmployeeJobPositionsPage()
+                });
+            });
         }
 
 

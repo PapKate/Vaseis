@@ -1,6 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+
 using MaterialDesignThemes.Wpf;
+
+using Microsoft.EntityFrameworkCore;
 
 using static Vaseis.Styles;
 
@@ -12,6 +18,15 @@ namespace Vaseis
     /// </summary>
     public class EmployeesPage : ContentControl
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -57,15 +72,42 @@ namespace Vaseis
         /// <summary>
         /// The employee buttons grid
         /// </summary>
-        protected UserButtonsContainerComponent EmployeeButtonsContainer { get; private set; }
-
+        protected UniformGrid EmployeeButtonsContainer { get; private set; }
+        
         #endregion
 
         #region Constructors
 
-        public EmployeesPage()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="manager">The manager</param>
+        public EmployeesPage(UserDataModel manager)
         {
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
             CreateGUI();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            var employees = await Services.GetDbContext.Users.Where(x => x.Type == UserType.Employee && x.DepartmentId == Manager.DepartmentId).ToListAsync();
+
+            // For every employee...
+            foreach(var employee in employees)
+                // Create and add the user button
+                EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
+
+
         }
 
         #endregion
@@ -154,9 +196,7 @@ namespace Vaseis
             SearchBarBorder.Child = SearchBar;
 
             // Creates the employees buttons with the container
-            EmployeeButtonsContainer = new UserButtonsContainerComponent()
-            {
-            };
+            EmployeeButtonsContainer = new UniformGrid() { Columns = 4 };
             // Adds the container to the page's stack panel
             PageStackPanel.Children.Add(EmployeeButtonsContainer);
 

@@ -9,9 +9,9 @@ using static Vaseis.Styles;
 namespace Vaseis
 {
     /// <summary>
-    /// 
+    /// The base job position's data grid row
     /// </summary>
-    public class JobPositionsDataGridRowComponent : ContentControl
+    public abstract class BaseJobPositionsDataGridRowComponent : ContentControl
     {
         /// <summary>
         /// The page's grid
@@ -50,6 +50,16 @@ namespace Vaseis
         /// </summary>
         protected TextBlock SubjectTextBlock { get; private set; }
 
+        /// <summary>
+        /// The deadline's text block
+        /// </summary>
+        protected TextBlock DeadlineTextBlock { get; private set; }
+
+        /// <summary>
+        /// The number of job requests' text block
+        /// </summary>
+        protected TextBlock NumberOfJobRequestsTextBlock { get; private set; }
+
         #endregion
 
         #region Dependency Properties
@@ -68,7 +78,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="JobPositionText"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty JobPositionTextProperty = DependencyProperty.Register(nameof(JobPositionText), typeof(string), typeof(JobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty JobPositionTextProperty = DependencyProperty.Register(nameof(JobPositionText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -86,7 +96,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="DepartmentText"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty DepartmentTextProperty = DependencyProperty.Register(nameof(DepartmentText), typeof(string), typeof(JobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty DepartmentTextProperty = DependencyProperty.Register(nameof(DepartmentText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -104,7 +114,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="SalaryText"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty SalaryTextTextProperty = DependencyProperty.Register(nameof(SalaryText), typeof(string), typeof(JobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty SalaryTextTextProperty = DependencyProperty.Register(nameof(SalaryText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -122,10 +132,45 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="SubjectText"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty SubjectTextProperty = DependencyProperty.Register(nameof(SubjectText), typeof(string), typeof(JobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty SubjectTextProperty = DependencyProperty.Register(nameof(SubjectText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
+        #region Deadline
+
+        /// <summary>
+        /// The deadline's dates
+        /// </summary>
+        public string DeadlineText
+        {
+            get { return (string)GetValue(DeadlineTextProperty); }
+            set { SetValue(DeadlineTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DeadlineText"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DeadlineTextProperty = DependencyProperty.Register(nameof(DeadlineText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+
+        #endregion
+
+        #region NumberOfRequests
+
+        /// <summary>
+        /// The number of job position requests
+        /// </summary>
+        public string NumberOfRequestsText
+        {
+            get { return (string)GetValue(NumberOfRequestsTextProperty); }
+            set { SetValue(NumberOfRequestsTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NumberOfRequestsText"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NumberOfRequestsTextProperty = DependencyProperty.Register(nameof(NumberOfRequestsText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+
+        #endregion
 
         #endregion
 
@@ -134,12 +179,12 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public JobPositionsDataGridRowComponent()
+        public BaseJobPositionsDataGridRowComponent()
         {
             CreateGUI();
         }
 
-        public JobPositionsDataGridRowComponent(Grid pageGrid)
+        public BaseJobPositionsDataGridRowComponent(Grid pageGrid)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
 
@@ -151,7 +196,7 @@ namespace Vaseis
         #region Protected Methods
 
         /// <summary>
-        /// Creates and adds a <see cref="TextBlock"/> to the <see cref="RowStackPanel"/>
+        /// Creates and adds a <see cref="TextBlock"/> to the <see cref="RowDataGrid"/>
         /// </summary>
         /// <param name="rowIndex">The row's index</param>
         protected TextBlock CreateAndAddRowItem(int columnIndex)
@@ -183,8 +228,10 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the row's grid
             RowDataGrid = ControlsFactory.CreateDataGridRowGrid();
 
+            // Creates the row's border
             RowBorder = new Border()
             {
                 BorderThickness = new Thickness(0, 0, 0, 1),
@@ -193,12 +240,12 @@ namespace Vaseis
                 Padding = new Thickness(12),
 
             };
-
+            // Sets as the row's border child the row grid
             RowBorder.Child = RowDataGrid;
 
             #region RowData
 
-            // Creates and adds the job position's text block to the row's stack panel
+            // Creates and adds the job position's text block to the row's grid
             JobPosistionTextBlock = CreateAndAddRowItem(0);
             // Binds the job position's text block to the job position's name
             JobPosistionTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobPositionText))
@@ -206,7 +253,7 @@ namespace Vaseis
                 Source = this
             });
 
-            // Creates and adds the department's text block to the row's stack panel
+            // Creates and adds the department's text block to the row's grid
             DepartmentTextBlock = CreateAndAddRowItem(1);
             // Binds the department's text block to the department's name
             DepartmentTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DepartmentText))
@@ -214,7 +261,7 @@ namespace Vaseis
                 Source = this
             });
 
-            // Creates and adds the salary's text block to the row's stack panel
+            // Creates and adds the salary's text block to the row's grid
             SalaryTextBlock = CreateAndAddRowItem(2);
             // Binds the salary's text block to the salary's name
             SalaryTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(SalaryText))
@@ -222,10 +269,39 @@ namespace Vaseis
                 Source = this
             });
 
-            // Creates and adds the subject's text block to the row's stack panel
+            // Creates and adds the subject's text block to the row's grid
             SubjectTextBlock = CreateAndAddRowItem(3);
             // Binds the subject's text block to the subject's name
             SubjectTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(SubjectText))
+            {
+                Source = this
+            });
+
+            // Creates the No of requests text block
+            DeadlineTextBlock = new TextBlock()
+            {
+                FontSize = 28,
+                FontFamily = Calibri,
+                Foreground = DarkGray.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            // Adds it to the grid's header
+            RowDataGrid.Children.Add(DeadlineTextBlock);
+            // Sets the column where it starts
+            Grid.SetColumn(DeadlineTextBlock, 4);
+            // Sets the column span
+            Grid.SetColumnSpan(DeadlineTextBlock, 4);
+            // Binds the subject's text block to the subject's name
+            DeadlineTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DeadlineText))
+            {
+                Source = this
+            });
+
+            // Creates and adds the number of requests text block to the row's grid
+            NumberOfJobRequestsTextBlock = CreateAndAddRowItem(8);
+            // Binds the  number of job position requests' text block to the  number of job position requests' text
+            NumberOfJobRequestsTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(NumberOfRequestsText))
             {
                 Source = this
             });

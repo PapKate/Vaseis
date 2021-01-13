@@ -8,7 +8,7 @@ namespace Vaseis
     /// <summary>
     /// The employee's evaluation header
     /// </summary>
-    public class EmployeeDataGridHeaderComponent : DataGridHeaderComponent
+    public class EmployeeMyEvaluationsDataGridHeaderComponent : DataGridHeaderComponent
     {
         #region Protected Properties
 
@@ -24,7 +24,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeDataGridHeaderComponent()
+        public EmployeeMyEvaluationsDataGridHeaderComponent()
         {
             CreateGUI();
         }

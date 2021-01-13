@@ -1,6 +1,7 @@
 
 using MaterialDesignThemes.Wpf;
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -117,24 +118,6 @@ namespace Vaseis
 
             appTabControl.Items.Add(evaluatorMyEvaluationsPage);
 
-            var managerEvaluationResults = new TabItemComponent()
-            {
-                Text = "EvaluationResults",
-                Icon = PackIconKind.ClipboardList,
-                Content = new ManagerEvaluationResultsPage()
-            };
-
-            appTabControl.Items.Add(managerEvaluationResults);
-
-            var usersPage = new TabItemComponent()
-            {
-                Text = "Users",
-                Icon = PackIconKind.AccountMultipleAdd,
-                Content = new UsersPage()
-            };
-
-            appTabControl.Items.Add(usersPage);
-
             var empMyEvPage = new TabItemComponent()
             {
                 Text = "My evaluations",
@@ -143,15 +126,6 @@ namespace Vaseis
             };
 
             appTabControl.Items.Add(empMyEvPage);
-
-            var reportsPage = new TabItemComponent()
-            {
-                Text = "Reports",
-                Icon = PackIconKind.ClipboardFlow,
-                Content = new ManagerReportsPage()
-            };
-
-            appTabControl.Items.Add(reportsPage);
 
             var jobPositionTotal = new TabItemComponent()
             {
@@ -162,12 +136,45 @@ namespace Vaseis
 
             appTabControl.Items.Add(jobPositionTotal);
 
-            var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
+            var reports = new TabItemComponent()
+            {
+                Text = "Reports",
+                Icon = PackIconKind.FileChart,
+                Content = new ManagerReportsPage()
+            };
+            appTabControl.Items.Add(reports);
 
-            // Adds to the app's grid the side menu
-            appGrid.Children.Add(sideMenuComponent);
-            // Defines the column the side menu's grid is set to in the parent grid
-            Grid.SetColumn(sideMenuComponent, 0);
+          
+
+            var logInPage = new LoginPage();
+
+            logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
+            {
+                if (e.Type == UserType.Administrator)
+                {
+
+                }
+                else if (e.Type == UserType.Evaluator)
+                {
+                    var sideMenuComponent = new EvaluatorSideMenuComponent(appTabControl, e);
+
+                    // Adds to the app's grid the side menu
+                    appGrid.Children.Add(sideMenuComponent);
+                }
+                else if (e.Type == UserType.Manager)
+                {
+                    var sideMenuComponent = new ManagerSideMenuComponent(appTabControl, e);
+
+                    // Adds to the app's grid the side menu
+                    appGrid.Children.Add(sideMenuComponent);
+                }
+
+                windowGrid.Children.Remove(logInPage);
+            });
+
+            windowGrid.Children.Add(logInPage);
+
+            Grid.SetRow(logInPage, 1);
 
             // Sets the content as the window's grid
             Content = windowGrid;

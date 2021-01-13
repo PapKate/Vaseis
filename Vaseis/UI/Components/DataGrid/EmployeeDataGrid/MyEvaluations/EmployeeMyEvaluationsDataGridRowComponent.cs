@@ -9,7 +9,7 @@ namespace Vaseis
     /// <summary>
     /// A row for the employee's data grid
     /// </summary>
-    public class EmployeeDataGridRowComponent : DataGridRowComponent
+    public class EmployeeMyEvaluationsDataGridRowComponent : DataGridRowComponent
     {
         #region Protected Properties
 
@@ -41,11 +41,11 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="Result"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty ResultTextProperty = DependencyProperty.Register(nameof(Result), typeof(string), typeof(EmployeeDataGridRowComponent), new PropertyMetadata(OnTextChanged));
+        public static readonly DependencyProperty ResultTextProperty = DependencyProperty.Register(nameof(Result), typeof(string), typeof(EmployeeMyEvaluationsDataGridRowComponent), new PropertyMetadata(OnTextChanged));
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sender = d as EmployeeDataGridRowComponent;
+            var sender = d as EmployeeMyEvaluationsDataGridRowComponent;
 
             sender.OnTextChangedCore(e);
         }
@@ -59,7 +59,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeDataGridRowComponent()
+        public EmployeeMyEvaluationsDataGridRowComponent()
         {
             CreateGUI();
         }

@@ -22,15 +22,21 @@ namespace Vaseis
         /// </summary>
         public int ManagerId { get; set; }
 
+        public UserDataModel Manager { get; set; }
+
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related employee
         /// </summary>
         public int EmployeeId { get; set; }
 
+        public UserDataModel Employee { get; set; }
+
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related evaluator
         /// </summary>
         public int EvaluatorId { get; set; }
+
+        public UserDataModel Evaluator { get; set; }
 
         /// <summary>
         /// The report information

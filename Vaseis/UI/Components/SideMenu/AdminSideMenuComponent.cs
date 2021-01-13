@@ -1,6 +1,7 @@
 ﻿
 using MaterialDesignThemes.Wpf;
 
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Vaseis
@@ -37,7 +38,7 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="tabControl">The tab control</param>
-        public AdminSideMenuComponent(TabControl tabControl) : base(tabControl)
+        public AdminSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
             CreateGUI();
         }

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UI\Components\Employees\PersonalData\**" />
+    <EmbeddedResource Remove="UI\Components\Employees\PersonalData\**" />
+    <None Remove="UI\Components\Employees\PersonalData\**" />
+    <Page Remove="UI\Components\Employees\PersonalData\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="UI\Images\employee.png" />
     <None Remove="UI\Images\logo.png" />
   </ItemGroup>
@@ -23,10 +30,6 @@
   <ItemGroup>
     <Resource Include="UI\Images\employee.png" />
     <Resource Include="UI\Images\logo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UI\Components\Employees\PersonalData\" />
   </ItemGroup>
 
 </Project>

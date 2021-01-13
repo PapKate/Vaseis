@@ -324,7 +324,6 @@ namespace Vaseis
                 Foreground = GhostWhite.HexToBrush(),
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
-                FontStyle = FontStyles.Normal,
                 FontSize = 28
             };
 

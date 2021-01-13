@@ -64,10 +64,10 @@ namespace Vaseis
                 ReportGradeInput.Text = EvaluatorDataGridRow.ReportGrade;
                 InterviewGradeInput.Text = EvaluatorDataGridRow.InterviewGrade;
                 ParagraphTextBox.Text = EvaluatorDataGridRow.InterviewComments;
-                UserNameInput.Text = EvaluatorDataGridRow.EmployeeName;
-                JopPositionInput.Text = EvaluatorDataGridRow.JobName;
+                UserNameTextBlock.Text = EvaluatorDataGridRow.EmployeeName;
+                JopPositionTextBlock.Text = EvaluatorDataGridRow.JobName;
                 QualificationsGradeInput.Text = EvaluatorDataGridRow.FilesGrade;
-                DepartmentPicker.Text = EvaluatorDataGridRow.DepartmentName;
+                DepartmentTextBlock.Text = EvaluatorDataGridRow.DepartmentName;
             }
         }
 

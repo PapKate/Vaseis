@@ -56,30 +56,30 @@ namespace Vaseis
             }
 
             // Test list with users
-            var users = new List<UserButtonComponent>()
+            var users = new List<DataButtonComponent>()
             {
-                new UserButtonComponent(){ Username = "PapLA", FullName = "Labros Papadopoulos", Background = "ff4455".HexToBrush() },
-                new UserButtonComponent(){ Username = "PapLA", FullName = "Labros Papadopoulos", Background = "ff4455".HexToBrush() },
-                new UserButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
-                new UserButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
-                new UserButtonComponent(){ Username = "PapAI", FullName = "Aikaterini Papadopoulou", Background = DarkBlue.HexToBrush()},
-                new UserButtonComponent(){ Username = "PapAI", FullName = "Aikaterini Papadopoulou", Background = DarkBlue.HexToBrush()},
-                new UserButtonComponent(){ Username = "Kwstakiss", FullName = "Kwstantina Robot", Background = DarkGray.HexToBrush() },
-                new UserButtonComponent(){ Username = "Kwstakiss", FullName = "Kwstantina Robot", Background = DarkGray.HexToBrush() },
-                new UserButtonComponent(){ Username = "vKokkala", FullName = "Vasiliki Kokkala", Background = DarkPink.HexToBrush() },
-                new UserButtonComponent(){ Username = "vKokkala", FullName = "Vasiliki Kokkala", Background = DarkPink.HexToBrush() },
-                new UserButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
-                new UserButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
-                new UserButtonComponent(){ Username = "Fwtoula77", FullName = "Fwteini Aggelaki", Background = LightBlue.HexToBrush() },
-                new UserButtonComponent(){ Username = "Fwtoula77", FullName = "Fwteini Aggelaki", Background = LightBlue.HexToBrush() },
-                new UserButtonComponent(){ Username = "SpamSoundMess", FullName = "Aikaterina Mitropoulou", Background = Yellow.HexToBrush() },
-                new UserButtonComponent(){ Username = "SpamSoundMess", FullName = "Aikaterina Mitropoulou", Background = Yellow.HexToBrush() },
-                new UserButtonComponent(){ Username = "kKMitsosKk", FullName = "Dimitris Kostorizos", Background = GreenBlue.HexToBrush() },
-                new UserButtonComponent(){ Username = "kKMitsosKk", FullName = "Dimitris Kostorizos", Background = GreenBlue.HexToBrush() },
-                new UserButtonComponent(){ Username = "Lime", FullName = "Trianafillos Papathanasopoulos", Background = Orange.HexToBrush() },
-                new UserButtonComponent(){ Username = "Lime", FullName = "Trianafillos Papathanasopoulos", Background = Orange.HexToBrush() },
-                new UserButtonComponent(){ Username = "Matakia", FullName = "Tsomaros Vlachogiannis", Background = LightBlue.HexToBrush() },
-                new UserButtonComponent(){ Username = "Matakia", FullName = "Tsomaros Vlachogiannis", Background = LightBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "PapLA", FullName = "Labros Papadopoulos", Background = "ff4455".HexToBrush() },
+                new DataButtonComponent(){ Username = "PapLA", FullName = "Labros Papadopoulos", Background = "ff4455".HexToBrush() },
+                new DataButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
+                new DataButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
+                new DataButtonComponent(){ Username = "PapAI", FullName = "Aikaterini Papadopoulou", Background = DarkBlue.HexToBrush()},
+                new DataButtonComponent(){ Username = "PapAI", FullName = "Aikaterini Papadopoulou", Background = DarkBlue.HexToBrush()},
+                new DataButtonComponent(){ Username = "Kwstakiss", FullName = "Kwstantina Robot", Background = DarkGray.HexToBrush() },
+                new DataButtonComponent(){ Username = "Kwstakiss", FullName = "Kwstantina Robot", Background = DarkGray.HexToBrush() },
+                new DataButtonComponent(){ Username = "vKokkala", FullName = "Vasiliki Kokkala", Background = DarkPink.HexToBrush() },
+                new DataButtonComponent(){ Username = "vKokkala", FullName = "Vasiliki Kokkala", Background = DarkPink.HexToBrush() },
+                new DataButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
+                new DataButtonComponent(){ Username = "XxMariaxX", FullName = "Maria Tsavea", Background = HookersGreen.HexToBrush() },
+                new DataButtonComponent(){ Username = "Fwtoula77", FullName = "Fwteini Aggelaki", Background = LightBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "Fwtoula77", FullName = "Fwteini Aggelaki", Background = LightBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "SpamSoundMess", FullName = "Aikaterina Mitropoulou", Background = Yellow.HexToBrush() },
+                new DataButtonComponent(){ Username = "SpamSoundMess", FullName = "Aikaterina Mitropoulou", Background = Yellow.HexToBrush() },
+                new DataButtonComponent(){ Username = "kKMitsosKk", FullName = "Dimitris Kostorizos", Background = GreenBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "kKMitsosKk", FullName = "Dimitris Kostorizos", Background = GreenBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "Lime", FullName = "Trianafillos Papathanasopoulos", Background = Orange.HexToBrush() },
+                new DataButtonComponent(){ Username = "Lime", FullName = "Trianafillos Papathanasopoulos", Background = Orange.HexToBrush() },
+                new DataButtonComponent(){ Username = "Matakia", FullName = "Tsomaros Vlachogiannis", Background = LightBlue.HexToBrush() },
+                new DataButtonComponent(){ Username = "Matakia", FullName = "Tsomaros Vlachogiannis", Background = LightBlue.HexToBrush() },
             };
 
             // Sets the column index to 0

@@ -27,7 +27,7 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="tabControl">The tab control</param>
-        public CompanyBaseSideMenuComponent(TabControl tabControl) : base(tabControl)
+        public CompanyBaseSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
             CreateGUI();
         }

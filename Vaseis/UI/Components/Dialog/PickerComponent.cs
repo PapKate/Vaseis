@@ -141,7 +141,7 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Foreground = DarkGray.HexToBrush(),
                 FontFamily = Calibri,
-                FontSize = 20,
+                FontSize = 24,
                 FontWeight = FontWeights.Normal,
                 ItemsSource = OptionItems,
             };
@@ -156,7 +156,7 @@ namespace Vaseis
             {
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
@@ -195,7 +195,7 @@ namespace Vaseis
                 {
                     Foreground = DarkGray.HexToBrush(),
                     FontFamily = Calibri,
-                    FontSize = 20,
+                    FontSize = 24,
                     FontWeight = FontWeights.Normal,
                     Margin = new Thickness(8, 0, 0, 0),
                     // with title "none"
@@ -216,7 +216,7 @@ namespace Vaseis
                     {
                         Foreground = DarkGray.HexToBrush(),
                         FontFamily = Calibri,
-                        FontSize = 20,
+                        FontSize = 24,
                         FontWeight = FontWeights.Normal,
                         Margin = new Thickness(8, 0, 0, 0),
                         // with content the one string

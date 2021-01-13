@@ -8,7 +8,7 @@ namespace Vaseis
     /// <summary>
     /// The job position's data grid's header
     /// </summary>
-    public class JobPositionsDataGridHeaderComponent : ContentControl
+    public abstract class BaseJobPositionsDataGridHeaderComponent : ContentControl
     {
         #region Protected Properties
         
@@ -43,10 +43,19 @@ namespace Vaseis
         protected TextBlock SalaryTextBlock { get; private set; }
 
         /// <summary>
-        /// The job position's text block
+        /// The subject's text block
         /// </summary>
         protected TextBlock SubjectTextBlock { get; private set; }
 
+        /// <summary>
+        /// The deadline's text block
+        /// </summary>
+        protected TextBlock DeadlineTextBlock { get; private set; }
+
+        /// <summary>
+        /// The number of job requests' text block
+        /// </summary>
+        protected TextBlock NumberOfRequestsTextBlock { get; private set; }
 
         #endregion
 
@@ -59,7 +68,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public JobPositionsDataGridHeaderComponent()
+        public BaseJobPositionsDataGridHeaderComponent()
         {
             CreateGUI();
         }
@@ -125,6 +134,27 @@ namespace Vaseis
             DepartmentTextBlock = CreateHeaderTextBlock(1, "Department", "Department");
             SalaryTextBlock = CreateHeaderTextBlock(2, "Salary", "Salary");
             SubjectTextBlock = CreateHeaderTextBlock(3, "Subject", "Subject");
+            
+            // Creates the No of requests text block
+            DeadlineTextBlock = new TextBlock()
+            {
+                FontSize = 28,
+                FontFamily = Calibri,
+                Foreground = DarkGray.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontWeight = FontWeights.Bold,
+                Text = "Deadline for requests",
+                ToolTip = new ToolTipComponent() { Text = "Deadline for requests" }
+            };
+            // Adds it to the grid's header
+            DataGridHeader.Children.Add(DeadlineTextBlock);
+            // Sets the column where it starts
+            Grid.SetColumn(DeadlineTextBlock, 4);
+            // Sets the column span
+            Grid.SetColumnSpan(DeadlineTextBlock, 4);
+
+            NumberOfRequestsTextBlock = CreateHeaderTextBlock(8, "NoR", "Number of requests");
 
             // Sets the component's content as the header border
             Content = HeaderBorder;

@@ -5,14 +5,14 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class EmployeeDataGridComponent : ContentControl
+    public class EmployeeMyEvaluationsDataGridComponent : ContentControl
     {
         #region Protected Properties
 
         /// <summary>
         /// The header's grid
         /// </summary>
-        protected EmployeeDataGridHeaderComponent DataGridHeader { get; private set; }
+        protected EmployeeMyEvaluationsDataGridHeaderComponent DataGridHeader { get; private set; }
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeDataGridComponent()
+        public EmployeeMyEvaluationsDataGridComponent()
         {
             CreateGUI();
         }
@@ -38,11 +38,11 @@ namespace Vaseis
             var InfoDataGrid = new StackPanel();
 
             // Creates and adds the header's row
-            DataGridHeader = new EmployeeDataGridHeaderComponent();
+            DataGridHeader = new EmployeeMyEvaluationsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataGrid.Children.Add(DataGridHeader);
 
-            var row = new EmployeeDataGridRowComponent()
+            var row = new EmployeeMyEvaluationsDataGridRowComponent()
             {
                 EvaluatorName = "PapLabros",
                 EmployeeName = "PapKaterina",
@@ -57,7 +57,7 @@ namespace Vaseis
 
             InfoDataGrid.Children.Add(row);
 
-            var row2 = new EmployeeDataGridRowComponent()
+            var row2 = new EmployeeMyEvaluationsDataGridRowComponent()
             {
                 EvaluatorName = "PapBoomBommLabros",
                 EmployeeName = "PapKaterina",

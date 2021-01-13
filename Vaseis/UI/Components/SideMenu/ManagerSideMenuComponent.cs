@@ -11,6 +11,11 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
+        /// The employees button
+        /// </summary>
+        protected SideMenuButtonComponent JobPositionsButton { get; private set; }
+
+        /// <summary>
         /// The reports button
         /// </summary>
         protected SideMenuButtonComponent ReportsButton { get; private set; }
@@ -33,7 +38,7 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="tabControl">The tab control</param>
-        public ManagerSideMenuComponent(TabControl tabControl) : base(tabControl)
+        public ManagerSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
             CreateGUI();
         }
@@ -44,29 +49,60 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+            // Create and add the job positions button
+            JobPositionsButton = CreateAndAddSideMenuButton("Job positions", PackIconKind.FolderSearch);
+            // On click opens in a tab the job positions page
+            JobPositionsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Job positions",
+                    Icon = PackIconKind.FolderSearch,
+                    Content = new ManagerJobPositionsPage()
+                });
+            });
+
             // Create and add the my job requests button
             ReportsButton = CreateAndAddSideMenuButton("Reports", PackIconKind.ClipboardFlow);
+            // On click opens in a tab the reports page
+            ReportsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Reports",
+                    Icon = PackIconKind.ClipboardFlow,
+                    Content = new ManagerReportsPage()
+                });
+            });
 
             // Create and add the my evaluations button
             EvaluationResultsButton = CreateAndAddSideMenuButton("Evaluation results", PackIconKind.ClipboardList);
+            // On click opens in a tab the evaluation results' page
+            EvaluationResultsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Evaluation results",
+                    Icon = PackIconKind.ClipboardList,
+                    Content = new ManagerEvaluationResultsPage()
+                });
+            });
 
             // Create and add the job positions button
             EmployeesButton = CreateAndAddSideMenuButton("Employees", PackIconKind.AccountGroup);
             // On click opens in a tab the employees page
             EmployeesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
-                TabControl.Items.Add(new TabItemComponent()
+                TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "Employees",
                     Icon = PackIconKind.AccountGroup,
-                    Content = new EmployeesPage()
+                    Content = new EmployeesPage(User)
                 });
             });
         }
 
-
         #endregion
-
 
     }
 }

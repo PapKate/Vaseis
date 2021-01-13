@@ -13,7 +13,7 @@ namespace Vaseis
     /// <summary>
     /// The button that points to an employee's profile
     /// </summary>
-    public class UserButtonComponent : ContentControl
+    public class DataButtonComponent : ContentControl
     {
         #region Protected Properties
 
@@ -55,7 +55,7 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="Username"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(UserButtonComponent));
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(DataButtonComponent));
 
         #endregion
 
@@ -73,44 +73,15 @@ namespace Vaseis
         /// <summary>
         /// Identifies the <see cref="FullName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty FullNameProperty = DependencyProperty.Register(nameof(FullName), typeof(string), typeof(UserButtonComponent));
-
-        #endregion
-
-        #region Background Color
-
-        /// <summary>
-        /// The path of the image
-        /// </summary>
-        public string BackgroundColor
-        {
-            get { return GetValue(BackgroundColorProperty).ToString(); }
-            set { SetValue(BackgroundColorProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ImagePath"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(nameof(BackgroundColor), typeof(string), typeof(UserButtonComponent), new PropertyMetadata(OnBackgroundChanged));
-
-        /// <summary>
-        /// Handles the change of the <see cref="ImagePath"/> property
-        /// </summary>
-        private static void OnBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sender = d as UserButtonComponent;
-
-            //sender.OnBackgroundChangedCore(e);
-        }
+        public static readonly DependencyProperty FullNameProperty = DependencyProperty.Register(nameof(FullName), typeof(string), typeof(DataButtonComponent));
 
         #endregion
 
         #endregion
-
 
         #region Constructors
 
-        public UserButtonComponent()
+        public DataButtonComponent()
         {
             CreateGUI();
         }
@@ -180,9 +151,38 @@ namespace Vaseis
             ButtonAssist.SetCornerRadius(UserButton, new CornerRadius(8));
 
             Content = UserButton;
+
         }
 
         #endregion
 
+    }
+
+    public class UserButtonComponent : DataButtonComponent
+    {
+        #region Public Properties
+
+        /// <summary>
+        /// The user
+        /// </summary>
+        public UserDataModel User { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="user">The user</param>
+        public UserButtonComponent(UserDataModel user)
+        {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
+            Username = user.Username;
+            FullName = user.FullName;
+        }
+
+        #endregion
     }
 }

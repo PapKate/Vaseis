@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 
 namespace Vaseis
 {
     /// <summary>
-    /// The job position's data grid
+    /// The evaluator's job requests data grid
     /// </summary>
-    public class JobPositionsDataGridComponent : ContentControl
+    public class EvaluatorJobRequestsDataGridComponent : ContentControl
     {
         /// <summary>
         /// The page's grid container
@@ -20,7 +18,7 @@ namespace Vaseis
         /// <summary>
         /// The header's grid
         /// </summary>
-        protected JobPositionsDataGridHeaderComponent DataGridHeader { get; private set; }
+        protected EvaluatorJobRequestsDataGridHeaderComponent DataGridHeader { get; private set; }
 
         /// <summary>
         /// The data grid's stack panel
@@ -38,12 +36,12 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public JobPositionsDataGridComponent()
+        public EvaluatorJobRequestsDataGridComponent()
         {
             CreateGUI();
         }
 
-        public JobPositionsDataGridComponent(Grid pageGrid)
+        public EvaluatorJobRequestsDataGridComponent(Grid pageGrid)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
 
@@ -62,28 +60,37 @@ namespace Vaseis
             InfoDataStackPanel = new StackPanel();
 
             // Creates and adds the header's row
-            DataGridHeader = new JobPositionsDataGridHeaderComponent();
+            DataGridHeader = new EvaluatorJobRequestsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
 
+            var startDate = DateTime.Now.ToShortDateString();
+            var subDate = new DateTime(21, 1, 24).ToShortDateString();
+
             // Creates and adds a row to the data grid
-            var row = new JobPositionsDataGridRowComponent(PageGrid)
+            var row = new EvaluatorJobRequestsDataGridRowComponent(PageGrid)
             {
-                JobPositionText = "POtato",
+                JobPositionText = "Potato",
                 DepartmentText = "Tomato",
                 SalaryText = "2.500$",
-                SubjectText = "Agriculture"
+                SubjectText = "Agriculture",
+                DeadlineText = $"{startDate} - {subDate}",
+                NumberOfRequestsText = "12",
+                EmployeeText = "PapKate",
             };
 
             InfoDataStackPanel.Children.Add(row);
 
             // Creates and adds a row to the data grid
-            var row2 = new JobPositionsDataGridRowComponent(PageGrid)
+            var row2 = new EvaluatorJobRequestsDataGridRowComponent(PageGrid)
             {
                 JobPositionText = "Chocolate",
                 DepartmentText = "Cookies",
                 SalaryText = "1.878$",
-                SubjectText = "Pastry"
+                SubjectText = "Pastry",
+                DeadlineText = $"{startDate} - {subDate}",
+                NumberOfRequestsText = "7",
+                EmployeeText = "0xCAFFEEBABA"
             };
 
             InfoDataStackPanel.Children.Add(row2);
@@ -91,8 +98,7 @@ namespace Vaseis
             // Sets the component's content to the info data grid
             Content = InfoDataStackPanel;
         }
+
         #endregion
-
-
     }
 }

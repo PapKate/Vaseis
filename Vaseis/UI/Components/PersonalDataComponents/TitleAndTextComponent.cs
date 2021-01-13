@@ -83,7 +83,8 @@ namespace Vaseis
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 FontSize = 32,
                 FontWeight = FontWeights.Bold,
-                Foreground = Styles.DarkGray.HexToBrush()
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Width = 280
             };
 
             // Binds the text property of the text block to the Title property
@@ -98,7 +99,8 @@ namespace Vaseis
                 FontSize = 28,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkGray.HexToBrush(),
-                Margin = new Thickness(24, 0, 0, 0)
+                Margin = new Thickness(24, 0, 0, 0),
+                Width = 280
             };
 
             // Binds the text property of the text block to the Text property
