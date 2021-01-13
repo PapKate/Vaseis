@@ -89,12 +89,12 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// Identifies the <see cref="ImagePath"/> dependency property
+        /// Identifies the <see cref="BackgroundColor"/> dependency property
         /// </summary>
         public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(nameof(BackgroundColor), typeof(string), typeof(UserButtonComponent), new PropertyMetadata(OnBackgroundChanged));
 
         /// <summary>
-        /// Handles the change of the <see cref="ImagePath"/> property
+        /// Handles the change of the <see cref="BackgroundColor"/> property
         /// </summary>
         private static void OnBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

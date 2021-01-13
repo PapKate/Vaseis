@@ -26,6 +26,11 @@ namespace Vaseis
         protected NewCompanyDialogComponent CreateCompanyDialog { get; private set; }
 
         /// <summary>
+        /// The create new subject dialog
+        /// </summary>
+        protected NewSubjectDialogComponent CreateSubjectDialog { get; private set; }
+
+        /// <summary>
         /// The error dialog
         /// </summary>
         protected MessageDialogComponent ErrorDialog { get; private set; }
@@ -98,6 +103,19 @@ namespace Vaseis
             //companyButton.Click += ShowNewCompanyDialog;
             testStackPanel.Children.Add(companyButton);
 
+            var subjectButton = new Button()
+            {
+                Width = 240,
+                Height = 40,
+                Content = "Subject",
+                Margin = new Thickness(60)
+            };
+
+            subjectButton.Click += ShowNewSubjectDialog;
+            testStackPanel.Children.Add(subjectButton);
+
+            var fianlButton = new Button();
+
             var epevaluation = new Button()
             {
                 Width = 240,
@@ -149,6 +167,40 @@ namespace Vaseis
 
             // Sets the component's content to the page's grid
             Content = PageGrid;
+        }
+
+        /// <summary>
+        /// On click closes the dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowNewCompanyDialog(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            CreateCompanyDialog = new NewCompanyDialogComponent();
+            // Adds it to the page grid
+            PageGrid.Children.Add(CreateCompanyDialog);
+
+            // Sets the is open property to true
+            CreateCompanyDialog.DialogHost.IsOpen = true;
+        }
+
+        /// <summary>
+        /// On click shows the error dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowNewSubjectDialog(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            CreateSubjectDialog = new NewSubjectDialogComponent()
+            { 
+            };
+            // Adds it to the page grid
+            PageGrid.Children.Add(CreateSubjectDialog);
+
+            // Sets the is open property to true
+            CreateSubjectDialog.DialogHost.IsOpen = true;
         }
 
         ///// <summary>

@@ -38,7 +38,7 @@ namespace Vaseis
         /// </summary>
         public string ImagePath
         {
-            get { return GetValue(ImagePathProperty).ToString(); }
+            get { return (string)GetValue(ImagePathProperty); }
             set { SetValue(ImagePathProperty, value); }
         }
 
@@ -81,6 +81,9 @@ namespace Vaseis
 
         #region Protected Methods
 
+
+        #endregion
+
         /// <summary>
         /// Handles the change of the <see cref="HeaderImageAndTitleComponent.ImagePath"/> property
         /// </summary>
@@ -89,9 +92,6 @@ namespace Vaseis
         {
 
         }
-
-        #endregion
-
         #region Constructors
         public ImageAndNameComponent() 
         {

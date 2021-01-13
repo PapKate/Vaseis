@@ -25,5 +25,6 @@ namespace Vaseis
         /// By default gets the mid hue (Dark Pink) as the background color
         /// </summary>
         public static Style FlatButton = Application.Current.Resources["MaterialDesignFlatButton"] as Style;
+
     }
 }

@@ -26,6 +26,23 @@ namespace Vaseis
         FlindersUniversityofSouthAustralia,
         StavropolStateTechnicalUniversity,
         SantaClaraUniversity,
-        CEIDUniversityOfPatras
+        UniversityOfCrete,
+        NorthMacedoniaUniversity,
+        Kapodistriakon,
+        MetsovionDepartmentOfMechanics,
+        TEIofKwlopetinitsa,
+        HarvardUniversity,
+        YEILuniversity,
+        MITinstitution,
+        OPAuniversity,
+        PAPEIuniversity,
+        CSDuniversityOfCrete,
+        EKPAthensUniversity,
+        PanteionPolutechneion,
+        PhiloshophikhAthinwn,
+        LeMondeAthensUniversity,
+        IekAkmh,
+        CeidUniversityOfPatras,
+
     }
 }

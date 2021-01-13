@@ -99,14 +99,14 @@ namespace Vaseis
             };
             pagesGrid.Children.Add(appTabControl);
 
-            var profilePage = new TabItemComponent()
-            {
-                Text = "Profile",
-                Icon = PackIconKind.AccountCircle,
-                Content = new ProfilePage()
-            };
+            //var profilePage = new TabItemComponent()
+            //{
+            //    Text = "Profile",
+            //    Icon = PackIconKind.AccountCircle,
+            //    Content = new ProfilePage()
+            //};
 
-            appTabControl.Items.Add(profilePage);
+            //appTabControl.Items.Add(profilePage);
 
             var evaluatorMyEvaluationsPage = new TabItemComponent()
             {
@@ -144,23 +144,33 @@ namespace Vaseis
 
             appTabControl.Items.Add(empMyEvPage);
 
-            var reportsPage = new TabItemComponent()
+            var companyPage = new TabItemComponent()
             {
-                Text = "Reports",
-                Icon = PackIconKind.ClipboardFlow,
-                Content = new ManagerReportsPage()
+                Text = "Company",
+                Icon = PackIconKind.Domain,
+                Content = new CompanyPage()
             };
 
-            appTabControl.Items.Add(reportsPage);
+            appTabControl.Items.Add(companyPage);
 
-            var jobPositionTotal = new TabItemComponent()
+              var companiesPage = new TabItemComponent()
             {
-                Text = "Job positions",
-                Icon = PackIconKind.FolderInformation,
-                Content = new EvaluatorJobPositionsPage()
+                Text = "Companies",
+                Icon = PackIconKind.Domain,
+                Content = new CompaniesPage()
             };
 
-            appTabControl.Items.Add(jobPositionTotal);
+            appTabControl.Items.Add(companiesPage);
+
+            var UserComponent = new TabItemComponent()
+            {
+                Text = "UserCompoent",
+                Icon = PackIconKind.ClipboardAccount,
+                Content = new AdminsUsersPage()
+            };
+
+            appTabControl.Items.Add(UserComponent);
+
 
             var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
 

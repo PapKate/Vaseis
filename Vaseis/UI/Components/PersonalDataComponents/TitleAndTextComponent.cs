@@ -81,7 +81,7 @@ namespace Vaseis
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 32,
+                FontSize = 28,
                 FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkGray.HexToBrush()
             };
@@ -95,10 +95,10 @@ namespace Vaseis
             TextBlock = new TextBlock()
             {
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                FontSize = 28,
+                FontSize = 24,
                 FontWeight = FontWeights.Normal,
                 Foreground = Styles.DarkGray.HexToBrush(),
-                Margin = new Thickness(24, 0, 0, 0)
+            
             };
 
             // Binds the text property of the text block to the Text property

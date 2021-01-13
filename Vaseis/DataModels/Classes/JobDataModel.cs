@@ -30,12 +30,8 @@ namespace Vaseis
         /// <summary>
         /// the job department
         /// </summary>
-        public string Department{ get; set; }
+        public int Department{ get; set; }
 
-        /// <summary>
-        /// The <see cref="CompanyDataModel.Id"/> of the related company
-        /// </summary>
-        public int CompanyId { get; set; }
 
         #endregion
 
@@ -48,6 +44,21 @@ namespace Vaseis
         {
 
         }
+
+        #endregion
+
+        #region Relationships
+
+        /// <summary>
+        /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public int CompanyId { get; set; }
+
+        /// <summary>
+        /// The related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public CompanyDataModel Company { get; set; }
+
 
         #endregion
     }
