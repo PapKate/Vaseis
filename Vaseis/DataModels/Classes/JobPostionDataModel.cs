@@ -49,7 +49,6 @@ namespace Vaseis
         /// </summary>
         public int CompanyId { get; set; }
 
-
         #region Relationships
 
         /// <summary>
@@ -57,13 +56,9 @@ namespace Vaseis
         /// </summary>
         public IEnumerable<SubjectDataModel> Subjects { get; set; }
 
-
-
-
         #endregion
 
         #endregion
-
 
         #region Constructors
 
@@ -78,8 +73,6 @@ namespace Vaseis
         #endregion
 
     }
-
-
 
     /// <summary>
     /// Represents a job

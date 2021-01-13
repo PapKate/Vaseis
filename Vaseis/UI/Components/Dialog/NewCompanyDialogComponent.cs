@@ -188,15 +188,7 @@ namespace Vaseis
 
             //kTODO: add the date picker to factor controls with parameter hint text
             // Creates a date picker - calendar field
-            DateCreatedPicker = new DatePicker()
-            {
-                Width = 240,
-                Margin = new Thickness(24),
-                Foreground = DarkGray.HexToBrush(),
-                FontSize = 20
-            };
-            // Adds a hint to the date picker
-            ControlsFactory.CreateHint("Date created", DateCreatedPicker);
+            DateCreatedPicker = ControlsFactory.CreateDatePicker("Date created");
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DateCreatedPicker);
 

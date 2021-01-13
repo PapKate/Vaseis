@@ -1,10 +1,8 @@
 
 using MaterialDesignThemes.Wpf;
 
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 using static Vaseis.Styles;
 
@@ -110,6 +108,24 @@ namespace Vaseis
 
             //appTabControl.Items.Add(profilePage);
 
+            var evaluatorMyEvaluationsPage = new TabItemComponent()
+            {
+                Text = "My evaluations",
+                Icon = PackIconKind.ClipboardEdit,
+                Content = new EvaluatorMyEvaluationsPage()
+            };
+
+            appTabControl.Items.Add(evaluatorMyEvaluationsPage);
+
+            var managerEvaluationResults = new TabItemComponent()
+            {
+                Text = "EvaluationResults",
+                Icon = PackIconKind.ClipboardList,
+                Content = new ManagerEvaluationResultsPage()
+            };
+
+            appTabControl.Items.Add(managerEvaluationResults);
+
             var usersPage = new TabItemComponent()
             {
                 Text = "Users",
@@ -155,8 +171,6 @@ namespace Vaseis
 
             appTabControl.Items.Add(UserComponent);
 
-        
-
 
             var sideMenuComponent = new ManagerSideMenuComponent(appTabControl);
 
@@ -165,12 +179,9 @@ namespace Vaseis
             // Defines the column the side menu's grid is set to in the parent grid
             Grid.SetColumn(sideMenuComponent, 0);
 
-
             // Sets the content as the window's grid
             Content = windowGrid;
         }
-
-        
 
         #endregion
 

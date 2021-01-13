@@ -100,7 +100,6 @@ namespace Vaseis
 
         #region Dependency Properties
 
-
         #region Image
 
         /// <summary>
@@ -354,12 +353,13 @@ namespace Vaseis
 
         #endregion
 
-
-
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         public ProfilePage()
         {
             CreateGUI();
@@ -563,7 +563,10 @@ namespace Vaseis
 
             EditButtons = new EditComponent
             {
-                HorizontalAlignment = HorizontalAlignment.Right
+                HorizontalAlignment = HorizontalAlignment.Right,
+                EditCommand = new RelayCommand(() => { BioTile.IsEditable = true; }),
+                SaveCommand = new RelayCommand(() => { BioTile.IsEditable = false; BioTile.SaveEdit = true; }),
+                CancelCommand = new RelayCommand(() => { BioTile.IsEditable = false; BioTile.SaveEdit = false; }),
             };
             CompanyDataStackPanel.Children.Add(EditButtons);
 
@@ -699,7 +702,7 @@ namespace Vaseis
             #endregion
 
             var NavigationMenu = new NavigationMenuComponent()
-            { 
+            {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Margin = new Thickness(24)
@@ -707,10 +710,6 @@ namespace Vaseis
 
             PageGrid.Children.Add(NavigationMenu);
             Grid.SetColumn(NavigationMenu, 2);
-
-            EditButtons.EditButton.Click += EditProfile;
-            EditButtons.CancelButton.Click += CanelEditProfile;
-            EditButtons.SaveButton.Click += SaveEditProfile;
 
             Content = PageGrid;
         }
@@ -774,7 +773,6 @@ namespace Vaseis
             // Sets the is open property to true
             ChangePasswordDialog.DialogHost.IsOpen = true;
         }
-
 
         #endregion
 

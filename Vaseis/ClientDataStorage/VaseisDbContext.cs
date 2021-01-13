@@ -220,7 +220,6 @@ namespace Vaseis
             #endregion
 
             #region JobPosiion
-            
 
             // For the subjects related to a JobPosition
             modelBuilder.Entity<JobPositionDataModel>()
@@ -229,8 +228,8 @@ namespace Vaseis
                 .HasPrincipalKey(x => x.Id)
                 .HasForeignKey(x => x.JobPositionId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
             #endregion
-
 
             #region Subject
 

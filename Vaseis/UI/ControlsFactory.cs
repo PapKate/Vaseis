@@ -27,22 +27,26 @@ namespace Vaseis
             };
         }
 
+        /// <summary>
+        /// Creates the data grid's rows
+        /// </summary>
         public static Grid CreateDataGridRowGrid()
         {
             var rowGrid = new Grid()
             {
                 Height = 52,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 
-            for (var i = 0; i <= 3; i++)
+            for (var i = 0; i <= 4 - 1; i++)
             {
                 rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
                 {
-                    Width = new GridLength(260, GridUnitType.Pixel)
+                    Width = new GridLength(240, GridUnitType.Pixel)
                 });
             }
 
-            for (var i = 0; i <= 3; i++)
+            for (var i = 0; i <= 4 - 1; i++)
             {
                 rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
                 {
@@ -52,8 +56,16 @@ namespace Vaseis
 
             rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
-                Width = new GridLength(200, GridUnitType.Pixel)
+                Width = new GridLength(140, GridUnitType.Pixel)
             });
+
+            for (var i = 0; i <= 2 - 1; i++)
+            {
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(60, GridUnitType.Pixel)
+                });
+            }
 
             return rowGrid;
         }
@@ -83,6 +95,27 @@ namespace Vaseis
             // Sets the hint to the input text box
             HintAssist.SetHint(element, hintTitleBlock);
         }
+
+        /// <summary>
+        /// Creates a date picker
+        /// </summary>
+        public static DatePicker CreateDatePicker(string hintText)
+        {
+            //kTODO: add the date picker to factor controls with parameter hint text
+            // Creates a date picker - calendar field
+            var datePicker = new DatePicker()
+            {
+                Width = 240,
+                Margin = new Thickness(24),
+                Foreground = DarkGray.HexToBrush(),
+                FontSize = 20
+            };
+            // Adds a hint to the date picker
+            ControlsFactory.CreateHint(hintText, datePicker);
+
+            return datePicker;
+        }
+
 
         /// <summary>
         /// Creates an add button for the pages
@@ -208,7 +241,7 @@ namespace Vaseis
         {
             var button = CreateControlButton(PackIconKind.ArrowUpBold);
 
-            button.Background = StyleHelpers.HexToBrush(Styles.Green);
+            button.Background = HookersGreen.HexToBrush();
 
             return button;
         }

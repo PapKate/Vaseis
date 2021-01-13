@@ -26,11 +26,13 @@ namespace Vaseis
         {
             var pageGrid = new Grid();
 
-            var dataGrid = new DataGridComponent()
-            { 
+            var dataGrid2 = new EmployeeDataGridComponent()
+            {
             };
 
-            pageGrid.Children.Add(dataGrid);
+            pageGrid.Children.Add(dataGrid2);
+
+
 
 
             Content = pageGrid;

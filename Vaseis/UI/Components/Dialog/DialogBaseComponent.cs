@@ -1,6 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 using static Vaseis.Styles;
 
@@ -12,13 +14,12 @@ namespace Vaseis
     /// </summary>
     public abstract class DialogBaseComponent : ContentControl
     {
+        #region Protected Properties
+        
         /// <summary>
         /// The dialog host
         /// </summary>
-        public DialogHost DialogHost { get; private set; }
-
-        #region Protected Properties
-
+        protected DialogHost DialogHost { get; private set; }
         /// <summary>
         /// The outside grid
         /// </summary>
@@ -28,6 +29,11 @@ namespace Vaseis
         /// The grid containing the dialog text inputs
         /// </summary>
         protected Grid DialogGrid { get; private set; }
+
+        /// <summary>
+        /// The stack panel for all input
+        /// </summary>
+        protected StackPanel InputStackPanel { get; private set; }
 
         /// <summary>
         /// The panel containing all input
@@ -58,9 +64,63 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region IsDialogOpen
+
+        /// <summary>
+        /// The is dialog open bool
+        /// </summary>
+        public bool IsDialogOpen
+        {
+            get { return (bool)GetValue(IsDialogOpenProperty); }
+            set { SetValue(IsDialogOpenProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="IsDialogOpen"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty IsDialogOpenProperty = DependencyProperty.Register(nameof(IsDialogOpen), typeof(bool), typeof(DialogBaseComponent), new PropertyMetadata(DialogVisibilityChanged));
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="IsDialogOpen"/> property
+        /// </summary>
+        private static void DialogVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as DialogBaseComponent;
+
+            sender.DialogVisibilityChangedCore(e);
+        }
+
+        #endregion
+
+        #region CancelCommand
+
+        /// <summary>
+        /// The dialog's cancel command
+        /// </summary>
+        public ICommand CancelCommand
+        {
+            get { return (ICommand)GetValue(CancelCommandProperty); }
+            set { SetValue(CancelCommandProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="CancelCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CancelCommandProperty = DependencyProperty.Register(nameof(CancelCommand), typeof(ICommand), typeof(DialogBaseComponent));
+
+        #endregion
+
         #endregion
 
         #region Protected Methods
+
+        /// <summary>
+        /// Handles the change of the <see cref="DialogBaseComponent.IsDialogOpen"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void DialogVisibilityChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
 
         /// <summary>
         /// On click closes the dialog
@@ -95,10 +155,17 @@ namespace Vaseis
         private void CreateGUI()
         {
             // The stack panel for the input fields
+            InputStackPanel = new StackPanel()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            // The wrap panel for the input fields
             InputWrapPanel = new WrapPanel()
             {
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+            InputStackPanel.Children.Add(InputWrapPanel);
 
             // The outer grid, fixed size
             OutGrid = new Grid()
@@ -126,6 +193,11 @@ namespace Vaseis
             CloseButton.VerticalAlignment = VerticalAlignment.Top;
             // When clicked close the dialog
             CloseButton.Click += CloseDialogOnClick;
+            // Binds the cancel command to the close button's command
+            CloseButton.SetBinding(Button.CommandProperty, new Binding(nameof(CancelCommand))
+            { 
+                Source = this
+            });
 
             // Adds the close button to the inner grid
             DialogGrid.Children.Add(CloseButton);
@@ -173,7 +245,7 @@ namespace Vaseis
             {
                 VerticalAlignment = VerticalAlignment.Top,
                 // With content the bio's text block
-                Content = InputWrapPanel,
+                Content = InputStackPanel,
                 CanContentScroll = true,
                 MaxHeight = 680
             };
@@ -198,6 +270,24 @@ namespace Vaseis
 
             // Sets the component's content to the dialog host
             Content = DialogHost;
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="IsDialogOpen"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void DialogVisibilityChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+            // If save is true...
+            if (newValue == true)
+            {
+                // Sets the dialog host's is open to true
+                DialogHost.IsOpen = true;
+            }
+            // Calls the virtual method
+            DialogVisibilityChanged(e);
         }
 
 

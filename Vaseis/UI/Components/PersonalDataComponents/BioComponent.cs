@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Vaseis
 {
@@ -46,6 +47,8 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region Bio
+
         /// <summary>
         /// The User's Bio
         /// </summary>
@@ -77,11 +80,90 @@ namespace Vaseis
 
         #endregion
 
+        #region IsEditable
+
+        /// <summary>
+        /// The is editable bool
+        /// </summary>
+        public bool IsEditable
+        {
+            get { return (bool)GetValue(IsEdidableProperty); }
+            set { SetValue(IsEdidableProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="IsEditable"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty IsEdidableProperty = DependencyProperty.Register(nameof(IsEditable), typeof(bool), typeof(BioComponent), new PropertyMetadata(EditText));
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="IsEditable"/> property
+        /// </summary>
+        private static void EditText(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as BioComponent;
+
+            sender.EditTextCore(e);
+        }
+
+        #endregion
+
+        #region SaveEdit
+
+        /// <summary>
+        /// The is save edits bool
+        /// </summary>
+        public bool SaveEdit
+        {
+            get { return (bool)GetValue(SaveEditProperty); }
+            set { SetValue(SaveEditProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="SaveEdit"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty SaveEditProperty = DependencyProperty.Register(nameof(SaveEdit), typeof(bool), typeof(BioComponent), new PropertyMetadata(AfterEditText));
+
+        /// <summary>
+        /// Handles the change of the <see cref="SaveEdit"/> property
+        /// </summary>
+        private static void AfterEditText(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as BioComponent;
+
+            sender.AfterEditTextCore(e);
+        }
+
+        #endregion
+
+        #endregion
+
         #region Constructors 
 
         public BioComponent() 
         {
             CreateGUI();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the change of the <see cref="BioComponent.IsEditable"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void EditText(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="BioComponent.SaveEdit"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void AfterEditText(DependencyPropertyChangedEventArgs e)
+        {
+
         }
 
         #endregion
@@ -99,7 +181,8 @@ namespace Vaseis
                 FontSize = 32,
                 FontWeight = FontWeights.Bold,
                 Foreground = Styles.DarkGray.HexToBrush(),
-                Margin = new Thickness(0, 0, 0, 12)
+                Margin = new Thickness(0, 0, 0, 12),
+                Width = 960
             };
 
             // Binds the text property of the BiooTitle to the BioTextTitle property
@@ -152,7 +235,8 @@ namespace Vaseis
                 TextWrapping = TextWrapping.Wrap,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 MaxHeight = 200,
-                Visibility = Visibility.Collapsed
+                Visibility = Visibility.Collapsed,
+                Width = 940
             };
             // Adds it to the bio's grid
             BioTextGrid.Children.Add(BioTextBox);
@@ -182,9 +266,58 @@ namespace Vaseis
                 Margin = new Thickness(24),
             };
 
+
             BioBorder.Child = BioStackPanel;
 
             Content = BioBorder;
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="EditCommand"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void EditTextCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+            // If the edit is true...
+            if (newValue == true)
+            {
+                // Collapse the block
+                BioTextBlock.Visibility = Visibility.Collapsed;
+                // Show the box
+                BioTextBox.Visibility = Visibility.Visible;
+                // The box's text gets the block's text
+                BioTextBox.Text = BioTextBlock.Text;
+            }
+            // If the edit is false...
+            if(newValue == false)
+            {
+                // Collapse the box
+                BioTextBlock.Visibility = Visibility.Visible;
+                // Show the block
+                BioTextBox.Visibility = Visibility.Collapsed;
+            }
+            // Calls the virtual method
+            EditText(e);
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="EditCommand"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void AfterEditTextCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+            // If save is true...
+            if (newValue == true)
+            {
+                // Sets the text from the box to the block
+                BioTextBlock.Text = BioTextBox.Text;
+            }
+            // Calls the virtual method
+            AfterEditText(e);
         }
 
         #endregion

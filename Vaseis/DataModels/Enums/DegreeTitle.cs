@@ -9,6 +9,7 @@ namespace Vaseis
     /// </summary>
     public enum DegreeTitle
     {
+
         ComputerApplications = 0 ,
         CommunityHealth =1 ,
         ComputerInformationSystems = 2,
@@ -48,6 +49,7 @@ namespace Vaseis
         Informatics = 36,
         AppDevelopment = 37,
         Psychology = 38,
+
 
     }
 }

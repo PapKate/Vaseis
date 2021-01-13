@@ -36,7 +36,7 @@ namespace Vaseis
         /// </summary>
         public string HintText
         {
-            get { return GetValue(HintTextProperty).ToString(); }
+            get { return (string)GetValue(HintTextProperty); }
             set { SetValue(HintTextProperty, value); }
         }
 
@@ -44,6 +44,24 @@ namespace Vaseis
         /// Identifies the <see cref="HintText"/> dependency property
         /// </summary>
         public static readonly DependencyProperty HintTextProperty = DependencyProperty.Register(nameof(HintText), typeof(string), typeof(TextInputComponent));
+
+        #endregion
+
+        #region Text
+
+        /// <summary>
+        /// The required input text helper
+        /// </summary>
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Text"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(TextInputComponent));
 
 
         #endregion
@@ -72,12 +90,17 @@ namespace Vaseis
                 FontSize = 20,
                 Foreground = DarkGray.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
+                Padding = new Thickness(4, 0, 4, 0)
             };
+
+            InputTextBox.SetBinding(TextBox.TextProperty, new Binding(nameof(Text))
+            { 
+                Source = this
+            });
 
             // Creates the hint text
             HintTitleBlock = new TextBlock()
             {
-                Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
                 FontSize = 20,
                 FontFamily = Calibri,
