@@ -24,6 +24,11 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
+        protected Grid TextGrid { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextBlock TextBlock { get; private set; }
 
         #endregion
@@ -93,6 +98,11 @@ namespace Vaseis
                 Source = this
             });
 
+            TextGrid = new Grid()
+            {
+
+            };
+
             TextBlock = new TextBlock()
             {
                 TextTrimming = TextTrimming.CharacterEllipsis,
@@ -106,6 +116,7 @@ namespace Vaseis
             {
                 Source = this
             });
+            TextGrid.Children.Add(TextBlock);
 
             InfoStackPanel = new StackPanel()
             {
@@ -114,7 +125,7 @@ namespace Vaseis
             };
 
             InfoStackPanel.Children.Add(TitleBlock);
-            InfoStackPanel.Children.Add(TextBlock);
+            InfoStackPanel.Children.Add(TextGrid);
 
 
             Content = InfoStackPanel;

@@ -17,6 +17,8 @@ namespace Vaseis
         /// </summary>
         public Grid PageGrid { get; }
 
+        public ReportDataModel Report { get; }
+
         #region Protected Properties
 
         /// <summary>
@@ -175,7 +177,7 @@ namespace Vaseis
             // If the edit is true...
             if (newValue == true)
             {
-                var newRow = new ReportsDataGridRowComponent(PageGrid);
+                var newRow = new ReportsDataGridRowComponent(PageGrid, Report);
 
                 InfoDataStackPanel.Children.Add(newRow);
                 // Creates a new evaluation dialog

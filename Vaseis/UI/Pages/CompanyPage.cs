@@ -362,8 +362,6 @@ namespace Vaseis
 
         #endregion
 
-
-
         #region Protected Methods
 
         /// <summary>
@@ -377,12 +375,10 @@ namespace Vaseis
 
 #       endregion
 
-
-        #region private Methods
+        #region Private Methods
 
         private void CreateGUI()
         {
-
             #region Page Grid
 
             PageGrid = new Grid();
@@ -403,17 +399,16 @@ namespace Vaseis
             });
             #endregion
 
-
             //The column that contains some details and the image & logo of the com pany (left)
              CompanyInfoStackPanel = new StackPanel()
-            {
+             {
                 VerticalAlignment = VerticalAlignment.Top,
                 Margin = new Thickness(32),
-            };
+             };
 
-            //The Companby's image and logotype
+            //The Company's image and logotype
              var Image = new Image()
-            {
+             {
                  Width = 240,
                  Height = 240,
                  HorizontalAlignment = HorizontalAlignment.Center,
@@ -574,10 +569,6 @@ namespace Vaseis
             };
             TopStackPanel.Children.Add(EditButtons);
 
-            EditButtons.EditButton.Click += EditProfile;
-            EditButtons.CancelButton.Click += CanelEditProfile;
-            EditButtons.SaveButton.Click += SaveEditProfile;
-
 
             //JustlIKE Bio text
             var LogoBlock = new TextBlock()
@@ -594,7 +585,6 @@ namespace Vaseis
             {
                 Source = this
             });
-
 
             #region About
 
@@ -615,7 +605,6 @@ namespace Vaseis
 
             #endregion
 
-
             #region Company has tiles
 
             //the bottom grid with the colourful tiles (what does the company consist of)
@@ -624,90 +613,90 @@ namespace Vaseis
                 Columns = 3
             };
 
-            var employeeTextBlock = new UserButtonComponent() { 
-               FullName = "Employees",
-               Username = NumberOfEmployees,
-               Background = "ff4455".HexToBrush()
-            };
+            //var employeeTextBlock = new UserButtonComponent() { 
+            //   FullName = "Employees",
+            //   Username = NumberOfEmployees,
+            //   Background = "ff4455".HexToBrush()
+            //};
             // Binds the employeeTextBlock property to the NumberOfEmployees dependency property
-            employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
-            {
-                Source = this
-            });
+            //employeeTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
+            //{
+            //    Source = this
+            //});
 
-            CompanyHasDataGrid.Children.Add(employeeTextBlock);
+            //CompanyHasDataGrid.Children.Add(employeeTextBlock);
 
-            var managersTextBlock = new UserButtonComponent()
-            {
-                FullName = "Managers",
-                Username = NumberOfManagers,
-                Background = "ff4455".HexToBrush()
-            };
-            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
-            managersTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
-            {
-                Source = this
-            });
+            //var managersTextBlock = new UserButtonComponent()
+            //{
+            //    FullName = "Managers",
+            //    Username = NumberOfManagers,
+            //    Background = "ff4455".HexToBrush()
+            //};
+            //// Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            //managersTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEmployees))
+            //{
+            //    Source = this
+            //});
 
-            CompanyHasDataGrid.Children.Add(managersTextBlock);
+            //CompanyHasDataGrid.Children.Add(managersTextBlock);
 
-            var evaluatorsTextBlock = new UserButtonComponent()
-            {
-                FullName = "Evaluators",
-                Username = NumberOfEvaluators,
-                Background = "ff4455".HexToBrush()
-            };
-            // Binds the EvaluatorsBlock property to the NumberOfEvaluators dependency property
-            evaluatorsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEvaluators))
-            {
-                Source = this
-            });
+            //var evaluatorsTextBlock = new UserButtonComponent()
+            //{
+            //    FullName = "Evaluators",
+            //    Username = NumberOfEvaluators,
+            //    Background = "ff4455".HexToBrush()
+            //};
+            //// Binds the EvaluatorsBlock property to the NumberOfEvaluators dependency property
+            //evaluatorsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfEvaluators))
+            //{
+            //    Source = this
+            //});
 
-            CompanyHasDataGrid.Children.Add(evaluatorsTextBlock);
+            //CompanyHasDataGrid.Children.Add(evaluatorsTextBlock);
 
-            var departmentsTextBlock = new UserButtonComponent()
-            {
-                FullName = "Departments",
-                Username = NumberOfDepartments,
-                Background = "ff4455".HexToBrush()
-            };    
-            // Binds the DepartmentsBlock property to the NumberOfDepartments dependency property
-            departmentsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfDepartments))
-            {
-                Source = this
-            });
+            //var departmentsTextBlock = new UserButtonComponent()
+            //{
+            //    FullName = "Departments",
+            //    Username = NumberOfDepartments,
+            //    Background = "ff4455".HexToBrush()
+            //};    
+            //// Binds the DepartmentsBlock property to the NumberOfDepartments dependency property
+            //departmentsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfDepartments))
+            //{
+            //    Source = this
+            //});
 
-            CompanyHasDataGrid.Children.Add(departmentsTextBlock);
+            //CompanyHasDataGrid.Children.Add(departmentsTextBlock);
 
 
-            var jobsTextBlock = new UserButtonComponent()
-            {
-                FullName = "Jobs",
-                Username = NumberOfJobs,
-                Background = "ff4455".HexToBrush()
-            };
-            // Binds the JobsTextBlock property to the NumberOfJobs dependency property
-            jobsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobs))
-            {
-                Source = this
-            });
+            //var jobsTextBlock = new UserButtonComponent()
+            //{
+            //    FullName = "Jobs",
+            //    Username = NumberOfJobs,
+            //    Background = "ff4455".HexToBrush()
+            //};
+            //// Binds the JobsTextBlock property to the NumberOfJobs dependency property
+            //jobsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobs))
+            //{
+            //    Source = this
+            //});
            
-            CompanyHasDataGrid.Children.Add(jobsTextBlock);
+            //CompanyHasDataGrid.Children.Add(jobsTextBlock);
 
 
-            var jobPositionsTextBlock = new UserButtonComponent()
-            {
-                FullName = "Open Job Positions",
-                Username = NumberOfJobPositions,
-                Background = "ff4455".HexToBrush()
-            };
-            // Binds the Jobpositions property to the NumberOfJobPositions dependency property
-            jobPositionsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobPositions))
-            {
-                Source = this
-            });
+            //var jobPositionsTextBlock = new UserButtonComponent()
+            //{
+            //    FullName = "Open Job Positions",
+            //    Username = NumberOfJobPositions,
+            //    Background = "ff4455".HexToBrush()
+            //};
+            //// Binds the Jobpositions property to the NumberOfJobPositions dependency property
+            //jobPositionsTextBlock.SetBinding(UserButtonComponent.UsernameProperty, new Binding(nameof(NumberOfJobPositions))
+            //{
+            //    Source = this
+            //});
 
-            CompanyHasDataGrid.Children.Add(jobPositionsTextBlock);
+            //CompanyHasDataGrid.Children.Add(jobPositionsTextBlock);
 
             #endregion
 
@@ -718,9 +707,7 @@ namespace Vaseis
             // Sets the border to the second column of the page's grid
             Grid.SetColumn(TopStackPanel, 2);
 
-
             Content = PageGrid;
-
         }
 
         #region Button'S Listeners

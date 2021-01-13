@@ -22,39 +22,39 @@ namespace Vaseis
         /// <summary>
         /// the announcement date
         /// </summary>
-        public DateTime AnnouncementDate { get; set; } = DateTime.Now;
+        public DateTime? AnnouncementDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// the submission date
         /// </summary>
-        public DateTime  SubmissionDate { get; set; }
+        public DateTime? SubmissionDate { get; set; }
 
         /// <summary>
         /// the start date
         /// </summary>
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related evaluator
-        /// </summary>
-        public int EvaluatorId { get; set; }
+        #region Relationships
 
         /// <summary>
         /// The <see cref="JobDataModel.Id"/> the Job supplied
         /// </summary>
-        public int JobId{ get; set; }
+        public int JobId { get; set; }
 
         /// <summary>
-        /// The <see cref="CompanyDataModel.Id"/> of the hiring company
+        /// The related <see cref="JobDataModel"/>
         /// </summary>
-        public int CompanyId { get; set; }
-
-        #region Relationships
+        public JobDataModel Job { get; set; }
 
         /// <summary>
         /// The job position subjects
         /// </summary>
         public IEnumerable<SubjectDataModel> Subjects { get; set; }
+
+        /// <summary>
+        /// The job position's requests
+        /// </summary>
+        public IEnumerable<JobPositionRequestDataModel> JobPositionRequests { get; set; }
 
         #endregion
 

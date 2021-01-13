@@ -124,7 +124,7 @@ namespace Vaseis
             if (ReportDataGridRow != null)
             {
                 // Add the text from the row to the input text in the dialog accordingly
-                ParagraphTextBox.Text = ReportDataGridRow.Report;
+                ParagraphTextBox.Text = ReportDataGridRow.Report.ReportText;
                 UserNameTextBlock.Text = ReportDataGridRow.EmployeeName;
                 DepartmentTextBlock.Text = ReportDataGridRow.DepartmentName;
                 JopPositionTextBlock.Text = ReportDataGridRow.JobName;
@@ -289,7 +289,7 @@ namespace Vaseis
             if (ReportDataGridRow != null)
             {
                 // Sets the row's values according to the matching input in the dialog
-                ReportDataGridRow.Report = ParagraphTextBox.Text;
+                ReportDataGridRow.Report.ReportText = ParagraphTextBox.Text;
                 if (ParagraphTextBox.Text != "")
                     ReportDataGridRow.IsWritten = true;
                 else

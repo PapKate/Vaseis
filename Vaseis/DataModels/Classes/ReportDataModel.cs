@@ -18,6 +18,13 @@ namespace Vaseis
         public int Id { get; set; }
 
         /// <summary>
+        /// The report information
+        /// </summary>
+        public string ReportText { get; set; }
+
+        #region Relationships
+
+        /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related manager
         /// </summary>
         public int ManagerId { get; set; }
@@ -29,6 +36,9 @@ namespace Vaseis
         /// </summary>
         public int EmployeeId { get; set; }
 
+        /// <summary>
+        /// The related employee
+        /// </summary>
         public UserDataModel Employee { get; set; }
 
         /// <summary>
@@ -36,12 +46,22 @@ namespace Vaseis
         /// </summary>
         public int EvaluatorId { get; set; }
 
+        /// <summary>
+        /// The related evaluator
+        /// </summary>
         public UserDataModel Evaluator { get; set; }
 
         /// <summary>
-        /// The report information
+        /// The <see cref="UsersJobFilesPairDataModel.Id"/> of the related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
-        public string Report { get; set; }
+        public int UsersJobFilePairId { get; set; }
+
+        /// <summary>
+        /// The related <see cref="UsersJobFilesPairDataModel"/>
+        /// </summary>
+        public UsersJobFilesPairDataModel UsersJobFilesPair { get; set; }
+
+        #endregion
 
         #endregion
 

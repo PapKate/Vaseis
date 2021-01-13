@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vaseis
@@ -23,16 +25,39 @@ namespace Vaseis
         public string JobTitle{ get; set; }
 
         /// <summary>
-        /// the job title 
+        /// the job's salary 
         /// </summary>
         public int Salary{ get; set; }
+        
+        #region Relationships
+
+        /// <summary>
+        /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public int CompanyId { get; set; }
+
+        /// <summary>
+        /// The related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public CompanyDataModel Company { get; set; }
 
         /// <summary>
         /// the job department
         /// </summary>
-        public int Department{ get; set; }
+        public int DepartmentId { get; set; }
 
+        /// <summary>
+        /// The department for the job
+        /// </summary>
+        public DepartmentDataModel Department { get; set; }
 
+        /// <summary>
+        /// The job positions 
+        /// </summary>
+        public IEnumerable<JobPositionDataModel> JobPositions { get; set; }
+
+        #endregion
+        
         #endregion
 
         #region Constructors
@@ -47,48 +72,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Relationships
-
-        /// <summary>
-        /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
-        /// </summary>
-        public int CompanyId { get; set; }
-
-        /// <summary>
-        /// The related <see cref="CompanyDataModel"/>
-        /// </summary>
-        public CompanyDataModel Company { get; set; }
-
-
-        #endregion
-    }
-
-    public class UserJobRequests
-    {
-        #region Public Properties
-
-        public int Id { get; set; }
-
-        #region Relationship
-
-        public int UserId { get; set; }
-
-        public UserDataModel User { get; set; }
-
-        #endregion
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public UserJobRequests()
-        {
-
-        }
-
-        #endregion
+        
     }
 }

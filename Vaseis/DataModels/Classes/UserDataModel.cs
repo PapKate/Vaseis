@@ -101,12 +101,12 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="JobDataModel.Id"/> of the related <see cref="JobDataModel"/>
         /// </summary>
-        public int? JobId { get; set; }
+        public int? JobPositionId { get; set; }
 
         /// <summary>
         /// The related <see cref="Job"/>
         /// </summary>
-        public JobDataModel Job { get; set; }
+        public JobPositionDataModel JobPosition { get; set; }
 
         /// <summary>
         /// The user's degrees
@@ -138,6 +138,21 @@ namespace Vaseis
         /// </summary>
         public IEnumerable<LanguagesDataModel> Languages { get; set; }
 
+        /// <summary>
+        /// The job position requests
+        /// </summary>
+        //public IEnumerable<JobPositionRequestDataModel> JobPositionRequests { get; set; }
+
+        /// <summary>
+        /// The evaluations
+        /// </summary>
+        //public IEnumerable<EvaluationDataModel> Evaluations { get; set; }
+
+        /// <summary>
+        /// The reports
+        /// </summary>
+        //public IEnumerable<ReportDataModel> Reports { get; set; }
+
         #endregion
 
         #endregion
@@ -160,69 +175,6 @@ namespace Vaseis
         /// </summary>
         /// <returns></returns>
         public override string ToString() => Username;
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a manager and an employee pair
-    /// </summary>
-    public class ManagerEmployeePair
-    {
-        #region Public Properties
-
-        /// <summary>
-        /// The id
-        /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        #region Relationships
-
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related manager
-        /// </summary>
-        public int ManagerId { get; set; }
-
-        /// <summary>
-        /// The related manager
-        /// </summary>
-        public UserDataModel Manager { get; set; }
-
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related evaluator
-        /// </summary>
-        public int EvaluatorId { get; set; }
-
-        /// <summary>
-        /// The related evaluator
-        /// </summary>
-        public UserDataModel Evaluator { get; set; }
-
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related employee
-        /// </summary>
-        public int EmployeeId { get; set; }
-
-        /// <summary>
-        /// The related employee
-        /// </summary>
-        public UserDataModel Employee { get; set; }
-
-        #endregion
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ManagerEmployeePair()
-        {
-
-        }
 
         #endregion
     }
