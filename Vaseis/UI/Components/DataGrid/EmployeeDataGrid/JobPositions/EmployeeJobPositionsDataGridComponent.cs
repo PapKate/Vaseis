@@ -1,16 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System;
+using System.Linq;
 using System.Windows.Controls;
+
+using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class EmployeeJobPositionsDataGridComponent : ContentControl
+    public class EmployeeJobPositionsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The employee
+        /// </summary>
+        public UserDataModel Employee { get; }
+
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -19,15 +31,6 @@ namespace Vaseis
         /// </summary>
         protected EmployeeJobPositionsDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
-        #endregion
-
-        #region Dependency Properties
-
         #endregion
 
         #region Constructors
@@ -35,18 +38,67 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeJobPositionsDataGridComponent()
-        {
-            CreateGUI();
-        }
-
-        public EmployeeJobPositionsDataGridComponent(Grid pageGrid)
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="employee">The employee</param>
+        public EmployeeJobPositionsDataGridComponent(Grid pageGrid, UserDataModel employee)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Employee = employee ?? throw new ArgumentNullException(nameof(employee));
 
             CreateGUI();
         }
 
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized()
+        {
+            base.OnInitialized();
+            // Query the reports of the manager and add them as rows to the data grid
+            var jobPositions = await Services.GetDbContext.JobPositions.Include(x => x.Job)
+                                                             .Include(x => x.Job.Department)
+                                                             .Include(x => x.JobPositionRequests)
+                                                             .Where(x => x.AnnouncementDate != null)
+                                                             .ToListAsync();
+
+            // For each job position in the list...
+            foreach (var jobPosition in jobPositions)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new EmployeeJobPositionsDataGridRowComponent(PageGrid, jobPosition);
+                // ( When the plus button is clicked )
+                // Create the show dialog command
+                row.ShowDialogCommand = new RelayCommand(() => 
+                {
+                    // Creates an evaluation dialog
+                    var requestDialog = new JobPositionRequestDialogComponent(row)
+                    {
+                        // And opens it
+                        IsDialogOpen = true,
+                        // Create the request command
+                        
+                    };
+
+                    requestDialog.RequestCommand = new RelayCommand(async () =>
+                    {
+                        // Removes from the data grid's stack panel the row
+                        InfoDataStackPanel.Children.Remove(row);
+
+                        await Services.GetDataStorage.AddJobPositionRequestAsync(Employee.Id, row.JobPosition.Id, requestDialog.ParagraphText);
+                    });
+
+                    // Adds it to the page's grid
+                    PageGrid.Children.Add(requestDialog);
+                });
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
+        }
         #endregion
 
         #region Private Methods
@@ -56,45 +108,12 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new EmployeeJobPositionsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            var startDate = DateTime.Now.ToShortDateString();
-            var subDate = new DateTime(2021, 1, 24).ToShortDateString();
-
-            // Creates and adds a row to the data grid
-            var row = new EmployeeJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Potato",
-                DepartmentText = "Tomato",
-                SalaryText = "2.500$",
-                SubjectText = "Agriculture",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "12",
-            };
-
-            InfoDataStackPanel.Children.Add(row);
-
-            // Creates and adds a row to the data grid
-            var row2 = new EmployeeJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Chocolate",
-                DepartmentText = "Cookies",
-                SalaryText = "1.878$",
-                SubjectText = "Pastry",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "7",
-            };
-
-            InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
+
         #endregion
     }
 }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,14 +13,26 @@ namespace Vaseis
     /// <summary>
     /// The reports' data grid
     /// </summary>
-    public class ReportsDataGridComponent : ContentControl
+    public class ReportsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
 
+        /// <summary>
+        /// The report
+        /// </summary>
         public ReportDataModel Report { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -25,11 +40,6 @@ namespace Vaseis
         /// The header's grid
         /// </summary>
         protected BaseDataGridHeaderComponent DataGridHeader { get; private set; }
-
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
 
         #endregion
 
@@ -93,9 +103,10 @@ namespace Vaseis
             CreateGUI();
         }
 
-        public ReportsDataGridComponent(Grid pageGrid)
+        public ReportsDataGridComponent(Grid pageGrid, UserDataModel manager)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
 
             CreateGUI();
         }
@@ -108,11 +119,17 @@ namespace Vaseis
         /// Handles the initialization of the page
         /// </summary>
         /// <param name="e">Event args</param>
-        protected override void OnInitialized(EventArgs e)
+        protected async override void OnInitialized()
         {
-            base.OnInitialized(e);
+            base.OnInitialized();
+
+            var jobRequests = await Services.GetDbContext.JobPositionRequests.ToListAsync();
 
             // Query the reports of the manager and add them as rows to the data grid
+            var reports = await Services.GetDataStorage.GetManagerReportsAsync(Manager.Id);
+
+            foreach(var report in reports)
+                InfoDataStackPanel.Children.Add(new ReportsDataGridRowComponent(PageGrid, report));
         }
 
         /// <summary>
@@ -133,8 +150,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new ReportDataGridHeaderComponent()
             {
@@ -142,28 +157,6 @@ namespace Vaseis
             };
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            //// Creates and adds a row to the data grid
-            //var row = new ReportsDataGridRowComponent(PageGrid)
-            //{
-              
-            //};
-
-            //InfoDataStackPanel.Children.Add(row);
-
-            //// Creates and adds a row to the data grid
-            //var row2 = new ReportsDataGridRowComponent(PageGrid)
-            //{
-            //    EvaluatorName = "PapBoomBommLabros",
-            //    EmployeeName = "PapKaterina",
-            //    JobName = "Junior developer",
-            //    DepartmentName = "Development",
-            //};
-
-            //InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
 
         /// <summary>

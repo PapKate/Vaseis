@@ -19,10 +19,17 @@ namespace Vaseis
     {
         #region Protected Properties
 
+        /// <summary>
+        /// The message's block
+        /// </summary>
         protected TextBlock MessageBlock { get; private set; }
 
+        // The ok button
         protected Button OkButton { get; private set; }
 
+        /// <summary>
+        /// The job request's data grid row
+        /// </summary>
         protected EmployeeJobRequestsDataGridRowComponent JobPositionRequestDataGridRow { get; private set; }
 
         #endregion

@@ -8,11 +8,6 @@ namespace Vaseis
 {
     public class ManagerJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
-        /// <summary>
-        /// The page's grid
-        /// </summary>
-        public Grid PageGrid { get; }
-
         #region Protected Properties
 
         /// <summary>
@@ -34,8 +29,6 @@ namespace Vaseis
         /// </summary>
         public ManagerJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
-
             CreateGUI();
         }
 
@@ -56,29 +49,41 @@ namespace Vaseis
                 VerticalAlignment = VerticalAlignment.Center,
                 Visibility = Visibility.Collapsed
             };
+            // Ads it to the data grid's row
             RowDataGrid.Children.Add(SalaryTextBox);
             Grid.SetColumn(SalaryTextBox, 2);
 
             // Creates the edit button
             EditComponent = new EditComponent
             {
+                // Sets the edit command as a new relay command that...
                 EditCommand = new RelayCommand(() =>
                 {
+                    // Hides the salary's text block
                     SalaryTextBlock.Visibility = Visibility.Collapsed;
+                    // Shows the salary's text box
                     SalaryTextBox.Visibility = Visibility.Visible;
+                    // Sets the salary's text box's text to the salary's text block's text
                     SalaryTextBox.Text = SalaryTextBlock.Text;
                 }),
 
+                // Sets the edit command as a new relay command that...
                 SaveCommand = new RelayCommand(() =>
                 {
+                    // Shows the salary's text block
                     SalaryTextBlock.Visibility = Visibility.Visible;
+                    // Hides the salary's text box
                     SalaryTextBox.Visibility = Visibility.Collapsed;
+                    // Sets the salary's text block's text to the salary's text box's text
                     SalaryTextBlock.Text = SalaryTextBox.Text;
                 }),
 
+                // Sets the edit command as a new relay command that...
                 CancelCommand = new RelayCommand(() =>
                 {
+                    // Hides the salary's text block
                     SalaryTextBlock.Visibility = Visibility.Visible;
+                    // Shows the salary's text box
                     SalaryTextBox.Visibility = Visibility.Collapsed;
                 }),
 

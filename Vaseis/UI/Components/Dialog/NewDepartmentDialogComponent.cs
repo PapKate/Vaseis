@@ -54,14 +54,17 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the department's input field
             DepartmentInput = new TextInputComponent()
             { 
                 Width = 240,
                 Margin = new Thickness(24),
                 HintText = "Department's name"
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentInput);
 
+            // Creates the company's combo box
             CompanyPicker = new PickerComponent()
             {
                 HintText = "Company",
@@ -69,14 +72,17 @@ namespace Vaseis
                 Margin = new Thickness(24, 0, 24, 0),
                 OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(CompanyPicker);
 
+            // Creates the color's input field
             ColorInput = new TextInputComponent()
             {
                 Width = 240,
                 Margin = new Thickness(24),
                 HintText = "Representative hex color"
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(ColorInput);
 
             // Creates the create button
@@ -84,7 +90,6 @@ namespace Vaseis
             //CreateButton.Click += CreateDepartmentOnClick;
             // Adds it to the dialog's button's stack panel
             DialogButtonsStackPanel.Children.Add(CreateButton);
-
         }
 
         #endregion

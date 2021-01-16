@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
@@ -25,6 +26,16 @@ namespace Vaseis
                 ShadowDepth = 0,
                 Opacity = 0.4
             };
+        }
+
+        /// <summary>
+        /// Formats an integer to the correct currency representation
+        /// </summary>
+        /// <param name="value">The value we want to get in currency format</param>
+        /// <returns></returns>
+        public static string CreateSalaryFormat(int value)
+        {
+            return value.ToString("C", CultureInfo.CurrentCulture);
         }
 
         /// <summary>

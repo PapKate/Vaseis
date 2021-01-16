@@ -290,12 +290,19 @@ namespace Vaseis
             {
                 // Sets the row's values according to the matching input in the dialog
                 ReportDataGridRow.Report.ReportText = ParagraphTextBox.Text;
+                // If the paragraph text is NOT empty...
                 if (ParagraphTextBox.Text != "")
+                    // Sets the is written property of the report's data grid's row to true
                     ReportDataGridRow.IsWritten = true;
+                // Else...
                 else
+                    // Sets it to false
                     ReportDataGridRow.IsWritten = false;
+                // Closes the diaog
                 DialogHost.IsOpen = false;
             }
+
+            // For extra manipulation if wanted in a child class
             TemporarySaveOnClick(e);
         }
 

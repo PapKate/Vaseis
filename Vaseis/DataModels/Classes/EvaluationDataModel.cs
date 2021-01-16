@@ -20,90 +20,116 @@ namespace Vaseis
         /// <summary>
         /// Evaluator's interview grade
         /// </summary>
-        public float? InterviewGrade { get; set; }
+        public int? InterviewGrade { get; set; }
 
         /// <summary>
         /// Evaluator's temporary interview grade
         /// </summary>
-        public float? TempInterviewGrade { get; set; }
+        public int? TempInterviewGrade { get; set; }
 
         /// <summary>
         /// Evaluator's comments on thew interview
         /// </summary>
-        public string? Comments { get; set; }
+        public string Comments { get; set; }
 
         /// <summary>
         /// Evaluator's temporary comments on thew interview
         /// </summary>
-        public string? TempComments { get; set; }
+        public string TempComments { get; set; }
 
         /// <summary>
         /// Evaluator's report grade
         /// </summary>
-        public float? ReportGrade { get; set; }
+        public int? ReportGrade { get; set; }
 
         /// <summary>
         /// Evaluator's temporary report grade
         /// </summary>
-        public float? TempReportGrade { get; set; }
+        public int? TempReportGrade { get; set; }
 
         /// <summary>
         /// Evaluator's files grade
         /// </summary>
-        public float? FilesGrade { get; set; }
+        public int? FilesGrade { get; set; }
 
         /// <summary>
         /// Evaluator's temporary files grade
         /// </summary>
-        public float? TempFilesGrade { get; set; }
+        public int? TempFilesGrade { get; set; }
 
         /// <summary>
         /// Evaluator's final grade
         /// </summary>
-        public float? FinalGrade { get; set; }
+        public int? FinalGrade { get; set; }
 
         /// <summary>
         /// Evaluator's final grade
         /// </summary>
-        public float? TempFinalGrade { get; set; }
-
+        public int? TempFinalGrade { get; set; }
+        
         #region Relationships
 
         /// <summary>
-        /// The <see cref="ReportDataModel.ReportText"/> of the related <see cref="ReportDataModel"/>
-        ///The report Id for this evaluation
+        /// The <see cref="JobPositionRequestDataModel.Id"/> of the related <see cref="JobPositionRequestDataModel"/>
+        /// The job position's request Id
         /// </summary>
-        public int ReportId { get; set; }
+        public int JobPositionRequestId { get; set; }
 
         /// <summary>
-        /// The related <see cref="ReportDataModel"/>
+        /// The related <see cref="JobPositionRequestDataModel"/>
         /// </summary>
-        public ReportDataModel Report { get; set; }
+        public JobPositionRequestDataModel JobPositionRequest { get; set; }
 
         /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related evaluator 
+        /// The <see cref="UsersJobFilesPairDataModel.Id"/> of the related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
-        public int? EvaluatorId { get; set; }
+        public int UsersJobFilesPairId { get; set; }
 
         /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related employee 
+        /// The related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
-        public int EmployeeId { get; set; }
+        public UsersJobFilesPairDataModel UsersJobFilesPair { get; set; }
 
-        /// <summary>
-        /// The employee
-        /// </summary>
-        public UserDataModel Employee { get; set; }
+        ///// <summary>
+        ///// The <see cref="ReportDataModel.ReportText"/> of the related <see cref="ReportDataModel"/>
+        /////The report Id for this evaluation
+        ///// </summary>
+        //public int ReportId { get; set; }
 
-        /// <summary>
-        /// The <see cref="JobPositionDataModel.Id"/> of the related <see cref="JobPositionDataModel"/> open job position
-        /// </summary>
-        public int JobPositionId { get; set; }
+        ///// <summary>
+        ///// The related <see cref="ReportDataModel"/>
+        ///// </summary>
+        //public ReportDataModel Report { get; set; }
 
-        /// <summary>
-        /// The related <see cref="JobPositionDataModel"/>
-        /// </summary>
-        public JobPositionDataModel JobPosition { get; set; }
+        ///// <summary>
+        ///// The <see cref="UserDataModel.Id"/> of the related evaluator 
+        ///// </summary>
+        //public int? EvaluatorId { get; set; }
+
+        ///// <summary>
+        ///// The evaluator
+        ///// </summary>
+        //public UserDataModel Evaluator { get; set; }
+
+        ///// <summary>
+        ///// The <see cref="UserDataModel.Id"/> of the related employee 
+        ///// </summary>
+        //public int EmployeeId { get; set; }
+
+        ///// <summary>
+        ///// The employee
+        ///// </summary>
+        //public UserDataModel Employee { get; set; }
+
+        ///// <summary>
+        ///// The <see cref="UserDataModel.Id"/> of the related manager 
+        ///// </summary>
+        //public int ManagerId { get; set; }
+
+        ///// <summary>
+        ///// The manager
+        ///// </summary>
+        //public UserDataModel Manager { get; set; }
 
         #endregion
 

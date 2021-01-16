@@ -9,10 +9,11 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The evaluator's evaluation data grid row
+    /// </summary>
     public class EvaluatorDataGridRowComponent : EvaluationBaseDataGridRowComponent
     {
-        public Grid PageGrid { get; }
-
         #region Protected Properties
 
         /// <summary>
@@ -61,8 +62,6 @@ namespace Vaseis
 
         public EvaluatorDataGridRowComponent(Grid pageGrid) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
-
             CreateGUI();
         }
 
@@ -102,7 +101,6 @@ namespace Vaseis
             {
                 Source = this
             });
-
 
             // Sets the component's content as the details' expander
             Content = DetailsExpander;

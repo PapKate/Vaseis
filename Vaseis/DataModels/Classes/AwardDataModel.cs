@@ -38,14 +38,14 @@ namespace Vaseis
         #region Relationships
 
         /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related employee
+        /// The <see cref="UserDataModel.Id"/> of the related <see cref="UserDataModel"/>
         /// </summary>
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
-        /// The related employee
+        /// The related <see cref="UserDataModel"/>
         /// </summary>
-        public UserDataModel Employee { get; set; }
+        public UserDataModel User { get; set; }
 
         #endregion
 

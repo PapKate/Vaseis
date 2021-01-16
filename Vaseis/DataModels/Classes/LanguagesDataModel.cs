@@ -25,12 +25,12 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related employee
         /// </summary>
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// The related <see cref="UserDataModel"/>
         /// </summary>
-        public UserDataModel Employee { get; set; }
+        public UserDataModel User { get; set; }
 
         #endregion
 

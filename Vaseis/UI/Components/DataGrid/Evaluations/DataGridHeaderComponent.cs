@@ -51,11 +51,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates and adds the text blocks to the header with text and tool tip
             EvaluationGradeTextBlock = CreateHeaderTextBlock(4, "E.G.", "Evaluations grade");
             ReportGradeTextBlock = CreateHeaderTextBlock(5, "R.G.", "Report's grade");
             FilesGradeTextBlock = CreateHeaderTextBlock(6, "F.G.", "File's grade");
             InterviewGradeTextBlock = CreateHeaderTextBlock(7, "I.G.", "Interview's grade");
 
+            // Sets the component's content as the header border
             Content = HeaderBorder;
         }
 

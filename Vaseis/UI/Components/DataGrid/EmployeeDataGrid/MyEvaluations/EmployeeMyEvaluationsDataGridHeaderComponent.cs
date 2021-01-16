@@ -38,6 +38,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates a new text block for the header for results column
             Result = CreateHeaderTextBlock(8, "Result", "Result");
         }
 

@@ -2,11 +2,16 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The job position request dialog
+    /// </summary>
     public class JobPositionRequestDialogComponent : DialogBaseComponent
     {
         #region Protected Properties
@@ -57,16 +62,29 @@ namespace Vaseis
 
         #endregion
 
+        #region RequestCommand
+
+        /// <summary>
+        /// The request evaluation command
+        /// </summary>
+        public ICommand RequestCommand
+        {
+            get { return (ICommand)GetValue(RequestCommandProperty); }
+            set { SetValue(RequestCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="RequestCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty RequestCommandProperty = DependencyProperty.Register(nameof(RequestCommand), typeof(ICommand), typeof(JobPositionRequestDialogComponent));
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public JobPositionRequestDialogComponent()
-        {
-            CreateGUI();
-        }
-
         public JobPositionRequestDialogComponent(EmployeeJobPositionsDataGridRowComponent jobPositionDataGridRow)
         {
             JobPositionDataGridRow = jobPositionDataGridRow ?? throw new ArgumentNullException(nameof(jobPositionDataGridRow));
@@ -103,18 +121,21 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Sets the dialog's title text
             DialogTitle.Text = "Request evaluation for job";
 
+            // Creates a text block for job position
             JobPositionBlock = new TextBlock()
             {
-                Width = 240,
                 Foreground = DarkGray.HexToBrush(),
                 FontSize = 28,
                 FontFamily = Calibri,
                 Margin = new Thickness(24)
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(JobPositionBlock);
 
+            // Creates a text block for job position
             DepartmentBlock = new TextBlock()
             {
                 Foreground = DarkGray.HexToBrush(),
@@ -122,6 +143,7 @@ namespace Vaseis
                 FontFamily = Calibri,
                 Margin = new Thickness(24)
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentBlock);
 
             // Creates a stack panel for the paragraph area
@@ -131,7 +153,6 @@ namespace Vaseis
                 Orientation = Orientation.Vertical,
                 Width = 520
             };
-
             // Adds to the wrap panel the paragraph stack panel
             InputStackPanel.Children.Add(TextStackPanel);
 
@@ -145,7 +166,6 @@ namespace Vaseis
                 FontWeight = FontWeights.Normal,
                 Margin = new Thickness(0, 0, 0, 8)
             };
-
             // Adds the text block to the paragraph' stack panel...
             TextStackPanel.Children.Add(TextTitleBlock);
 
@@ -179,8 +199,24 @@ namespace Vaseis
 
             // Creates the create button
             CreateButton = StyleHelpers.CreateDialogButton(GreenBlue, "Send request");
+            // On click call method
+            CreateButton.Click += CloseDialogOnClick;
+            // Bind the button's command to the request command
+            CreateButton.SetBinding(Button.CommandProperty, new Binding(nameof(RequestCommand))
+            { 
+                Source = this
+            });
+
             // Adds it to the dialog's button's stack panel
             DialogButtonsStackPanel.Children.Add(CreateButton);
+        }
+
+        /// <summary>
+        /// Overrides the virtual method
+        /// </summary>
+        protected override void CloseDialogOnClick(RoutedEventArgs e)
+        {
+            base.CloseDialogOnClick(e);
         }
 
         #endregion

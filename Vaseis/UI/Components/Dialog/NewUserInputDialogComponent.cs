@@ -128,7 +128,7 @@ namespace Vaseis
             // Sets the dialog text to new user form
             DialogTitle.Text = "New user form";
 
-            // Creates a text input component...
+            // Creates a username input component...
             UsernameInput = new TextInputComponent()
             {
                 // With hint text the text 
@@ -136,8 +136,10 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(UsernameInput);
 
+            // Creates a first name input component...
             FirstNameInput = new TextInputComponent()
             {
                 // With hint text the text 
@@ -145,8 +147,10 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(FirstNameInput);
 
+            // Creates a last name input component...
             LastNameInput = new TextInputComponent()
             {
                 // With hint text the text 
@@ -154,8 +158,10 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(LastNameInput);
 
+            // Creates a email input component...
             EmailInput = new TextInputComponent()
             {
                 // With hint text the text 
@@ -163,8 +169,10 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(EmailInput);
 
+            // Creates a job position input component...
             JobPositionInput = new TextInputComponent()
             {
                 // With hint text the text 
@@ -172,6 +180,7 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 240
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(JobPositionInput);
 
             // Test list
@@ -183,9 +192,6 @@ namespace Vaseis
                 HintText = "Company",
                 OptionNames = newList
             };
-            
-            //newList.Add("Test");
-
             // Adds the picker to the wrap panel
             InputWrapPanel.Children.Add(CompanyPicker);
 
@@ -206,58 +212,6 @@ namespace Vaseis
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(UserTypePicker);
-
-            //taken as dependencies
-
-            //// The picker for company
-            //CompanyPicker = new PickerComponent()
-            //{
-            //    HintText = "Company",
-            //    OptionNames = OptionsCompanies
-            //};
-
-            //    CompanyPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionCompanies))
-            //{
-            //    Source = this
-            //});
-
-
-            //// Adds the picker to the wrap panel
-            //InputWrapPanel.Children.Add(CompanyPicker);
-
-            //// The picker for department
-            //DepartmentPicker = new PickerComponent()
-            //{
-            //    HintText = "Department",
-            //    OptionNames = OptionsDepartments
-            //};
-            //    DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionDepartments))
-            //{
-            //    Source = this
-            //});
-
-
-            //// Adds it to the wrap panel
-            //InputWrapPanel.Children.Add(DepartmentPicker);
-
-            //// The picker for user type
-            //UserTypePicker = new PickerComponent()
-            //{
-            //    HintText = "User type",
-            //    OptionNames = OptionsUserTypes
-            //};
-            //    UsertypePicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionUserTypes))
-            //{
-            //    Source = this
-            //});
-
-
-            //// Adds it to the wrap panel
-            //InputWrapPanel.Children.Add(UserTypePicker);
-
-
-
-
 
             // Creates the create a new user button
             CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create user");

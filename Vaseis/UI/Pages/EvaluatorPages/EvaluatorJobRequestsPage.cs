@@ -8,15 +8,13 @@ namespace Vaseis
     /// <summary>
     /// The evaluator's job requests page
     /// </summary>
-    public class EvaluatorJobRequestsPage : ContentControl
+    public class EvaluatorJobRequestsPage : BaseDataGridPage
     {
         #region Protected Properties
 
         /// <summary>
-        /// The page's grid
+        /// The evaluator's job requests' data grid
         /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected EvaluatorJobRequestsDataGridComponent DataGrid { get; private set; }
 
         #endregion
@@ -40,19 +38,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
+            // Creates the data grid
             DataGrid = new EvaluatorJobRequestsDataGridComponent(PageGrid)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion

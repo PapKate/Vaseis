@@ -6,7 +6,7 @@ namespace Vaseis
     /// <summary>
     /// The job position's data grid
     /// </summary>
-    public class EvaluatorJobPositionsDataGridComponent : ContentControl
+    public class EvaluatorJobPositionsDataGridComponent : BaseDataGridComponent
     {
         /// <summary>
         /// The page's grid container
@@ -20,26 +20,9 @@ namespace Vaseis
         /// </summary>
         protected EvaluatorJobPositionsDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
-        #endregion
-
-        #region Dependency Properties
-
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public EvaluatorJobPositionsDataGridComponent()
-        {
-            CreateGUI();
-        }
 
         public EvaluatorJobPositionsDataGridComponent(Grid pageGrid)
         {
@@ -57,8 +40,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new EvaluatorJobPositionsDataGridHeaderComponent();
             // Adds it to the stack panel
@@ -94,9 +75,6 @@ namespace Vaseis
             };
 
             InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
         #endregion
 

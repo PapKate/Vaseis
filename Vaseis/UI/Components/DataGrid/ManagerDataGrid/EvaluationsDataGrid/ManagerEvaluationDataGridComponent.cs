@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Vaseis
 {
-    public class ManagerEvaluationDataGridComponent: ContentControl
+    public class ManagerEvaluationDataGridComponent: BaseDataGridComponent
     {
         /// <summary>
         /// The page's grid container
@@ -19,22 +19,9 @@ namespace Vaseis
         /// </summary>
         protected EvaluattionBaseDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ManagerEvaluationDataGridComponent()
-        {
-
-        }
 
         public ManagerEvaluationDataGridComponent(Grid pageGrid)
         {
@@ -52,8 +39,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new EvaluattionBaseDataGridHeaderComponent();
             // Adds it to the stack panel
@@ -92,9 +77,6 @@ namespace Vaseis
             };
 
             InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
 
         #endregion

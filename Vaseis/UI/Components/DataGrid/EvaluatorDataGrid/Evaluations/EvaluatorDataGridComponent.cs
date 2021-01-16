@@ -11,7 +11,7 @@ namespace Vaseis
     /// <summary>
     /// The data grid
     /// </summary>
-    public class EvaluatorDataGridComponent : ContentControl
+    public class EvaluatorDataGridComponent : BaseDataGridComponent
     {
         /// <summary>
         /// The page's grid container
@@ -26,10 +26,8 @@ namespace Vaseis
         protected EvaluatorMyEvaluationsDataGridHeaderComponent DataGridHeader { get; private set; }
 
         /// <summary>
-        /// The data grid's stack panel
+        /// A list with all the data grid's rows
         /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
         public List<EvaluatorDataGridRowComponent> RowList { get; private set; }
 
         #endregion
@@ -68,14 +66,6 @@ namespace Vaseis
 
         #region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public EvaluatorDataGridComponent()
-        {
-            CreateGUI();
-        }
-
         public EvaluatorDataGridComponent(Grid pageGrid)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
@@ -106,8 +96,6 @@ namespace Vaseis
         private void CreateGUI()
         {
             RowList = new List<EvaluatorDataGridRowComponent>();
-
-            InfoDataStackPanel = new StackPanel();
 
             // Creates and adds the header's row
             DataGridHeader = new EvaluatorMyEvaluationsDataGridHeaderComponent(this);
@@ -147,9 +135,6 @@ namespace Vaseis
             };
             RowList.Add(row2);
             InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
 
         /// <summary>

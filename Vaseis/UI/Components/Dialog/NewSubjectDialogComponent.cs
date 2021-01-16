@@ -24,7 +24,7 @@ namespace Vaseis
         protected TextInputComponent DescriptionInput { get; private set; }
 
         /// <summary>
-        /// The picker that the administratort picks the subject(parent), the subject belongs to
+        /// The picker that the administrator picks the subject(parent), the subject belongs to
         /// </summary>
         protected PickerComponent BelongsToSubjectPicker { get; private set; }
 
