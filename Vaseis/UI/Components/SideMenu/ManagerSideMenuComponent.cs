@@ -100,7 +100,7 @@ namespace Vaseis
                 {
                     Text = "Reports",
                     Icon = PackIconKind.ClipboardFlow,
-                    Content = new ManagerReportsPage()
+                    Content = new ManagerReportsPage(User)
                 });
             });
 

@@ -200,6 +200,7 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Width = 220
             };
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentTextBox);
 
             // The add department
@@ -219,9 +220,11 @@ namespace Vaseis
                 Margin = new Thickness(-16, 0, 0, 0)
             };
 
+            // Sets a corner radius for the button
             ButtonAssist.SetCornerRadius(AddDepartmentButton, new CornerRadius(8));
+            // On click calls method
             AddDepartmentButton.Click += CreateDepartmentInputField;
-
+            // Adds it tot he wrap panel
             InputWrapPanel.Children.Add(AddDepartmentButton);
 
             // Creates the create a new user button

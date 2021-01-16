@@ -70,6 +70,9 @@ namespace Vaseis
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TextInputComponent()
         {
             CreateGUI();
@@ -92,7 +95,7 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Padding = new Thickness(4, 0, 4, 0)
             };
-
+            // Binds the input text box's text property to text
             InputTextBox.SetBinding(TextBox.TextProperty, new Binding(nameof(Text))
             { 
                 Source = this

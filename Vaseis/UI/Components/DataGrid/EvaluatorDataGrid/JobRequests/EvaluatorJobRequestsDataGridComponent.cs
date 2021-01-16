@@ -6,7 +6,7 @@ namespace Vaseis
     /// <summary>
     /// The evaluator's job requests data grid
     /// </summary>
-    public class EvaluatorJobRequestsDataGridComponent : ContentControl
+    public class EvaluatorJobRequestsDataGridComponent : BaseDataGridComponent
     {
         /// <summary>
         /// The page's grid container
@@ -20,26 +20,9 @@ namespace Vaseis
         /// </summary>
         protected EvaluatorJobRequestsDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
-        #endregion
-
-        #region Dependency Properties
-
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public EvaluatorJobRequestsDataGridComponent()
-        {
-            CreateGUI();
-        }
 
         public EvaluatorJobRequestsDataGridComponent(Grid pageGrid)
         {
@@ -57,8 +40,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new EvaluatorJobRequestsDataGridHeaderComponent();
             // Adds it to the stack panel

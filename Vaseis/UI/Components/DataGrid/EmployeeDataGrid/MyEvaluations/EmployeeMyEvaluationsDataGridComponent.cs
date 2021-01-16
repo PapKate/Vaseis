@@ -1,12 +1,33 @@
-﻿using System.Windows;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class EmployeeMyEvaluationsDataGridComponent : ContentControl
+    /// <summary>
+    /// The my evaluations data grid of an employee
+    /// </summary>
+    public class EmployeeMyEvaluationsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The employee
+        /// </summary>
+        public UserDataModel Employee { get; }
+
+        /// <summary>
+        /// The page's grid container
+        /// </summary>
+        public Grid PageGrid { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -21,11 +42,66 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeMyEvaluationsDataGridComponent()
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="employee">The employee</param>
+        public EmployeeMyEvaluationsDataGridComponent(Grid pageGrid, UserDataModel employee) : base()
         {
+            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Employee = employee ?? throw new ArgumentNullException(nameof(employee));
+            
             CreateGUI();
         }
 
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            // Query the reports of the manager and add them as rows to the data grid
+            var evaluationsResults = await Services.GetDbContext.Evaluations
+                                                                .Include(x => x.UsersJobFilesPair)
+                                                                .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Employee)
+                                                                .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Evaluator)
+                                                                .Include(x => x.JobPositionRequest)
+                                                                .Include(x => x.JobPositionRequest).ThenInclude(y => y.JobPosition)
+                                                                                                   .ThenInclude(z => z.Job)
+                                                                                                   .ThenInclude(w => w.Department)
+                                                                .Where(x => x.UsersJobFilesPair.EmployeeId == Employee.Id)
+                                                                .ToListAsync();
+
+            // For each job position in the list...
+            foreach (var result in evaluationsResults)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new EmployeeMyEvaluationsDataGridRowComponent(PageGrid, result);
+                // ( When the plus button is clicked )
+                // Create the show dialog command
+                row.ShowDialogCommand = new RelayCommand(() =>
+                {
+                    // Creates an evaluation dialog
+                    var confirmationDialog = new MessageDialogComponent()
+                    {
+                        // And opens it
+                        IsDialogOpen = true,
+                        BrushColor = Green.HexToBrush(),
+                        Message = "Congratulations!!\nAre you sure you want to acquire this position? Once you do, it will be your new job and you will be excused from your previous one. ",
+                        Title = "Acquire job position",
+                        OkCommand = new RelayCommand(() => InfoDataStackPanel.Children.Remove(row))
+                    };
+                    // Adds it to the page's grid
+                    PageGrid.Children.Add(confirmationDialog);
+                });
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
+        }
         #endregion
 
         #region Private Methods
@@ -35,44 +111,11 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            var InfoDataGrid = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new EmployeeMyEvaluationsDataGridHeaderComponent();
             // Adds it to the stack panel
-            InfoDataGrid.Children.Add(DataGridHeader);
+            InfoDataStackPanel.Children.Add(DataGridHeader);
 
-            var row = new EmployeeMyEvaluationsDataGridRowComponent()
-            {
-                EvaluatorName = "PapLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior developer",
-                DepartmentName = "Development",
-                EvaluationGrade = "7",
-                InterviewGrade = "5",
-                ReportGrade = "7",
-                FilesGrade = "9",
-                Result = "Pass"
-            };
-
-            InfoDataGrid.Children.Add(row);
-
-            var row2 = new EmployeeMyEvaluationsDataGridRowComponent()
-            {
-                EvaluatorName = "PapBoomBommLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior developer",
-                DepartmentName = "Development",
-                EvaluationGrade = "7",
-                InterviewGrade = "5",
-                ReportGrade = "7",
-                FilesGrade = "9",
-                Result = "Fail"
-            };
-
-            InfoDataGrid.Children.Add(row2);
-
-            Content = InfoDataGrid;
         }
 
 

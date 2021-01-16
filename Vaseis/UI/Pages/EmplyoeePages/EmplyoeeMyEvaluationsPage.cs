@@ -1,10 +1,28 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace Vaseis
 {
-    public class EmplyoeeMyEvaluationsPage : ContentControl
+    /// <summary>
+    /// The employee's my evaluations page
+    /// </summary>
+    public class EmplyoeeMyEvaluationsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Employee { get; }
+
+        #endregion
+
         #region Protected Properties
+
+        /// <summary>
+        /// The manager's evaluation's data grid
+        /// </summary>
+        protected EmployeeMyEvaluationsDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
@@ -13,8 +31,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmplyoeeMyEvaluationsPage()
+        public EmplyoeeMyEvaluationsPage(UserDataModel employee) : base()
         {
+            Employee = employee ?? throw new ArgumentNullException(nameof(employee));
+            
             CreateGUI();
         }
 
@@ -22,20 +42,16 @@ namespace Vaseis
 
         #region Private Methods
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
-            var pageGrid = new Grid();
+            // Creates the data grid
+            DataGrid = new EmployeeMyEvaluationsDataGridComponent(PageGrid, Employee);
 
-            var dataGrid2 = new EmployeeMyEvaluationsDataGridComponent()
-            {
-            };
-
-            pageGrid.Children.Add(dataGrid2);
-
-
-
-
-            Content = pageGrid;
+            // Adds it to the page
+            PageGrid.Children.Add(DataGrid);
         }
 
         #endregion

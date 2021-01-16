@@ -38,8 +38,9 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Adds the more details text to the header with a tool tip
             MoreDetailsTextBlock = CreateHeaderTextBlock(8, "More", "Interview comments");
-
+            // Adds a margin to the header (expander's fault)
             DataGridHeader.Margin = new Thickness(-36, 0, 0, 0);
         }
 

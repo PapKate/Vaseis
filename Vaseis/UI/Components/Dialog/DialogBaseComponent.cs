@@ -64,6 +64,24 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region ParagraphText
+
+        /// <summary>
+        /// The paragraph's text
+        /// </summary>
+        public string ParagraphText
+        {
+            get { return (string)GetValue(ParagraphTextProperty); }
+            set { SetValue(ParagraphTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ParagraphText"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ParagraphTextProperty = DependencyProperty.Register(nameof(ParagraphText), typeof(string), typeof(DialogBaseComponent));
+
+        #endregion
+
         #region IsDialogOpen
 
         /// <summary>
@@ -122,6 +140,11 @@ namespace Vaseis
 
         }
 
+        protected virtual void CloseDialogOnClick(RoutedEventArgs e)
+        { 
+        
+        }
+
         /// <summary>
         /// On click closes the dialog
         /// </summary>
@@ -131,7 +154,8 @@ namespace Vaseis
         {
             // Sets the dialog host's property is open to false
             DialogHost.IsOpen = false;
-
+            // Calls virtual method for extra modification
+            CloseDialogOnClick(e);
             // And clears its content
             DialogHost.DialogContent = null;
         }

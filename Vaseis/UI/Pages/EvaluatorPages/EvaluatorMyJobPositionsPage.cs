@@ -23,6 +23,9 @@ namespace Vaseis
         /// </summary>
         protected Button AddButton { get; private set; }
 
+        /// <summary>
+        /// The evaluator's my job positions data grid
+        /// </summary>
         protected EvaluatorMyJobPositionsDataGridComponent DataGrid { get; private set; }
 
         #endregion
@@ -51,21 +54,24 @@ namespace Vaseis
             {
             };
 
+            // Creates the data grid
             DataGrid = new EvaluatorMyJobPositionsDataGridComponent(PageGrid)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
 
+            // Creates the add button
             AddButton = ControlsFactory.CreateAddButton(DarkBlue);
+            // On click calls the method
             AddButton.Click += ShowJobPositionDialog;
-
+            // Adds the button to the page's grid
             PageGrid.Children.Add(AddButton);
 
             // Sets the component's content to the page's grid
             Content = PageGrid;
         }
-
 
         /// <summary>
         /// On click returns to edit button
@@ -74,6 +80,7 @@ namespace Vaseis
         /// <param name="e"></param>
         private void ShowJobPositionDialog(object sender, RoutedEventArgs e)
         {
+            // Sets the data grid's new row property to true
             DataGrid.NewRow = true;
         }
 

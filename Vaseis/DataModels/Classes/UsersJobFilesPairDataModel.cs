@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vaseis
@@ -32,7 +34,7 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the related evaluator
         /// </summary>
-        public int? EvaluatorId { get; set; }
+        public int EvaluatorId { get; set; }
 
         /// <summary>
         /// The related evaluator
@@ -49,38 +51,45 @@ namespace Vaseis
         /// </summary>
         public UserDataModel Employee { get; set; }
 
-        /// <summary>
-        /// The <see cref="ReportDataModel.Id"/> of the related <see cref="ReportDataModel"/>
-        /// The report's id
-        /// </summary>
-        public int? ReportId { get; set; }
+        public IEnumerable<ReportDataModel> Reports { get; set; }
 
-        /// <summary>
-        /// The related <see cref="ReportDataModel"/>
-        /// The report
-        /// </summary>
-        public ReportDataModel Report { get; set; }
+        public IEnumerable<EvaluationDataModel> Evaluations { get; set; }
 
-        /// <summary>
-        /// The <see cref="EvaluationDataModel.Id"/> of the related <see cref="EvaluationDataModel"/>
-        /// </summary>
-        public int? EvaluationId { get; set; }
+        public IEnumerable<JobPositionRequestDataModel> JobPositionRequests { get; set; }
 
-        /// <summary>
-        /// The related <see cref="EvaluationDataModel"/>
-        /// </summary>
-        public EvaluationDataModel Evaluation { get; set; }
 
-        /// <summary>
-        /// The <see cref="JobPositionRequestDataModel.Id"/> of the related <see cref="JobPositionRequestDataModel"/>
-        /// The job position request's id
-        /// </summary>
-        public int? JobPositionRequestId { get; set; }
+        ///// <summary>
+        ///// The <see cref="ReportDataModel.Id"/> of the related <see cref="ReportDataModel"/>
+        ///// The report's id
+        ///// </summary>
+        //public int? ReportId { get; set; }
 
-        /// <summary>
-        /// The related <see cref="JobPositionRequestDataModel"/>
-        /// </summary>
-        public JobPositionRequestDataModel JobPositionRequest { get; set; }
+        ///// <summary>
+        ///// The related <see cref="ReportDataModel"/>
+        ///// The report
+        ///// </summary>
+        //public ReportDataModel Report { get; set; }
+
+        ///// <summary>
+        ///// The <see cref="EvaluationDataModel.Id"/> of the related <see cref="EvaluationDataModel"/>
+        ///// </summary>
+        //public int? EvaluationId { get; set; }
+
+        ///// <summary>
+        ///// The related <see cref="EvaluationDataModel"/>
+        ///// </summary>
+        //public EvaluationDataModel Evaluation { get; set; }
+
+        ///// <summary>
+        ///// The <see cref="JobPositionRequestDataModel.Id"/> of the related <see cref="JobPositionRequestDataModel"/>
+        ///// The job position request's id
+        ///// </summary>
+        //public int? JobPositionRequestId { get; set; }
+
+        ///// <summary>
+        ///// The related <see cref="JobPositionRequestDataModel"/>
+        ///// </summary>
+        //public JobPositionRequestDataModel JobPositionRequest { get; set; }
 
         #endregion
 

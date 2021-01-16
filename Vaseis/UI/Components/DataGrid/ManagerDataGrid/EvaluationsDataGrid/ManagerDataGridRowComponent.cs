@@ -12,8 +12,6 @@ namespace Vaseis
     /// </summary>
     public class ManagerDataGridRowComponent : EvaluationBaseDataGridRowComponent
     {
-        public Grid PageGrid { get; }
-
         #region Protected Properties
 
         /// <summary>
@@ -35,8 +33,6 @@ namespace Vaseis
 
         public ManagerDataGridRowComponent(Grid pageGrid) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
-
             CreateGUI();
         }
 

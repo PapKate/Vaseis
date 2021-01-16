@@ -77,39 +77,16 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-            // Set's a column with width 
-            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(280, GridUnitType.Pixel)
-            });
-
-            // Set's a column with width the remaining width left in the grid
-            appGrid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Star)
-
-            });
-
-            var pagesGrid = new Grid();
-            appGrid.Children.Add(pagesGrid);
-            Grid.SetColumn(pagesGrid, 1);
-
-            appTabControl = new TabControl()
-            {
-                Background = GhostWhite.HexToBrush(),
-                BorderThickness = new Thickness(0, 8, 0, 0),
-                BorderBrush = DarkPink.HexToBrush()
-            };
-            pagesGrid.Children.Add(appTabControl);
-
-            //var profilePage = new TabItemComponent()
+            
+            //var evaluatorMyEvaluationsPage = new TabItemComponent()
             //{
-            //    Text = "Profile",
-            //    Icon = PackIconKind.AccountCircle,
-            //    Content = new ProfilePage()
+            //    Text = "My evaluations",
+            //    Icon = PackIconKind.ClipboardEdit,
+            //    Content = new EvaluatorMyEvaluationsPage()
             //};
 
-            //appTabControl.Items.Add(profilePage);
+            //appTabControl.Items.Add(evaluatorMyEvaluationsPage);
+
 
             var evaluatorMyEvaluationsPage = new TabItemComponent()
             {
@@ -138,25 +115,44 @@ namespace Vaseis
 
          //   appTabControl.Items.Add(companyPage);
 
-              var companiesPage = new TabItemComponent()
-            {
-                Text = "Companies",
-                Icon = PackIconKind.Domain,
-                Content = new CompaniesPage()
-            };
+            //var empMyEvPage = new TabItemComponent()
+            //{
+            //    Text = "My evaluations",
+            //    Icon = PackIconKind.ClipboardAccount,
+            //    Content = new EmplyoeeMyEvaluationsPage()
+            //};
 
-            appTabControl.Items.Add(companiesPage);
+
+            //appTabControl.Items.Add(empMyEvPage);
+
+            //var companyPage = new TabItemComponent()
+            //{
+            //    Text = "Company",
+            //    Icon = PackIconKind.Domain,
+            //    Content = new CompanyPage()
+            //};
 
           //  appTabControl.Items.Add(UserComponent);
 
+            //appTabControl.Items.Add(companyPage);
 
-            var reports = new TabItemComponent()
-            {
-                Text = "Reports",
-                Icon = PackIconKind.FileChart,
-                Content = new ManagerReportsPage()
-            };
-            appTabControl.Items.Add(reports);
+            //var companiesPage = new TabItemComponent()
+            //{
+            //    Text = "Companies",
+            //    Icon = PackIconKind.Domain,
+            //    Content = new CompaniesPage()
+            //};
+
+
+            //appTabControl.Items.Add(companiesPage);
+
+            //var UserComponent = new TabItemComponent()
+            //{
+            //    Text = "UserCompoent",
+            //    Icon = PackIconKind.ClipboardAccount,
+            //    Content = new AdminsUsersPage()
+            //};
+
 
 
 
@@ -166,6 +162,19 @@ namespace Vaseis
 
             //     var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
             //   appGrid.Children.Add(ManagerSideMenu);
+
+
+            //appTabControl.Items.Add(UserComponent);
+
+
+            //var reports = new TabItemComponent()
+            //{
+            //    Text = "Reports",
+            //    Icon = PackIconKind.FileChart,
+            //    Content = new ManagerReportsPage()
+            //};
+            //appTabControl.Items.Add(reports);
+
 
             //var logInPage = new LoginPage();
 
@@ -196,6 +205,12 @@ namespace Vaseis
             //windowGrid.Children.Add(logInPage);
 
             //Grid.SetRow(logInPage, 1);
+
+            var user = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Employee);
+
+            var view = new EmployeeView(user);
+
+            appGrid.Children.Add(view);
 
             // Sets the content as the window's grid
             Content = windowGrid;

@@ -1,10 +1,7 @@
 ﻿using Bogus;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 
-using Bogus.Distributions.Gaussian;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +32,6 @@ namespace Vaseis
             // Start the application
             thread.Start();
         }
-
-    
 
         private static async Task SetUpAsync()
         {
@@ -230,6 +225,10 @@ namespace Vaseis
 
             #endregion
 
+            #region Subjects
+
+            #endregion
+
             #region Jobs
 
             //Creates a list of Job data model
@@ -279,7 +278,7 @@ namespace Vaseis
             #region Users
 
             // Creates a list of user data model for the employees
-            var employees = new Faker<UserDataModel>()
+            var employeesDm = new Faker<UserDataModel>()
                             .RuleFor(x => x.Username, faker => faker.Person.UserName)
                             .RuleFor(x => x.Password, faker => faker.Random.String2(7, 10))
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
@@ -289,16 +288,19 @@ namespace Vaseis
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
-                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 8))
-                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 3))
+                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
+                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 9))
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
-                            .Generate(50);
+                            .Generate(400);
 
             // Adds the generated employees in the users db set
-            context.Users.AddRange(employees);
+            context.Users.AddRange(employeesDm);
 
             // Saves changes
             await context.SaveChangesAsync();
+
+            // Parses all the users from the db set the are of type employee to a list
+            var employees = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
 
             // Add data to managers
             // For each company in the companies list...
@@ -314,7 +316,12 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
+
+                            .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
+                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+
                             .RuleFor(x => x.Type, faker => UserType.Manager)
                             .RuleFor(x => x.Company, faker => company)
                             .RuleFor(x => x.Department, faker => department)
@@ -328,7 +335,7 @@ namespace Vaseis
             // Saves changes
             await context.SaveChangesAsync();
 
-            // Parses all the users from the db set the are of type evaluator to a list
+            // Parses all the users from the db set the are of type manager to a list
             var managers = await context.Users.Where(x => x.Type == UserType.Manager).ToListAsync();
 
             // Add data to evaluators
@@ -345,12 +352,16 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
+
+                            .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
+                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             .RuleFor(x => x.Type, faker => UserType.Evaluator)
                             .RuleFor(x => x.Company, faker => company)
                             .RuleFor(x => x.Department, faker => department)
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(3))
-                            .Generate(5);
+                            .Generate(3);
                     // Adds the generated evaluator to the users db set
                     context.Users.AddRange(evaluator);
                 }
@@ -362,44 +373,109 @@ namespace Vaseis
             // Parses all the users from the db set the are of type evaluator to a list
             var evaluators = await context.Users.Where(x => x.Type == UserType.Evaluator).ToListAsync();
 
-            var employeesWithOutJoins = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
+            #endregion
 
-            var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
-                                                        .Include(x => x.Certificates)
-                                                        .Include(x => x.RecommendationPapers)
-                                                        .Include(x => x.Languages)
-                                                        .Where(x => x.Type == UserType.Evaluator)
-                                                        .ToListAsync();
+            #region UsersJobFilesPair
 
+            // For each manager in the managers list...
+            foreach (var manager in managers)
+            {  
+                // For each employee in the employees list...
+                foreach (var employee in employees)
+                {
+                    // If the employee has the same department id with the manager...
+                    if (employee.DepartmentId == manager.DepartmentId)
+                    {
+                        // Get all the evaluators of that department
+                        // Finds all the evaluators in the evaluators list that...
+                        var departmentEvaluators = evaluators.FindAll(delegate (UserDataModel evaluator) 
+                        {
+                            // Have the same department id as the manager
+                            return evaluator.DepartmentId == manager.DepartmentId;
+                        });
+                        // Get a random number between 0 and 2
+                        // ( Every department has 3 evaluators )
+                        var i = new Random().Next(0,2);
+                        // Create an new users and job files pair
+                        var pair = new UsersJobFilesPairDataModel()
+                        {
+                            // Sets the employee's id to the current id of the employee from the employees list
+                            EmployeeId = employee.Id,
+                            // Sets the manager's id to the current id of the manager from the manager list
+                            ManagerId = manager.Id,
+                            // Sets the evaluator's id to id of the randomly chosen evaluator from the department evaluators list
+                            EvaluatorId = departmentEvaluators[i].Id
+                        };
+                        // Adds the pair the pair context             
+                        context.UsersJobFilesPairs.Add(pair);
+                    }
+                }
+            }
+
+            await context.SaveChangesAsync();
 
             #endregion
 
+            #region JobPositionRequests
+
+            // Creates a list of job position requests data model for the job position requests
+            var jobPositionsRequests = new Faker<JobPositionRequestDataModel>()
+                                    .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(101, 120))
+                                    .RuleFor(x => x.RequestsReason, faker => faker.Lorem.Sentences(3))
+                                    .RuleFor(x => x.UsersJobFilesPairId, faker => faker.Random.Int(1, 400))
+                                    .Generate(500);
+
+            // Adds the generated job position requests in the job position requests db set
+            context.JobPositionRequests.AddRange(jobPositionsRequests);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            #endregion
 
             #region Reports
 
+            foreach (var jobPositionsRequest in jobPositionsRequests)
+            {
+                // Creates a list of report data model for the reports
+                var report = new Faker<ReportDataModel>()
+                            .RuleFor(x => x.ReportText, faker => faker.Rant.Review("job"))
+                            .RuleFor(x => x.UsersJobFilesPairId, jobPositionsRequest.UsersJobFilesPairId)
+                            .RuleFor(x => x.JobPositionRequestId, jobPositionsRequest.Id)
+                            .RuleFor(x => x.IsWritten, true)
+                            .Generate(1);
+
+                // Adds the generated reports in the users db set
+                context.Reports.AddRange(report);
+            }
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
             #endregion
 
-            //#region Evaluations
+            #region Evaluations
 
-            //// Creates a list of user data model for the evaluations
-            //var evaluation = new Faker<EvaluationDataModel>()
-            //              .RuleFor(x => x.InterviewGrade, faker => faker.Random.Float(0.5f, 1f))
-            //              .RuleFor(x => x.ReportGrade, faker => faker.Random.Float(0.5f, 1f))
-            //              .RuleFor(x => x.FilesGrade, faker => faker.Random.Float(0.5f, 1f))
-            //              .RuleFor(x => x.FinalGrade, faker => faker.Random.Float(0.5f, 1f))
-            //              .RuleFor(x => x.Comments, faker => faker.Rant.Review())
-            //              .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(41, 60))
-            //              .Generate(100);
+            foreach (var jobPositionsRequest in jobPositionsRequests)
+            {
+                // Creates a list of evaluation data model for the evaluations
+                var evaluation = new Faker<EvaluationDataModel>()
+                             .RuleFor(x => x.InterviewGrade, faker => faker.Random.Int(100, 1000))
+                             .RuleFor(x => x.ReportGrade, faker => faker.Random.Int(100, 1000))
+                             .RuleFor(x => x.FilesGrade, faker => faker.Random.Int(100, 1000))
+                             .RuleFor(x => x.Comments, faker => faker.Rant.Review("Employee"))
+                             .RuleFor(x => x.JobPositionRequestId, jobPositionsRequest.Id)
+                             .RuleFor(x => x.UsersJobFilesPairId, jobPositionsRequest.UsersJobFilesPairId)
+                             .Generate(1);
 
-            //// Adds the generated employees in the users db set
-            //context.Evaluations.AddRange(evaluation);
+                // Adds the generated evaluations in the evaluations db set
+                context.Evaluations.AddRange(evaluation);
+            }
 
-            //// Saves changes
-            //await context.SaveChangesAsync();
+            // Saves changes
+            await context.SaveChangesAsync();
 
-            ////edw 8elei mia sunarthsh opou analoga me to department 8a vazei kai ta analoga IDs sotus managers, evaluators klp
-
-            //#endregion
+            #endregion
 
             #region Degrees
 
@@ -424,7 +500,7 @@ namespace Vaseis
             var acquiredDegrees = new Faker<AcquiredDegreeDataModel>()
                             .RuleFor(x => x.Grade, faker => faker.Random.Int(5,10))
                             .RuleFor(x => x.YearEarned, faker => faker.Date.Past(30, DateTime.Now))
-                            .RuleFor(x => x.EmployeeId, faker => faker.Random.Int(1, 50))
+                            .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
                             .RuleFor(x => x.DegreeId, faker => faker.Random.Int(1, 40))
                             .Generate(60);
 
@@ -433,8 +509,112 @@ namespace Vaseis
 
             // Saves changes
             await context.SaveChangesAsync();
+            
             #endregion
 
+            #region Awards
+
+            // A list of award names
+            var awardsList = new List<string>()
+            {
+                "Rookie of the Year",
+                "Fresh Skills",
+                "New Kid on the Block",
+                "Exceptional Hire",
+                "Above & Beyond",
+                "Lead Helping Hand",
+                "Ultimate Team Player",
+                "Difference Maker",
+                "Outstanding Dependability",
+                "Mountain Mover",
+                "Power of One",
+                "Always at 110%",
+                "Role Model of the Year",
+                "Positivity Queen/King",
+                "Quality Enforcer",
+                "Culture Champion",
+                "The Iron Man",
+                "The Brainiac",
+                "The Holy Heart",
+                "Lets Grow Old Together",
+                "To The Moon and Back"
+            };
+
+            // Generates the awards
+            var awards = new Faker<AwardDataModel>()
+                .RuleFor(x => x.Name, faker => faker.Random.ListItem(awardsList))
+                .RuleFor(x => x.AcquiredDate, faker => faker.Date.Past(5, DateTime.Now))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .Generate(1000);
+
+            // Adds the generated awards in the awards db set
+            context.Awards.AddRange(awards);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Languages
+
+            // A list of languages names
+            var languagesList = new List<string>()
+            {
+                "Chinese ",
+                "Spanish ",
+                "English ",
+                "Hindi ",
+                "Arabic ",
+                "Russian ",
+                "Japanese ",
+                "French",
+                "Korean",
+                "Italian",
+                "Greek",
+                "Dutch",
+                "Chhattisgarhi",
+                "Serbian",
+                "Portuguese"
+            };
+
+            // Generates the languages
+            var languages = new Faker<LanguagesDataModel>()
+                .RuleFor(x => x.Name, faker => faker.Random.ListItem(languagesList))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .Generate(2000);
+
+            // Adds the generated languages in the languages db set
+            context.Languages.AddRange(languages);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Projects
+
+            // Generates the projects
+            var projects = new Faker<ProjectDataModel>()
+                .RuleFor(x => x.Title, faker => faker.Lorem.Sentence(2))
+                .RuleFor (x => x.Url, faker => faker.Internet.Url())
+                .RuleFor(x => x.MadeForWho, faker => faker.Random.Enum<MadeForWho>())
+                .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph())
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .Generate(3000);
+
+            // Adds the generated projects in the projects db set
+            context.Projects.AddRange(projects);
+
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region RecommendationPapers
+
+
+
+            #endregion
 
             #region Update
 
@@ -442,7 +622,7 @@ namespace Vaseis
             //var user = await context.Users.FirstAsync();
 
             //user.Email = "paplabros@gmail.com";
-            //user.Type = UserType.Employee;
+            //user.Type = UserType.User;
 
             //// Save the changes
             //await context.SaveChangesAsync();
@@ -462,6 +642,14 @@ namespace Vaseis
 
             var companiesWithDepartments = await context.Companies.Include(x => x.Departments)
                                     .ToListAsync();
+
+            var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
+                                                        .Include(x => x.Certificates)
+                                                        .Include(x => x.RecommendationPapers)
+                                                        .Include(x => x.Languages)
+                                                        .Where(x => x.Type == UserType.Evaluator)
+                                                        .ToListAsync();
+
         }
     }
 }

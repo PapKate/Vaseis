@@ -22,7 +22,7 @@ namespace Vaseis
         /// <summary>
         /// the announcement date
         /// </summary>
-        public DateTime? AnnouncementDate { get; set; } = DateTime.Now;
+        public DateTime? AnnouncementDate { get; set; }
 
         /// <summary>
         /// the submission date

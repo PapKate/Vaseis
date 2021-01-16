@@ -9,17 +9,17 @@ namespace Vaseis
 {
     public class EvaluatorJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
-        /// <summary>
-        /// The page's grid
-        /// </summary>
-        public Grid PageGrid { get; }
-
         #region Protected Properties
 
         /// <summary>
         /// The evaluator's text block
         /// </summary>
         protected TextBlock EvaluatorTextBlock { get; private set; }
+
+        /// <summary>
+        /// The evaluator's tool tip
+        /// </summary>
+        protected ToolTipComponent EvaluatorToolTip { get; private set; }
 
         #endregion
 
@@ -52,8 +52,6 @@ namespace Vaseis
         /// </summary>
         public EvaluatorJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
-
             CreateGUI();
         }
 
@@ -83,6 +81,16 @@ namespace Vaseis
             {
                 Source = this
             });
+            // Creates a tool tip
+            EvaluatorToolTip = new ToolTipComponent();
+            // Binds its text property to the text
+            EvaluatorToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(EvaluatorText))
+            {
+                Source = this
+            });
+            // Adds it to the text block
+            EvaluatorTextBlock.ToolTip = EvaluatorToolTip;
+
         }
 
         #endregion

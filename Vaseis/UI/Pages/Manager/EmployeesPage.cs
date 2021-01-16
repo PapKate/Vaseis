@@ -100,7 +100,10 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-            var employees = await Services.GetDbContext.Users.Where(x => x.Type == UserType.Employee && x.CompanyId == Manager.CompanyId).ToListAsync();
+            // Gets all the employees of the manager's company
+            var employees = await Services.GetDbContext.Users
+                                            .Include(x => x.Department)
+                                            .Where(x => x.Type == UserType.Employee && x.CompanyId == Manager.CompanyId).ToListAsync();
 
             // For every employee...
             foreach(var employee in employees)
@@ -205,7 +208,6 @@ namespace Vaseis
                 Content = PageStackPanel,
                 
             };
-
 
             // Sets the component's content to the scroll viewer
             Content = ScrollViewer;

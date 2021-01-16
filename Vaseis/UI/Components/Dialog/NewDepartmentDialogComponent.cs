@@ -65,26 +65,50 @@ namespace Vaseis
         private void CreateGUI()
         {
 
+
             DialogTitle.Text = "Create Department";
 
-            DepartmentInput = new TextInputComponent()
+            // Creates the department's input field
+           DepartmentInput = new TextInputComponent()
             { 
                 Width = 240,
                 Margin = new Thickness(24),
                 HintText = "Department's name"
             };
 
+
             DepartmentStackPanel = new StackPanel();
 
             DepartmentStackPanel.Children.Add(DepartmentInput);
 
+            // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(DepartmentInput);
+
+            // Creates the company's combo box
+            CompanyPicker = new PickerComponent()
+            {
+                HintText = "Company",
+                Width = 240,
+                Margin = new Thickness(24, 0, 24, 0),
+                OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }
+            };
+            // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(CompanyPicker);
+
+
+            // Creates the color's input field
             ColorInput = new TextInputComponent()
             {
                 Width = 240,
                 Margin = new Thickness(24),
                 HintText = "Representative hex color"
             };
+
             DepartmentStackPanel.Children.Add(ColorInput);
+
+            // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(ColorInput);
+
 
             // Creates the create button
             CreateButton = StyleHelpers.CreateDialogButton(DarkPink, "Create");
@@ -93,7 +117,10 @@ namespace Vaseis
             DialogButtonsStackPanel.Children.Add(CreateButton);
 
 
+
             InputWrapPanel.Children.Add(DepartmentStackPanel);
+
+
 
         }
 

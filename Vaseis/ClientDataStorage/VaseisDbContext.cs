@@ -121,61 +121,11 @@ namespace Vaseis
         {
             #region User
 
-            // For the awards of a user...
-            modelBuilder.Entity<UserDataModel>()
-                // One user has many awards 
-                .HasMany(x => x.Awards)
-                // Each award has one user
-                .WithOne(x => x.Employee)
-                // The principal key of the join is the User.Id
-                .HasPrincipalKey(x => x.Id)
-                // The foreign key of the join is the Award.UserId
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // For the certificates of a user...
-            modelBuilder.Entity<UserDataModel>()
-                .HasMany(x => x.Certificates)
-                .WithOne(x => x.Employee)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // For the recommendation papers of a user...
-            modelBuilder.Entity<UserDataModel>()
-                .HasMany(x => x.RecommendationPapers)
-                .WithOne(x => x.Employee)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // For the languages of a user...
-            modelBuilder.Entity<UserDataModel>()
-                .HasMany(x => x.Languages)
-                .WithOne(x => x.Employee)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // For the projects of a user...
-            modelBuilder.Entity<UserDataModel>()
-                .HasMany(x => x.Projects)
-                .WithOne(x => x.Employee)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // For the acquired degrees of a user...
-            modelBuilder.Entity<UserDataModel>()
-                .HasMany(x => x.AcquiredDegrees)
-                .WithOne(x => x.Employee)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            #region Employee
 
             //// For the job position requests of an employee...
             //modelBuilder.Entity<UserDataModel>()
-            //    .HasMany(x => x.JobPositionRequests)
+            //    .HasMany(x => x.EmployeeJobPositionRequests)
             //    .WithOne(x => x.Employee)
             //    .HasPrincipalKey(x => x.Id)
             //    .HasForeignKey(x => x.EmployeeId)
@@ -183,19 +133,159 @@ namespace Vaseis
 
             //// For the evaluations of a user...
             //modelBuilder.Entity<UserDataModel>()
-            //    .HasMany(x => x.Evaluations)
+            //    .HasMany(x => x.EmployeeEvaluations)
             //    .WithOne(x => x.Employee)
             //    .HasPrincipalKey(x => x.Id)
             //    .HasForeignKey(x => x.EmployeeId)
             //    .OnDelete(DeleteBehavior.Cascade);
 
-            //// For the reports of a user...
+            //// For the evaluations of a user...
             //modelBuilder.Entity<UserDataModel>()
-            //    .HasMany(x => x.Reports)
+            //    .HasMany(x => x.EmployeeReports)
             //    .WithOne(x => x.Employee)
             //    .HasPrincipalKey(x => x.Id)
             //    .HasForeignKey(x => x.EmployeeId)
             //    .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Evaluator
+
+            //// For the job position requests of an employee...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.EvaluatorJobPositionRequests)
+            //    .WithOne(x => x.Evaluator)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EvaluatorId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the evaluations of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.EvaluatorEvaluations)
+            //    .WithOne(x => x.Evaluator)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EvaluatorId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the evaluations of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.EvaluatorReports)
+            //    .WithOne(x => x.Evaluator)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.EvaluatorId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Manager
+
+            //// For the job position requests of an employee...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.ManagerJobPositionRequests)
+            //    .WithOne(x => x.Manager)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.ManagerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the evaluations of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.ManagerEvaluations)
+            //    .WithOne(x => x.Manager)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.ManagerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //// For the evaluations of a user...
+            //modelBuilder.Entity<UserDataModel>()
+            //    .HasMany(x => x.ManagerReports)
+            //    .WithOne(x => x.Manager)
+            //    .HasPrincipalKey(x => x.Id)
+            //    .HasForeignKey(x => x.ManagerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            
+
+            // For the awards of a user...
+            modelBuilder.Entity<UserDataModel>()
+                // One user has many awards 
+                .HasMany(x => x.Awards)
+                // Each award has one user
+                .WithOne(x => x.User)
+                // The principal key of the join is the User.Id
+                .HasPrincipalKey(x => x.Id)
+                // The foreign key of the join is the Award.UserId
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the certificates of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Certificates)
+                .WithOne(x => x.User)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the recommendation papers of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.RecommendationPapers)
+                .WithOne(x => x.User)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the languages of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Languages)
+                .WithOne(x => x.User)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the projects of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.Projects)
+                .WithOne(x => x.User)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the acquired degrees of a user...
+            modelBuilder.Entity<UserDataModel>()
+                .HasMany(x => x.AcquiredDegrees)
+                .WithOne(x => x.User)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region UsersJobFilesPair
+
+            // For the acquired degrees of a user...
+            modelBuilder.Entity<UsersJobFilesPairDataModel>()
+                .HasMany(x => x.Reports)
+                .WithOne(x => x.UsersJobFilesPair)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UsersJobFilesPairId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the acquired degrees of a user...
+            modelBuilder.Entity<UsersJobFilesPairDataModel>()
+                .HasMany(x => x.Evaluations)
+                .WithOne(x => x.UsersJobFilesPair)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UsersJobFilesPairId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // For the acquired degrees of a user...
+            modelBuilder.Entity<UsersJobFilesPairDataModel>()
+                .HasMany(x => x.JobPositionRequests)
+                .WithOne(x => x.UsersJobFilesPair)
+                .HasPrincipalKey(x => x.Id)
+                .HasForeignKey(x => x.UsersJobFilesPairId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
 

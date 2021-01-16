@@ -38,6 +38,21 @@ namespace Vaseis
         protected TextBlock ReportTextBlock { get; private set; }
 
         /// <summary>
+        /// The expander for the report 
+        /// </summary>
+        protected Expander RequestReasonExpander { get; private set; }
+
+        /// <summary>
+        /// The report's title text
+        /// </summary>
+        protected TextBlock RequestReasonTitleTextBlock { get; private set; }
+
+        /// <summary>
+        /// The report
+        /// </summary>
+        protected TextBlock RequestReasonTextBlock { get; private set; }
+
+        /// <summary>
         /// The report's status text block
         /// </summary>
         protected TextBlock StatusTextBlock { get; private set; }
@@ -46,6 +61,11 @@ namespace Vaseis
         /// More details text
         /// </summary>
         protected TextBlock MoreDetailsTextBlock { get; private set; }
+
+        /// <summary>
+        /// The stack panel for the expanded row
+        /// </summary>
+        protected StackPanel ExtraStackPanel { get; private set; }
 
         /// <summary>
         /// The expander for the extra info
@@ -66,23 +86,41 @@ namespace Vaseis
 
         #region Dependency Properties
 
-        //#region Report
+        #region Report
 
-        ///// <summary>
-        ///// The interview's comments
-        ///// </summary>
-        //public string Report
-        //{
-        //    get { return (string)GetValue(ReportProperty); }
-        //    set { SetValue(ReportProperty, value); }
-        //}
+        /// <summary>
+        /// The report's comments
+        /// </summary>
+        public string ReportParagraph
+        {
+            get { return (string)GetValue(ReportParagraphProperty); }
+            set { SetValue(ReportParagraphProperty, value); }
+        }
 
-        ///// <summary>
-        ///// Identifies the <see cref="Report"/> dependency property
-        ///// </summary>
-        //public static readonly DependencyProperty ReportProperty = DependencyProperty.Register(nameof(Report), typeof(string), typeof(ReportsDataGridRowComponent));
+        /// <summary>
+        /// Identifies the <see cref="ReportParagraph"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ReportParagraphProperty = DependencyProperty.Register(nameof(ReportParagraph), typeof(string), typeof(ReportsDataGridRowComponent));
 
-        //#endregion
+        #endregion
+
+        #region ReasonForRequest
+
+        /// <summary>
+        /// The employee's comments for the request
+        /// </summary>
+        public string ReasonForRequest
+        {
+            get { return (string)GetValue(ReasonForRequestProperty); }
+            set { SetValue(ReasonForRequestProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ReasonForRequest"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ReasonForRequestProperty = DependencyProperty.Register(nameof(ReasonForRequest), typeof(string), typeof(ReportsDataGridRowComponent));
+
+        #endregion
 
         #region ReportStatus
 
@@ -134,10 +172,20 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
+
             EvaluatorName = Report.Evaluator.Username;
             EmployeeName = Report.Employee.Username;
             JobName = Report.Employee.Job.JobTitle;
             DepartmentName = Report.Employee.Job.Department.DepartmentName.ToString();
+
+            EvaluatorName = Report.UsersJobFilesPair.Evaluator.Username;
+            EmployeeName = Report.UsersJobFilesPair.Employee.Username;
+            JobName = Report.JobPositionRequest.JobPosition.Job.JobTitle;
+            ReportParagraph = Report.ReportText;
+            ReasonForRequest = Report.JobPositionRequest.RequestsReason;
+            DepartmentName = Report.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            IsWritten = Report.IsWritten;
+
         }
 
         #endregion
@@ -216,7 +264,7 @@ namespace Vaseis
             Grid.SetColumn(FinalizeButton, 10);
             // When clicked shows the finalized dialog
             FinalizeButton.Click += ShowFinalizedDialogOnClick;
-           
+
             // Creates the details' expander
             DetailsExpander = new Expander()
             {
@@ -226,6 +274,52 @@ namespace Vaseis
                 BorderBrush = DarkPink.HexToBrush(),
                 Background = GhostWhite.HexToBrush(),
             };
+
+            #region RequestReason Expanded
+
+            // Creates the report's title text block
+            RequestReasonTitleTextBlock = new TextBlock()
+            {
+                Text = "Employee's reason for applying",
+                FontSize = 30,
+                FontFamily = Calibri,
+                Foreground = DarkPink.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(64, 0, 0, 0)
+            };
+
+            // Creates and adds the report's text block to the row's stack panel
+            RequestReasonTextBlock = new TextBlock()
+            {
+                FontSize = 28,
+                FontFamily = Calibri,
+                Foreground = DarkGray.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(64, 0, 0, 0)
+            };
+            // Binds the report's text block to the report's text block's text 
+            RequestReasonTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(ReasonForRequest))
+            {
+                Source = this
+            });
+
+            // Creates an expander for the report
+            RequestReasonExpander = new Expander()
+            {
+                Header = RequestReasonTitleTextBlock,
+                BorderThickness = new Thickness(0, 0, 0, 1),
+                BorderBrush = DarkPink.HexToBrush(),
+                Background = GhostWhite.HexToBrush()
+            };
+            // Sets its content as the report text
+            RequestReasonExpander.Content = RequestReasonTextBlock;
+
+            #endregion
+
+            #region Report Expanded
 
             // Creates the report's title text block
             ReportTitleTextBlock = new TextBlock()
@@ -251,7 +345,7 @@ namespace Vaseis
                 Margin = new Thickness(64, 0, 0, 0)
             };
             // Binds the report's text block to the report's text block's text 
-            ReportTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Report))
+            ReportTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(ReportParagraph))
             {
                 Source = this
             });
@@ -267,8 +361,18 @@ namespace Vaseis
             // Sets its content as the report text
             ReportExpander.Content = ReportTextBlock;
 
+            #endregion
+
+            // Creates the extra's stack panel
+            ExtraStackPanel = new StackPanel();
+            // Adds the request's reason's expander to it
+            ExtraStackPanel.Children.Add(RequestReasonExpander);
+            // Adds the report's expander to it
+            ExtraStackPanel.Children.Add(ReportExpander);
+            
+
             // Sets the details' expander's content as the details' stack panel
-            DetailsExpander.Content = ReportExpander;
+            DetailsExpander.Content = ExtraStackPanel;
 
             // Sets the component's content as the details' expander
             Content = DetailsExpander;

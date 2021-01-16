@@ -5,15 +5,13 @@ using System.Windows.Controls;
 
 namespace Vaseis
 {
-    public class ManagerJobPositionsPage : ContentControl
+    public class ManagerJobPositionsPage : BaseDataGridPage
     {
         #region Protected Properties
-
+        
         /// <summary>
-        /// The page's grid
+        /// The manager's job positions data grid
         /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected ManagerJobPositionsDataGridComponent DataGrid { get; private set; }
 
         #endregion
@@ -37,19 +35,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
+            // Creates the data grid
             DataGrid = new ManagerJobPositionsDataGridComponent(PageGrid)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion

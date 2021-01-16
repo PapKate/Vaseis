@@ -23,6 +23,8 @@ namespace Vaseis
 
             Username = user.Username;
             FullName = user.FullName;
+            Background = user.Department.Color.HexToBrush();
+            Height = 150;
         }
 
         #endregion

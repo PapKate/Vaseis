@@ -148,9 +148,16 @@ namespace Vaseis
 
         #region Constructors
 
+
         public ProfilePage(UserDataModel user)
+
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
+        public ProfilePage()
+
         {
-            User = user ?? throw new ArgumentNullException(nameof(user));
+            //User = user ?? throw new ArgumentNullException(nameof(user));
 
             CreateGUI();
         }
@@ -198,7 +205,11 @@ namespace Vaseis
             ImageAndTitle = new ImageAndNameComponent()
             {
                 Text = User.Username,
+
                 ImagePath = User.ProfilePicture,
+
+                //ImagePath =  User.ima,
+
             };
             PersonalDataStackPanel.Children.Add(ImageAndTitle);
 
@@ -213,7 +224,11 @@ namespace Vaseis
             var FirstNameData = new TitleAndTextComponent()
             {
                 Title = "First name",
+
                 Text = User.FirstName,
+
+                Text = "Marika",
+
                 Margin = new Thickness(16)
             };
             // Adds them to the stack panel
@@ -233,7 +248,11 @@ namespace Vaseis
             var CompanyData = new TitleAndTextComponent()
             {
                 Title = "Company",
+
                 Text = User.Company.Name,
+
+                Text = "Enchantment Lab",
+
                 Margin = new Thickness(16)
             };
             // Adds them to the stack panel
@@ -242,7 +261,11 @@ namespace Vaseis
             var YearsOfXp = new TitleAndTextComponent()
             {
                 Title = "Years of experience",
+
                 Text = User.YearsOfExperience.ToString(),
+
+                Text = "24",
+
                 Margin = new Thickness(16),
             };
             // Adds them to the stack panel
@@ -252,7 +275,12 @@ namespace Vaseis
 
 
             EmailData = new EditableTextComponent()
+
            {
+
+            { 
+                Text = "marika@mariw.com",
+
                 Title = "Email",
                 Text = User.Email,
                 Margin = new Thickness(16)
@@ -332,7 +360,11 @@ namespace Vaseis
             };
             CompanyDataStackPanel.Children.Add(JobTitleBlock);
 
+
            //The evaluators Average (taken after a sum through joins)
+
+            //The evaluators Average 
+
             var EvalsAverage = new TextBlock()
             {
                 FontSize = 60,
@@ -348,6 +380,7 @@ namespace Vaseis
             {
                 Source = this
             });
+
 
             DepartmentTitleBlock = new TextBlock()
             {
@@ -392,6 +425,7 @@ namespace Vaseis
                 DataNames = awards
             };
 
+
             #endregion
 
             #region Certificates
@@ -404,12 +438,14 @@ namespace Vaseis
                 certificates.Add(certificate.Title);
             };
 
+
             CertificatesContainer = new TitleAndListComponent()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Title = "Certificates",
                 DataNames = certificates
             };
+
 
             #endregion
 
@@ -422,6 +458,7 @@ namespace Vaseis
             {
                 recommendationPapers.Add(recommendationPaper.Description);
             };
+
 
             RecommendationPapersContainer = new TitleAndListComponent()
             {
@@ -461,6 +498,42 @@ namespace Vaseis
             Grid.SetColumn(NavigationMenu, 2);
 
             Content = PageGrid;
+        }
+
+
+        /// <summary>
+        /// Hides the text block and reveals the text box
+        /// </summary>
+        private void EditProfile(object sender, RoutedEventArgs e)
+        {
+            BioTile.BioTextBlock.Visibility = Visibility.Collapsed;
+            BioTile.BioTextBox.Visibility = Visibility.Visible;
+            BioTile.BioTextBox.Text = BioTile.BioTextBlock.Text;
+
+           
+        }
+
+        /// <summary>
+        /// Hides the text box and reveals the text block with its old text 
+        /// </summary>
+        private void CanelEditProfile(object sender, RoutedEventArgs e)
+        {
+            BioTile.BioTextBlock.Visibility = Visibility.Visible;
+            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
+
+        }
+
+        /// <summary>
+        /// Hides the text box and reveals the text block with its updated text 
+        /// </summary>
+        private void SaveEditProfile(object sender, RoutedEventArgs e)
+        {
+            BioTile.BioTextBlock.Visibility = Visibility.Visible;
+            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
+            BioTile.BioTextBlock.Text = BioTile.BioTextBox.Text;
+
+          
+
         }
 
 

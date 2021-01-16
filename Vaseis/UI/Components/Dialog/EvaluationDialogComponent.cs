@@ -36,11 +36,6 @@ namespace Vaseis
 
         #region Constructors
 
-        public EvaluationDialogComponent()
-        {
-            CreateGUI();
-        }
-
         public EvaluationDialogComponent(EvaluatorDataGridRowComponent evaluatorDataGridRow) : base(evaluatorDataGridRow)
         {
             CreateGUI();
@@ -121,6 +116,9 @@ namespace Vaseis
                 HintText = "Interview's grade",
                 Width = 240,
             };
+            
+            // Sets the title text of the paragraph area
+            TextTitleBlock.Text = "Interview comments";
 
             // Adds the input field to the input wrap panel
             InputWrapPanel.Children.Add(ReportGradeInput);
@@ -129,7 +127,6 @@ namespace Vaseis
 
             #endregion
 
-            TextTitleBlock.Text = "Interview comments";
         }
 
         #endregion
