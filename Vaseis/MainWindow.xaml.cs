@@ -147,14 +147,7 @@ namespace Vaseis
 
             appTabControl.Items.Add(companiesPage);
 
-            var UserComponent = new TabItemComponent()
-            {
-                Text = "UserCompoent",
-                Icon = PackIconKind.ClipboardAccount,
-                Content = new AdminsUsersPage()
-            };
-
-            appTabControl.Items.Add(UserComponent);
+          //  appTabControl.Items.Add(UserComponent);
 
 
             var reports = new TabItemComponent()

@@ -1,5 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
-
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,6 +11,10 @@ namespace Vaseis
     public class EvaluatorSideMenuComponent : CompanyBaseSideMenuComponent
     {
         #region Protected Properties
+        /// <summary>
+        /// The evaluator User
+        /// </summary>
+        protected UserDataModel User { get; private set; }
 
         /// <summary>
         /// The job requests button
@@ -32,6 +36,11 @@ namespace Vaseis
         /// </summary>
         protected SideMenuButtonComponent JobPositionsButton { get; private set; }
 
+        /// <summary>
+        /// The evaluators profile button
+        /// </summary>
+        public SideMenuButtonComponent ProfileButton { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -42,6 +51,8 @@ namespace Vaseis
         /// <param name="tabControl">The tab control</param>
         public EvaluatorSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -54,6 +65,19 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+
+            ProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.Account);
+
+            ProfileButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Profile",
+                    Icon = PackIconKind.Account,
+                    Content = new ProfilePage(User)
+                });
+            });
+
             // Create and add the my job requests button
             JobRequestsButton = CreateAndAddSideMenuButton("Job requests", PackIconKind.ClipboardArrowDown);
             // On click opens in a tab the job positions page

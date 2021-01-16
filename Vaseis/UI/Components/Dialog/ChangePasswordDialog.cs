@@ -75,7 +75,6 @@ namespace Vaseis
         #region Protected Functions
 
 
-
         #endregion
 
 

@@ -1,6 +1,6 @@
 ﻿
 using MaterialDesignThemes.Wpf;
-
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,19 +16,20 @@ namespace Vaseis
         protected SideMenuButtonComponent CompaniesButton { get; private set; }
 
         /// <summary>
-        /// The users button
+        /// The admin's profile button
         /// </summary>
-        protected SideMenuButtonComponent UsersButton { get; private set; }
+        protected SideMenuButtonComponent AdminProfileButton { get; private set; }
 
         /// <summary>
-        /// The jobs button
+        /// The companies button
         /// </summary>
-        protected SideMenuButtonComponent Jobs { get; private set; }
+        protected SideMenuButtonComponent AddSubject { get; private set; }
 
         /// <summary>
-        /// The subjects button
+        /// The admin User
         /// </summary>
-        protected SideMenuButtonComponent Subjects { get; private set; }
+        protected UserDataModel User { get; private set; }
+
 
         #endregion
 
@@ -40,6 +41,8 @@ namespace Vaseis
         /// <param name="tabControl">The tab control</param>
         public AdminSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -49,14 +52,45 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+
+            AdminProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.Account);
+
+            AdminProfileButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Profile",
+                    Icon = PackIconKind.Account,
+                    Content = new ProfilePage(User)
+                });
+            });
+
+       
             // Create and add the my job requests button
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
-            // Create and add the my evaluations button
-            UsersButton = CreateAndAddSideMenuButton("Users", PackIconKind.AccountMultipleAdd);
+            CompaniesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Companies",
+                    Icon = PackIconKind.DomainPlus,
+                    Content = new CompaniesPage()
+                });
+            });
 
-            // Create and add the job positions button
-            Jobs = CreateAndAddSideMenuButton("Jobs", PackIconKind.FolderPlus);
+            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Account);
+
+            AddSubject.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Subjects",
+                    Icon = PackIconKind.DomainPlus,
+                   // Content = new CompaniesPage()
+                });
+            });
+
         }
 
 
