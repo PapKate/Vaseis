@@ -8,7 +8,7 @@ namespace Vaseis
     /// <summary>
     /// The manager's job positions data grid
     /// </summary>
-    public class ManagerJobPositionsDataGridComponent : ContentControl
+    public class ManagerJobPositionsDataGridComponent : BaseDataGridComponent
     {
         /// <summary>
         /// The page's grid container
@@ -22,26 +22,9 @@ namespace Vaseis
         /// </summary>
         protected ManagerJobPositionsDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// The data grid's stack panel
-        /// </summary>
-        protected StackPanel InfoDataStackPanel { get; private set; }
-
-        #endregion
-
-        #region Dependency Properties
-
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ManagerJobPositionsDataGridComponent()
-        {
-            CreateGUI();
-        }
 
         public ManagerJobPositionsDataGridComponent(Grid pageGrid)
         {
@@ -59,8 +42,6 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            InfoDataStackPanel = new StackPanel();
-
             // Creates and adds the header's row
             DataGridHeader = new ManagerJobPositionsDataGridHeaderComponent();
             // Adds it to the stack panel
@@ -94,9 +75,6 @@ namespace Vaseis
             };
 
             InfoDataStackPanel.Children.Add(row2);
-
-            // Sets the component's content to the info data grid
-            Content = InfoDataStackPanel;
         }
         #endregion
 

@@ -2,40 +2,39 @@
 using System.Windows;
 
 using static Vaseis.Styles;
-
+using System;
 
 namespace Vaseis
 {
     /// <summary>
     /// The manager's reports page
     /// </summary>
-    public class ManagerReportsPage : ContentControl
+    public class ManagerReportsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
-        /// The new evaluation dialog
+        /// The manager's report data grid
         /// </summary>
-        protected ReportDialogComponent ReportDialog { get; private set; }
-
-        /// <summary>
-        /// The add/open dialog button
-        /// </summary>
-        protected Button AddButton { get; private set; }
-
-        /// <summary>
-        /// The page's grid
-        /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected ReportsDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public ManagerReportsPage()
+        public ManagerReportsPage(UserDataModel manager)
         {
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
+
             CreateGUI();
         }
 
@@ -48,20 +47,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
-            DataGrid = new ReportsDataGridComponent(PageGrid)
+            // Creates the data grid
+            DataGrid = new ReportsDataGridComponent(PageGrid, Manager)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-           
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion

@@ -1,19 +1,29 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The job positions data grid of the employee
+    /// </summary>
     public class EmployeeJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
+        #region Public Properties
+
         /// <summary>
-        /// The page's grid
+        /// The job position
         /// </summary>
-        public Grid PageGrid { get; }
+        public JobPositionDataModel JobPosition { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -29,11 +39,29 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        public EmployeeJobPositionsDataGridRowComponent(Grid pageGrid, JobPositionDataModel jobPosition) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            JobPosition = jobPosition ?? throw new ArgumentNullException(nameof(jobPosition));
 
             CreateGUI();
+
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="JobPosition"/>
+        /// </summary>
+        public void Update()
+        {
+            JobPositionText = JobPosition.Job.JobTitle;
+            DepartmentText = JobPosition.Job.Department.DepartmentName.ToString();
+            SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);
+            NumberOfRequestsText = JobPosition.JobPositionRequests.Count().ToString();
+            DeadlineText = $"{JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion
@@ -44,30 +72,19 @@ namespace Vaseis
         {
             // Creates the edit button
             RequestButton = ControlsFactory.CreateControlButton(PackIconKind.PlusThick, GreenBlue);
+            // Adds a tool tip to it
             RequestButton.ToolTip = new ToolTipComponent() { Text = "Request evaluation for job position" };
-
-            RequestButton.Click += ShowJobPositionRequestDialog;
+            // Binds the remove row command to the button
+            RequestButton.SetBinding(Button.CommandProperty, new Binding(nameof(ShowDialogCommand))
+            {
+                Source = this
+            });
 
             // Add it to the grid
             RowDataGrid.Children.Add(RequestButton);
             // On the ninth column
             Grid.SetColumn(RequestButton, 9);
             Grid.SetColumnSpan(RequestButton, 2);
-        }
-
-        /// <summary>
-        /// On click shows the evaluation dialog
-        /// </summary>
-        private void ShowJobPositionRequestDialog(object sender, RoutedEventArgs e)
-        {
-            // Creates an evaluation dialog
-            var requestDialog = new JobPositionRequestDialogComponent(this)
-            {
-                // And opens it
-                IsDialogOpen = true
-            };
-            // Adds it to the page's grid
-            PageGrid.Children.Add(requestDialog);
         }
 
         #endregion

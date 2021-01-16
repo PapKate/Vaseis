@@ -50,11 +50,12 @@ namespace Vaseis
             // On click opens in a tab the my job requests page
             MyJobRequestsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
+                // Creates a new tab item for the employee's my job requests page
                 TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "My job requests",
                     Icon = PackIconKind.ClipboardArrowUp,
-                    Content = new EmployeeMyJobRequestsPage()
+                    Content = new EmployeeMyJobRequestsPage(User)
                 });
             });
 
@@ -63,11 +64,12 @@ namespace Vaseis
             // On click opens in a tab the my evaluations page
             MyEvaluationsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
+                // Creates a new tab item for the employee's my evaluations page
                 TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "My evaluations",
                     Icon = PackIconKind.ClipboardAccount,
-                    Content = new EmplyoeeMyEvaluationsPage()
+                    Content = new EmplyoeeMyEvaluationsPage(User)
                 });
             });
 
@@ -76,11 +78,12 @@ namespace Vaseis
             // On click opens in a tab the job positions page
             JobPositionsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
+                // Creates a new tab item for the employee's job positions page
                 TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "Job positions",
                     Icon = PackIconKind.FolderSearch,
-                    Content = new EmployeeJobPositionsPage()
+                    Content = new EmployeeJobPositionsPage(User)
                 });
             });
         }

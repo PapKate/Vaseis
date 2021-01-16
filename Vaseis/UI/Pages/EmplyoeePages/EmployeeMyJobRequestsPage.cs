@@ -5,15 +5,25 @@ using System.Windows.Controls;
 
 namespace Vaseis
 {
-    public class EmployeeMyJobRequestsPage : ContentControl
+    /// <summary>
+    /// the my job position requests of an employee
+    /// </summary>
+    public class EmployeeMyJobRequestsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Employee { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
-        /// The page's grid
+        /// The employee's job requests' data grid
         /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected EmployeeJobRequestsDataGridComponent DataGrid { get; private set; }
 
         #endregion
@@ -23,8 +33,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeMyJobRequestsPage()
+        public EmployeeMyJobRequestsPage(UserDataModel employee)
         {
+            Employee = employee ?? throw new ArgumentNullException(nameof(employee));
+            
             CreateGUI();
         }
 
@@ -37,19 +49,10 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
-            DataGrid = new EmployeeJobRequestsDataGridComponent(PageGrid)
-            {
-
-            };
+            // Creates the data grid
+            DataGrid = new EmployeeJobRequestsDataGridComponent(PageGrid, Employee);
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion

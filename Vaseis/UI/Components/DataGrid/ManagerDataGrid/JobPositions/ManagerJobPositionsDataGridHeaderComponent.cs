@@ -5,6 +5,9 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 { 
+    /// <summary>
+    /// The manager's job position's data grid's header
+    /// </summary>
     public class ManagerJobPositionsDataGridHeaderComponent : BaseJobPositionsDataGridHeaderComponent
     {
         #region Protected Properties

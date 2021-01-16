@@ -97,6 +97,9 @@ namespace Vaseis
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public EditComponent()
         {
             CreateGUI();
@@ -111,6 +114,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the button's grid
             ButtonsGrid = new Grid()
             {
 
@@ -121,6 +125,7 @@ namespace Vaseis
 
             // Creates the save button
             SaveButton = ControlsFactory.CreateCheckButton();
+            // On click calls the method
             SaveButton.Click += SaveData;
             SaveButton.Visibility = Visibility.Collapsed;
             SaveButton.SetBinding(Button.CommandProperty, new Binding(nameof(SaveCommand))
@@ -134,6 +139,7 @@ namespace Vaseis
 
             // Creates the edit button
             EditButton = ControlsFactory.CreateEditButton();
+            // On click calls the method
             EditButton.Click += EditData;
             EditButton.SetBinding(Button.CommandProperty, new Binding(nameof(EditCommand))
             { 
@@ -142,11 +148,14 @@ namespace Vaseis
          
             // Adds it to the grid
             ButtonsGrid.Children.Add(EditButton);
-            Grid.SetColumn(EditButton, 1);
+            Grid.SetColumn(EditButton, 0);
+            Grid.SetColumnSpan(EditButton, 2);
 
             // Creates the cancel button
             CancelButton = ControlsFactory.CreateCloseButton();
+            // Adds margin to it
             CancelButton.Margin = new Thickness(0, 0, 24, 0);
+            // On click calls the method
             CancelButton.Click += CancelEdit;
             CancelButton.Visibility = Visibility.Collapsed;
             CancelButton.SetBinding(Button.CommandProperty, new Binding(nameof(CancelCommand))
@@ -163,7 +172,7 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// On click returns to edit button
+        /// On click returns to edit button and hides the save and cancel buttons
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -175,7 +184,7 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// On click returns to edit button
+        /// On click returns to edit button and hides the save and cancel buttons
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -187,7 +196,7 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// On click shows save and cancel buttons
+        /// On click shows save and cancel buttons and hides the edit
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

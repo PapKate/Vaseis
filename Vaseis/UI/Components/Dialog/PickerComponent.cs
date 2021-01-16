@@ -10,6 +10,9 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The combo box picker component
+    /// </summary>
     public class PickerComponent : ContentControl
     {
         #region Protected Properties

@@ -1,16 +1,21 @@
 ﻿using System.Windows.Controls;
 
+using static Vaseis.Styles;
+
 namespace Vaseis
 {
-    public class EvaluatorJobPositionsPage : ContentControl
+    public class EvaluatorJobPositionsPage : BaseDataGridPage
     {
         #region Protected Properties
 
         /// <summary>
-        /// The page's grid
+        /// The add button
         /// </summary>
-        protected Grid PageGrid { get; private set; }
+        protected Button AddButton { get; private set; }
 
+        /// <summary>
+        /// The job position's data grid
+        /// </summary>
         protected EvaluatorJobPositionsDataGridComponent DataGrid { get; private set; }
 
         #endregion
@@ -34,19 +39,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
+            // Creates the data grid
             DataGrid = new EvaluatorJobPositionsDataGridComponent(PageGrid)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion

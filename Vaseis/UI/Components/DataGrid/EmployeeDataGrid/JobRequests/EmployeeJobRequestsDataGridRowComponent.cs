@@ -1,22 +1,28 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
-using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 using static Vaseis.Styles;
 
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The job position requests data grid
+    /// </summary>
     public class EmployeeJobRequestsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
+        #region Public Properties
+
         /// <summary>
-        /// The page's grid
+        /// The job request
         /// </summary>
-        public Grid PageGrid { get; }
+        public JobPositionRequestDataModel JobPositionRequest { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -27,46 +33,52 @@ namespace Vaseis
 
         #endregion
 
-        #region RemoveRow
-
-        /// <summary>
-        /// The open dialog command
-        /// </summary>
-        public ICommand RemoveRowCommand
-        {
-            get { return (ICommand)GetValue(RemoveRowProperty); }
-            set { SetValue(RemoveRowProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="RemoveRowCommand"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty RemoveRowProperty = DependencyProperty.Register(nameof(RemoveRowCommand), typeof(ICommand), typeof(EmployeeJobRequestsDataGridRowComponent));
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeJobRequestsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        public EmployeeJobRequestsDataGridRowComponent(Grid pageGrid, JobPositionRequestDataModel jobPositionRequest) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            JobPositionRequest = jobPositionRequest ?? throw new ArgumentNullException(nameof(jobPositionRequest));
 
             CreateGUI();
+
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="JobPosition"/>
+        /// </summary>
+        public void Update()
+        {
+            JobPositionText = JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentText = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
+            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id);
+            NumberOfRequestsText = jobRequest.FirstOrDefault().Id.ToString();
+            DeadlineText = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion
 
         #region Private Methods
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
             // Creates the edit button
             RemoveRequestButton = ControlsFactory.CreateControlButton(PackIconKind.Minus, Red);
+            // Adds a tool tip to it
             RemoveRequestButton.ToolTip = new ToolTipComponent() { Text = "Remove evaluation request"};
-            RemoveRequestButton.SetBinding(Button.CommandProperty, new Binding(nameof(RemoveRowCommand))
+            // Binds the command property of the button to the remove row command
+            RemoveRequestButton.SetBinding(Button.CommandProperty, new Binding(nameof(ShowDialogCommand))
             { 
                 Source = this
             });

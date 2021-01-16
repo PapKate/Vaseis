@@ -20,7 +20,6 @@ namespace Vaseis
 
         #endregion
 
-
         #region Protected Properties
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -11,6 +13,20 @@ namespace Vaseis
     /// </summary>
     public class EmployeeMyEvaluationsDataGridRowComponent : DataGridRowComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The page's grid
+        /// </summary>
+        public Grid PageGrid { get; }
+
+        /// <summary>
+        /// The evaluation of an employee
+        /// </summary>
+        public EvaluationDataModel Evaluation { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -59,9 +75,87 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EmployeeMyEvaluationsDataGridRowComponent()
+        public EmployeeMyEvaluationsDataGridRowComponent(Grid pageGrid, EvaluationDataModel evaluation)
         {
+            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Evaluation = evaluation ?? throw new ArgumentNullException(nameof(evaluation));
+
             CreateGUI();
+
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="Evaluation"/>
+        /// </summary>
+        public void Update()
+        {
+            EmployeeName = Evaluation.UsersJobFilesPair.Employee.Username;
+            EvaluatorName = Evaluation.UsersJobFilesPair.Evaluator.Username;
+            EvaluationGrade = "7";
+            InterviewGrade = GetGrade(Evaluation.InterviewGrade).ToString("F", CultureInfo.InvariantCulture);
+            ReportGrade = GetGrade(Evaluation.ReportGrade).ToString("F", CultureInfo.InvariantCulture);
+            FilesGrade = GetGrade(Evaluation.FilesGrade).ToString("F", CultureInfo.InvariantCulture);
+            JobName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentName = Evaluation.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            Result = CreateResult(7);
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Turn the grade from 1000 to 10 max
+        /// </summary>
+        /// <param name="grade"></param>
+        /// <returns></returns>
+        protected double GetGrade(int? grade)
+        {
+            // If not null return the new value else 0
+            var parsedGrade = grade * 0.01 ?? default(int);
+            // returns the grade scaled to 10
+            return parsedGrade;
+        }
+
+        /// <summary>
+        /// Calculates the final evaluation grade
+        /// </summary>
+        /// <param name="filesGrade">The files grade</param>
+        /// <param name="interviewGrade">The interview's grade</param>
+        /// <param name="reportGrade">The report's grade</param>
+        /// <returns></returns>
+        protected int CreateEvaluationGrade(int filesGrade, int interviewGrade, int reportGrade)
+        {
+            var evaluationGrade = 7;
+
+            // Returns the evaluation's grade
+            return evaluationGrade;
+        }
+
+        /// <summary>
+        /// Creates the result 
+        /// </summary>
+        /// <param name="evaluationGrade">The final evaluation's grade</param>
+        /// <returns></returns>
+        protected string CreateResult(int evaluationGrade)
+        {
+            // By default the result is empty
+            var result = "-";
+            // If the evaluation's grade is grater than 5...
+            if (evaluationGrade > 5)
+                // Result set to pass
+                result = "Pass";
+            // If evaluation grade smaller or equal to 5...
+            if (evaluationGrade <= 5)
+                // Result set to fail
+                result = "Fail";
+            // Returns the result
+            return result;
         }
 
         #endregion
@@ -73,6 +167,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            // Creates the row's border
             RowBorder = new Border()
             {
                 BorderThickness = new Thickness(0, 0, 0, 1),
@@ -81,7 +176,7 @@ namespace Vaseis
                 Padding = new Thickness(12),
                 
             };
-
+            // Sets the row's child as the data grid's row
             RowBorder.Child = RowDataGrid;
 
             // Creates the result text block
@@ -104,6 +199,7 @@ namespace Vaseis
                 Source = this
             });
 
+            // Sets the component's content as the row's border
             Content = RowBorder;
         }
 
@@ -144,6 +240,11 @@ namespace Vaseis
                     RowDataGrid.Children.Add(acquireButton);
                     // On the ninth column
                     Grid.SetColumn(acquireButton, 9);
+                    // Binds the button's command to the ICommmad
+                    acquireButton.SetBinding(Button.CommandProperty, new Binding(nameof(ShowDialogCommand))
+                    { 
+                        Source = this
+                    });
                 }
             }
         }

@@ -97,16 +97,16 @@ namespace Vaseis
         /// <summary>
         /// The interview's comments
         /// </summary>
-        public string Report
+        public string ReportParagraph
         {
             get { return (string)GetValue(ReportProperty); }
             set { SetValue(ReportProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="Report"/> dependency property
+        /// Identifies the <see cref="ReportParagraph"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty ReportProperty = DependencyProperty.Register(nameof(Report), typeof(string), typeof(EvaluationBaseDataGridRowComponent));
+        public static readonly DependencyProperty ReportProperty = DependencyProperty.Register(nameof(ReportParagraph), typeof(string), typeof(EvaluationBaseDataGridRowComponent));
 
         #endregion
 
@@ -239,7 +239,7 @@ namespace Vaseis
                 Margin = new Thickness(64, 0, 0, 0)
             };
             // Binds the report's text block to the report's text block's text 
-            ReportTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Report))
+            ReportTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(ReportParagraph))
             {
                 Source = this
             });

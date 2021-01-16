@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 using static Vaseis.Styles;
 
@@ -13,10 +14,14 @@ namespace Vaseis
     /// </summary>
     public abstract class BaseJobPositionsDataGridRowComponent : ContentControl
     {
+        #region Public Properties
+
         /// <summary>
         /// The page's grid
         /// </summary>
         public Grid PageGrid { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -36,9 +41,19 @@ namespace Vaseis
         protected TextBlock JobPosistionTextBlock { get; private set; }
 
         /// <summary>
+        /// The job position's tool tip
+        /// </summary>
+        protected ToolTipComponent JobPositionToolTip { get; private set; }
+
+        /// <summary>
         /// The department's text block
         /// </summary>
         protected TextBlock DepartmentTextBlock { get; private set; }
+
+        /// <summary>
+        /// The department's tool tip
+        /// </summary>
+        protected ToolTipComponent DepartmentToolTip { get; private set; }
 
         /// <summary>
         /// The salary's text block
@@ -49,6 +64,11 @@ namespace Vaseis
         /// The subject's text block
         /// </summary>
         protected TextBlock SubjectTextBlock { get; private set; }
+
+        /// <summary>
+        /// The subject's tool tip
+        /// </summary>
+        protected ToolTipComponent SubjectToolTip { get; private set; }
 
         /// <summary>
         /// The deadline's text block
@@ -172,6 +192,24 @@ namespace Vaseis
 
         #endregion
 
+        #region RemoveRow
+
+        /// <summary>
+        /// The open dialog command
+        /// </summary>
+        public ICommand ShowDialogCommand
+        {
+            get { return (ICommand)GetValue(ShowDialogCommandProperty); }
+            set { SetValue(ShowDialogCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ShowDialogCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ShowDialogCommandProperty = DependencyProperty.Register(nameof(ShowDialogCommand), typeof(ICommand), typeof(BaseJobPositionsDataGridRowComponent));
+
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -252,6 +290,15 @@ namespace Vaseis
             {
                 Source = this
             });
+            // Creates a tool tip
+            JobPositionToolTip = new ToolTipComponent();
+            // Binds its text property to the text
+            JobPositionToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(JobPositionText))
+            { 
+                Source = this
+            });
+            // Adds it to the text block
+            JobPosistionTextBlock.ToolTip = JobPositionToolTip;
 
             // Creates and adds the department's text block to the row's grid
             DepartmentTextBlock = CreateAndAddRowItem(1);
@@ -260,6 +307,15 @@ namespace Vaseis
             {
                 Source = this
             });
+            // Creates a tool tip
+            DepartmentToolTip = new ToolTipComponent();
+            // Binds its text property to the text
+            DepartmentToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(DepartmentText))
+            {
+                Source = this
+            });
+            // Adds it to the text block
+            DepartmentTextBlock.ToolTip = DepartmentToolTip;
 
             // Creates and adds the salary's text block to the row's grid
             SalaryTextBlock = CreateAndAddRowItem(2);
@@ -276,6 +332,15 @@ namespace Vaseis
             {
                 Source = this
             });
+            // Creates a tool tip
+            SubjectToolTip= new ToolTipComponent();
+            // Binds its text property to the text
+            SubjectToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(SubjectText))
+            {
+                Source = this
+            });
+            // Adds it to the text block
+            SubjectTextBlock.ToolTip = SubjectToolTip;
 
             // Creates the No of requests text block
             DeadlineTextBlock = new TextBlock()

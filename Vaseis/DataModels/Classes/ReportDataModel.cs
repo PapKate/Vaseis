@@ -22,39 +22,29 @@ namespace Vaseis
         /// </summary>
         public string ReportText { get; set; }
 
+        /// <summary>
+        /// Bool that indicates whether a report is written or not
+        /// By default it is not
+        /// </summary>
+        public bool IsWritten { get; set; } = false;
+
         #region Relationships
 
         /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related manager
+        /// The <see cref="JobPositionRequestDataModel.Id"/> of the related <see cref="JobPositionRequestDataModel"/>
+        /// The job position's request Id
         /// </summary>
-        public int ManagerId { get; set; }
-
-        public UserDataModel Manager { get; set; }
-
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related employee
-        /// </summary>
-        public int EmployeeId { get; set; }
+        public int JobPositionRequestId { get; set; }
 
         /// <summary>
-        /// The related employee
+        /// The related <see cref="JobPositionRequestDataModel"/>
         /// </summary>
-        public UserDataModel Employee { get; set; }
-
-        /// <summary>
-        /// The <see cref="UserDataModel.Id"/> of the related evaluator
-        /// </summary>
-        public int EvaluatorId { get; set; }
-
-        /// <summary>
-        /// The related evaluator
-        /// </summary>
-        public UserDataModel Evaluator { get; set; }
+        public JobPositionRequestDataModel JobPositionRequest { get; set; }
 
         /// <summary>
         /// The <see cref="UsersJobFilesPairDataModel.Id"/> of the related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
-        public int UsersJobFilePairId { get; set; }
+        public int UsersJobFilesPairId { get; set; }
 
         /// <summary>
         /// The related <see cref="UsersJobFilesPairDataModel"/>

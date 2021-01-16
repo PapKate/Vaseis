@@ -53,10 +53,12 @@ namespace Vaseis
             {
             };
 
+            // Creates the data grid
             DataGrid = new EvaluatorDataGridComponent(PageGrid)
             {
                 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
 
             // Sets the component's content to the page's grid

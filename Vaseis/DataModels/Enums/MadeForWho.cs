@@ -6,7 +6,7 @@
     /// </summary>
     public enum MadeForWho
     {
-        Self = 0,
+        Personal = 0,
         Company = 1
     }
 }

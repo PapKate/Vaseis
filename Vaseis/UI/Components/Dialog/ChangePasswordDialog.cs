@@ -67,8 +67,6 @@ namespace Vaseis
 
         #endregion
 
-
-
         #region Private Methods
         /// <summary>
         /// Creates and adds the required GUI elements for the change password button

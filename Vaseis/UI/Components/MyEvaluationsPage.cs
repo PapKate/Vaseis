@@ -24,16 +24,16 @@ namespace Vaseis
         ///// <summary>
         ///// The Employess's name
         ///// </summary>
-        //public string Employee
+        //public string User
         //{
         //    get { return GetValue(EmployeeProperty).ToString(); }
         //    set { SetValue(EmployeeProperty, value); }
         //}
 
         ///// <summary>
-        ///// Identifies the <see cref="Employee"/> dependency property
+        ///// Identifies the <see cref="User"/> dependency property
         ///// </summary>
-        //public static readonly DependencyProperty EmployeeProperty = DependencyProperty.Register(nameof(Employee), typeof(string), typeof(EvaluationResults));
+        //public static readonly DependencyProperty EmployeeProperty = DependencyProperty.Register(nameof(User), typeof(string), typeof(EvaluationResults));
 
         ///// <summary>
         ///// The Job's title
@@ -159,7 +159,7 @@ namespace Vaseis
         //   var evaluationsRow = new List<EvaluatorMyEvaluationsPage>();
 
 
-        //    dataTable.Columns.Add("Employee", typeof(String));
+        //    dataTable.Columns.Add("User", typeof(String));
         //    dataTable.Columns.Add("Job", typeof(String));
         //    dataTable.Columns.Add("IG", typeof(String));
         //    dataTable.Columns.Add("RG", typeof(String));

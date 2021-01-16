@@ -9,22 +9,23 @@ namespace Vaseis
     /// <summary>
     /// The manager's evaluation results page
     /// </summary>
-    public class ManagerEvaluationResultsPage : ContentControl
+    public class ManagerEvaluationResultsPage : BaseDataGridPage
     {
 
         #region Protected Properties
 
         /// <summary>
-        /// The page's grid
+        /// The manager's evaluation's data grid
         /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected ManagerEvaluationDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ManagerEvaluationResultsPage()
         {
             CreateGUI();
@@ -39,19 +40,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
+            // Creates the data grid
             DataGrid = new ManagerEvaluationDataGridComponent(PageGrid)
             {
 
             };
+            // Adds it to the page
             PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
         }
 
         #endregion
