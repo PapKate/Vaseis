@@ -13,11 +13,6 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorMyJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
-        /// <summary>
-        /// The page's grid
-        /// </summary>
-        public Grid PageGrid { get; }
-
         #region Protected Properties
 
         /// <summary>
@@ -79,8 +74,6 @@ namespace Vaseis
         /// </summary>
         public EvaluatorMyJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
         {
-            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
-
             CreateGUI();
         }
 

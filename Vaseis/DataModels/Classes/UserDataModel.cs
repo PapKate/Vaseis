@@ -66,6 +66,11 @@ namespace Vaseis
         public string ProfilePicture { get; set; }
 
         /// <summary>
+        /// The date the user registered to the system
+        /// </summary>
+        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+
+        /// <summary>
         /// The date the user was registered
         /// </summary>
         public int YearsOfExperience { get; set; } 
@@ -99,14 +104,14 @@ namespace Vaseis
         public DepartmentDataModel Department { get; set; }
 
         /// <summary>
-        /// The <see cref="JobDataModel.Id"/> of the related <see cref="JobDataModel"/>
+        /// The <see cref="JobPositionDataModel.Id"/> of the related <see cref="JobPositionDataModel"/>
         /// </summary>
-        public int? JobId { get; set; }
+        public int? JobPositionId { get; set; }
 
         /// <summary>
         /// The related <see cref="JobPositionDataModel"/>
         /// </summary>
-        public JobDataModel Job { get; set; }
+        public JobPositionDataModel JobPosition { get; set; }
 
         /// <summary>
         /// The user's degrees

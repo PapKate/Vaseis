@@ -236,7 +236,7 @@ namespace Vaseis
                            .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
                            .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
                            .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 9))
-                           .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 8))
+                           .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
                            .Generate(40);
 
            // Adds the generated jobs in the users db set
@@ -286,6 +286,7 @@ namespace Vaseis
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
+                            .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 100))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
                             .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
@@ -316,12 +317,9 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
-
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
-
                             .RuleFor(x => x.Type, faker => UserType.Manager)
                             .RuleFor(x => x.Company, faker => company)
                             .RuleFor(x => x.Department, faker => department)
@@ -352,9 +350,7 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
-
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             .RuleFor(x => x.Type, faker => UserType.Evaluator)

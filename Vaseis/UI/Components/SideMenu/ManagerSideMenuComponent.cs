@@ -9,12 +9,7 @@ namespace Vaseis
     public class ManagerSideMenuComponent : CompanyBaseSideMenuComponent
     {
         #region Protected Properties
-
-        /// <summary>
-        /// The admin's profile button
-        /// </summary>
-        protected SideMenuButtonComponent ProfileButton { get; private set; }
-
+        
         /// <summary>
         /// The employees button
         /// </summary>
@@ -35,13 +30,6 @@ namespace Vaseis
         /// </summary>
         protected SideMenuButtonComponent EmployeesButton { get; private set; }
 
-        /// <summary>
-        /// The Manager User
-        /// </summary>
-        protected UserDataModel User { get; private set; }
-
-
-
         #endregion
 
         #region Constructors
@@ -52,9 +40,6 @@ namespace Vaseis
         /// <param name="tabControl">The tab control</param>
         public ManagerSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
-
-            User = user ?? throw new ArgumentNullException(nameof(user));
-
             CreateGUI();
         }
 
@@ -64,20 +49,6 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-
-            ProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.Account);
-
-            ProfileButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
-            {
-                TabControl.Items.Add(new TabItemComponent(TabControl)
-                {
-                    Text = "Profile",
-                    Icon = PackIconKind.Account,
-                    Content = new ProfilePage(User)
-                });
-            });
-
-
             // Create and add the job positions button
             JobPositionsButton = CreateAndAddSideMenuButton("Job positions", PackIconKind.FolderSearch);
             // On click opens in a tab the job positions page

@@ -80,10 +80,10 @@ namespace Vaseis
                     {
                         // And opens it
                         IsDialogOpen = true,
-                        // Create the request command
                         
                     };
 
+                    // Create the request command
                     requestDialog.RequestCommand = new RelayCommand(async () =>
                     {
                         // Removes from the data grid's stack panel the row

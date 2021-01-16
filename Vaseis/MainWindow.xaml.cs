@@ -77,103 +77,7 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-            
-            //var evaluatorMyEvaluationsPage = new TabItemComponent()
-            //{
-            //    Text = "My evaluations",
-            //    Icon = PackIconKind.ClipboardEdit,
-            //    Content = new EvaluatorMyEvaluationsPage()
-            //};
 
-            //appTabControl.Items.Add(evaluatorMyEvaluationsPage);
-
-
-            var evaluatorMyEvaluationsPage = new TabItemComponent()
-            {
-                Text = "My evaluations",
-                Icon = PackIconKind.ClipboardEdit,
-                Content = new EvaluatorMyEvaluationsPage()
-            };
-
-            appTabControl.Items.Add(evaluatorMyEvaluationsPage);
-
-            var empMyEvPage = new TabItemComponent()
-            {
-                Text = "My evaluations",
-                Icon = PackIconKind.ClipboardAccount,
-                Content = new EmplyoeeMyEvaluationsPage()
-            };
-
-            appTabControl.Items.Add(empMyEvPage);
-
-            //var companyPage = new TabItemComponent()
-            //{
-            //    Text = "Company",
-            //    Icon = PackIconKind.Domain,
-            //    Content = new CompanyPage()
-            //};
-
-         //   appTabControl.Items.Add(companyPage);
-
-            //var empMyEvPage = new TabItemComponent()
-            //{
-            //    Text = "My evaluations",
-            //    Icon = PackIconKind.ClipboardAccount,
-            //    Content = new EmplyoeeMyEvaluationsPage()
-            //};
-
-
-            //appTabControl.Items.Add(empMyEvPage);
-
-            //var companyPage = new TabItemComponent()
-            //{
-            //    Text = "Company",
-            //    Icon = PackIconKind.Domain,
-            //    Content = new CompanyPage()
-            //};
-
-          //  appTabControl.Items.Add(UserComponent);
-
-            //appTabControl.Items.Add(companyPage);
-
-            //var companiesPage = new TabItemComponent()
-            //{
-            //    Text = "Companies",
-            //    Icon = PackIconKind.Domain,
-            //    Content = new CompaniesPage()
-            //};
-
-
-            //appTabControl.Items.Add(companiesPage);
-
-            //var UserComponent = new TabItemComponent()
-            //{
-            //    Text = "UserCompoent",
-            //    Icon = PackIconKind.ClipboardAccount,
-            //    Content = new AdminsUsersPage()
-            //};
-
-
-
-
-
-            //  var manager = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Manager);
-
-
-            //     var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
-            //   appGrid.Children.Add(ManagerSideMenu);
-
-
-            //appTabControl.Items.Add(UserComponent);
-
-
-            //var reports = new TabItemComponent()
-            //{
-            //    Text = "Reports",
-            //    Icon = PackIconKind.FileChart,
-            //    Content = new ManagerReportsPage()
-            //};
-            //appTabControl.Items.Add(reports);
 
 
             //var logInPage = new LoginPage();
@@ -206,9 +110,17 @@ namespace Vaseis
 
             //Grid.SetRow(logInPage, 1);
 
-            var user = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Employee);
+            var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                                       .Include(x => x.Company)
+                                                       .Include(x => x.Department)
+                                                       .Include(x => x.AcquiredDegrees)
+                                                       .Include(x => x.Awards)
+                                                       .Include(x => x.Certificates)
+                                                       .Include(x => x.Languages)
+                                                       .Include(x => x.RecommendationPapers)
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
 
-            var view = new EmployeeView(user);
+            var view = new ManagerView(user);
 
             appGrid.Children.Add(view);
 

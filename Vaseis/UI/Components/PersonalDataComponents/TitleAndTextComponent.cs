@@ -12,22 +12,22 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
-        /// 
+        /// The stack panel for title and text
         /// </summary>
         protected StackPanel InfoStackPanel { get; private set; }
 
         /// <summary>
-        /// 
+        /// The title's text block
         /// </summary>
         protected TextBlock TitleBlock { get; private set; }
 
         /// <summary>
-        /// 
+        /// The text's grid
         /// </summary>
         protected Grid TextGrid { get; private set; }
 
         /// <summary>
-        /// 
+        /// The text's text block
         /// </summary>
         protected TextBlock TextBlock { get; private set; }
 

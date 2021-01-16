@@ -120,7 +120,7 @@ namespace Vaseis
                 {
                     Text = "Profile",
                     Icon = PackIconKind.AccountCircle,
-                 //   Content = new ProfilePage(),
+                    Content = new ProfilePage(User),
                 };
 
                 TabControl.Items.Add(tabItem);

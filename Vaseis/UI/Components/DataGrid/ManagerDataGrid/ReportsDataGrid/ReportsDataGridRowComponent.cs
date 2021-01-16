@@ -172,12 +172,6 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-
-            EvaluatorName = Report.Evaluator.Username;
-            EmployeeName = Report.Employee.Username;
-            JobName = Report.Employee.Job.JobTitle;
-            DepartmentName = Report.Employee.Job.Department.DepartmentName.ToString();
-
             EvaluatorName = Report.UsersJobFilesPair.Evaluator.Username;
             EmployeeName = Report.UsersJobFilesPair.Employee.Username;
             JobName = Report.JobPositionRequest.JobPosition.Job.JobTitle;

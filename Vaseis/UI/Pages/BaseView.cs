@@ -101,7 +101,6 @@ namespace Vaseis
             // On its second column
             Grid.SetColumn(TabControl, 1);
 
-
             // Sets the component's content as the view grid
             Content = ViewGrid;
         }

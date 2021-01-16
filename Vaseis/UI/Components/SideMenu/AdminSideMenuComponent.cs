@@ -25,12 +25,6 @@ namespace Vaseis
         /// </summary>
         protected SideMenuButtonComponent AddSubject { get; private set; }
 
-        /// <summary>
-        /// The admin User
-        /// </summary>
-        protected UserDataModel User { get; private set; }
-
-
         #endregion
 
         #region Constructors
@@ -41,8 +35,6 @@ namespace Vaseis
         /// <param name="tabControl">The tab control</param>
         public AdminSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
-            User = user ?? throw new ArgumentNullException(nameof(user));
-
             CreateGUI();
         }
 
