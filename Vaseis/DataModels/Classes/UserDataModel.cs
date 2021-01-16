@@ -68,7 +68,7 @@ namespace Vaseis
         /// <summary>
         /// The date the user was registered
         /// </summary>
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public int YearsOfExperience { get; set; } 
 
         /// <summary>
         /// The bio
@@ -101,12 +101,12 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="JobDataModel.Id"/> of the related <see cref="JobDataModel"/>
         /// </summary>
-        public int? JobPositionId { get; set; }
+        public int? JobId { get; set; }
 
         /// <summary>
         /// The related <see cref="Job"/>
         /// </summary>
-        public JobPositionDataModel JobPosition { get; set; }
+        public JobDataModel Job { get; set; }
 
         /// <summary>
         /// The user's degrees

@@ -41,7 +41,7 @@ namespace Vaseis
         /// </summary>
         public string Title
         {
-            get { return GetValue(TitleProperty).ToString(); }
+            get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
@@ -55,7 +55,7 @@ namespace Vaseis
         /// </summary>
         public string Text
         {
-            get { return GetValue(TextProperty).ToString(); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 

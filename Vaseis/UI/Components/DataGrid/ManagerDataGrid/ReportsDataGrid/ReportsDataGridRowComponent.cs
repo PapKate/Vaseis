@@ -136,8 +136,8 @@ namespace Vaseis
         {
             EvaluatorName = Report.Evaluator.Username;
             EmployeeName = Report.Employee.Username;
-            JobName = Report.Employee.JobPosition.Job.JobTitle;
-            DepartmentName = Report.Employee.JobPosition.Job.Department.DepartmentName.ToString();
+            JobName = Report.Employee.Job.JobTitle;
+            DepartmentName = Report.Employee.Job.Department.DepartmentName.ToString();
         }
 
         #endregion

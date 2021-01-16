@@ -14,9 +14,19 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
+        /// The company the Admin wants to add a department to
+        /// </summary>
+        public CompanyDataModel Company { get; }
+
+        /// <summary>
         /// The department's name input
         /// </summary>
         protected TextInputComponent DepartmentInput { get; private set; }
+
+        /// <summary>
+        /// The department's stack panel
+        /// </summary>
+        public StackPanel DepartmentStackPanel { get; private set; }
 
         /// <summary>
         /// The department's color input
@@ -40,7 +50,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public NewDepartmentDialogComponent()
+        public NewDepartmentDialogComponent(CompanyDataModel company)
         {
             CreateGUI();
         }
@@ -54,22 +64,19 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+
+            DialogTitle.Text = "Create Department";
+
             DepartmentInput = new TextInputComponent()
             { 
                 Width = 240,
                 Margin = new Thickness(24),
                 HintText = "Department's name"
             };
-            InputWrapPanel.Children.Add(DepartmentInput);
 
-            CompanyPicker = new PickerComponent()
-            {
-                HintText = "Company",
-                Width = 240,
-                Margin = new Thickness(24, 0, 24, 0),
-                OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }
-            };
-            InputWrapPanel.Children.Add(CompanyPicker);
+            DepartmentStackPanel = new StackPanel();
+
+            DepartmentStackPanel.Children.Add(DepartmentInput);
 
             ColorInput = new TextInputComponent()
             {
@@ -77,13 +84,16 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 HintText = "Representative hex color"
             };
-            InputWrapPanel.Children.Add(ColorInput);
+            DepartmentStackPanel.Children.Add(ColorInput);
 
             // Creates the create button
             CreateButton = StyleHelpers.CreateDialogButton(DarkPink, "Create");
             //CreateButton.Click += CreateDepartmentOnClick;
             // Adds it to the dialog's button's stack panel
             DialogButtonsStackPanel.Children.Add(CreateButton);
+
+
+            InputWrapPanel.Children.Add(DepartmentStackPanel);
 
         }
 

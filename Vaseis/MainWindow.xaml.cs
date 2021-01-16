@@ -129,14 +129,14 @@ namespace Vaseis
 
             appTabControl.Items.Add(empMyEvPage);
 
-            var companyPage = new TabItemComponent()
-            {
-                Text = "Company",
-                Icon = PackIconKind.Domain,
-                Content = new CompanyPage()
-            };
+            //var companyPage = new TabItemComponent()
+            //{
+            //    Text = "Company",
+            //    Icon = PackIconKind.Domain,
+            //    Content = new CompanyPage()
+            //};
 
-            appTabControl.Items.Add(companyPage);
+         //   appTabControl.Items.Add(companyPage);
 
               var companiesPage = new TabItemComponent()
             {
@@ -165,13 +165,16 @@ namespace Vaseis
             };
             appTabControl.Items.Add(reports);
 
-            var manager = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Manager);
 
 
-            var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
-            appGrid.Children.Add(ManagerSideMenu);
 
-            var logInPage = new LoginPage();
+            //  var manager = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+
+
+            //     var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
+            //   appGrid.Children.Add(ManagerSideMenu);
+
+            //var logInPage = new LoginPage();
 
             //logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
             //{

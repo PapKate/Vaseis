@@ -193,6 +193,17 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// Creates and returns a <see cref="Button"/> personalized as an edit button
+        /// </summary>
+        /// <returns></returns>
+        public static Button CreateAddButton()
+        {
+            var button = CreateControlButton(PackIconKind.Add, GreenBlue);
+            return button;
+        }
+
+
+        /// <summary>
         /// Creates and returns a <see cref="Button"/> personalized as a close button
         /// </summary>
         /// <returns></returns>
