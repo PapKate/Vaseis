@@ -10,6 +10,7 @@ namespace Vaseis
     //A new component was used instead of the bioComponent because it had fixed size & backgournd colour and the was no reason
     //for them to be added as dependencies 
     public  class EditableTextComponent : TitleAndTextComponent
+
     {
         #region Protected Properties
 

@@ -16,13 +16,9 @@ namespace Vaseis
     {
         #region Public Properties
 
-        /// <summary>
-        /// The user
-        /// </summary>
         public UserDataModel User { get; }
 
         #endregion
-
 
         #region Protected Properties
 
@@ -60,7 +56,7 @@ namespace Vaseis
         /// The edit buttons
         /// </summary>
         protected EditComponent EditButtons { get; private set; }
-        
+
         /// <summary>
         /// The job title
         /// </summary>
@@ -128,223 +124,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Username
-
-        /// <summary>
-        /// The user's username
-        /// </summary>
-        public string Username
-        {
-            get { return (string)GetValue(UsernameProperty); }
-            set { SetValue(UsernameProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Username"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(nameof(Username), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region List of awards
-
-        /// <summary>
-        /// The user's awards for the profile list section
-        /// </summary>
-        public IEnumerable<string> Awards
-        {
-            get { return (IEnumerable<string>)GetValue(AwardsProperty); }
-            set { SetValue(AwardsProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Awards"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty AwardsProperty = DependencyProperty.Register(nameof(Awards), typeof(IEnumerable<string>), typeof(ProfilePage));
-
-        #endregion
-
-        #region List of Certificates
-
-        /// <summary>
-        /// The user's Certificates for the profile list section
-        /// </summary>
-        public IEnumerable<string> Certificates
-        {
-            get { return (IEnumerable<string>)GetValue(CertificatesProperty); }
-            set { SetValue(CertificatesProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Certificates"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty CertificatesProperty = DependencyProperty.Register(nameof(Certificates), typeof(IEnumerable<string>), typeof(ProfilePage));
-
-        #endregion
-
-        #region List of Recommendation Papers
-
-        /// <summary>
-        /// The user's recommendation papers for the profile list section
-        /// </summary>
-        public IEnumerable<string> RecommendationPapers
-        {
-            get { return (IEnumerable<string>)GetValue(RecommendationPapersProperty); }
-            set { SetValue(RecommendationPapersProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="RecommendationPapers"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty RecommendationPapersProperty = DependencyProperty.Register(nameof(RecommendationPapers), typeof(IEnumerable<string>), typeof(ProfilePage));
-
-        #endregion
-
-
-        #region FirstName
-
-        /// <summary>
-        /// The user's FirstName
-        /// </summary>
-        public string FirstName
-        {
-            get { return (string)GetValue(FirstNameProperty); }
-            set { SetValue(FirstNameProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="FirstName"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty FirstNameProperty = DependencyProperty.Register(nameof(FirstName), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region LastName
-
-        /// <summary>
-        /// The user's LastName
-        /// </summary>
-        public string LastName
-        {
-            get { return (string)GetValue(LastNameProperty); }
-            set { SetValue(LastNameProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="LastName"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty LastNameProperty = DependencyProperty.Register(nameof(LastName), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region Company
-
-        /// <summary>
-        /// The user's Company
-        /// </summary>
-        public string Company
-        {
-            get { return (string)GetValue(CompanyProperty); }
-            set { SetValue(CompanyProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Company"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty CompanyProperty = DependencyProperty.Register(nameof(Company), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region Email
-
-        /// <summary>
-        /// The user's Email
-        /// </summary>
-        public string Email
-        {
-            get { return (string)GetValue(EmailProperty); }
-            set { SetValue(EmailProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Email"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty EmailProperty = DependencyProperty.Register(nameof(Email), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region YearsOfExperiece
-
-        /// <summary>
-        /// The user's YearsOfExperiece
-        /// </summary>
-        public string YearsOfExperiece
-        {
-            get { return (string)GetValue(YearsOfExperieceProperty); }
-            set { SetValue(YearsOfExperieceProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="YearsOfExperiece"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty YearsOfExperieceProperty = DependencyProperty.Register(nameof(YearsOfExperiece), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region Job
-
-        /// <summary>
-        /// The user's Job
-        /// </summary>
-        public string Job
-        {
-            get { return (string)GetValue(JobProperty); }
-            set { SetValue(JobProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Job"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty JobProperty = DependencyProperty.Register(nameof(Job), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region Department
-
-        /// <summary>
-        /// The user's Department
-        /// </summary>
-        public string Department
-        {
-            get { return (string)GetValue(DepartmentProperty); }
-            set { SetValue(DepartmentProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Department"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty DepartmentProperty = DependencyProperty.Register(nameof(Department), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #region BioText
-
-        /// <summary>
-        /// The user's BioText
-        /// </summary>
-        public string BioText
-        {
-            get { return (string)GetValue(BioTextProperty); }
-            set { SetValue(BioTextProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="BioText"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty BioTextProperty = DependencyProperty.Register(nameof(BioText), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
         #region EvaluatorsAverage
 
         /// <summary>
@@ -363,14 +142,20 @@ namespace Vaseis
 
         #endregion
 
+
+
         #endregion
 
         #region Constructors
+
+
+        public ProfilePage(UserDataModel user)
 
         /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
         public ProfilePage()
+
         {
             //User = user ?? throw new ArgumentNullException(nameof(user));
 
@@ -420,9 +205,12 @@ namespace Vaseis
             ImageAndTitle = new ImageAndNameComponent()
             {
                 Text = User.Username,
-                //ImagePath =  User.ima,
-            };
 
+                ImagePath = User.ProfilePicture,
+
+                //ImagePath =  User.ima,
+
+            };
             PersonalDataStackPanel.Children.Add(ImageAndTitle);
 
             // Adds the stack panel to the page
@@ -431,12 +219,16 @@ namespace Vaseis
             Grid.SetColumn(PersonalDataStackPanel, 0);
 
             #region PersonalData
-            
+
             // Creates the first name text blocks
             var FirstNameData = new TitleAndTextComponent()
             {
                 Title = "First name",
+
+                Text = User.FirstName,
+
                 Text = "Marika",
+
                 Margin = new Thickness(16)
             };
             // Adds them to the stack panel
@@ -446,7 +238,7 @@ namespace Vaseis
             var LastNameData = new TitleAndTextComponent()
             {
                 Title = "Last name",
-                Text = LastName,
+                Text = User.LastName,
                 Margin = new Thickness(16)
             };
             // Adds them to the stack panel
@@ -456,17 +248,24 @@ namespace Vaseis
             var CompanyData = new TitleAndTextComponent()
             {
                 Title = "Company",
+
+                Text = User.Company.Name,
+
                 Text = "Enchantment Lab",
+
                 Margin = new Thickness(16)
             };
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(CompanyData);
 
-            // Creates the users years of exp data
             var YearsOfXp = new TitleAndTextComponent()
             {
                 Title = "Years of experience",
+
+                Text = User.YearsOfExperience.ToString(),
+
                 Text = "24",
+
                 Margin = new Thickness(16),
             };
             // Adds them to the stack panel
@@ -474,32 +273,38 @@ namespace Vaseis
 
             // Creates the email BioComponent
 
+
             EmailData = new EditableTextComponent()
+
+           {
+
             { 
                 Text = "marika@mariw.com",
+
                 Title = "Email",
+                Text = User.Email,
                 Margin = new Thickness(16)
             };
 
-            // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(EmailData);
+
 
             #region Change Password
 
-            //The change password Button 
+            //The changepassword Button 
             ChangePassword = new Button()
             {
                 Style = FlatButton,
-                Background = GhostWhite.HexToBrush(),
+                Background = Styles.GhostWhite.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Content = new TextBlock()
                 {
-                    Foreground = DarkBlue.HexToBrush(),
+                    Foreground = Styles.DarkBlue.HexToBrush(),
                     FontSize = 18,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Change password"
+                    FontFamily = Styles.Calibri,
+                    Text = "Change Password"
                 },
             };
 
@@ -527,10 +332,12 @@ namespace Vaseis
 
             #region Bio and Employee File
 
-            CompanyDataStackPanel = new  StackPanel()
+            CompanyDataStackPanel = new StackPanel()
             {
                 Margin = new Thickness(32),
             };
+
+            #region Edit Buttons
 
             EditButtons = new EditComponent
             {
@@ -541,17 +348,23 @@ namespace Vaseis
             };
             CompanyDataStackPanel.Children.Add(EditButtons);
 
+            #endregion 
+
             JobTitleBlock = new TextBlock()
             {
                 FontSize = 60,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-                Text = Job,
+                Text = User.Job.JobTitle,
             };
             CompanyDataStackPanel.Children.Add(JobTitleBlock);
 
+
+           //The evaluators Average (taken after a sum through joins)
+
             //The evaluators Average 
+
             var EvalsAverage = new TextBlock()
             {
                 FontSize = 60,
@@ -562,13 +375,20 @@ namespace Vaseis
             };
             CompanyDataStackPanel.Children.Add(EvalsAverage);
 
+            // Binds the text property of the text block to the Evaluator's Average property
+            EvalsAverage.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluatorsAverage))
+            {
+                Source = this
+            });
+
+
             DepartmentTitleBlock = new TextBlock()
             {
                 FontSize = 32,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-                Text = Department,
+                Text = User.Department.DepartmentName.ToString(),
             };
             CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
 
@@ -577,7 +397,7 @@ namespace Vaseis
             {
                 BioTextTitle = "Bio",
                 Margin = new Thickness(32),
-                BioText = BioText
+                BioText = User.Bio
             };
             // Adds to the grid the bio
             CompanyDataStackPanel.Children.Add(BioTile);
@@ -588,37 +408,72 @@ namespace Vaseis
             };
             CompanyDataStackPanel.Children.Add(FileDataGrid);
 
+            #region Awards
+
+            //Did this to dd the awards into the awardsContainer becasuse, the User.Awards returns AwardDataModel List
+            List<string> awards = new List<string>();
+
+            foreach (var award in User.Awards)
+            {
+                awards.Add(award.AwardData);
+            };
+
             AwardsContainer = new TitleAndListComponent()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Title = "Awards",
-                DataNames = Awards
+                DataNames = awards
             };
 
-            
+
+            #endregion
+
+            #region Certificates
+
+            //Did this to dd the awards into the awardsContainer becasuse, the User.Certificates returns CertificatesDataModel List
+            List<string> certificates = new List<string>();
+
+            foreach (var certificate in User.Certificates)
+            {
+                certificates.Add(certificate.Title);
+            };
+
+
             CertificatesContainer = new TitleAndListComponent()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Title = "Certificates",
-                DataNames = Certificates
+                DataNames = certificates
             };
+
+
+            #endregion
+
+            #region Recommenadtion Papers
+
+            //Did this to dd the awards into the awardsContainer becasuse, the User.Certificates returns CertificatesDataModel List
+            List<string> recommendationPapers = new List<string>();
+
+            foreach (var recommendationPaper in User.RecommendationPapers)
+            {
+                recommendationPapers.Add(recommendationPaper.Description);
+            };
+
 
             RecommendationPapersContainer = new TitleAndListComponent()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Title = "Recommendation papers",
-                DataNames = RecommendationPapers
+                DataNames = recommendationPapers
             };
 
-            // Binds the list property of the RecommendationPapersContainer to the RecommendationPapersList property
-            RecommendationPapersContainer.SetBinding(TitleAndListComponent.DataNamesProperty, new Binding(nameof(RecommendationPapers))
-            {
-                Source = this
-            });
+            #endregion
+
 
             CompanyDataStackPanel.Children.Add(AwardsContainer);
             CompanyDataStackPanel.Children.Add(CertificatesContainer);
             CompanyDataStackPanel.Children.Add(RecommendationPapersContainer);
+
 
             var DataScrollViewer = new ScrollViewer()
             {
@@ -644,6 +499,7 @@ namespace Vaseis
 
             Content = PageGrid;
         }
+
 
         /// <summary>
         /// Hides the text block and reveals the text box
@@ -680,6 +536,7 @@ namespace Vaseis
 
         }
 
+
         /// <summary>
         /// On click shows the change password dialog
         /// </summary>
@@ -688,16 +545,17 @@ namespace Vaseis
         private void ShowChangePasswordDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            ChangePasswordDialog = new ChangePasswordDialog();
+            ChangePasswordDialog = new ChangePasswordDialog(User);
             // Adds it to the page grid
 
-           //gia na mhn kollaei sto ena column to prwto 
+            //gia na mhn kollaei sto ena column to prwto 
             Grid.SetColumnSpan(ChangePasswordDialog, 3);
             PageGrid.Children.Add(ChangePasswordDialog);
 
             // Sets the is open property to true
             ChangePasswordDialog.IsDialogOpen = true;
         }
+
 
         #endregion
 

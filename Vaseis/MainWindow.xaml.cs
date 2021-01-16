@@ -87,12 +87,41 @@ namespace Vaseis
 
             //appTabControl.Items.Add(evaluatorMyEvaluationsPage);
 
+
+            var evaluatorMyEvaluationsPage = new TabItemComponent()
+            {
+                Text = "My evaluations",
+                Icon = PackIconKind.ClipboardEdit,
+                Content = new EvaluatorMyEvaluationsPage()
+            };
+
+            appTabControl.Items.Add(evaluatorMyEvaluationsPage);
+
+            var empMyEvPage = new TabItemComponent()
+            {
+                Text = "My evaluations",
+                Icon = PackIconKind.ClipboardAccount,
+                Content = new EmplyoeeMyEvaluationsPage()
+            };
+
+            appTabControl.Items.Add(empMyEvPage);
+
+            //var companyPage = new TabItemComponent()
+            //{
+            //    Text = "Company",
+            //    Icon = PackIconKind.Domain,
+            //    Content = new CompanyPage()
+            //};
+
+         //   appTabControl.Items.Add(companyPage);
+
             //var empMyEvPage = new TabItemComponent()
             //{
             //    Text = "My evaluations",
             //    Icon = PackIconKind.ClipboardAccount,
             //    Content = new EmplyoeeMyEvaluationsPage()
             //};
+
 
             //appTabControl.Items.Add(empMyEvPage);
 
@@ -103,6 +132,8 @@ namespace Vaseis
             //    Content = new CompanyPage()
             //};
 
+          //  appTabControl.Items.Add(UserComponent);
+
             //appTabControl.Items.Add(companyPage);
 
             //var companiesPage = new TabItemComponent()
@@ -112,6 +143,7 @@ namespace Vaseis
             //    Content = new CompaniesPage()
             //};
 
+
             //appTabControl.Items.Add(companiesPage);
 
             //var UserComponent = new TabItemComponent()
@@ -120,6 +152,17 @@ namespace Vaseis
             //    Icon = PackIconKind.ClipboardAccount,
             //    Content = new AdminsUsersPage()
             //};
+
+
+
+
+
+            //  var manager = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+
+
+            //     var ManagerSideMenu = new ManagerSideMenuComponent(appTabControl, manager);
+            //   appGrid.Children.Add(ManagerSideMenu);
+
 
             //appTabControl.Items.Add(UserComponent);
 
@@ -131,6 +174,7 @@ namespace Vaseis
             //    Content = new ManagerReportsPage()
             //};
             //appTabControl.Items.Add(reports);
+
 
             //var logInPage = new LoginPage();
 

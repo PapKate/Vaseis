@@ -285,7 +285,7 @@ namespace Vaseis
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-                            .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+                            .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
                             .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
@@ -316,8 +316,12 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+
+                            .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
+
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
+
                             .RuleFor(x => x.Type, faker => UserType.Manager)
                             .RuleFor(x => x.Company, faker => company)
                             .RuleFor(x => x.Department, faker => department)
@@ -348,6 +352,9 @@ namespace Vaseis
                             .RuleFor(x => x.Email, faker => faker.Person.Email)
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
+
+                            .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
+
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             .RuleFor(x => x.Type, faker => UserType.Evaluator)

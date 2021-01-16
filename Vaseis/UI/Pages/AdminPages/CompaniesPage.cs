@@ -9,6 +9,10 @@ namespace Vaseis
 {
     class CompaniesPage : ContentControl
     {
+        private ScrollViewer scrollViewer;
+
+        private StackPanel testStackPanel;
+
         #region Proetcted Properties
 
         #endregion
@@ -33,77 +37,56 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-            var scrollViewer = new ScrollViewer();
+            scrollViewer = new ScrollViewer();
   
-            var testStackPanel = new StackPanel();
+            testStackPanel = new StackPanel();
 
             //foreach (var company in Companies) { };
 
-            var eh = new CompaniesComponent()
+            CompanyDataModel comp1 = new CompanyDataModel()
             {
-                Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3utSbC6mOgwUqi05dtGp-btsnCG4lbkjFQ&usqp=CAU",
-                BackgroundColor = "#F5D547",
-                Logotype = "Coca Cola Light",
-                About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-                Afm = "6149633580325",
-                Doy = "ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
-                Countryy = "Greece",
-                CITY = "Amaliada",
-                Addresss = "gamw ta info sas",
-                Tele = "2229037751",
-                DateOfCreation = "121854"
+                Name = "SGFSG",
+                CompanyColor = "321456",
+                DOY = "DOY AMALIADAS",
+                AFM = "AFMK",
+                About = "megalo about hfwsfgowshuofs",
+                TelephoneNumber = "2229037704",
+                City = "Patras",
+                Country = "gamww",
+                StreetNumber = "38",
+                StreetName = "Koutroulh",
+                CompanyPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmloPgpVspV4e3ZZYC6PoC59_3mbxX0RdZsg&usqp=CAU",
             };
+
+
+            var addCompany = new Button()
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                FontSize = 18,
+                FontWeight = FontWeights.Normal,
+                Content = "Add Company",
+                Margin = new Thickness(0, 24, 24, 12),
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Background = Styles.White.HexToBrush(),      
+            };
+
+            addCompany.Click += ShowCompanyDialogComponentOnClick;
+            testStackPanel.Children.Add(addCompany);
+
+
+            var eh = new CompaniesComponent(comp1) ;
             testStackPanel.Children.Add(eh);
 
 
-            var ehh = new CompaniesComponent()
-            {
-                Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaTNkUnPkAKLDJt6bdUAFheFGj-5VlT-wuLQ&usqp=CAU",
-                BackgroundColor = "#8EB8E5",
-                Logotype = "Coca Cola Light",
-                About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-                Afm = "6149633580325",
-                Doy = "ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
-                Countryy = "Greece",
-                CITY = "Amaliada",
-                Addresss = "gamw ta info sas",
-                Tele = "2229037751",
-                DateOfCreation = "121854"
-            };
+            var ehh = new CompaniesComponent(comp1);
             testStackPanel.Children.Add(ehh);
 
 
-            var ehhh = new CompaniesComponent()
-            {
-                Image = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg",
-                BackgroundColor = "#028090",
-                Logotype = "Coca Cola Light",
-                About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-                Afm = "6149633580325",
-                Doy = "ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
-                Countryy = "Greece",
-                CITY = "Amaliada",
-                Addresss = "gamw ta info sas",
-                Tele = "2229037751",
-                DateOfCreation = "121854"
-            };
+            var ehhh = new CompaniesComponent(comp1);
             testStackPanel.Children.Add(ehhh);
 
 
-            var ehhhh = new CompaniesComponent()
-            {
-                Image = "https://www.google.gr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png",
-                BackgroundColor = "#9F1747",
-                Logotype = "Coca Cola Light",
-                About = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-                Afm = "6149633580325",
-                Doy = "ΔΟΥ ΑΜΑΛΙΑΔΑΣ",
-                Countryy = "Greece",
-                CITY = "Amaliada",
-                Addresss = "gamw ta info sas",
-                Tele = "2229037751",
-                DateOfCreation = "121854"
-            };
+            var ehhhh = new CompaniesComponent(comp1);
             testStackPanel.Children.Add(ehhhh);
 
             scrollViewer.Content = testStackPanel;
@@ -111,6 +94,25 @@ namespace Vaseis
             Content = scrollViewer;
 
         }
+
+        /// <summary>
+        /// On click shows the change password dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowCompanyDialogComponentOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            var newCompany = new NewCompanyDialogComponent();
+            // Adds it to the page grid
+
+            //gia na mhn kollaei sto ena column to prwto 
+            testStackPanel.Children.Add(newCompany);
+
+            // Sets the is open property to true
+            newCompany.IsDialogOpen = true;
+        }
+
 
         #endregion
 

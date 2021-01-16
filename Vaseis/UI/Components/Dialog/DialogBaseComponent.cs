@@ -12,7 +12,7 @@ namespace Vaseis
     /// <summary>
     /// The create user dialog
     /// </summary>
-    public abstract class DialogBaseComponent : ContentControl
+    public abstract class DialogBaseComponent : ContentControl 
     {
         #region Protected Properties
         

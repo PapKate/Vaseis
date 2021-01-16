@@ -77,7 +77,7 @@ namespace Vaseis
 
         #endregion
 
-        #region Companies 
+        #region Departmetns 
 
         public IEnumerable<string> OptionDepartments
         {
@@ -92,7 +92,7 @@ namespace Vaseis
 
         #endregion
 
-        #region Companies 
+        #region Option 
 
         public IEnumerable<string> OptionUserTypes
         {
@@ -111,7 +111,7 @@ namespace Vaseis
 
         #region Constructors
 
-        public NewUserInputDialogComponent()
+        public NewUserInputDialogComponent(CompanyDataModel company)
         {
             CreateGUI();
         }
@@ -186,14 +186,18 @@ namespace Vaseis
             // Test list
             var newList = new List<string> { "Yeet", "Boom", "Potato" };
 
+
+            //newList.Add("Test");
+
             // The picker for company
             CompanyPicker = new PickerComponent()
             {
                 HintText = "Company",
                 OptionNames = newList
             };
+
             // Adds the picker to the wrap panel
-            InputWrapPanel.Children.Add(CompanyPicker);
+            //InputWrapPanel.Children.Add(CompanyPicker);
 
             // The picker for department
             DepartmentPicker = new PickerComponent()

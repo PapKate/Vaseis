@@ -45,6 +45,11 @@ namespace Vaseis
         public string AFM { get; set; }
 
         /// <summary>
+        /// Some words about the company
+        /// </summary>
+        public string About { get; set; }
+
+        /// <summary>
         /// The company's telephone number
         /// </summary>
         public string TelephoneNumber { get; set; }
@@ -78,7 +83,7 @@ namespace Vaseis
         /// The complete company's location
         /// </summary>
         [NotMapped]
-        public string Location => StreetName + " " + StreetNumber + ", " + City + " " + Country;  
+        public string Location => StreetName + " " + StreetNumber ;  
 
         #region Relationships
 

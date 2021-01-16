@@ -15,223 +15,19 @@ namespace Vaseis
     {
         #region Proetcted Properties
 
-        #endregion
+        public CompanyDataModel Company { get; }
 
-        #region Dependency Properties
 
-        #region Image
-
-        /// <summary>
-        /// The user's Image
-        /// </summary>
-        public string Image
-        {
-            get { return (string)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Image"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(string), typeof(CompaniesComponent));
+        public Grid CompanyGrid { get; private set; }
 
         #endregion
 
-        #region Background Color
-
-        /// <summary>
-        /// The path of the image
-        /// </summary>
-        public string BackgroundColor
-        {
-            get { return (string)GetValue(BackgroundColorProperty); }
-            set { SetValue(BackgroundColorProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="BackgroundColor"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(nameof(BackgroundColor), typeof(string), typeof(CompaniesComponent), new PropertyMetadata(OnBackgroundChanged));
-
-        /// <summary>
-        /// Handles the change of the <see cref="BackgroundColor"/> property
-        /// </summary>
-        private static void OnBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sender = d as UserButtonComponent;
-
-            //sender.OnBackgroundChangedCore(e);
-        }
-
-        #endregion
-
-        #region AFM 
-
-        /// <summary>
-        /// The Company's AFM
-        /// </summary>
-        public string Afm
-        {
-            get { return (string)GetValue(AFMProperty); }
-            set { SetValue(AFMProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Afm"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty AFMProperty = DependencyProperty.Register(nameof(Afm), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region DOY 
-
-        /// <summary>
-        /// The Company's DOY
-        /// </summary>
-        public string Doy
-        {
-            get { return (string)GetValue(DOYProperty); }
-            set { SetValue(DOYProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Doy"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty DOYProperty = DependencyProperty.Register(nameof(Doy), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region Country
-        /// <summary>
-        /// The Company's Country
-        /// </summary>
-        public string Countryy
-        {
-            get { return (string)GetValue(CountryProperty); }
-            set { SetValue(CountryProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Countryy"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty CountryProperty = DependencyProperty.Register(nameof(Countryy), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region City 
-
-        /// <summary>
-        /// The Company's City
-        /// </summary>
-        public string CITY
-        {
-            get { return (string)GetValue(CityProperty); }
-            set { SetValue(CityProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Afm"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty CityProperty = DependencyProperty.Register(nameof(CITY), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region Address 
-
-        /// <summary>
-        /// The Company's Address
-        /// </summary>
-        public string Addresss
-        {
-            get { return (string)GetValue(AddressProperty); }
-            set { SetValue(AddressProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Addresss"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty AddressProperty = DependencyProperty.Register(nameof(Addresss), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region Telephone 
-
-        /// <summary>
-        /// The Company's Telephone
-        /// </summary>
-        public string Tele
-        {
-            get { return (string)GetValue(TelephoneProperty); }
-            set { SetValue(TelephoneProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Tele"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty TelephoneProperty = DependencyProperty.Register(nameof(Tele), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region Date pf Creation 
-
-        /// <summary>
-        /// The Company's Date of Creation
-        /// </summary>
-        public string DateOfCreation
-        {
-            get { return (string)GetValue(DateCreatedProperty); }
-            set { SetValue(DateCreatedProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="DateOfCreation"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty DateCreatedProperty = DependencyProperty.Register(nameof(DateOfCreation), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region Logo 
-
-        /// <summary>
-        /// The Company's Logo(name-title)
-        /// </summary>
-        public string Logotype
-        {
-            get { return (string)GetValue(LogoProperty); }
-            set { SetValue(LogoProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Logotype"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty LogoProperty = DependencyProperty.Register(nameof(Logotype), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-        #region AboutText 
-
-        /// <summary>
-        /// The Company's AboutText (just like Bio)
-        /// </summary>
-        public string About
-        {
-            get { return (string)GetValue(AboutTextProperty); }
-            set { SetValue(AboutTextProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="About"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty AboutTextProperty = DependencyProperty.Register(nameof(About), typeof(string), typeof(CompaniesComponent));
-
-        #endregion
-
-
-        #endregion
 
         #region Constructors
-        public CompaniesComponent()
+        public CompaniesComponent(CompanyDataModel company)
         {
+            Company = company ?? throw new ArgumentNullException(nameof(company));
+
             CreateGUI();
         }
 
@@ -242,20 +38,13 @@ namespace Vaseis
         private void CreateGUI()
         {
 
-
-
-            var CompanyGrid = new Grid()
+            CompanyGrid = new Grid()
             {
-
+                Background = Company.CompanyColor.HexToBrush(),
+                VerticalAlignment = VerticalAlignment.Stretch,
             };
 
 
-            CompanyGrid.SetBinding(Grid.BackgroundProperty, new Binding(nameof(BackgroundColor))
-            {
-                Source = this
-            });
-
-
             CompanyGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
                 Width = new GridLength(1, GridUnitType.Auto)
@@ -263,26 +52,16 @@ namespace Vaseis
 
             CompanyGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
-                Width = new GridLength(1, GridUnitType.Auto)
+                Width = new GridLength(1, GridUnitType.Star)
             });
 
             #region First Column
 
             var CompanyPicAndLogo = new ImageAndNameComponent()
-            { 
-                ImagePath = "https://assets.sainsburys-groceries.co.uk/gol/7965259/1/640x640.jpg",
-                Text = Logotype
-            };
-
-            CompanyPicAndLogo.SetBinding(ImageAndNameComponent.TextProperty, new Binding(nameof(Logotype))
             {
-                Source = this
-            });
-            // Binds the imagePath property to the Image dependency property
-           CompanyPicAndLogo.SetBinding(ImageAndNameComponent.ImagePathProperty, new Binding(nameof(Image))
-           {
-               Source = this
-           });
+                ImagePath = Company.CompanyPicture,
+                Text = Company.Name
+            };
 
             CompanyGrid.Children.Add(CompanyPicAndLogo);
             Grid.SetColumn(CompanyPicAndLogo, 0);
@@ -303,90 +82,279 @@ namespace Vaseis
                 Height = new GridLength(1, GridUnitType.Auto)
             });
 
+            Grid employeesAndJobsGrid = new Grid();
 
-            var AboutTileTextBlock = new TextBlock()
+
+            #region Expanders Region
+
+            employeesAndJobsGrid.RowDefinitions.Add(new RowDefinition()
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                FontSize = 18,
-                FontWeight = FontWeights.Normal,
-                Text = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton and was bought out by businessman Asa Griggs Candler, whose marketing tactics led Coca-Cola to its dominance of the world soft-drink market throughout the 20th century.[1] The drink's name refers to two of its original ingredients: coca leaves, and kola nuts (a source of caffeine). The current formula of Coca-Cola remains a trade secret; however, a variety of reported recipes and experimental recreations have been published.",
-                Foreground = Styles.DarkGray.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
-                TextWrapping = TextWrapping.Wrap,            
-            };
-            AboutTileTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(About))
+                Height = new GridLength(1, GridUnitType.Auto)
+            });
+            employeesAndJobsGrid.RowDefinitions.Add(new RowDefinition()
             {
-                Source = this
+                Height = new GridLength(1, GridUnitType.Auto)
+            });
+            employeesAndJobsGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(1, GridUnitType.Auto)
+            });
+            employeesAndJobsGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(1, GridUnitType.Auto)
             });
 
-            var AboutTileScroll = new ScrollViewer()
+
+            #region About
+
+            var about = new UserButtonsContainerComponent();
+
+            var aboutscroll = new ScrollViewer()
             {
-                VerticalAlignment = VerticalAlignment.Top,
-                // With content the bio's text block
-                Content = AboutTileTextBlock,
-                MaxHeight = 200
+
+                MaxHeight = 1000,
+                Content = Company.About,
             };
 
-            var AboutTile = new Expander()
+            var aboutExpander = new Expander()
             {
-                FontSize = 28,
                 Header = "About",
-                Width = 800,              
-                BorderThickness = new Thickness(0, 0, 0, 8),
-                Content = AboutTileScroll,
+                Width = 1000,
+                Foreground = DarkGray.HexToBrush(),
+                Content = aboutscroll,
             };
 
-            // Binds the aBOUT property to the aBOUTcOMPANYTEXT dependency property
-            //    AboutTile.SetBinding(BioComponent.BioProperty, new Binding(nameof(About)));
+            // employeesAndJobsGrid.Children.Add(hmmExpander);
 
-            var AboutBar = new Border()
+            var aboutGrid = new Grid();
+
+            aboutGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
-                VerticalAlignment = VerticalAlignment.Stretch,
-                CornerRadius = new CornerRadius(8),
-                BorderThickness = new Thickness(8),
-                Margin = new Thickness(24),       
-            };
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
 
-            AboutBar.Child = AboutTile;
+            aboutGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
 
-            InfoAboutTheCompanyGrid.Children.Add(AboutBar);
+            aboutGrid.Children.Add(aboutExpander);
 
-            Grid.SetRow(AboutBar, 1);
+            Grid.SetColumn(aboutExpander, 0);
+
+            var employeessButton = ControlsFactory.CreateAddButton();
+            employeessButton.Margin = new Thickness(24, 0, 0, 0);
+            employeessButton.Visibility = Visibility.Collapsed;
+
+            aboutGrid.Children.Add(employeessButton);
+
+            Grid.SetColumn(employeessButton, 1);
+
+            employeesAndJobsGrid.Children.Add(aboutGrid);
+
+            Grid.SetRow(aboutGrid, 0);
+
 
             #endregion
 
-            var firstRowGrid = new UniformGrid() {
-                Columns = 2,
-                Margin = new Thickness(28,24,24,0)
+            #region Employees
+
+            //foreach (var company in Companies) { };
+
+            var employeehmmm = new UserButtonsContainerComponent();
+
+            var employeescroll = new ScrollViewer()
+            {
+
+                MaxHeight = 1000,
+                Content = employeehmmm,
             };
-      
+
+            var employeesExpander = new Expander()
+            {
+                Header = "Employees",
+                Width = 1000,
+                Foreground = DarkGray.HexToBrush(),
+                Content = employeescroll,
+            };
+
+           // employeesAndJobsGrid.Children.Add(hmmExpander);
+
+            var emplopyeesGrid = new Grid();
+
+            emplopyeesGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            emplopyeesGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            emplopyeesGrid.Children.Add(employeesExpander);
+
+            Grid.SetColumn(employeesExpander, 0);
+
+            var aboutButton = ControlsFactory.CreateAddButton();
+            aboutButton.Margin = new Thickness(24, 0, 0, 0);
+            aboutButton.Click += ShowEmployeeDialogComponent;
+
+            emplopyeesGrid.Children.Add(aboutButton);
+
+            Grid.SetColumn(aboutButton, 1);
+
+            employeesAndJobsGrid.Children.Add(emplopyeesGrid);
+
+            Grid.SetRow(emplopyeesGrid, 1);
+   
+            #endregion
+
+            #region  Jobs
+
+            //foreach (var company in Companies) { };
+
+            var jobsButtons = new UserButtonsContainerComponent();
+
+            var JobsScroll = new ScrollViewer()
+            {
+
+                MaxHeight = 1000,
+                Content = jobsButtons,
+            };
+
+            var jobsExpander = new Expander()
+            {
+                Header = "Jobs",
+                Width = 1000,
+                Foreground = DarkGray.HexToBrush(),
+                Content = JobsScroll,
+            };
+
+            //   employeesAndJobsGrid.Children.Add(jobsExpander);
+
+            //     Grid.SetRow(jobsExpander, 2);
+
+
+            var jobsGrid = new Grid();
+
+            jobsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            jobsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            jobsGrid.Children.Add(jobsExpander);
+
+            Grid.SetColumn(jobsExpander, 0);
+
+            var addJobsButton = ControlsFactory.CreateAddButton();
+            addJobsButton.Margin = new Thickness(24, 0, 0, 0);
+            addJobsButton.Click += ShowAddJobDialogOnClick;
+
+            jobsGrid.Children.Add(addJobsButton);
+
+            Grid.SetColumn(addJobsButton, 1);
+
+            employeesAndJobsGrid.Children.Add(jobsGrid);
+
+            Grid.SetRow(jobsGrid, 2);
+
+            #endregion
+
+            #region  Departments
+
+            //foreach (var company in Companies) { };
+
+            var departmentButtons = new UserButtonsContainerComponent();
+
+            var departmentScroll = new ScrollViewer()
+            {
+
+                MaxHeight = 1000,
+                Content = departmentButtons,
+            };
+
+            var departmentExpander = new Expander()
+            {
+                Header = "Departments",
+                Foreground = DarkGray.HexToBrush(),
+                Width = 1000,
+                Content = departmentScroll,
+            };
+
+            var departmentsGrid = new Grid();
+
+            departmentsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            departmentsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            });
+
+            departmentsGrid.Children.Add(departmentExpander);
+
+            Grid.SetColumn(departmentExpander, 0);
+
+            var addDepartmentButton = ControlsFactory.CreateAddButton();
+
+            addDepartmentButton.Margin = new Thickness(24, 0, 0, 0);
+
+            addDepartmentButton.Click += ShowAddDepartmentDialogOnClick;
+
+            departmentsGrid.Children.Add(addDepartmentButton);
+
+            Grid.SetColumn(addDepartmentButton, 1);
+
+            employeesAndJobsGrid.Children.Add(departmentsGrid);
+
+            Grid.SetRow(departmentsGrid, 3);
+
+            var stackPanel = new StackPanel();
+
+            stackPanel.Children.Add(employeesAndJobsGrid);
+
+            InfoAboutTheCompanyGrid.Children.Add(stackPanel);
+
+            Grid.SetRow(stackPanel, 1);
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            var firstRowGrid = new UniformGrid()
+            {
+                Columns = 2,
+                Margin = new Thickness(40, 12, 24, 0)
+            };
+
             #region First Column Stack
-           
 
             //Creates the afm textBlock
             var AFMData = new TitleAndTextComponent()
             {
                 Title = "Afm",
-                Text = Afm,
+                Text = Company.AFM,
             };
-            // Binds the AFMData property to the afm dependency property
-            AFMData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Afm))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(AFMData);
 
             //Creates the DOY textBlock
             var DOYData = new TitleAndTextComponent()
             {
                 Title = "Doy",
-                Text = Doy,
+                Text = Company.DOY,
             };
-            // Binds the DoyData property to the Doy dependency property
-            DOYData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Doy))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(DOYData);
 
 
@@ -394,13 +362,9 @@ namespace Vaseis
             var CountryData = new TitleAndTextComponent()
             {
                 Title = "Country",
-                Text = Countryy,
+                Text = Company.Country,
             };
-            // Binds the countryData block property to the Country dependency property
-            CountryData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Countryy))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(CountryData);
 
 
@@ -408,68 +372,119 @@ namespace Vaseis
             var CityData = new TitleAndTextComponent()
             {
                 Title = "City",
-                Text = CITY,
+                Text = Company.City,
             };
-            // Binds the CityData block property to the City dependency property
-            CityData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(CITY))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(CityData);
 
             //Creates the Address textBlock
             var AddressData = new TitleAndTextComponent()
             {
                 Title = "Address",
-                Text = Addresss,
+                Text = Company.Location,
             };
-            // Binds the AddressData block property to the ImagePath dependency property
-            AddressData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Addresss))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(AddressData);
 
             //Creates the Telephone textBlock
             var TelephoneData = new TitleAndTextComponent()
             {
                 Title = "Telephone",
-                Text = Tele,
+                Text = Company.TelephoneNumber,
             };
-            // Binds the iTelephoneData block property to the ImagePath dependency property
-            TelephoneData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(Tele))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(TelephoneData);
 
             //Creates the DateCreated textBlock
             var DateCreatedData = new TitleAndTextComponent()
             {
                 Title = "Created on",
-                Text = DateOfCreation,
+                Text = Company.DateCreated.ToString(),
             };
-            // Binds the DateCreatedData block property to the DateCreated dependency property
-            DateCreatedData.SetBinding(TitleAndTextComponent.TextProperty, new Binding(nameof(DateOfCreation))
-            {
-                Source = this
-            });
+
             firstRowGrid.Children.Add(DateCreatedData);
+
+            InfoAboutTheCompanyGrid.Children.Add(firstRowGrid);
 
             Grid.SetRow(firstRowGrid, 0);
 
-            InfoAboutTheCompanyGrid.Children.Add(firstRowGrid);
+
             #endregion
 
 
             CompanyGrid.Children.Add(InfoAboutTheCompanyGrid);
             Grid.SetColumn(InfoAboutTheCompanyGrid, 1);
 
-            Content = CompanyGrid;
+
+            var CompanyButton = new Button()
+            {
+                Style = MaterialDesignStyles.RaisedButton,
+                Height = double.NaN,
+                Margin = new Thickness(24),
+                Padding = new Thickness(8),
+                BorderThickness = new Thickness(0),
+                Content = CompanyGrid,
+                Background = Company.CompanyColor.HexToBrush(),
+            };
+
+
+            ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
+
+
+            Content = CompanyButton;
 
             #endregion
-
         }
+
+            /// <summary>
+            /// On click shows the add department dialog
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
+            {
+                // Creates a new department dialog
+                var AddNewDepartment = new NewDepartmentDialogComponent(Company);
+               // Adds it to the page grid
+                CompanyGrid.Children.Add(AddNewDepartment);
+
+                // Sets the is open property to true
+                AddNewDepartment.IsDialogOpen = true;
+            }
+
+
+            ///// <summary>
+            /// On click shows the add department dialog
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
+           {
+              // Creates a new department dialog
+              var AddNewJob = new NewJobDialogComponent(Company);
+              // Adds it to the page grid
+              CompanyGrid.Children.Add(AddNewJob);
+
+              // Sets the is open property to true
+              AddNewJob.IsDialogOpen = true;
+            }
+
+            ///// <summary>
+            /// On click shows the add employee dialog
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
+           {
+            // Creates a new department dialog
+            var AdduSER = new NewUserInputDialogComponent(Company);
+            // Adds it to the page grid
+            CompanyGrid.Children.Add(AdduSER);
+
+            // Sets the is open property to true
+            AdduSER.IsDialogOpen = true;
+            }
+
     }
 }
 

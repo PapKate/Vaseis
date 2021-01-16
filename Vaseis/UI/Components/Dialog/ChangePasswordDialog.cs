@@ -5,10 +5,13 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using static Vaseis.Styles;
+using System.ComponentModel.DataAnnotations;
+using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
+using System.Globalization;
 
 namespace Vaseis
 {
-    public class ChangePasswordDialog : DialogBaseComponent
+    public class ChangePasswordDialog : DialogBaseComponent 
     {
 
         #region Protected Properties
@@ -38,6 +41,7 @@ namespace Vaseis
         /// </summary>
         protected Button OkButton { get; private set; }
 
+
         #endregion
 
         #region Dependency Property 
@@ -60,13 +64,23 @@ namespace Vaseis
 
         #region Constructors
 
-        public ChangePasswordDialog()
+        public ChangePasswordDialog(UserDataModel user)
         {
             CreateGUI();
         }
 
         #endregion
 
+       Branch
+
+        #region Protected Functions
+
+
+        #endregion
+
+
+
+        master
         #region Private Methods
         /// <summary>
         /// Creates and adds the required GUI elements for the change password button
@@ -142,16 +156,18 @@ namespace Vaseis
                 Width = 240
             };
 
-            //i use a stack panel so that the input fields are set in a column
-            var ChangePasswordStackpanel = new StackPanel();
-
-            ChangePasswordStackpanel.Children.Add(HintOldPasswordTitleBlock);
-            ChangePasswordStackpanel.Children.Add(CurrentPasswordInput);
-            ChangePasswordStackpanel.Children.Add(HintNewPasswordTitleBlock);
-            ChangePasswordStackpanel.Children.Add(NewPasswordInput);
-            ChangePasswordStackpanel.Children.Add(HintConfirmNewPasswordTitleBlock);
-            ChangePasswordStackpanel.Children.Add(TypeAgainNewPasswordInput);
-
+            var cantChange = new TextBlock()
+            {
+                Margin = new Thickness(8, 0, 0, 0),
+                Foreground = DarkPink.HexToBrush(),
+                FontSize = 20,
+                FontFamily = Calibri,
+                FontWeight = FontWeights.Normal,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                IsHitTestVisible = false,
+                Text = "Confirm Password"
+            };
 
             //the ok Button
 
@@ -172,6 +188,17 @@ namespace Vaseis
                 Padding = new Thickness(0),
                 BorderThickness = new Thickness(0),
             };
+
+                 //i use a stack panel so that the input fields are set in a column
+            var ChangePasswordStackpanel = new StackPanel();
+
+            ChangePasswordStackpanel.Children.Add(HintOldPasswordTitleBlock);
+            ChangePasswordStackpanel.Children.Add(CurrentPasswordInput);
+            ChangePasswordStackpanel.Children.Add(HintNewPasswordTitleBlock);
+            ChangePasswordStackpanel.Children.Add(NewPasswordInput);
+            ChangePasswordStackpanel.Children.Add(HintConfirmNewPasswordTitleBlock);
+            ChangePasswordStackpanel.Children.Add(TypeAgainNewPasswordInput);
+
 
             // Adds a corner radius
             ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
