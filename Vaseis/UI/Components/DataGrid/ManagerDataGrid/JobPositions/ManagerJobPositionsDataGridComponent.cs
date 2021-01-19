@@ -10,11 +10,20 @@ namespace Vaseis
     /// </summary>
     public class ManagerJobPositionsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
-        
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -26,18 +35,49 @@ namespace Vaseis
 
         #region Constructors
 
-        public ManagerJobPositionsDataGridComponent(Grid pageGrid)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="manager">the user data model representing a manager</param>
+        public ManagerJobPositionsDataGridComponent(Grid pageGrid, UserDataModel manager)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
 
             CreateGUI();
         }
 
         #endregion
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized()
+        {
+            base.OnInitialized();
+            // Query the job positions of the manager's company and add them as rows to the data grid
+            var jobPositions = await Services.GetDataStorage.GetCompanyJobPositions(Manager.Department.CompanyId);
+
+            // For each job position in the list...
+            foreach (var jobPosition in jobPositions)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new ManagerJobPositionsDataGridRowComponent(PageGrid, jobPosition);
+                // Updates the salary in the data base
+                
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
+        }
+        #endregion
+
         #region Private Methods
 
-        // <summary>
+        /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
         private void CreateGUI()
@@ -46,35 +86,6 @@ namespace Vaseis
             DataGridHeader = new ManagerJobPositionsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            var startDate = DateTime.Now.ToShortDateString();
-            var subDate = new DateTime(21, 1, 24).ToShortDateString();
-
-            // Creates and adds a row to the data grid
-            var row = new ManagerJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Potato",
-                DepartmentText = "Tomato",
-                SalaryText = "2.500$",
-                SubjectText = "Agriculture",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "12",
-            };
-
-            InfoDataStackPanel.Children.Add(row);
-
-            // Creates and adds a row to the data grid
-            var row2 = new ManagerJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Chocolate",
-                DepartmentText = "Cookies",
-                SalaryText = "1.878$",
-                SubjectText = "Pastry",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "7",
-            };
-
-            InfoDataStackPanel.Children.Add(row2);
         }
         #endregion
 

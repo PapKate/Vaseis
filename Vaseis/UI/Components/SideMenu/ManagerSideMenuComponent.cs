@@ -58,7 +58,7 @@ namespace Vaseis
                 {
                     Text = "Job positions",
                     Icon = PackIconKind.FolderSearch,
-                    Content = new ManagerJobPositionsPage()
+                    Content = new ManagerJobPositionsPage(User)
                 });
             });
 
@@ -84,7 +84,7 @@ namespace Vaseis
                 {
                     Text = "Evaluation results",
                     Icon = PackIconKind.ClipboardList,
-                    Content = new ManagerEvaluationResultsPage()
+                    Content = new ManagerEvaluationResultsPage(User)
                 });
             });
 

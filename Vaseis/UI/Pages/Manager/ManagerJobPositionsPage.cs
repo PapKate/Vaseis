@@ -7,8 +7,17 @@ namespace Vaseis
 {
     public class ManagerJobPositionsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
+        #endregion
+
         #region Protected Properties
-        
+
         /// <summary>
         /// The manager's job positions data grid
         /// </summary>
@@ -21,8 +30,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ManagerJobPositionsPage()
+        public ManagerJobPositionsPage(UserDataModel manager)
         {
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
+
             CreateGUI();
         }
 
@@ -36,7 +47,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates the data grid
-            DataGrid = new ManagerJobPositionsDataGridComponent(PageGrid)
+            DataGrid = new ManagerJobPositionsDataGridComponent(PageGrid, Manager)
             {
 
             };

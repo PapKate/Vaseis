@@ -10,6 +10,15 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorJobRequestsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The evaluator
+        /// </summary>
+        public UserDataModel Evaluator { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -24,8 +33,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorJobRequestsPage()
+        public EvaluatorJobRequestsPage(UserDataModel evaluator)
         {
+            Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
+
             CreateGUI();
         }
 
@@ -39,7 +50,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates the data grid
-            DataGrid = new EvaluatorJobRequestsDataGridComponent(PageGrid)
+            DataGrid = new EvaluatorJobRequestsDataGridComponent(PageGrid, Evaluator)
             {
 
             };

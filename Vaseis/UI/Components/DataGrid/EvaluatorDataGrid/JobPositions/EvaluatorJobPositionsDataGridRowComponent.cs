@@ -4,11 +4,24 @@ using System.Windows;
 
 using static Vaseis.Styles;
 using System.Windows.Data;
+using System.Linq;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The evaluator's job position data grid's row
+    /// </summary>
     public class EvaluatorJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The job position
+        /// </summary>
+        public JobPositionDataModel JobPosition { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -50,9 +63,28 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        public EvaluatorJobPositionsDataGridRowComponent(Grid pageGrid, JobPositionDataModel jobPosition) : base(pageGrid)
         {
+            JobPosition = jobPosition ?? throw new ArgumentNullException(nameof(jobPosition));
             CreateGUI();
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="JobPosition"/>
+        /// </summary>
+        public void Update()
+        {
+            SubjectText = JobPosition.Subjects.FirstOrDefault().Title;
+            JobPositionText = JobPosition.Job.JobTitle;
+            DepartmentText = JobPosition.Job.Department.DepartmentName.ToString();
+            SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);
+            NumberOfRequestsText = JobPosition.JobPositionRequests.Count().ToString();
+            DeadlineText = $"{JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion
@@ -61,36 +93,7 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-            // Creates the evaluators text block
-            EvaluatorTextBlock = new TextBlock()
-            {
-                FontSize = 28,
-                FontFamily = Calibri,
-                Foreground = DarkGray.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            // Adds it to the grid's header
-            RowDataGrid.Children.Add(EvaluatorTextBlock);
-            // Sets the column where it starts
-            Grid.SetColumn(EvaluatorTextBlock, 9);
-            // Sets the column span
-            Grid.SetColumnSpan(EvaluatorTextBlock, 2);
-            // Binds the evaluator's text block to the evaluator's name
-            EvaluatorTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluatorText))
-            {
-                Source = this
-            });
-            // Creates a tool tip
-            EvaluatorToolTip = new ToolTipComponent();
-            // Binds its text property to the text
-            EvaluatorToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(EvaluatorText))
-            {
-                Source = this
-            });
-            // Adds it to the text block
-            EvaluatorTextBlock.ToolTip = EvaluatorToolTip;
-
+            
         }
 
         #endregion

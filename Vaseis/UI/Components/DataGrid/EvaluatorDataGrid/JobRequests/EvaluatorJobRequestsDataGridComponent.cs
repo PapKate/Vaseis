@@ -8,10 +8,19 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorJobRequestsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
+
+        /// <summary>
+        /// The evaluator
+        /// </summary>
+        public UserDataModel Evaluator { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -24,14 +33,44 @@ namespace Vaseis
 
         #region Constructors
 
-        public EvaluatorJobRequestsDataGridComponent(Grid pageGrid)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="evaluator">The evaluator</param>
+        public EvaluatorJobRequestsDataGridComponent(Grid pageGrid, UserDataModel evaluator)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
 
             CreateGUI();
         }
 
         #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized()
+        {
+            base.OnInitialized();
+            // Query the job position requests by an employee and add them as rows to the data grid
+            var jobPositionRequests = await Services.GetDataStorage.GetEvaluatorJobPositionRequestsAsync(Evaluator.Id);
+
+            // For each job position in the list...
+            foreach (var jobPositionRequest in jobPositionRequests)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new EvaluatorJobRequestsDataGridRowComponent(PageGrid, jobPositionRequest);
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
+        }
+        #endregion
+
 
         #region Private Methods
 
@@ -44,37 +83,6 @@ namespace Vaseis
             DataGridHeader = new EvaluatorJobRequestsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            var startDate = DateTime.Now.ToShortDateString();
-            var subDate = new DateTime(21, 1, 24).ToShortDateString();
-
-            // Creates and adds a row to the data grid
-            var row = new EvaluatorJobRequestsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Potato",
-                DepartmentText = "Tomato",
-                SalaryText = "2.500$",
-                SubjectText = "Agriculture",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "12",
-                EmployeeText = "PapKate",
-            };
-
-            InfoDataStackPanel.Children.Add(row);
-
-            // Creates and adds a row to the data grid
-            var row2 = new EvaluatorJobRequestsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Chocolate",
-                DepartmentText = "Cookies",
-                SalaryText = "1.878$",
-                SubjectText = "Pastry",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "7",
-                EmployeeText = "0xCAFFEEBABA"
-            };
-
-            InfoDataStackPanel.Children.Add(row2);
 
             // Sets the component's content to the info data grid
             Content = InfoDataStackPanel;

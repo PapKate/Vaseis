@@ -13,7 +13,7 @@ namespace Vaseis
         #region Public Properties
 
         /// <summary>
-        /// The manager
+        /// The employee
         /// </summary>
         public UserDataModel Employee { get; }
 

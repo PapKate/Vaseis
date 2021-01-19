@@ -83,16 +83,6 @@ namespace Vaseis
         #region Relationships
 
         /// <summary>
-        /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
-        /// </summary>
-        public int CompanyId { get; set; }
-
-        /// <summary>
-        /// The related <see cref="CompanyDataModel"/>
-        /// </summary>
-        public CompanyDataModel Company { get; set; }
-
-        /// <summary>
         /// The related <see cref="DepartmentDataModel"/>
         /// Null for the administrators
         /// </summary>

@@ -111,16 +111,15 @@ namespace Vaseis
             //Grid.SetRow(logInPage, 1);
 
             var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
-                                                       .Include(x => x.Company)
-                                                       .Include(x => x.Department)
+                                                       .Include(x => x.Department).ThenInclude(y => y.Company)
                                                        .Include(x => x.AcquiredDegrees)
                                                        .Include(x => x.Awards)
                                                        .Include(x => x.Certificates)
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Evaluator);
 
-            var view = new ManagerView(user);
+            var view = new EvaluatorView(user);
 
             appGrid.Children.Add(view);
 

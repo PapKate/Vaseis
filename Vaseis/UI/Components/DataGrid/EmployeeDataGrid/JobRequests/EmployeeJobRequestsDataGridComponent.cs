@@ -62,16 +62,8 @@ namespace Vaseis
         protected async override void OnInitialized()
         {
             base.OnInitialized();
-            // Query the reports of the manager and add them as rows to the data grid
-            var jobPositionRequests = await Services.GetDbContext.JobPositionRequests
-                                                                 .Include(x => x.UsersJobFilesPair)
-                                                                 .Include(x => x.UsersJobFilesPair.Employee)
-                                                                 .Include(x => x.JobPosition)
-                                                                 .Include(x => x.JobPosition.Job)
-                                                                 .Include(x => x.JobPosition.Job.Department)
-                                                                 .Include(x => x.JobPosition.JobPositionRequests)
-                                                                 .Where(x => x.UsersJobFilesPair.EmployeeId == 1)
-                                                                 .ToListAsync();
+            // Query the job position requests by an employee and add them as rows to the data grid
+            var jobPositionRequests = await Services.GetDataStorage.GetEmployeeJobPositionRequestsAsync(Employee.Id);
 
             // For each job position in the list...
             foreach (var jobPositionRequest in jobPositionRequests)
@@ -113,10 +105,11 @@ namespace Vaseis
                 BrushColor = Red.HexToBrush(),
                 Message = "Are you sure you want to remove your evaluation request?",
                 Title = "Remove request",
-                OkCommand = new RelayCommand(() => 
-                            {
-                                InfoDataStackPanel.Children.Remove(dataGridRow);
-                            })
+                OkCommand = new RelayCommand(async() => 
+                {
+                    InfoDataStackPanel.Children.Remove(dataGridRow);
+                    await Services.GetDataStorage.DeleteJobPositionRequestAsync(dataGridRow.JobPositionRequest.Id);
+                })
             };
             // Adds it to the page's grid
             PageGrid.Children.Add(confirmationDialog);

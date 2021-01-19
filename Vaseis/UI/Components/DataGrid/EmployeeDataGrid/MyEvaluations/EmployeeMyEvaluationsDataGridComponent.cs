@@ -64,17 +64,8 @@ namespace Vaseis
         {
             base.OnInitialized();
 
-            // Query the reports of the manager and add them as rows to the data grid
-            var evaluationsResults = await Services.GetDbContext.Evaluations
-                                                                .Include(x => x.UsersJobFilesPair)
-                                                                .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Employee)
-                                                                .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Evaluator)
-                                                                .Include(x => x.JobPositionRequest)
-                                                                .Include(x => x.JobPositionRequest).ThenInclude(y => y.JobPosition)
-                                                                                                   .ThenInclude(z => z.Job)
-                                                                                                   .ThenInclude(w => w.Department)
-                                                                .Where(x => x.UsersJobFilesPair.EmployeeId == Employee.Id)
-                                                                .ToListAsync();
+            // Query the evaluations of the employee and add them as rows to the data grid
+            var evaluationsResults = await Services.GetDataStorage.GetEmloyeeEvaluationsAsync(Employee);
 
             // For each job position in the list...
             foreach (var result in evaluationsResults)
@@ -91,9 +82,13 @@ namespace Vaseis
                         // And opens it
                         IsDialogOpen = true,
                         BrushColor = Green.HexToBrush(),
-                        Message = "Congratulations!!\nAre you sure you want to acquire this position? Once you do, it will be your new job and you will be excused from your previous one. ",
+                        Message = "Congratulations!!\nAre you sure you want to acquire this position? Once you do, it will be your new job and you will be excused from your previous one.",
                         Title = "Acquire job position",
-                        OkCommand = new RelayCommand(() => InfoDataStackPanel.Children.Remove(row))
+                        OkCommand = new RelayCommand(async () =>
+                        {
+                            InfoDataStackPanel.Children.Remove(row);
+                            //await Services.GetDataStorage.UpdateEmployeeJobPositionAsync(Employee.Id, row.Evaluation.JobPositionRequest.JobPosition);
+                        })
                     };
                     // Adds it to the page's grid
                     PageGrid.Children.Add(confirmationDialog);
@@ -115,9 +110,7 @@ namespace Vaseis
             DataGridHeader = new EmployeeMyEvaluationsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
         }
-
 
         #endregion
 

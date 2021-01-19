@@ -4,6 +4,7 @@ using System.Windows;
 
 using static Vaseis.Styles;
 using System.Windows.Data;
+using System.Linq;
 
 namespace Vaseis
 {
@@ -12,12 +13,26 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorJobRequestsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The job position
+        /// </summary>
+        public JobPositionRequestDataModel JobPositionRequest { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
         /// The employee's text block
         /// </summary>
         protected TextBlock EmployeeTextBlock { get; private set; }
+
+        /// <summary>
+        /// The tool tip for the employee
+        /// </summary>
+        protected ToolTipComponent EmployeeToolTip { get; private set; }
 
         #endregion
 
@@ -48,9 +63,37 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorJobRequestsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        public EvaluatorJobRequestsDataGridRowComponent(Grid pageGrid, JobPositionRequestDataModel jobPositionRequest) : base(pageGrid)
         {
+            JobPositionRequest = jobPositionRequest ?? throw new ArgumentNullException(nameof(jobPositionRequest));
+
             CreateGUI();
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="JobPosition"/>
+        /// </summary>
+        public void Update()
+        {
+            SubjectText = JobPositionRequest.JobPosition.Subjects.FirstOrDefault().Title;
+            EmployeeText = JobPositionRequest.UsersJobFilesPair.Employee.Username;
+            JobPositionText = JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentText = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
+            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id).FirstOrDefault();
+            var index = 1;
+            foreach (var request in JobPositionRequest.JobPosition.JobPositionRequests)
+            {
+                if (request.Id != jobRequest.Id)
+                    index++;
+            }
+            NumberOfRequestsText = index.ToString();
+            DeadlineText = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion
@@ -67,6 +110,7 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
+                TextTrimming = TextTrimming.CharacterEllipsis
             };
             // Adds it to the grid's header
             RowDataGrid.Children.Add(EmployeeTextBlock);
@@ -79,6 +123,16 @@ namespace Vaseis
             {
                 Source = this
             });
+
+            // Creates a tool tip
+            EmployeeToolTip = new ToolTipComponent();
+            // Binds its text property to the text
+            EmployeeToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(EmployeeText))
+            {
+                Source = this
+            });
+            // Adds it to the text block
+            EmployeeTextBlock.ToolTip = EmployeeToolTip;
         }
 
         #endregion

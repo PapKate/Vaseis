@@ -39,16 +39,16 @@ namespace Vaseis
         /// <summary>
         /// The evaluation's grade
         /// </summary>
-        public string EvaluationGrade
+        public string FinalGrade
         {
-            get { return (string)GetValue(EvaluationGradeProperty); }
-            set { SetValue(EvaluationGradeProperty, value); }
+            get { return (string)GetValue(FinalGradeProperty); }
+            set { SetValue(FinalGradeProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="EvaluationGrade"/> dependency property
+        /// Identifies the <see cref="FinalGrade"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty EvaluationGradeProperty = DependencyProperty.Register(nameof(EvaluationGrade), typeof(string), typeof(DataGridRowComponent));
+        public static readonly DependencyProperty FinalGradeProperty = DependencyProperty.Register(nameof(FinalGrade), typeof(string), typeof(DataGridRowComponent));
 
         #endregion
 
@@ -130,7 +130,7 @@ namespace Vaseis
             // Creates and adds the evaluator's text block to the row's stack panel
             EvaluationGradeTextBlock = CreateAndAddRowItem(4);
             // Binds the evaluator's text block to the evaluator's name
-            EvaluationGradeTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluationGrade))
+            EvaluationGradeTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(FinalGrade))
             {
                 Source = this
             });

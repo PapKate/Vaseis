@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
 
     //The number of the managers and the departments is missing because we have only 8 departments(fixed)
-    //and every deprtment has one manager. So number of managers = number of departments = 8
-
+    //and every department has one manager. So number of managers = number of departments = 8
     public class CompanyPage : ContentControl
     {
-
+        
         #region Public Properties
 
         public CompanyDataModel Company { get; }
@@ -46,15 +44,33 @@ namespace Vaseis
         protected Border Bar { get; private set; }
 
         /// <summary>
-        /// The "About thw company"
+        /// The "About the company"
         /// </summary>
         protected BioComponent AboutTile { get; private set; }
 
+        /// <summary>
+        /// The helper variable to take given company's data
+        /// </summary>
+        protected CompanyDataModel CompanyVar { get; private set; }
+        protected TitleAndTextComponent AFMData { get; private set; }
+        protected TitleAndTextComponent DOYData { get; private set; }
+        protected TitleAndTextComponent CountryData { get; private set; }
+        protected TitleAndTextComponent CityData { get; private set; }
+        protected TitleAndTextComponent AddressData { get; private set; }
+        protected TitleAndTextComponent TelephoneData { get; private set; }
+        protected TitleAndTextComponent DateCreatedData { get; private set; }
+        protected TextBlock LogoBlock { get; private set; }
+        protected DataButtonComponent EmployeeTextBlock { get; private set; }
+        protected DataButtonComponent DepartmentsTextBlock { get; private set; }
+        protected DataButtonComponent JobsTextButton { get; private set; }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CompanyPage(CompanyDataModel company)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
@@ -64,47 +80,43 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Properties
-
-        #region Image
-
-        /// <summary>
-        ///Company image Path
-        /// </summary>
-        public string ImagePath
-        {
-            get { return (string)GetValue(ImagePathProperty); }
-            set { SetValue(ImagePathProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ImagePath"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty ImagePathProperty = DependencyProperty.Register(nameof(ImagePath), typeof(string), typeof(CompanyPage), new PropertyMetadata(OnImagePathChanged));
-
-        /// <summary>
-        /// Handles the change of the <see cref="ImagePath"/> property
-        /// </summary>
-        private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sender = d as CompanyPage;
-
-            sender.OnImagePathChangedCore(e);
-        }
-
-        #endregion
-
-        #endregion
-
         #region Protected Methods
 
         /// <summary>
-        /// Handles the change of the <see cref="HeaderImageAndTitleComponent.ImagePath"/> property
+        /// Handles the initialization of the page
         /// </summary>
         /// <param name="e">Event args</param>
-        protected virtual void OnImagePathChanged(DependencyPropertyChangedEventArgs e)
+        protected async override void OnInitialized(EventArgs e)  
         {
+            base.OnInitialized(e);
 
+            CompanyVar = await Services.GetDataStorage.GetCompanyData(Company.Id);
+
+            Image.Source = new BitmapImage(new Uri(CompanyVar.CompanyPicture));
+
+            AFMData.Text = CompanyVar.AFM;
+
+            DOYData.Text = CompanyVar.DOY;
+
+            CityData.Text = CompanyVar.City;
+
+            CountryData.Text = CompanyVar.Country;
+
+            AddressData.Text = CompanyVar.Location;
+
+            TelephoneData.Text = CompanyVar.TelephoneNumber;
+
+            DateCreatedData.Text = CompanyVar.DateCreated.ToShortDateString();
+
+            LogoBlock.Text = CompanyVar.Name;
+
+            AboutTile.BioText = CompanyVar.About;
+
+            EmployeeTextBlock.Username = CompanyVar.Users.Count().ToString();
+
+            DepartmentsTextBlock.Username = CompanyVar.Departments.Count().ToString();
+
+            JobsTextButton.Username = CompanyVar.Jobs.Count().ToString();
         }
 
         #endregion
@@ -141,7 +153,7 @@ namespace Vaseis
             };
 
             //The Company's image and logotype
-            var Image = new Image()
+            Image = new Image()
             {
                 Width = 240,
                 Height = 240,
@@ -160,10 +172,9 @@ namespace Vaseis
             #region Company Info
 
             //Creates the afm textBlock
-            var AFMData = new TitleAndTextComponent()
+            AFMData = new TitleAndTextComponent()
             {
                 Title = "AFM",
-                Text = Company.AFM,
                 Margin = new Thickness(12),
             };
 
@@ -171,10 +182,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(AFMData);
 
             //Creates the DOY textBlock
-            var DOYData = new TitleAndTextComponent()
+            DOYData = new TitleAndTextComponent()
             {
                 Title = "DOY",
-                Text = Company.DOY,
                 Margin = new Thickness(12),
             };
 
@@ -182,10 +192,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(DOYData);
 
             //Creates the Country textBlock
-            var CountryData = new TitleAndTextComponent()
+            CountryData = new TitleAndTextComponent()
             {
                 Title = "Country",
-                Text = Company.Country,
                 Margin = new Thickness(12),
             };
 
@@ -193,10 +202,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(CountryData);
 
             //Creates the City textBlock
-            var CityData = new TitleAndTextComponent()
+            CityData = new TitleAndTextComponent()
             {
                 Title = "City",
-                Text = Company.City,
                 Margin = new Thickness(12),
             };
 
@@ -204,10 +212,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(CityData);
 
             //Creates the Address textBlock
-            var AddressData = new TitleAndTextComponent()
+            AddressData = new TitleAndTextComponent()
             {
                 Title = "Address",
-                Text = Company.Location,
                 Margin = new Thickness(12),
             };
 
@@ -215,10 +222,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(AddressData);
 
             //Creates the Telephone textBlock
-            var TelephoneData = new TitleAndTextComponent()
+            TelephoneData = new TitleAndTextComponent()
             {
                 Title = "Telephone",
-                Text = Company.TelephoneNumber,
                 Margin = new Thickness(12),
             };
 
@@ -226,10 +232,9 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(TelephoneData);
 
             //Creates the DateCreated textBlock
-            var DateCreatedData = new TitleAndTextComponent()
+            DateCreatedData = new TitleAndTextComponent()
             {
                 Title = "Created on",
-                Text = Company.DateCreated.ToString(),
                 Margin = new Thickness(12),
             };
 
@@ -254,21 +259,19 @@ namespace Vaseis
             // Sets the border to the second column of the page's grid
             Grid.SetColumn(Bar, 1);
 
-            //tHE right Stack Panel( right next to the separating line)
+            //The right Stack Panel( right next to the separating line)
             var TopStackPanel = new StackPanel()
             {
                 Margin = new Thickness(32)
-
             };
 
             //JustlIKE Bio text
-            var LogoBlock = new TextBlock()
+            LogoBlock = new TextBlock()
             {
                 FontSize = 60,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-                Text = Company.Name,
             };
             TopStackPanel.Children.Add(LogoBlock);
 
@@ -278,7 +281,6 @@ namespace Vaseis
             {
                 BioTextTitle = "About",
                 Margin = new Thickness(32),
-                BioText = Company.About
             };
 
             TopStackPanel.Children.Add(AboutTile);
@@ -293,33 +295,30 @@ namespace Vaseis
                 Columns = 3
             };
 
-            var employeeTextBlock = new DataButtonComponent()
+            EmployeeTextBlock = new DataButtonComponent()
             {
-                FullName = "Employees",
-                Username = Company.Users.GetEnumerator().ToString(),
+                FullName = "Employees",              
                 Background = "ff4455".HexToBrush()
             };
 
-            CompanyHasDataGrid.Children.Add(employeeTextBlock);
+            CompanyHasDataGrid.Children.Add(EmployeeTextBlock);
 
-            var departmentsTextBlock = new DataButtonComponent()
+            DepartmentsTextBlock = new DataButtonComponent()
             {
                 FullName = "Departments",
-                Username = Company.Departments.GetEnumerator().ToString(),
                 Background = "ff4455".HexToBrush()
             };
 
-            CompanyHasDataGrid.Children.Add(departmentsTextBlock);
+            CompanyHasDataGrid.Children.Add(DepartmentsTextBlock);
 
 
-            var jobsTextBlock = new DataButtonComponent()
+            JobsTextButton = new DataButtonComponent()
             {
-                FullName = "Jobs",
-                Username = Company.Jobs.GetEnumerator().ToString(),
+                FullName = "Jobs",               
                 Background = "ff4455".HexToBrush()
             };
 
-            CompanyHasDataGrid.Children.Add(jobsTextBlock);
+            CompanyHasDataGrid.Children.Add(JobsTextButton);
 
             #endregion
 
@@ -332,37 +331,6 @@ namespace Vaseis
 
             Content = PageGrid;
         }
-
-
-        #region onImagePathChangedCore
-
-        /// <summary>
-        /// Handles the change of the <see cref="ImagePath"/> property internally
-        /// </summary>
-        /// <param name="e">Event args</param>
-        private void OnImagePathChangedCore(DependencyPropertyChangedEventArgs e)
-        {
-            // Get the new value
-            var newValue = Company.CompanyPicture;
-
-            if (newValue == null)
-            {
-                Image.Source = null;
-            }
-            else
-            {
-                // Create the bitmap image
-                var bitmapImage = new BitmapImage(new Uri(newValue));
-
-                // Set it to the image
-                Image.Source = bitmapImage;
-            }
-
-            // Further handle the change
-            OnImagePathChanged(e);
-        }
-
-        #endregion
 
         #endregion
     }

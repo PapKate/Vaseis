@@ -122,16 +122,16 @@ namespace Vaseis
         /// <summary>
         /// The job's name
         /// </summary>
-        public string JobName
+        public string JobPositionName
         {
             get { return (string)GetValue(JobNameProperty); }
             set { SetValue(JobNameProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="JobName"/> dependency property
+        /// Identifies the <see cref="JobPositionName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty JobNameProperty = DependencyProperty.Register(nameof(JobName), typeof(string), typeof(BaseDataGridRowComponent));
+        public static readonly DependencyProperty JobNameProperty = DependencyProperty.Register(nameof(JobPositionName), typeof(string), typeof(BaseDataGridRowComponent));
 
         #endregion
 
@@ -244,14 +244,14 @@ namespace Vaseis
             // Creates and adds the job position's text block to the row's stack panel
             JobTextBlock = CreateAndAddRowItem(2);
             // Binds the job position's text block to the job's name
-            JobTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobName))
+            JobTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobPositionName))
             {
                 Source = this
             });
             // Creates the tool tip
             JobToolTip = new ToolTipComponent();
             // Binds it's text property to the string
-            JobToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(JobName))
+            JobToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(JobPositionName))
             {
                 Source = this
             });

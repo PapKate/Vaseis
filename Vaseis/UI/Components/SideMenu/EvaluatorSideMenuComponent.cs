@@ -63,7 +63,7 @@ namespace Vaseis
                 {
                     Text = "Job requests",
                     Icon = PackIconKind.ClipboardArrowDown,
-                    Content = new EvaluatorJobRequestsPage()
+                    Content = new EvaluatorJobRequestsPage(User)
                 });
             });
 
@@ -76,7 +76,7 @@ namespace Vaseis
                 {
                     Text = "My evaluations",
                     Icon = PackIconKind.ClipboardEdit,
-                    Content = new EvaluatorMyEvaluationsPage()
+                    Content = new EvaluatorMyEvaluationsPage(User)
                 });
             });
 
@@ -89,7 +89,7 @@ namespace Vaseis
                 {
                     Text = "My job positions",
                     Icon = PackIconKind.FolderEdit,
-                    Content = new EvaluatorMyJobPositionsPage()
+                    Content = new EvaluatorMyJobPositionsPage(User)
                 });
             });
 
@@ -102,7 +102,7 @@ namespace Vaseis
                 {
                     Text = "Job positions",
                     Icon = PackIconKind.FolderInformation,
-                    Content = new EvaluatorJobPositionsPage()
+                    Content = new EvaluatorJobPositionsPage(User)
                 });
             });
         }

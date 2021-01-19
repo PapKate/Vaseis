@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +15,15 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorDataGridRowComponent : EvaluationBaseDataGridRowComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The evaluation
+        /// </summary>
+        public EvaluationDataModel Evaluation { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -55,14 +65,33 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorDataGridRowComponent()
+        public EvaluatorDataGridRowComponent(Grid pageGrid, EvaluationDataModel evaluation) : base(pageGrid)
         {
+            Evaluation = evaluation ?? throw new ArgumentNullException(nameof(evaluation));
+
             CreateGUI();
+            Update();
         }
 
-        public EvaluatorDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="Evaluation"/>
+        /// </summary>
+        public void Update()
         {
-            CreateGUI();
+            EvaluatorName = Evaluation.UsersJobFilesPair.Evaluator.Username;
+            EmployeeName = Evaluation.UsersJobFilesPair.Employee.Username;
+            JobPositionName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentName = Evaluation.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            FilesGrade = ControlsFactory.GetGrade(Evaluation.FilesGrade).ToString();
+            InterviewGrade = ControlsFactory.GetGrade(Evaluation.InterviewGrade).ToString();
+            ReportGrade = ControlsFactory.GetGrade(Evaluation.ReportGrade).ToString();
+            FinalGrade = ControlsFactory.GetGrade(Evaluation.FinalGrade).ToString();
+            InterviewComments = Evaluation.Comments;
+            ReportParagraph = Evaluation.JobPositionRequest.UsersJobFilesPair.Reports.Where(x => x.JobPositionRequestId == Evaluation.JobPositionRequest.Id).FirstOrDefault().ReportText; 
         }
 
         #endregion
@@ -112,7 +141,7 @@ namespace Vaseis
         private void ShowRowDialog(object sender, RoutedEventArgs e)
         {
             // Creates an evaluation dialog
-            var evaluationDialog = new EvaluationDialogComponent(this)
+            var evaluationDialog = new EvaluationDialogComponent(this, Evaluation)
             {
                 // And opens it
                 IsDialogOpen = true
@@ -132,7 +161,8 @@ namespace Vaseis
                 Message = "Your evaluation has been successfully sent to a manager",
                 Title = "Success",
                 BrushColor = HookersGreen.HexToBrush(),
-                IsDialogOpen = true
+                IsDialogOpen = true,
+                OkCommand = new RelayCommand(() => this.Visibility = Visibility.Collapsed)
             };
             // Adds it to the page's grid
             PageGrid.Children.Add(finalizedDialog);

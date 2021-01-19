@@ -59,8 +59,14 @@ namespace Vaseis
             JobPositionText = JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentText = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
-            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id);
-            NumberOfRequestsText = jobRequest.FirstOrDefault().Id.ToString();
+            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id).FirstOrDefault();
+            var index = 1;
+            foreach (var request in JobPositionRequest.JobPosition.JobPositionRequests)
+            {
+                if (request.Id != jobRequest.Id)
+                    index++;
+            }
+            NumberOfRequestsText = index.ToString();
             DeadlineText = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 

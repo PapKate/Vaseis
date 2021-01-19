@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The side menu with the profile and company buttons
+    /// </summary>
     public abstract class CompanyBaseSideMenuComponent : BaseSideMenuComponent
     {
         #region Protected Properties
@@ -51,7 +54,7 @@ namespace Vaseis
                 {
                     Text = "Company",
                     Icon = PackIconKind.Domain,
-                    Content = new Grid() { Background = Brushes.Beige }
+                    Content = new CompanyPage(User.Department.Company)
                 };
 
                 TabControl.Items.Add(tabItem);

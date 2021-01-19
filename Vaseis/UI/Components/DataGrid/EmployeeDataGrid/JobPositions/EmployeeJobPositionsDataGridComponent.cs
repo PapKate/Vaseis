@@ -80,7 +80,6 @@ namespace Vaseis
                     {
                         // And opens it
                         IsDialogOpen = true,
-                        
                     };
 
                     // Create the request command
