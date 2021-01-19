@@ -193,7 +193,8 @@ namespace Vaseis
             CompanyPicker = new PickerComponent()
             {
                 HintText = "Company",
-                OptionNames = newList
+                OptionNames = newList,
+                FontSize = 24,
             };
 
             // Adds the picker to the wrap panel
@@ -203,6 +204,7 @@ namespace Vaseis
             DepartmentPicker = new PickerComponent()
             {
                 HintText = "Department",
+                FontSize = 24,
                 OptionNames = newList
             };
             // Adds it to the wrap panel
@@ -212,6 +214,7 @@ namespace Vaseis
             UserTypePicker = new PickerComponent()
             {
                 HintText = "User type",
+                FontSize = 24,
                 OptionNames = newList
             };
             // Adds it to the wrap panel

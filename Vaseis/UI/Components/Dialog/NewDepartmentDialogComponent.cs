@@ -88,6 +88,7 @@ namespace Vaseis
             CompanyPicker = new PickerComponent()
             {
                 HintText = "Company",
+                FontSize = 24,
                 Width = 240,
                 Margin = new Thickness(24, 0, 24, 0),
                 OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }

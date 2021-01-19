@@ -124,8 +124,9 @@ namespace Vaseis
             //Takes from the dependencies all the availiable subjects to pick as parent
             BelongsToSubjectPicker = new PickerComponent() 
             { 
-            HintText = "Subject's parent Subject",
-            OptionNames = ParentSubjectOptions
+                HintText = "Subject's parent Subject",
+                FontSize = 24,
+                OptionNames = ParentSubjectOptions
             };
             //binds the pickerComponent to the giver list of all the subjects
             BelongsToSubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(ParentSubjectOptions))

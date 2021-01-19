@@ -41,6 +41,24 @@ namespace Vaseis
 
         #region Dependency Properties
 
+        #region FontSize
+
+        /// <summary>
+        /// The required font size for all elements
+        /// </summary>
+        public int CompleteFontSize
+        {
+            get { return (int)GetValue(CompleteFontSizeProperty); }
+            set { SetValue(CompleteFontSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CompleteFontSize"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CompleteFontSizeProperty = DependencyProperty.Register(nameof(CompleteFontSize), typeof(int), typeof(PickerComponent));
+
+        #endregion
+
         #region Text
 
         /// <summary>
@@ -144,10 +162,13 @@ namespace Vaseis
                 Margin = new Thickness(24),
                 Foreground = DarkGray.HexToBrush(),
                 FontFamily = Calibri,
-                FontSize = 24,
                 FontWeight = FontWeights.Normal,
                 ItemsSource = OptionItems,
             };
+            OptionPicker.SetBinding(ComboBox.FontSizeProperty, new Binding(nameof(CompleteFontSize))
+            { 
+                Source = this
+            });
 
             OptionPicker.SetBinding(ComboBox.TextProperty, new Binding(nameof(Text))
             { 
@@ -159,12 +180,15 @@ namespace Vaseis
             {
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 IsHitTestVisible = false,
             };
+            HintTitleBlock.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CompleteFontSize))
+            {
+                Source = this
+            });
 
             // Binds the hint text block's text property to the hint text property
             HintTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(HintText))
@@ -219,13 +243,15 @@ namespace Vaseis
                     {
                         Foreground = DarkGray.HexToBrush(),
                         FontFamily = Calibri,
-                        FontSize = 24,
                         FontWeight = FontWeights.Normal,
                         Margin = new Thickness(8, 0, 0, 0),
                         // with content the one string
                         Content = optionName
                     };
-
+                    OptionTitle.SetBinding(ComboBoxItem.FontSizeProperty, new Binding(nameof(CompleteFontSize))
+                    {
+                        Source = this
+                    });
                     // Adds the combo box item to the list
                     OptionItems.Add(OptionTitle);
                 }
