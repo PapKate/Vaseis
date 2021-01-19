@@ -41,6 +41,11 @@ namespace Vaseis
             return DbContext.Subjects.ToListAsync();
         }
 
+        public Task<List<CompanyDataModel>> GetCompanies()
+        {
+            return DbContext.Companies.ToListAsync();
+        }
+
         /// <summary>
         /// Gets the company's data
         /// </summary>

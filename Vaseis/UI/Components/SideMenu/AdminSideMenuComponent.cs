@@ -44,20 +44,6 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-
-            AdminProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.Account);
-
-            AdminProfileButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
-            {
-                TabControl.Items.Add(new TabItemComponent(TabControl)
-                {
-                    Text = "Profile",
-                    Icon = PackIconKind.Account,
-                    Content = new ProfilePage(User)
-                });
-            });
-
-       
             // Create and add the my job requests button
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
@@ -71,20 +57,9 @@ namespace Vaseis
                 });
             });
 
-            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Account);
-
-            AddSubject.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
-            {
-                TabControl.Items.Add(new TabItemComponent(TabControl)
-                {
-                    Text = "Subjects",
-                    Icon = PackIconKind.DomainPlus,
-                   // Content = new CompaniesPage()
-                });
-            });
+            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Transcribe);
 
         }
-
 
         #endregion
     }

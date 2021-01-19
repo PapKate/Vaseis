@@ -7,28 +7,60 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    class CompaniesPage : ContentControl
+
+    //The companies page for the admin's side menu
+    public class CompaniesPage : ContentControl
     {
-        private ScrollViewer scrollViewer;
+        #region Protected Properties
 
-        private StackPanel testStackPanel;
+        /// <summary>
+        /// The page's ScrollViewer
+        /// </summary>
+        protected ScrollViewer scrollViewer { get; private set; }
 
-        #region Proetcted Properties
+        /// <summary>
+        /// The Page's stackpanel
+        /// </summary>
+        protected StackPanel companiesStackPanel{ get; private set; }
+
+        /// <summary>
+        /// THe page's grid
+        /// </summary>
+        protected Grid pageGrid { get; private set; }
 
         #endregion
 
         #region Dependency Properties
 
-        #endregion
+        #endregion      
 
         #region Constructors
         public CompaniesPage()
-        {
+        {         
+           
+
             CreateGUI();
         }
 
         #endregion
 
+        #region Protected Methods
+
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            var companies = await Services.GetDataStorage.GetCompanies();
+
+            foreach (var company in companies)
+            {
+                var companyComponent = new CompaniesComponent(company);
+
+                companiesStackPanel.Children.Add(companyComponent);
+            }
+
+        }
+        #endregion
 
         /// <summary>
         /// Creates and adds the required GUI elements for the administrator's companies page
@@ -37,27 +69,13 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+            pageGrid = new Grid();
+
             scrollViewer = new ScrollViewer();
   
-            testStackPanel = new StackPanel();
+            companiesStackPanel = new StackPanel();
 
-            //foreach (var company in Companies) { };
-
-            CompanyDataModel comp1 = new CompanyDataModel()
-            {
-                Name = "SGFSG",
-                CompanyColor = "321456",
-                DOY = "DOY AMALIADAS",
-                AFM = "AFMK",
-                About = "megalo about hfwsfgowshuofs",
-                TelephoneNumber = "2229037704",
-                City = "Patras",
-                Country = "gamww",
-                StreetNumber = "38",
-                StreetName = "Koutroulh",
-                CompanyPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmloPgpVspV4e3ZZYC6PoC59_3mbxX0RdZsg&usqp=CAU",
-            };
-
+            pageGrid.Children.Add(scrollViewer);
 
             var addCompany = new Button()
             {
@@ -71,27 +89,11 @@ namespace Vaseis
             };
 
             addCompany.Click += ShowCompanyDialogComponentOnClick;
-            testStackPanel.Children.Add(addCompany);
+            companiesStackPanel.Children.Add(addCompany);
 
+            scrollViewer.Content = companiesStackPanel;
 
-            var eh = new CompaniesComponent(comp1) ;
-            testStackPanel.Children.Add(eh);
-
-
-            var ehh = new CompaniesComponent(comp1);
-            testStackPanel.Children.Add(ehh);
-
-
-            var ehhh = new CompaniesComponent(comp1);
-            testStackPanel.Children.Add(ehhh);
-
-
-            var ehhhh = new CompaniesComponent(comp1);
-            testStackPanel.Children.Add(ehhhh);
-
-            scrollViewer.Content = testStackPanel;
-
-            Content = scrollViewer;
+            Content = pageGrid;
 
         }
 
@@ -107,7 +109,7 @@ namespace Vaseis
             // Adds it to the page grid
 
             //gia na mhn kollaei sto ena column to prwto 
-            testStackPanel.Children.Add(newCompany);
+            companiesStackPanel.Children.Add(newCompany);
 
             // Sets the is open property to true
             newCompany.IsDialogOpen = true;

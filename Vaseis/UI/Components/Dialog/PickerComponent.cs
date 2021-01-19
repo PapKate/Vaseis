@@ -160,16 +160,13 @@ namespace Vaseis
             {
                 Width = 240,
                 Margin = new Thickness(24),
+                FontSize = 24,
                 Foreground = DarkGray.HexToBrush(),
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 ItemsSource = OptionItems,
             };
-            OptionPicker.SetBinding(ComboBox.FontSizeProperty, new Binding(nameof(CompleteFontSize))
-            { 
-                Source = this
-            });
-
+            
             OptionPicker.SetBinding(ComboBox.TextProperty, new Binding(nameof(Text))
             { 
                 Source = this

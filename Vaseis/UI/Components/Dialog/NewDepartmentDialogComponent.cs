@@ -82,7 +82,7 @@ namespace Vaseis
             DepartmentStackPanel.Children.Add(DepartmentInput);
 
             // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(DepartmentInput);
+            InputWrapPanel.Children.Add(DepartmentStackPanel);
 
             // Creates the company's combo box
             CompanyPicker = new PickerComponent()
