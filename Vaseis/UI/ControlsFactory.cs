@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,6 +37,115 @@ namespace Vaseis
         public static string CreateSalaryFormat(int value)
         {
             return value.ToString("C", CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Formats a currency string to an integer
+        /// </summary>
+        /// <param name="value">The salary</param>
+        /// <returns></returns>
+        public static int ParseSalaryToInt(string value)
+        {
+            // Parses the currency to an integer
+            var newValue = int.Parse(value, NumberStyles.Currency);
+            // Returns the integer
+            return newValue;
+        }
+
+        /// <summary>
+        /// Convert String to Null able int
+        /// </summary>
+        /// <param name="thisOne"></param>
+        /// <returns></returns>
+        public static int? GradeToNullableInt(string thisOne) 
+        {
+            var sDouble = Convert.ToDouble(thisOne);
+
+            var f = sDouble * 100;
+            var fuck = (int)f;
+
+            return fuck;
+        }
+
+
+        /// <summary>
+        /// Finds the department enum by its string name
+        /// </summary>
+        public static Department GetDepartment(string departmentName)
+        {
+            // Gets an array of all the values the department enum has
+            var departments = Enum.GetValues(typeof(Department));
+            // By default the found department is the first department of the enum
+            var departmentWithName = Department.Accounting;
+            // For each department in the enum
+            foreach(var department in departments)
+            {
+                // If the department is the same as the given...
+                if (department.ToString() == departmentName)
+                {
+                    // Sets the found department as this one
+                    departmentWithName = (Department)department;
+                    // Break out of the for each
+                    break;
+                }
+            }
+            // Returns the found department enum
+            return departmentWithName;
+        }
+
+        /// <summary>
+        /// Gets the deadline's string and returns the announcement date
+        /// </summary>
+        /// <param name="deadlineString">format: date - date</param>
+        public static DateTime GetAnnouncementDate(string deadlineString)
+        {
+            // Gets the first date of the string 
+            var announcementString = deadlineString.Split('-')[0];
+            // Parses it to date time
+            var announcementDate = DateTime.Parse(announcementString);
+            // Returns the date time
+            return announcementDate;
+        }
+
+        /// <summary>
+        /// Gets the deadline's string and returns the submission date
+        /// </summary>
+        /// <param name="deadlineString">format: date - date</param>
+        public static DateTime GetSubmissionDate(string deadlineString)
+        {
+            // Gets the first date of the string 
+            var submissionString = deadlineString.Split('-')[1];
+            // Parses it to date time
+            var submissionDate = DateTime.Parse(submissionString);
+            // Returns the date time
+            return submissionDate;
+        }
+
+        /// <summary>
+        /// Turn the grade from 1000 to 10 max
+        /// </summary>
+        /// <param name="grade"></param>
+        /// <returns></returns>
+        public static double GetGrade(int? grade)
+        {
+            // If not null return the new value else 0
+            var parsedGrade = grade * 0.01 ?? default(int);
+            // returns the grade scaled to 10
+            return parsedGrade;
+        }
+
+        /// <summary>
+        /// Calculates the final evaluation grade
+        /// </summary>
+        /// <param name="filesGrade">The files grade</param>
+        /// <param name="interviewGrade">The interview's grade</param>
+        /// <param name="reportGrade">The report's grade</param>
+        public static int CreateFinalGrade(int? filesGrade, int? interviewGrade, int? reportGrade)
+        {
+            var finalGrade = (int)(filesGrade*0.2 + interviewGrade*0.4 + reportGrade*0.4);
+
+            // Returns the evaluation's grade
+            return finalGrade;
         }
 
         /// <summary>

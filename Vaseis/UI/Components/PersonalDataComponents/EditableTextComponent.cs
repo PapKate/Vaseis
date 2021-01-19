@@ -23,6 +23,22 @@ namespace Vaseis
 
         #region Dependency Property
 
+        #region InputText
+
+        /// <summary>
+        /// The is editable bool
+        /// </summary>
+        public string InputText
+        {
+            get { return (string)GetValue(InputTextProperty); }
+            set { SetValue(InputTextProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="InputText"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty InputTextProperty = DependencyProperty.Register(nameof(InputText), typeof(string), typeof(EditableTextComponent));
+        #endregion
+
         #region IsEditable
 
         /// <summary>
@@ -173,6 +189,7 @@ namespace Vaseis
             {
                 // Sets the text from the box to the block
                 TextBlock.Text = InputTextBox.Text;
+                InputText = InputTextBox.Text;
             }
             // Calls the virtual method
             AfterEditText(e);

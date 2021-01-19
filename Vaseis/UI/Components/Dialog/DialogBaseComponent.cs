@@ -197,7 +197,7 @@ namespace Vaseis
                 Width = 628,
                 ClipToBounds = false,
                 Background = GhostWhite.HexToBrush(),
-                Margin = new Thickness(8),
+                Margin = new Thickness(8)
             };
 
             // The inner grid, child only margin

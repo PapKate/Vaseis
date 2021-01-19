@@ -174,12 +174,11 @@ namespace Vaseis
         {
             EvaluatorName = Report.UsersJobFilesPair.Evaluator.Username;
             EmployeeName = Report.UsersJobFilesPair.Employee.Username;
-            JobName = Report.JobPositionRequest.JobPosition.Job.JobTitle;
+            JobPositionName = Report.JobPositionRequest.JobPosition.Job.JobTitle;
             ReportParagraph = Report.ReportText;
             ReasonForRequest = Report.JobPositionRequest.RequestsReason;
             DepartmentName = Report.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             IsWritten = Report.IsWritten;
-
         }
 
         #endregion
@@ -240,8 +239,10 @@ namespace Vaseis
             EditButton = ControlsFactory.CreateEditButton();
             // Creates and adds a tool tip
             EditButton.ToolTip = new ToolTipComponent() { Text = "Edit evaluation" };
-
-            EditButton.Click += ShowRowDialog;
+            EditButton.SetBinding(Button.CommandProperty, new Binding(nameof(ShowDialogCommand))
+            { 
+                Source = this
+            });
 
             // Add it to the grid
             RowDataGrid.Children.Add(EditButton);
@@ -372,20 +373,7 @@ namespace Vaseis
             Content = DetailsExpander;
         }
 
-        /// <summary>
-        /// On click closes the dialog
-        /// </summary>
-        private void ShowRowDialog(object sender, RoutedEventArgs e)
-        {
-            // Creates an evaluation dialog
-            var reportDialog = new ReportDialogComponent(this)
-            {
-                // And opens it
-                IsDialogOpen = true
-            };
-            // Adds it to the page's grid
-            PageGrid.Children.Add(reportDialog);
-        }
+        
 
         /// <summary>
         /// Opens a dialog notifying the evaluator the evaluation has been sent to a manager

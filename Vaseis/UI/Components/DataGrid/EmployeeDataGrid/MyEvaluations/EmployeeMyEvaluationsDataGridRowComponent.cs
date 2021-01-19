@@ -96,11 +96,11 @@ namespace Vaseis
         {
             EmployeeName = Evaluation.UsersJobFilesPair.Employee.Username;
             EvaluatorName = Evaluation.UsersJobFilesPair.Evaluator.Username;
-            EvaluationGrade = "7";
-            InterviewGrade = GetGrade(Evaluation.InterviewGrade).ToString("F", CultureInfo.InvariantCulture);
-            ReportGrade = GetGrade(Evaluation.ReportGrade).ToString("F", CultureInfo.InvariantCulture);
-            FilesGrade = GetGrade(Evaluation.FilesGrade).ToString("F", CultureInfo.InvariantCulture);
-            JobName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
+            FinalGrade = "7";
+            InterviewGrade = ControlsFactory.GetGrade(Evaluation.InterviewGrade).ToString("F", CultureInfo.InvariantCulture);
+            ReportGrade = ControlsFactory.GetGrade(Evaluation.ReportGrade).ToString("F", CultureInfo.InvariantCulture);
+            FilesGrade = ControlsFactory.GetGrade(Evaluation.FilesGrade).ToString("F", CultureInfo.InvariantCulture);
+            JobPositionName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = Evaluation.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             Result = CreateResult(7);
         }
@@ -109,33 +109,6 @@ namespace Vaseis
 
         #region Protected Methods
 
-        /// <summary>
-        /// Turn the grade from 1000 to 10 max
-        /// </summary>
-        /// <param name="grade"></param>
-        /// <returns></returns>
-        protected double GetGrade(int? grade)
-        {
-            // If not null return the new value else 0
-            var parsedGrade = grade * 0.01 ?? default(int);
-            // returns the grade scaled to 10
-            return parsedGrade;
-        }
-
-        /// <summary>
-        /// Calculates the final evaluation grade
-        /// </summary>
-        /// <param name="filesGrade">The files grade</param>
-        /// <param name="interviewGrade">The interview's grade</param>
-        /// <param name="reportGrade">The report's grade</param>
-        /// <returns></returns>
-        protected int CreateEvaluationGrade(int filesGrade, int interviewGrade, int reportGrade)
-        {
-            var evaluationGrade = 7;
-
-            // Returns the evaluation's grade
-            return evaluationGrade;
-        }
 
         /// <summary>
         /// Creates the result 

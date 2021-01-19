@@ -16,6 +16,9 @@ namespace Vaseis
     {
         #region Public Properties
 
+        /// <summary>
+        /// /The user
+        /// </summary>
         public UserDataModel User { get; }
 
         #endregion
@@ -42,17 +45,25 @@ namespace Vaseis
         /// </summary>
         protected ImageAndNameComponent ImageAndTitle { get; private set; }
 
+        /// <summary>
+        /// The employees first name
+        /// </summary>
         protected TitleAndTextComponent FirstNameData { get; private set; }
 
-
+        /// <summary>
+        /// The employees last name
+        /// </summary>
         protected TitleAndTextComponent LastNameData { get; private set; }
-
+        
+        /// <summary>
+        /// The employee's company name
+        /// </summary>
         protected TitleAndTextComponent CompanyData { get; private set; }
 
+        /// <summary>
+        /// The employees years of experience
+        /// </summary>
         protected TitleAndTextComponent YearsOfXp { get; private set; }
-
-
-
 
         /// <summary>
         /// The separator bar
@@ -114,48 +125,19 @@ namespace Vaseis
         /// </summary>
         protected Button ChangePassword { get; private set; }
 
+        /// <summary>
+        /// The evaluator's average grade
+        /// </summary>
+        protected TextBlock EvalsAverage { get; private set; }
+
         #endregion
 
         #region Dependency Properties
 
-        #region Image
-
-        /// <summary>
-        /// The user's Image
-        /// </summary>
-        public string Image
-        {
-            get { return (string)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Image"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(string), typeof(ProfilePage));
-
+       
         #endregion
 
-        #region EvaluatorsAverage
-
-        /// <summary>
-        /// The user's EvaluatorsAverage
-        /// </summary>
-        public string EvaluatorsAverage
-        {
-            get { return (string)GetValue(EvaluatorsAverageProperty); }
-            set { SetValue(EvaluatorsAverageProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="EvaluatorsAverage"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty EvaluatorsAverageProperty = DependencyProperty.Register(nameof(EvaluatorsAverage), typeof(string), typeof(ProfilePage));
-
-        #endregion
-
-        #endregion
-
+       
         #region Constructors
 
         /// <summary>
@@ -166,6 +148,33 @@ namespace Vaseis
             User = user ?? throw new ArgumentNullException(nameof(user));
 
             CreateGUI();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            if (User.Type == UserType.Evaluator)
+            {
+                var evaluations = await Services.GetDataStorage.GetEvaluatorEvaluations(User.Id, true);
+                var count = evaluations.Count;
+                var sum = 0.0;
+                // For each evaluation...
+                foreach (var evaluation in evaluations)
+                {
+                    // Add their final grade
+                    sum = sum + (float)evaluation.FinalGrade/100;
+                }
+                
+                EvalsAverage.Text = "Evaluator's Average : " + (sum / count).ToString();             
+            }
         }
 
         #endregion
@@ -188,7 +197,7 @@ namespace Vaseis
             {
                 Width = new GridLength(1, GridUnitType.Auto)
             });
-            
+
             PageGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
                 Width = new GridLength(1, GridUnitType.Auto)
@@ -213,6 +222,7 @@ namespace Vaseis
             // Creates an image an name component for the user profile image and username
             ImageAndTitle = new ImageAndNameComponent()
             {
+                Width = 360,
                 Text = User.Username,
 
                 ImagePath = User.ProfilePicture,
@@ -254,7 +264,7 @@ namespace Vaseis
             {
                 Title = "Company",
 
-                Text = User.Company.Name,
+                Text = User.Department.Company.Name,
 
                 Margin = new Thickness(16)
             };
@@ -340,35 +350,40 @@ namespace Vaseis
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 // Sets the edit command
-                EditCommand = new RelayCommand(() => 
-                { 
+                EditCommand = new RelayCommand(() =>
+                {
                     // Sets the components' editable properties to true
-                    BioTile.IsEditable = true; 
-                    EmailData.IsEditable = true; 
+                    BioTile.IsEditable = true;
+                    EmailData.IsEditable = true;
                 }),
-                SaveCommand = new RelayCommand(() => 
+                SaveCommand = new RelayCommand(() =>
                 {
                     // Sets the components' editable properties to false
-                    BioTile.IsEditable = false; 
+                    BioTile.IsEditable = false;
                     EmailData.IsEditable = false;
                     // Sets the components' save edit properties to true
-                    BioTile.SaveEdit = true; 
-                    EmailData.SaveEdit = true; 
+                    BioTile.SaveEdit = true;
+                    EmailData.SaveEdit = true;
                 }),
-                CancelCommand = new RelayCommand(() => 
+                CancelCommand = new RelayCommand(() =>
                 {
                     // Sets the components' editable properties to false
-                    BioTile.IsEditable = false; 
+                    BioTile.IsEditable = false;
                     EmailData.IsEditable = false;
                     // Sets the components' save edit properties to true
                     BioTile.SaveEdit = false;
-                    EmailData.SaveEdit = false; 
+                    EmailData.SaveEdit = false;
                 })
             };
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(EditButtons);
 
             #endregion 
+
+            string jobPosition = User.Type.ToString();
+
+            if (User.Type == UserType.Employee)
+                jobPosition = User.JobPosition.Job.JobTitle;
 
             // Creates the job title's text block
             JobTitleBlock = new TextBlock()
@@ -377,7 +392,7 @@ namespace Vaseis
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-                Text = User.JobPosition.Job.JobTitle,
+                Text = jobPosition,
             };
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(JobTitleBlock);
@@ -386,21 +401,22 @@ namespace Vaseis
 
             //The evaluators Average 
             // Creates the evaluator's average text block
-            var EvalsAverage = new TextBlock()
+             EvalsAverage = new TextBlock()
             {
                 FontSize = 60,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-                Text = EvaluatorsAverage,
+               
             };
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(EvalsAverage);
-            // Binds the text property of the text block to the Evaluator's Average property
-            EvalsAverage.SetBinding(TextBlock.TextProperty, new Binding(nameof(EvaluatorsAverage))
-            {
-                Source = this
-            });
+      
+
+            //if he aint evaluator we dont want his evaluator average to be shown
+            if (User.Type == UserType.Evaluator) { }
+            else { EvalsAverage.Visibility = Visibility.Collapsed; }
+
 
             // Creates the department's text block
             DepartmentTitleBlock = new TextBlock()
@@ -436,14 +452,16 @@ namespace Vaseis
             //Did this to dd the awards into the awardsContainer because, the User.Awards returns AwardDataModel List
             var awards = new List<string>();
 
+            // For each award...
             foreach (var award in User.Awards)
             {
-                awards.Add(award.AwardData);
+                // Add to the awards list a string with the award's name and its acquired date
+                awards.Add($"{award.Name}, {award.AcquiredDate.ToShortDateString()}");
             };
-            
+
             AwardsContainer = new TitleAndListComponent()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Title = "Awards",
                 DataNames = awards
             };
@@ -464,7 +482,7 @@ namespace Vaseis
 
             CertificatesContainer = new TitleAndListComponent()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Title = "Certificates",
                 DataNames = certificates
             };
@@ -485,7 +503,7 @@ namespace Vaseis
 
             RecommendationPapersContainer = new TitleAndListComponent()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Title = "Recommendation papers",
                 DataNames = recommendationPapers
             };
@@ -518,35 +536,6 @@ namespace Vaseis
             Grid.SetColumn(NavigationMenu, 2);
 
             Content = PageGrid;
-        }
-
-        /// <summary>
-        /// Hides the text block and reveals the text box
-        /// </summary>
-        private void EditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Collapsed;
-            BioTile.BioTextBox.Visibility = Visibility.Visible;
-            BioTile.BioTextBox.Text = BioTile.BioTextBlock.Text;
-        }
-
-        /// <summary>
-        /// Hides the text box and reveals the text block with its old text 
-        /// </summary>
-        private void CanelEditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Visible;
-            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Hides the text box and reveals the text block with its updated text 
-        /// </summary>
-        private void SaveEditProfile(object sender, RoutedEventArgs e)
-        {
-            BioTile.BioTextBlock.Visibility = Visibility.Visible;
-            BioTile.BioTextBox.Visibility = Visibility.Collapsed;
-            BioTile.BioTextBlock.Text = BioTile.BioTextBox.Text;
         }
 
         /// <summary>

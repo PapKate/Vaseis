@@ -28,6 +28,11 @@ namespace Vaseis
         /// </summary>
         public bool IsWritten { get; set; } = false;
 
+        /// <summary>
+        /// if the manager's report is finalized
+        /// </summary>
+        public bool IsFinalized { get; set; } = false;
+
         #region Relationships
 
         /// <summary>

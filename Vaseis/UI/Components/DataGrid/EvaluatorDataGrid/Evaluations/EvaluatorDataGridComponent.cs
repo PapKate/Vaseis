@@ -13,10 +13,19 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
+
+        /// <summary>
+        /// The connected Evaluator
+        /// </summary>
+        public UserDataModel Evaluator { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -32,43 +41,16 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Properties
-
-        #region NewRow
-
-        /// <summary>
-        /// The open dialog command
-        /// </summary>
-        public bool NewRow
-        {
-            get { return (bool)GetValue(NewRowProperty); }
-            set { SetValue(NewRowProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="NewRow"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty NewRowProperty = DependencyProperty.Register(nameof(NewRow), typeof(bool), typeof(EvaluatorDataGridComponent), new PropertyMetadata(OnNewRowChanged));
-
-        /// <summary>
-        /// Handles the change of the <see cref="NewRow"/> property
-        /// </summary>
-        private static void OnNewRowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sender = d as EvaluatorDataGridComponent;
-
-            sender.OnNewRowChangedCore(e);
-        }
-
-        #endregion
-
-        #endregion
-
         #region Constructors
 
-        public EvaluatorDataGridComponent(Grid pageGrid)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public EvaluatorDataGridComponent(Grid pageGrid, UserDataModel evaluator)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+
+            Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
 
             CreateGUI();
         }
@@ -76,14 +58,25 @@ namespace Vaseis
         #endregion
 
         #region Protected Methods
-
+        
         /// <summary>
-        /// Handles the change of the <see cref="NewRow"/> property
+        /// Handles the initialization of the page
         /// </summary>
         /// <param name="e">Event args</param>
-        protected virtual void OnNewRowChanged(DependencyPropertyChangedEventArgs e)
+        protected async override void OnInitialized()
         {
+            base.OnInitialized();
+            // Query the job position requests by an employee and add them as rows to the data grid
+            var evaluations = await Services.GetDataStorage.GetEvaluatorEvaluations(Evaluator.Id, false);
 
+            // For each job position in the list...
+            foreach (var evaluation in evaluations)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new EvaluatorDataGridRowComponent(PageGrid, evaluation);
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
         }
 
         #endregion
@@ -101,69 +94,6 @@ namespace Vaseis
             DataGridHeader = new EvaluatorMyEvaluationsDataGridHeaderComponent(this);
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            // Creates and adds a row to the data grid
-            var row = new EvaluatorDataGridRowComponent(PageGrid)
-            {
-                EvaluatorName = "PapLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior developer",
-                DepartmentName = "Development",
-                EvaluationGrade = "7",
-                InterviewGrade = "5",
-                ReportGrade = "7",
-                FilesGrade = "9",
-                InterviewComments = "oooofffff",
-                
-            };
-            RowList.Add(row);
-            InfoDataStackPanel.Children.Add(row);
-
-            // Creates and adds a row to the data grid
-            var row2 = new EvaluatorDataGridRowComponent(PageGrid)
-            {
-                EvaluatorName = "PapBoomBommLabros",
-                EmployeeName = "PapKaterina",
-                JobName = "Junior boomer",
-                DepartmentName = "Development",
-                EvaluationGrade = "7",
-                InterviewGrade = "5",
-                ReportGrade = "7",
-                FilesGrade = "9",
-                InterviewComments = "oooofffff axxxxx vahhhhhhn The ICommand interface is the code contract for commands that are written in .NET for Windows Runtime apps. These commands provide the commanding behavior for UI elements such as a Windows Runtime XAML Button and in particular an AppBarButton. If you're defining commands for Windows Runtime apps you use basically the same techniques you'd use for defining commands for a .NET app. Implement the command by defining a class that implements ICommand and specifically implement the Execute method."
-                                + "XAML for Windows Runtime does not support x:Static, so don't attempt to use the x:Static markup extension if the command is used from Windows Runtime XAML. Also, the Windows Runtime does not have any predefined command libraries, so the XAML syntax shown here doesn't really apply for the case where you're implementing the interface and defining the command for Windows Runtime usage. "
-            };
-            RowList.Add(row2);
-            InfoDataStackPanel.Children.Add(row2);
-        }
-
-        /// <summary>
-        /// Handles the change of the <see cref="NewRow"/> property internally
-        /// </summary>
-        /// <param name="e">Event args</param>
-        private void OnNewRowChangedCore(DependencyPropertyChangedEventArgs e)
-        {
-            // Get the new value
-            var newValue = (bool)e.NewValue;
-            // If the edit is true...
-            if (newValue == true)
-            {
-                var newRow = new EvaluatorDataGridRowComponent(PageGrid);
-
-                InfoDataStackPanel.Children.Add(newRow);
-                // Creates a new evaluation dialog
-                var EvaluationDialog = new EvaluationDialogComponent(newRow)
-                {
-                    // Sets the dialog is open to true
-                    IsDialogOpen = true,
-                    // Close button on click removes the new row from the data grid
-                    CancelCommand = new RelayCommand(() => InfoDataStackPanel.Children.Remove(newRow))
-                };
-                // Adds it to the page grid
-                PageGrid.Children.Add(EvaluationDialog);
-                // Sets the new row value to false
-                NewRow = false;
-            }
         }
 
         #endregion

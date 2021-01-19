@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
@@ -11,6 +12,15 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorMyJobPositionsPage : ContentControl
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The evaluator
+        /// </summary>
+        public UserDataModel Evaluator { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -35,8 +45,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorMyJobPositionsPage()
+        public EvaluatorMyJobPositionsPage(UserDataModel evaluator)
         {
+            Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
+
             CreateGUI();
         }
 
@@ -55,7 +67,7 @@ namespace Vaseis
             };
 
             // Creates the data grid
-            DataGrid = new EvaluatorMyJobPositionsDataGridComponent(PageGrid)
+            DataGrid = new EvaluatorMyJobPositionsDataGridComponent(PageGrid, Evaluator)
             {
 
             };

@@ -217,11 +217,6 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public BaseJobPositionsDataGridRowComponent()
-        {
-            CreateGUI();
-        }
-
         public BaseJobPositionsDataGridRowComponent(Grid pageGrid)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));

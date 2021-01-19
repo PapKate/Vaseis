@@ -11,10 +11,19 @@ namespace Vaseis
     /// </summary>
     public class EvaluatorMyJobPositionsDataGridComponent : BaseDataGridComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The evaluator
+        /// </summary>
+        public UserDataModel Evaluator { get; }
+        
         /// <summary>
         /// The page's grid container
         /// </summary>
         public Grid PageGrid { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -59,9 +68,10 @@ namespace Vaseis
 
         #region Constructors
 
-        public EvaluatorMyJobPositionsDataGridComponent(Grid pageGrid)
+        public EvaluatorMyJobPositionsDataGridComponent(Grid pageGrid, UserDataModel evaluator)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
+            Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
 
             CreateGUI();
         }
@@ -69,6 +79,63 @@ namespace Vaseis
         #endregion
 
         #region Protected Methods
+        
+        /// <summary>
+        /// Handles the initialization of the page
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected async override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            // Creates a list with the job positions' names
+            var jobPositionsList = new List<string>();
+            // Gets the company's job positions
+            var companyJobPositions = await Services.GetDataStorage.GetCompanyJobPositions(Evaluator.Department.CompanyId);
+            // For each job position...
+            foreach(var companyJobPosition in companyJobPositions)
+            {
+                // Add their title to the list
+                jobPositionsList.Add(companyJobPosition.Job.JobTitle);
+            }
+
+            // Creates a list with the departments' names
+            var departmentsList = new List<string>();
+            // Gets the company's departments
+            var companyDepartments = await Services.GetDataStorage.GetCompanyDepartments(Evaluator.Department.CompanyId);
+            // For each department...
+            foreach (var companyDepartment in companyDepartments)
+            {
+                // Add their title to the list
+                departmentsList.Add(companyDepartment.DepartmentName.ToString());
+            }
+
+            // Creates a list with the subjects' names
+            var subjectsList = new List<string>();
+            // Gets the subjects
+            var subjects = await Services.GetDataStorage.GetSubjects();
+            // For each subject...
+            foreach (var subject in subjects)
+            {
+                // Add their title to the list
+                subjectsList.Add(subject.Title);
+            }
+
+            // Query the job position requests by an employee and add them as rows to the data grid
+            var jobPositions = await Services.GetDataStorage.GetEvaluatorJobPositions();
+
+            // For each job position in the list...
+            foreach (var jobPosition in jobPositions)
+            {
+                // Create a row of for the employee's job position data grid
+                var row = new EvaluatorMyJobPositionsDataGridRowComponent(PageGrid, jobPosition)
+                {
+
+                };
+                // Adds the row to the stack panel
+                InfoDataStackPanel.Children.Add(row);
+            }
+        }
 
         /// <summary>
         /// Handles the change of the <see cref="NewRow"/> property
@@ -83,7 +150,7 @@ namespace Vaseis
 
         #region Private Methods
 
-        // <summary>
+        /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
         private void CreateGUI()
@@ -92,36 +159,6 @@ namespace Vaseis
             DataGridHeader = new EvaluatorMyJobPositionsDataGridHeaderComponent();
             // Adds it to the stack panel
             InfoDataStackPanel.Children.Add(DataGridHeader);
-
-            var startDate = DateTime.Now.ToShortDateString();
-            var subDate = new DateTime(21, 1, 24).ToShortDateString();
-
-            // Creates and adds a row to the data grid
-            var row = new EvaluatorMyJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Potato",
-                DepartmentText = "Tomato",
-                SalaryText = "2.500$",
-                SubjectText = "Agriculture",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "12",
-            };
-
-            InfoDataStackPanel.Children.Add(row);
-
-            // Creates and adds a row to the data grid
-            var row2 = new EvaluatorMyJobPositionsDataGridRowComponent(PageGrid)
-            {
-                JobPositionText = "Chocolate",
-                DepartmentText = "Cookies",
-                SalaryText = "1.878$",
-                SubjectText = "Pastry",
-                DeadlineText = $"{startDate} - {subDate}",
-                NumberOfRequestsText = "7",
-            };
-
-            InfoDataStackPanel.Children.Add(row2);
-
         }
 
         /// <summary>

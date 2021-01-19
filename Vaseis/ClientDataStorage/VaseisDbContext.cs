@@ -216,14 +216,6 @@ namespace Vaseis
 
             #region Company
 
-            // For the users in a company
-            modelBuilder.Entity<CompanyDataModel>()
-                .HasMany(x => x.Users)
-                .WithOne(x => x.Company)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.CompanyId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // For the departments in a company
             modelBuilder.Entity<CompanyDataModel>()
                 .HasMany(x => x.Departments)

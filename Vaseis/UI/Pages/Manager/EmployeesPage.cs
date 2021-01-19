@@ -103,7 +103,7 @@ namespace Vaseis
             // Gets all the employees of the manager's company
             var employees = await Services.GetDbContext.Users
                                             .Include(x => x.Department)
-                                            .Where(x => x.Type == UserType.Employee && x.CompanyId == Manager.CompanyId).ToListAsync();
+                                            .Where(x => x.Type == UserType.Employee && x.Department.CompanyId == Manager.Department.CompanyId).ToListAsync();
 
             // For every employee...
             foreach(var employee in employees)

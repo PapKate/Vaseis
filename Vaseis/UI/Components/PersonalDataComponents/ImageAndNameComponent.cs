@@ -13,17 +13,22 @@ namespace Vaseis
     {
         #region Protected Properties 
 
-        public StackPanel ImageAndNameStackPanel { get; private set; }
+        protected StackPanel ImageAndNameStackPanel { get; private set; }
 
         /// <summary>
         /// The profile Picture
         /// </summary>
-        public Image Image { get; private set; }
+        protected Image Image { get; private set; }
 
         /// <summary>
         /// The username
         /// </summary>
-        public TextBlock TextBlock { get; private set; }
+        protected TextBlock NameTextBlock { get; private set; }
+
+        /// <summary>
+        /// The tool tip
+        /// </summary>
+        protected ToolTipComponent TextToolTip { get; private set; }
 
         #endregion
 
@@ -130,23 +135,32 @@ namespace Vaseis
             ImageAndNameStackPanel.Children.Add(Image);
 
             // A text block for the Title property
-            TextBlock = new TextBlock()
+            NameTextBlock = new TextBlock()
             {
                 DataContext = Text,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = Styles.DarkGray.HexToBrush(),
                 FontWeight = FontWeights.Bold,
                 FontFamily = Styles.Calibri,
-                FontSize = 48
+                FontSize = 44,
+                TextTrimming = TextTrimming.CharacterEllipsis,
             };
 
             // Binds the text property of the text block to the Username property
-            TextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
+            NameTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Text))
             {
                 Source = this
             });
+            // Creates the tool tip
+            TextToolTip = new ToolTipComponent();
+            // Binds its text property to the text
+            TextToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding((nameof(Text)))
+            {
+                Source = this
+            });
+            NameTextBlock.ToolTip = TextToolTip;
 
-            ImageAndNameStackPanel.Children.Add(TextBlock);
+            ImageAndNameStackPanel.Children.Add(NameTextBlock);
 
             Content = ImageAndNameStackPanel;
         }

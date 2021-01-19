@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
@@ -11,6 +12,14 @@ namespace Vaseis
     /// </summary>
     public class ManagerEvaluationResultsPage : BaseDataGridPage
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -26,8 +35,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ManagerEvaluationResultsPage()
+        public ManagerEvaluationResultsPage(UserDataModel manager)
         {
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
+
             CreateGUI();
         }
 
@@ -41,7 +52,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates the data grid
-            DataGrid = new ManagerEvaluationDataGridComponent(PageGrid)
+            DataGrid = new ManagerEvaluationDataGridComponent(PageGrid, Manager)
             {
 
             };

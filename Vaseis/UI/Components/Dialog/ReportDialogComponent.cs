@@ -4,13 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The report's dialog
+    /// </summary>
     public class ReportDialogComponent : DialogBaseComponent
     {
+        #region Public Properties
+        
         /// <summary>
         /// The evaluator's data grid row
         /// </summary>
@@ -20,6 +26,13 @@ namespace Vaseis
         /// The manager's report data grid row
         /// </summary>
         public ReportsDataGridRowComponent ReportDataGridRow { get; }
+
+        /// <summary>
+        /// The report
+        /// </summary>
+        public ReportDataModel Report { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -75,16 +88,33 @@ namespace Vaseis
 
         #endregion
 
+        #region Dependency Property
+
+        #region EvaluatorsList
+
+        /// <summary>
+        /// The paragraph's text
+        /// </summary>
+        public IEnumerable<string> EvaluatorsList
+        {
+            get { return (IEnumerable<string>)GetValue(EvaluatorsListProperty); }
+            set { SetValue(EvaluatorsListProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="EvaluatorsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty EvaluatorsListProperty = DependencyProperty.Register(nameof(EvaluatorsList), typeof(IEnumerable<string>), typeof(ReportDialogComponent));
+
+        #endregion
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Default constructor for evaluator's evaluation
         /// </summary>
-        public ReportDialogComponent()
-        {
-            CreateGUI();
-        }
-
         public ReportDialogComponent(EvaluatorDataGridRowComponent evaluatorDataGridRow)
         {
             EvaluatorDataGridRow = evaluatorDataGridRow ?? throw new ArgumentNullException(nameof(evaluatorDataGridRow));
@@ -92,9 +122,13 @@ namespace Vaseis
             CreateGUI();
         }
 
-        public ReportDialogComponent(ReportsDataGridRowComponent reportDataGridRow)
+        /// <summary>
+        /// Default constructor for manager's report
+        /// </summary>
+        public ReportDialogComponent(ReportsDataGridRowComponent reportDataGridRow, ReportDataModel report)
         {
             ReportDataGridRow = reportDataGridRow ?? throw new ArgumentNullException(nameof(reportDataGridRow));
+            Report = report ?? throw new ArgumentNullException(nameof(report));
 
             CreateGUI();
         }
@@ -116,8 +150,7 @@ namespace Vaseis
                 // Add the text from the row to the input text in the dialog accordingly
                 ParagraphTextBox.Text = EvaluatorDataGridRow.InterviewComments;
                 UserNameTextBlock.Text = EvaluatorDataGridRow.EmployeeName;
-                JopPositionTextBlock.Text = EvaluatorDataGridRow.JobName;
-                EvaluatorPicker.Text = EvaluatorDataGridRow.EvaluatorName;
+                JopPositionTextBlock.Text = EvaluatorDataGridRow.JobPositionName;
             }
 
             // If the row is not null...
@@ -127,10 +160,9 @@ namespace Vaseis
                 ParagraphTextBox.Text = ReportDataGridRow.Report.ReportText;
                 UserNameTextBlock.Text = ReportDataGridRow.EmployeeName;
                 DepartmentTextBlock.Text = ReportDataGridRow.DepartmentName;
-                JopPositionTextBlock.Text = ReportDataGridRow.JobName;
+                JopPositionTextBlock.Text = ReportDataGridRow.JobPositionName;
                 EvaluatorPicker.Text = ReportDataGridRow.EvaluatorName;
             }
-
         }
 
         /// <summary>
@@ -142,25 +174,33 @@ namespace Vaseis
         
         }
 
+        /// <summary>
+        /// Addition to the <see cref="FinalizedOnClick(object, RoutedEventArgs)"/>
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void FinalizedOnClick(RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Creates and adds a text block to the dialog
+        /// </summary>
         protected TextBlock CreateAndAddTextBlock()
         {
-            var border = new Border()
-            {
-                Margin = new Thickness(24),
-                Width = 240,
-                BorderBrush = DarkGray.HexToBrush(),
-                BorderThickness = new Thickness(0, 0, 0, 1)
-            };
             // Creates a new text block
             var textBlock = new TextBlock()
             {
+                Foreground = DarkGray.HexToBrush(),
                 FontSize = 24,
                 FontFamily = Calibri,
-                VerticalAlignment = VerticalAlignment.Center
+                MinWidth = 240,
+                Margin = new Thickness(24),
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                VerticalAlignment = VerticalAlignment.Center,
             };
-            border.Child = textBlock;
             // Adds it to the input wrap panel
-            InputWrapPanel.Children.Add(border);
+            InputWrapPanel.Children.Add(textBlock);
 
             // Returns the text block
             return textBlock;
@@ -187,16 +227,27 @@ namespace Vaseis
             // The picker for department
             DepartmentTextBlock = CreateAndAddTextBlock();
 
-            EvaluatorPicker = new PickerComponent()
+            // If a report dialog is created...
+            if(ReportDataGridRow != null)
             {
-                OptionNames = new List<string> { "Yeet", "Boom", "Potato", "Bazooka", "PapLabros" },
-                HintText = "Evaluator",
-                Width = 240,
-                FontFamily = Calibri
-            };
-            
-            InputWrapPanel.Children.Add(EvaluatorPicker);
+                // Creates the evaluators' picker
+                EvaluatorPicker = new PickerComponent()
+                {
+                    OptionNames = EvaluatorsList,
+                    HintText = "Evaluator",
+                    Width = 240,
+                    FontFamily = Calibri
+                };
+                // Binds the option names of the evaluator picker to the evaluator list
+                EvaluatorPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(EvaluatorsList))
+                {
+                    Source = this
+                });
 
+                // Adds to the wrap panel
+                InputWrapPanel.Children.Add(EvaluatorPicker);
+            }
+            
             // Creates a stack panel for the comments area
             TextStackPanel = new StackPanel()
             {
@@ -221,7 +272,6 @@ namespace Vaseis
 
             // Adds the text block to the comments' stack panel...
             TextStackPanel.Children.Add(TextTitleBlock);
-
 
             // The border for the comments input area
             TextBorder = new Border()
@@ -266,8 +316,8 @@ namespace Vaseis
             FinalizeButton.Margin = new Thickness(12, 0, 0, 0);
             // Adds to the buttons' stack panel the finalize and send button
             DialogButtonsStackPanel.Children.Add(FinalizeButton);
-
-            FinalizeButton.Click += ReportFinalizedOnClick;
+            // On click calls method
+            FinalizeButton.Click += FinalizedOnClick;
 
             // Sets the component's content to the dialog host
             Content = DialogHost;
@@ -278,45 +328,44 @@ namespace Vaseis
         /// </summary>
         private void TemporarySaveOnClick (object sender, RoutedEventArgs e)
         {
-            // If the evaluation row exists...
-            if (EvaluatorDataGridRow != null)
-            {
-                // Sets the row's values according to the matching input in the dialog
-                EvaluatorDataGridRow.InterviewComments = ParagraphTextBox.Text;
-                DialogHost.IsOpen = false;
-            }
+            
             // If the report row exists...
             if (ReportDataGridRow != null)
             {
-                // Sets the row's values according to the matching input in the dialog
-                ReportDataGridRow.Report.ReportText = ParagraphTextBox.Text;
+                // Sets the report's data model values according to the matching input in the dialog
+                Report.ReportText = ParagraphTextBox.Text;
                 // If the paragraph text is NOT empty...
                 if (ParagraphTextBox.Text != "")
                     // Sets the is written property of the report's data grid's row to true
-                    ReportDataGridRow.IsWritten = true;
+                    Report.IsWritten = true;
                 // Else...
                 else
                     // Sets it to false
-                    ReportDataGridRow.IsWritten = false;
-                // Closes the diaog
-                DialogHost.IsOpen = false;
+                    Report.IsWritten = false;
+
+                // Updates the reports data grid's row
+                ReportDataGridRow.Update();
             }
 
             // For extra manipulation if wanted in a child class
             TemporarySaveOnClick(e);
+            
+            // Closes the dialog
+            DialogHost.IsOpen = false;
         }
 
         /// <summary>
         /// Closes the dialog 
         /// Sends the report to the evaluator
         /// </summary>
-        private void ReportFinalizedOnClick(object sender, RoutedEventArgs e)
+        private void FinalizedOnClick(object sender, RoutedEventArgs e)
         {
+
+            FinalizedOnClick(e);
             // Closes the dialog
             DialogHost.IsOpen = false;
         }
 
         #endregion
-
     }
 }

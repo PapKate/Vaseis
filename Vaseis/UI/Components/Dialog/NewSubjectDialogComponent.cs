@@ -44,6 +44,34 @@ namespace Vaseis
         #region Dependency Properties
 
         /// <summary>
+        /// This is the new subject's title 
+        /// </summary>
+        public string SubjectTitle
+        {
+            get { return (string)GetValue(SubjectTitleProperty); }
+            set { SetValue(SubjectTitleProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SubjectTitle"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty SubjectTitleProperty = DependencyProperty.Register(nameof(SubjectTitle), typeof(string), typeof(NewSubjectDialogComponent));
+
+        /// <summary>
+        /// This is the new subject's description 
+        /// </summary>
+        public string SubjectDescription
+        {
+            get { return (string)GetValue(SubjectDescriptionProperty); }
+            set { SetValue(SubjectDescriptionProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SubjectDescription"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty SubjectDescriptionProperty = DependencyProperty.Register(nameof(SubjectDescription), typeof(string), typeof(NewSubjectDialogComponent));
+
+        /// <summary>
         /// All the registered Subjects for the admin to chose wich one is the new one's Parent
         /// </summary>
         public IEnumerable<string> ParentSubjectOptions

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,8 +7,20 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The manager's data grid for job positions
+    /// </summary>
     public class ManagerJobPositionsDataGridRowComponent : BaseJobPositionsDataGridRowComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The job position
+        /// </summary>
+        public JobPositionDataModel JobPosition { get; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -27,9 +40,29 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ManagerJobPositionsDataGridRowComponent(Grid pageGrid) : base(pageGrid)
+        public ManagerJobPositionsDataGridRowComponent(Grid pageGrid, JobPositionDataModel jobPosition) : base(pageGrid)
         {
+            JobPosition = jobPosition ?? throw new ArgumentNullException(nameof(jobPosition));
+
             CreateGUI();
+
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the UI based on the values of the <see cref="JobPosition"/>
+        /// </summary>
+        public void Update()
+        {
+            JobPositionText = JobPosition.Job.JobTitle;
+            DepartmentText = JobPosition.Job.Department.DepartmentName.ToString();
+            SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);
+            DeadlineText = $"{JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPosition.SubmissionDate.Value.ToShortDateString()}";
+            NumberOfRequestsText = JobPosition.JobPositionRequests.Count().ToString();
         }
 
         #endregion
@@ -68,7 +101,7 @@ namespace Vaseis
                 }),
 
                 // Sets the edit command as a new relay command that...
-                SaveCommand = new RelayCommand(() =>
+                SaveCommand = new RelayCommand(async () =>
                 {
                     // Shows the salary's text block
                     SalaryTextBlock.Visibility = Visibility.Visible;
@@ -76,6 +109,7 @@ namespace Vaseis
                     SalaryTextBox.Visibility = Visibility.Collapsed;
                     // Sets the salary's text block's text to the salary's text box's text
                     SalaryTextBlock.Text = SalaryTextBox.Text;
+                    await Services.GetDataStorage.UpdateJobPositionByManager(JobPosition.Job, ControlsFactory.ParseSalaryToInt(SalaryTextBox.Text));
                 }),
 
                 // Sets the edit command as a new relay command that...

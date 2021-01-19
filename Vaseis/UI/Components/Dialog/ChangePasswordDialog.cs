@@ -1,18 +1,26 @@
 ﻿using MaterialDesignThemes.Wpf;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+
 using static Vaseis.Styles;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
-using System.Globalization;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The change password dialog
+    /// </summary>
     public class ChangePasswordDialog : DialogBaseComponent 
     {
+        #region Public Property
+
+        /// <summary>
+        /// The user
+        /// </summary>
+        public UserDataModel User { get; }
+
+        #endregion
 
         #region Protected Properties
 
@@ -60,22 +68,84 @@ namespace Vaseis
         /// </summary>
         public static readonly DependencyProperty CurrentPasswordProperty = DependencyProperty.Register(nameof(CurrentPassword), typeof(string), typeof(ChangePasswordDialog));
 
+        /// <summary>
+        /// This is the new password that user gives us  
+        /// </summary>
+        public string NewPassword
+        {
+            get { return (string)GetValue(NewPasswordProperty); }
+            set { SetValue(NewPasswordProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NewPasswordPassword"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NewPasswordProperty = DependencyProperty.Register(nameof(NewPassword), typeof(string), typeof(ChangePasswordDialog));
+
+        /// <summary>
+        /// This is the new password that user gives us  
+        /// </summary>
+        public string ConfirmNewPassword
+        {
+            get { return (string)GetValue(ConfirmNewPasswordProperty); }
+            set { SetValue(ConfirmNewPasswordProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ConfirmNewPasswordPassword"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ConfirmNewPasswordProperty = DependencyProperty.Register(nameof(ConfirmNewPassword), typeof(string), typeof(ChangePasswordDialog));
+
+
         #endregion
 
         #region Constructors
 
         public ChangePasswordDialog(UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
         #endregion
 
-        #region Protected Functions
+        #region Protected Methods
 
+        protected async void ConfirmPasswordOnClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPasswordInput.Password == User.Password && NewPasswordInput.Password == TypeAgainNewPasswordInput.Password)
+            {
+                await Services.GetDataStorage.UpdatePassWord(User, NewPasswordInput.Password);
+
+                CloseDialogOnClick(this, e);
+            }
+            else if (CurrentPasswordInput.Password != User.Password)
+            {
+                var errorDialog = new MessageDialogComponent()
+                {
+                    BrushColor = Red.HexToBrush(),
+                    Message = "Incorrect password! Please type your old password again.",
+                    Title = "Errorrrrrr"
+                };
+                // Adds the dialog to the out grid of the password dialog
+                OutGrid.Children.Add(errorDialog);
+            }
+            else
+            {
+                var errorDialog = new MessageDialogComponent()
+                {
+                    BrushColor = Red.HexToBrush(),
+                    Message = "New passwords do not match! Please try again.",
+                    Title = "Error"
+                };
+                // Adds the dialog to the out grid of the password dialog
+                OutGrid.Children.Add(errorDialog);
+            }
+        }
 
         #endregion
-        
+
         #region Private Methods
         /// <summary>
         /// Creates and adds the required GUI elements for the change password button
@@ -94,7 +164,7 @@ namespace Vaseis
             {
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 28,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontWeight = FontWeights.Normal,
@@ -107,8 +177,8 @@ namespace Vaseis
             {
                 // With hint text the name
                 Margin = new Thickness(24),
-                Width = 240
-
+                Width = 240,
+                FontSize = 24
             };
 
             var HintNewPasswordTitleBlock = new TextBlock()
@@ -116,7 +186,7 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 28,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
@@ -128,14 +198,15 @@ namespace Vaseis
             {
                 // With hint text the name
                 Margin = new Thickness(24),
-                Width = 240
+                Width = 240,
+                FontSize = 24
             };
 
             var HintConfirmNewPasswordTitleBlock = new TextBlock()
             {
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
+                FontSize = 28,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
@@ -148,24 +219,11 @@ namespace Vaseis
             {
                 // With hint text the name
                 Margin = new Thickness(24),
-                Width = 240
-            };
-
-            var cantChange = new TextBlock()
-            {
-                Margin = new Thickness(8, 0, 0, 0),
-                Foreground = DarkPink.HexToBrush(),
-                FontSize = 20,
-                FontFamily = Calibri,
-                FontWeight = FontWeights.Normal,
-                TextTrimming = TextTrimming.CharacterEllipsis,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                IsHitTestVisible = false,
-                Text = "Confirm Password"
+                Width = 240,
+                FontSize = 24
             };
 
             //the ok Button
-
             OkButton = new Button()
             {
                 Background = DarkBlue.HexToBrush(),
@@ -184,7 +242,8 @@ namespace Vaseis
                 BorderThickness = new Thickness(0),
             };
 
-                 //i use a stack panel so that the input fields are set in a column
+            
+             //i use a stack panel so that the input fields are set in a column
             var ChangePasswordStackpanel = new StackPanel();
 
             ChangePasswordStackpanel.Children.Add(HintOldPasswordTitleBlock);
@@ -197,21 +256,14 @@ namespace Vaseis
 
             // Adds a corner radius
             ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
-            OkButton.Click += CloseDialogOnClick;
+            OkButton.Click += ConfirmPasswordOnClick;
 
             ChangePasswordStackpanel.Children.Add(OkButton);
 
-
             InputWrapPanel.Children.Add(ChangePasswordStackpanel);
 
-
-
             Content = DialogHost;
-
-
         }
-
-
 
         #endregion
     }

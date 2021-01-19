@@ -181,7 +181,7 @@ namespace Vaseis
             {
                 foreach (var listItem in MyEvaluationsDataGrid.RowList)
                 {
-                    if (listItem.JobName != value)
+                    if (listItem.JobPositionName != value)
                         listItem.Visibility = Visibility.Collapsed;
                 }
             }
