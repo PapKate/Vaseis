@@ -236,6 +236,7 @@ namespace Vaseis
                     OptionNames = EvaluatorsList,
                     HintText = "Evaluator",
                     Width = 240,
+                    FontSize = 24,
                     FontFamily = Calibri
                 };
                 // Binds the option names of the evaluator picker to the evaluator list

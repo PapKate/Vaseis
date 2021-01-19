@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 using static Vaseis.Styles;
 
@@ -22,11 +22,6 @@ namespace Vaseis
         /// </summary>
         public JobPositionDataModel JobPosition { get; }
 
-        public IEnumerable<string> JobPositions { get; }
-        public IEnumerable<string> Departments { get; }
-        public IEnumerable<string> Subjects { get; }
-
-
         #endregion
 
         #region Protected Properties
@@ -44,17 +39,17 @@ namespace Vaseis
         /// <summary>
         /// The job picker
         /// </summary>
-        protected ComboBox JobPositionPicker { get; private set; }
+        protected PickerComponent JobPositionPicker { get; private set; }
 
         /// <summary>
         /// The department picker
         /// </summary>
-        protected ComboBox DepartmentPicker { get; private set; }
+        protected PickerComponent DepartmentPicker { get; private set; }
 
         /// <summary>
         /// The subject picker
         /// </summary>
-        protected ComboBox SubjectPicker { get; private set; }
+        protected PickerComponent SubjectPicker { get; private set; }
 
         /// <summary>
         /// The text boxes matching the text blocks
@@ -64,17 +59,12 @@ namespace Vaseis
         /// <summary>
         /// The pickers matching the text blocks
         /// </summary>
-        protected Dictionary<TextBlock, ComboBox> BlockAndCombo { get; private set; }
+        protected Dictionary<TextBlock, PickerComponent> BlockAndCombo { get; private set; }
 
         /// <summary>
         /// The text box for the method
         /// </summary>
         protected TextBox DataTextBox { get; private set; }
-
-        /// <summary>
-        /// The option picker for the method
-        /// </summary>
-        protected ComboBox OptionPicker { get; private set; }
 
         /// <summary>
         /// The edit button
@@ -83,63 +73,63 @@ namespace Vaseis
 
         #endregion
 
-        //#region Dependency Properties
+        #region Dependency Properties
 
-        //#region JobPositionsList
+        #region JobPositionsList
 
-        ///// <summary>
-        ///// The list with the job positions' names
-        ///// </summary>
-        //public IEnumerable<string> JobPositionsList
-        //{
-        //    get { return (IEnumerable<string>)GetValue(JobPositionsListProperty); }
-        //    set { SetValue(JobPositionsListProperty, value); }
-        //}
+        /// <summary>
+        /// The list with the job positions' names
+        /// </summary>
+        public IEnumerable<string> JobPositionsList
+        {
+            get { return (IEnumerable<string>)GetValue(JobPositionsListProperty); }
+            set { SetValue(JobPositionsListProperty, value); }
+        }
 
-        ///// <summary>
-        ///// Identifies the <see cref="JobPositionsList"/> dependency property
-        ///// </summary>
-        //public static readonly DependencyProperty JobPositionsListProperty = DependencyProperty.Register(nameof(JobPositionsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
+        /// <summary>
+        /// Identifies the <see cref="JobPositionsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty JobPositionsListProperty = DependencyProperty.Register(nameof(JobPositionsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
 
-        //#endregion
+        #endregion
 
-        //#region DepartmentsList
+        #region DepartmentsList
 
-        ///// <summary>
-        ///// The list with the departments' names
-        ///// </summary>
-        //public IEnumerable<string> DepartmentsList
-        //{
-        //    get { return (IEnumerable<string>)GetValue(DepartmentsListProperty); }
-        //    set { SetValue(DepartmentsListProperty, value); }
-        //}
+        /// <summary>
+        /// The list with the departments' names
+        /// </summary>
+        public IEnumerable<string> DepartmentsList
+        {
+            get { return (IEnumerable<string>)GetValue(DepartmentsListProperty); }
+            set { SetValue(DepartmentsListProperty, value); }
+        }
 
-        ///// <summary>
-        ///// Identifies the <see cref="DepartmentsList"/> dependency property
-        ///// </summary>
-        //public static readonly DependencyProperty DepartmentsListProperty = DependencyProperty.Register(nameof(DepartmentsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
+        /// <summary>
+        /// Identifies the <see cref="DepartmentsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DepartmentsListProperty = DependencyProperty.Register(nameof(DepartmentsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
 
-        //#endregion
+        #endregion
 
-        //#region SubjectsList
+        #region SubjectsList
 
-        ///// <summary>
-        ///// The list with the subjects' names
-        ///// </summary>
-        //public IEnumerable<string> SubjectsList
-        //{
-        //    get { return (IEnumerable<string>)GetValue(SubjectsListProperty); }
-        //    set { SetValue(SubjectsListProperty, value); }
-        //}
+        /// <summary>
+        /// The list with the subjects' names
+        /// </summary>
+        public IEnumerable<string> SubjectsList
+        {
+            get { return (IEnumerable<string>)GetValue(SubjectsListProperty); }
+            set { SetValue(SubjectsListProperty, value); }
+        }
 
-        ///// <summary>
-        ///// Identifies the <see cref="SubjectsList"/> dependency property
-        ///// </summary>
-        //public static readonly DependencyProperty SubjectsListProperty = DependencyProperty.Register(nameof(SubjectsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
+        /// <summary>
+        /// Identifies the <see cref="SubjectsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty SubjectsListProperty = DependencyProperty.Register(nameof(SubjectsList), typeof(IEnumerable<string>), typeof(EvaluatorMyJobPositionsDataGridRowComponent));
 
-        //#endregion
+        #endregion
 
-        //#endregion
+        #endregion
 
         #region Constructors
 
@@ -149,20 +139,6 @@ namespace Vaseis
         public EvaluatorMyJobPositionsDataGridRowComponent(Grid pageGrid, JobPositionDataModel jobPosition) : base(pageGrid)
         {
             JobPosition = jobPosition ?? throw new ArgumentNullException(nameof(jobPosition));
-            CreateGUI();
-            Update();
-        }
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public EvaluatorMyJobPositionsDataGridRowComponent(Grid pageGrid, JobPositionDataModel jobPosition, IEnumerable<string> subjects, IEnumerable<string> departments, IEnumerable<string> jobpositions) : base(pageGrid)
-        {
-            JobPosition = jobPosition ?? throw new ArgumentNullException(nameof(jobPosition));
-            JobPositions = jobpositions ?? throw new ArgumentNullException(nameof(jobpositions));
-            Departments = departments ?? throw new ArgumentNullException(nameof(departments));
-            Subjects = subjects ?? throw new ArgumentNullException(nameof(subjects));
-
             CreateGUI();
             Update();
         }
@@ -220,51 +196,6 @@ namespace Vaseis
             return DataTextBox;
         }
 
-        /// <summary>
-        /// Creates and adds a combo box to the data grid row
-        /// </summary>
-        /// <param name="columnIndex">The data grid row's column index</param>
-        /// <param name="hintText">The hint's text</param>
-        /// <param name="optionNames">A list of objects to pick from</param>
-        protected ComboBox CreateAndAddPicker(int columnIndex, string hintText, IEnumerable<string> optionNames)
-        {
-            var options = new List<ComboBoxItem>();
-            // For each string in the list...
-            foreach (var optionName in optionNames)
-            {
-                // Creates a new combo box item ...
-                var comboBoxItem = new ComboBoxItem()
-                {
-                    Foreground = DarkGray.HexToBrush(),
-                    FontFamily = Calibri,
-                    FontSize = 28,
-                    // with content the one string
-                    Content = optionName
-                };
-
-                // Adds the combo box item to the list
-                options.Add(comboBoxItem);
-            }
-            // Creates the combo box with items source the combo box items' list
-            OptionPicker = new ComboBox()
-            {
-                Margin = new Thickness(24,0,24,0),
-                Foreground = DarkGray.HexToBrush(),
-                FontFamily = Calibri,
-                FontSize = 28,
-                ItemsSource = options,
-                Visibility = Visibility.Collapsed
-            };
-
-            ControlsFactory.CreateHint("Department", OptionPicker);
-
-            RowDataGrid.Children.Add(OptionPicker);
-            ControlsFactory.CreateHint(hintText, OptionPicker);
-            Grid.SetColumn(OptionPicker, columnIndex);
-
-            return OptionPicker;
-        }
-
         #endregion
 
         #region Private Methods
@@ -290,13 +221,44 @@ namespace Vaseis
             Grid.SetColumnSpan(DeadLineTextBox, 4);
 
             // Creates the job position's picker
-            JobPositionPicker = CreateAndAddPicker(0, "Job position", JobPositions);
+            JobPositionPicker = new PickerComponent()
+            { 
+                HintText = "Job position",
+                CompleteFontSize = 28,
+            };
+            JobPositionPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(JobPositionsList))
+            { 
+                Source = this
+            });
+            RowDataGrid.Children.Add(JobPositionPicker);
+            Grid.SetColumn(JobPositionPicker, 0);
+
 
             // Creates the department's picker
-            DepartmentPicker = CreateAndAddPicker(1, "Department", Departments);
-            
+            DepartmentPicker = new PickerComponent()
+            {
+                HintText = "Department",
+                CompleteFontSize = 28,
+            };
+            DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(DepartmentsList))
+            {
+                Source = this
+            });
+            RowDataGrid.Children.Add(DepartmentPicker);
+            Grid.SetColumn(DepartmentPicker, 1);
+
             // Creates the subject's picker
-            SubjectPicker = CreateAndAddPicker(3, "Subject", Subjects);
+            SubjectPicker = new PickerComponent()
+            {
+                HintText = "Subject",
+                CompleteFontSize = 28,
+            };
+            SubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(SubjectsList))
+            {
+                Source = this
+            });
+            RowDataGrid.Children.Add(SubjectPicker);
+            Grid.SetColumn(SubjectPicker, 3);
 
             BlockAndBox = new Dictionary<TextBlock, TextBox>()
             {
@@ -304,7 +266,7 @@ namespace Vaseis
                 { DeadlineTextBlock, DeadLineTextBox }
             };
 
-            BlockAndCombo = new Dictionary<TextBlock, ComboBox>()
+            BlockAndCombo = new Dictionary<TextBlock, PickerComponent>()
             {
                 { JobPosistionTextBlock, JobPositionPicker},
                 { DepartmentTextBlock, DepartmentPicker },
@@ -361,19 +323,19 @@ namespace Vaseis
                     blockAndCombo.Value.Visibility = Visibility.Collapsed;
                 }
 
-                var test1 = JobPositionPicker.Text;
-                var test2 = ControlsFactory.GetDepartment(DepartmentText);
-                var test3 = Int32.Parse(SalaryText);
-                var test4 = ControlsFactory.GetAnnouncementDate(DeadlineText);
-                var test5 = ControlsFactory.GetSubmissionDate(DeadlineText);
+                    //var test1 = JobPositionPicker.Text;
+                    //var test2 = ControlsFactory.GetDepartment(DepartmentText);
+                    //var test3 = Int32.Parse(SalaryText);
+                    //var test4 = ControlsFactory.GetAnnouncementDate(DeadlineText);
+                    //var test5 = ControlsFactory.GetSubmissionDate(DeadlineText);
 
 
-                await Services.GetDataStorage.UpdateJobPositionByEvaluator(JobPosition, 
-                                                                               JobPositionText, 
-                                                                               ControlsFactory.GetDepartment(DepartmentText), 
-                                                                               Int32.Parse(SalaryText),
-                                                                               ControlsFactory.GetAnnouncementDate(DeadlineText), 
-                                                                               ControlsFactory.GetSubmissionDate(DeadlineText));
+                    //await Services.GetDataStorage.UpdateJobPositionByEvaluator(JobPosition, 
+                    //                                                               JobPositionText, 
+                    //                                                               ControlsFactory.GetDepartment(DepartmentText), 
+                    //                                                               Int32.Parse(SalaryText),
+                    //                                                               ControlsFactory.GetAnnouncementDate(DeadlineText), 
+                    //                                                               ControlsFactory.GetSubmissionDate(DeadlineText));
                 }),
 
                 // The cancel command

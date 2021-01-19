@@ -130,7 +130,9 @@ namespace Vaseis
                 // Create a row of for the employee's job position data grid
                 var row = new EvaluatorMyJobPositionsDataGridRowComponent(PageGrid, jobPosition)
                 {
-
+                    //JobPositionsList = jobPositionsList,
+                    //DepartmentsList = departmentsList,
+                    //SubjectsList = subjectsList
                 };
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);
