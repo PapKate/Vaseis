@@ -1,16 +1,15 @@
 ﻿using MaterialDesignThemes.Wpf;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
+
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
-   //This is a class that creates the row components fo rthe adminidtrator's companies page
+    //This is a class that creates the row components fo rthe adminidtrator's companies page
     public class CompaniesComponent : ContentControl
     {
         #region Proetcted Properties
@@ -22,13 +21,23 @@ namespace Vaseis
 
         #endregion
 
-
         #region Constructors
         public CompaniesComponent(CompanyDataModel company)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
 
             CreateGUI();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void Update()
+        {
+
+
+
         }
 
         #endregion
@@ -427,21 +436,19 @@ namespace Vaseis
                 Background = Company.CompanyColor.HexToBrush(),
             };
 
-
             ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
 
-
             Content = CompanyButton;
-
-            #endregion
         }
 
-            /// <summary>
-            /// On click shows the add department dialog
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
+        #endregion
+
+        /// <summary>
+        /// On click shows the add department dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
             {
                 // Creates a new department dialog
                 var AddNewDepartment = new NewDepartmentDialogComponent(Company);

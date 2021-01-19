@@ -39,17 +39,17 @@ namespace Vaseis
         /// <summary>
         /// The job picker
         /// </summary>
-        protected PickerComponent JobPositionPicker { get; private set; }
+        protected ComboBox JobPositionPicker { get; private set; }
 
         /// <summary>
         /// The department picker
         /// </summary>
-        protected PickerComponent DepartmentPicker { get; private set; }
+        protected ComboBox DepartmentPicker { get; private set; }
 
         /// <summary>
         /// The subject picker
         /// </summary>
-        protected PickerComponent SubjectPicker { get; private set; }
+        protected ComboBox SubjectPicker { get; private set; }
 
         /// <summary>
         /// The text boxes matching the text blocks
@@ -59,7 +59,7 @@ namespace Vaseis
         /// <summary>
         /// The pickers matching the text blocks
         /// </summary>
-        protected Dictionary<TextBlock, PickerComponent> BlockAndCombo { get; private set; }
+        protected Dictionary<TextBlock, ComboBox> BlockAndCombo { get; private set; }
 
         /// <summary>
         /// The text box for the method
@@ -205,6 +205,8 @@ namespace Vaseis
             // Creates the salary text input field
             SalaryTextBox = CreateAndAddTextBox(2, "Salary");
 
+            var list = new List<string> { "boom", "bam" };
+
             // Creates the deadline's text input field
             DeadLineTextBox = new TextBox()
             {
@@ -220,45 +222,22 @@ namespace Vaseis
             Grid.SetColumn(DeadLineTextBox, 4);
             Grid.SetColumnSpan(DeadLineTextBox, 4);
 
-            // Creates the job position's picker
-            JobPositionPicker = new PickerComponent()
-            { 
-                HintText = "Job position",
-                CompleteFontSize = 28,
+            JobPositionPicker = new ComboBox()
+            {
+                Width = 240,
+                Margin = new Thickness(24),
+                FontSize = 24,
+                Foreground = DarkGray.HexToBrush(),
+                FontFamily = Calibri,
             };
-            JobPositionPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(JobPositionsList))
-            { 
+            JobPositionPicker.SetBinding(ComboBox.ItemsSourceProperty, new Binding(nameof(JobPositionsList))
+            {
                 Source = this
             });
+            
             RowDataGrid.Children.Add(JobPositionPicker);
             Grid.SetColumn(JobPositionPicker, 0);
 
-
-            // Creates the department's picker
-            DepartmentPicker = new PickerComponent()
-            {
-                HintText = "Department",
-                CompleteFontSize = 28,
-            };
-            DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(DepartmentsList))
-            {
-                Source = this
-            });
-            RowDataGrid.Children.Add(DepartmentPicker);
-            Grid.SetColumn(DepartmentPicker, 1);
-
-            // Creates the subject's picker
-            SubjectPicker = new PickerComponent()
-            {
-                HintText = "Subject",
-                CompleteFontSize = 28,
-            };
-            SubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(SubjectsList))
-            {
-                Source = this
-            });
-            RowDataGrid.Children.Add(SubjectPicker);
-            Grid.SetColumn(SubjectPicker, 3);
 
             BlockAndBox = new Dictionary<TextBlock, TextBox>()
             {
@@ -266,11 +245,11 @@ namespace Vaseis
                 { DeadlineTextBlock, DeadLineTextBox }
             };
 
-            BlockAndCombo = new Dictionary<TextBlock, PickerComponent>()
+            BlockAndCombo = new Dictionary<TextBlock, ComboBox>()
             {
-                { JobPosistionTextBlock, JobPositionPicker},
-                { DepartmentTextBlock, DepartmentPicker },
-                { SubjectTextBlock, SubjectPicker },
+                //{ JobPosistionTextBlock, JobPositionPicker},
+                //{ DepartmentTextBlock, DepartmentPicker },
+                //{ SubjectTextBlock, SubjectPicker },
             };
 
             // Creates the edit button

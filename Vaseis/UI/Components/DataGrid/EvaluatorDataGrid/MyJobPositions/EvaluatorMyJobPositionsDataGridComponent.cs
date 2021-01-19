@@ -93,7 +93,7 @@ namespace Vaseis
             // Gets the company's job positions
             var companyJobPositions = await Services.GetDataStorage.GetCompanyJobPositions(Evaluator.Department.CompanyId);
             // For each job position...
-            foreach(var companyJobPosition in companyJobPositions)
+            foreach (var companyJobPosition in companyJobPositions)
             {
                 // Add their title to the list
                 jobPositionsList.Add(companyJobPosition.Job.JobTitle);
@@ -130,9 +130,9 @@ namespace Vaseis
                 // Create a row of for the employee's job position data grid
                 var row = new EvaluatorMyJobPositionsDataGridRowComponent(PageGrid, jobPosition)
                 {
-                    //JobPositionsList = jobPositionsList,
-                    //DepartmentsList = departmentsList,
-                    //SubjectsList = subjectsList
+                    JobPositionsList = jobPositionsList,
+                    DepartmentsList = departmentsList,
+                    SubjectsList = subjectsList
                 };
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);

@@ -368,6 +368,9 @@ namespace Vaseis
             // Parses all the users from the db set the are of type evaluator to a list
             var evaluators = await context.Users.Where(x => x.Type == UserType.Evaluator).ToListAsync();
 
+
+
+
             #endregion
 
             #region UsersJobFilesPair
@@ -530,7 +533,7 @@ namespace Vaseis
             var recommendationPapers = new Faker<RecomendationPaperDataModel>()
                 .RuleFor(x => x.Referee, faker => faker.Person.FullName)
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 399))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(500);
 
 
@@ -590,6 +593,39 @@ namespace Vaseis
 
             await context.SaveChangesAsync();
 
+            context.Users.AddRange(new List<UserDataModel>() //in memory
+            {
+                new UserDataModel()
+                {
+                    Username = "GewrgikaMantalakia", 
+                    Password = "wxAmanAman",
+                    Email = "vasoulakok@hotmail.com",
+                    ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfl8a3emNH5v8fgYNkyMvnXkcqyGiW_2KLQ&usqp=CAU",
+                    FirstName = "Vasiliki",
+                    LastName = "Kokkala",
+                    YearsOfExperience = 55,
+                    Type = UserType.Administrator,
+                    Bio = "Τρακτέρ ή γεωργικός ελκυστήρας ονομάζεται το όχημα με μεγάλη δύναμη, ώστε να μπορεί να μετακινεί γεωργικά και άλλα μηχανήματα. Έχει όμως επικρατήσει σε διεθνή κλίμακα, να λέγονται τρακτέρ τα μηχανήματα που προσφέρουν τεράστιες υπηρεσίες στην καλλιέργεια της γης. Κυρίως χρησιμοποιείται για την έλξη διαφόρων γεωργικών μηχανημάτων όπως άροτρα, φρέζες, καλλιεργητές, κ.α. καθώς και για συντήρηση αθλητικών χώρων και πάρκων. Αυτή τη δουλειά παλιότερα την έκαναν τα ζώα, οι ανάγκες όμως αυξήθηκαν και η πρόοδος της τεχνολογίας έδωσε τη δυνατότητα να καλυφθούν αυτές με πολύ καλύτερο τρόπο."
+                        +  "Τα τρακτέρ παλιά κινούνταν με ατμό ή βενζίνη, ενώ με την εφεύρεση του ντίζελ επικράτησε ως καύσιμο το πετρέλαιο . Υπάρχουν τρακτέρ τροχοφόρα και ερπυστριοφόρα, τα οποία χρησιμοποιούνται για βαθιά άροση και για τη μετακίνηση σε ανώμαλα εδάφη. Στην Ελλάδα τα πρώτα τρακτέρ κυκλοφόρησαν το 1924."
+                },
+                new UserDataModel()
+                {    
+                    Username = "0xCAFFEEBABA",
+                    Password = "neraki23",
+                    Email = "papapap@kaka.com",
+                    ProfilePicture = "https://image.freepik.com/free-photo/white-coffee-cup-roasted-coffee-beans-around_35570-794.jpg",
+                    FirstName = "Katherine",
+                    LastName = "Papa",
+                    YearsOfExperience = 5,
+                    Type = UserType.Administrator,
+                    Bio = "The GRANT statement grants privileges to MySQL user accounts. To grant a privilege with GRANT, you must have the GRANT OPTION privilege, and you must have the privileges that you are granting. (Alternatively, if you have the UPDATE privilege for the grant tables in the mysql system database, you can grant any account any privilege.) When the read_only system variable is enabled, GRANT additionally requires the SUPER privilege."
+                        + "The REVOKE statement is related to GRANT and enables administrators to remove account privileges. See Section 13.7.1.6, “REVOKE Statement”."
+                }
+            });
+
+            await context.SaveChangesAsync();
+
+            var admins = await context.Users.ToListAsync();
 
 
             #endregion
@@ -600,7 +636,7 @@ namespace Vaseis
             var certificates = new Faker<CertificateDataModel>()
                 .RuleFor(x => x.Title, faker => faker.Lorem.Sentence(2))
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(1000);
 
             // Adds the generated awards in the awards db set
@@ -643,7 +679,7 @@ namespace Vaseis
             var awards = new Faker<AwardDataModel>()
                 .RuleFor(x => x.Name, faker => faker.Random.ListItem(awardsList))
                 .RuleFor(x => x.AcquiredDate, faker => faker.Date.Past(5, DateTime.Now))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(1000);
 
             // Adds the generated awards in the awards db set
@@ -706,12 +742,6 @@ namespace Vaseis
 
             // Saves changes
             await context.SaveChangesAsync();
-
-            #endregion
-
-            #region RecommendationPapers
-
-
 
             #endregion
 
