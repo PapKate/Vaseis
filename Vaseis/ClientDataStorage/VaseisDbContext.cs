@@ -17,7 +17,7 @@ namespace Vaseis
         /// <summary>
         /// The departments
         /// </summary>
-        public DbSet<DepartmentDataModel> Departments { get; set; }
+        public DbSet<CompanyDataModel> Departments { get; set; }
 
         /// <summary>
         /// The users table
@@ -229,7 +229,7 @@ namespace Vaseis
             #region Department
 
             // For the users in a department
-            modelBuilder.Entity<DepartmentDataModel>()
+            modelBuilder.Entity<CompanyDataModel>()
                 .HasMany(x => x.Users)
                 .WithOne(x => x.Department)
                 .HasPrincipalKey(x => x.Id)
@@ -237,7 +237,7 @@ namespace Vaseis
                 .OnDelete(DeleteBehavior.Cascade);
 
             // For the jobs in a department
-            modelBuilder.Entity<DepartmentDataModel>()
+            modelBuilder.Entity<CompanyDataModel>()
                 .HasMany(x => x.Jobs)
                 .WithOne(x => x.Department)
                 .HasPrincipalKey(x => x.Id)

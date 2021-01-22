@@ -136,7 +136,6 @@ namespace Vaseis
 
        
         #endregion
-
        
         #region Constructors
 
@@ -259,17 +258,21 @@ namespace Vaseis
             // Adds them to the stack panel
             PersonalDataStackPanel.Children.Add(LastNameData);
 
-            // Creates the company text blocks
-            CompanyData = new TitleAndTextComponent()
+            if (User.Type != UserType.Administrator)
             {
-                Title = "Company",
 
-                Text = User.Department.Company.Name,
+                // Creates the company text blocks
+                CompanyData = new TitleAndTextComponent()
+                {
+                    Title = "Company",
 
-                Margin = new Thickness(16)
-            };
-            // Adds them to the stack panel
-            PersonalDataStackPanel.Children.Add(CompanyData);
+                    Text = User.Department.Company.Name,
+
+                    Margin = new Thickness(16)
+                };
+                // Adds them to the stack panel
+                PersonalDataStackPanel.Children.Add(CompanyData);
+            }
 
             // Creates the years of experience title and text component
             YearsOfXp = new TitleAndTextComponent()
@@ -417,19 +420,22 @@ namespace Vaseis
             if (User.Type == UserType.Evaluator) { }
             else { EvalsAverage.Visibility = Visibility.Collapsed; }
 
-
-            // Creates the department's text block
-            DepartmentTitleBlock = new TextBlock()
+            if (User.Type != UserType.Administrator)
             {
-                FontSize = 32,
-                FontFamily = Calibri,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Foreground = DarkGray.HexToBrush(),
-                Text = User.Department.DepartmentName.ToString(),
-            };
-            // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
 
+                // Creates the department's text block
+                DepartmentTitleBlock = new TextBlock()
+                {
+                    FontSize = 32,
+                    FontFamily = Calibri,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Foreground = DarkGray.HexToBrush(),
+                    Text = User.Department.DepartmentName.ToString(),
+                };
+                // Adds it to the stack panel
+                CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
+
+            }
             // Creates a bio tile
             BioTile = new BioComponent()
             {

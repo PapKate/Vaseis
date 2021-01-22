@@ -23,7 +23,7 @@ namespace Vaseis
         /// <summary>
         /// The companies button
         /// </summary>
-        protected SideMenuButtonComponent AddSubject { get; private set; }
+        protected SideMenuButtonComponent SubjectsButton { get; private set; }
 
         #endregion
 
@@ -44,21 +44,8 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-
-            AdminProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.Account);
-
-            AdminProfileButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
-            {
-                TabControl.Items.Add(new TabItemComponent(TabControl)
-                {
-                    Text = "Profile",
-                    Icon = PackIconKind.Account,
-                    Content = new ProfilePage(User)
-                });
-            });
-
-       
-            // Create and add the my job requests button
+    
+            // Create and add the companies button
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
             CompaniesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
@@ -71,15 +58,16 @@ namespace Vaseis
                 });
             });
 
-            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Account);
+            // Create and add the subjects button
+            SubjectsButton = CreateAndAddSideMenuButton("Subjects", PackIconKind.AlphabetB);
 
-            AddSubject.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            SubjectsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
                 TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "Subjects",
-                    Icon = PackIconKind.DomainPlus,
-                   // Content = new CompaniesPage()
+                    Icon = PackIconKind.AlphabetB,
+                    Content = new SubjectsPage()
                 });
             });
 

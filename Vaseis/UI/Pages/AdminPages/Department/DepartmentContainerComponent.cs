@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-
-using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    /// <summary>
-    /// The area filled with the employee buttons in the Employees page
-    /// </summary>
-    public class UserButtonsContainerComponent : ContentControl
+    public class DepartmentContainerComponent : ContentControl
     {
         #region Protected Properties
 
@@ -21,7 +14,7 @@ namespace Vaseis
         ///  The grid container of all the user buttons
         /// </summary>
         protected UniformGrid UserButtonsGrid { get; private set; }
- 
+
         /// <summary>
         /// The specific company
         /// </summary>
@@ -53,7 +46,7 @@ namespace Vaseis
             foreach (var employee in emplyoees)
             {
                 UserButtonsGrid.Children.Add(new UserButtonComponent(employee) { });
-            }       
+            }
         }
 
         #endregion

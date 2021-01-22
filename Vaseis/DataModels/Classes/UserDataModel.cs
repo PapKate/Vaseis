@@ -83,15 +83,25 @@ namespace Vaseis
         #region Relationships
 
         /// <summary>
-        /// The related <see cref="DepartmentDataModel"/>
+        /// The related <see cref="CompanyDataModel"/>
         /// Null for the administrators
         /// </summary>
         public int? DepartmentId { get; set; }
 
         /// <summary>
-        /// The related <see cref="DepartmentDataModel"/>
+        /// The related <see cref="CompanyDataModel"/>
         /// </summary>
-        public DepartmentDataModel Department { get; set; }
+        public CompanyDataModel Department { get; set; }
+
+        /// <summary>
+        /// The related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public int? CompanyId { get; set; }
+
+        /// <summary>
+        /// The related <see cref="CompanyDataModel"/>
+        /// </summary>
+        public CompanyDataModel Company { get; set; }
 
         /// <summary>
         /// The <see cref="JobPositionDataModel.Id"/> of the related <see cref="JobPositionDataModel"/>
@@ -147,51 +157,6 @@ namespace Vaseis
         /// The reports written by a manager
         /// </summary>
         public IEnumerable<ReportDataModel> Reports { get; set; }
-
-        ///// <summary>
-        ///// The job position requests of a user
-        ///// </summary>
-        //public IEnumerable<JobPositionRequestDataModel> EmployeeJobPositionRequests { get; set; }
-
-        ///// <summary>
-        ///// That are sent to a manager
-        ///// </summary>
-        //public IEnumerable<JobPositionRequestDataModel> ManagerJobPositionRequests { get; set; }
-
-        ///// <summary>
-        ///// That are sent to an evaluator
-        ///// </summary>
-        //public IEnumerable<JobPositionRequestDataModel> EvaluatorJobPositionRequests { get; set; }
-
-        ///// <summary>
-        ///// The evaluation results that are sent to an employee
-        ///// </summary>
-        //public IEnumerable<EvaluationDataModel> EmployeeEvaluations { get; set; }
-
-        ///// <summary>
-        ///// That are sent to a manager
-        ///// </summary>
-        //public IEnumerable<EvaluationDataModel> ManagerEvaluations { get; set; }
-
-        ///// <summary>
-        ///// That an evaluator makes
-        ///// </summary>
-        //public IEnumerable<EvaluationDataModel> EvaluatorEvaluations { get; set; }
-
-        ///// <summary>
-        ///// The reports about a specific employee
-        ///// </summary>
-        //public IEnumerable<ReportDataModel> EmployeeReports { get; set; }
-
-        ///// <summary>
-        ///// The reports written by a manager
-        ///// </summary>
-        //public IEnumerable<ReportDataModel> ManagerReports { get; set; }
-
-        ///// <summary>
-        ///// The reports an evaluator receives
-        ///// </summary>
-        //public IEnumerable<ReportDataModel> EvaluatorReports { get; set; }
 
         #endregion
 

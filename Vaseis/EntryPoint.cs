@@ -57,6 +57,7 @@ namespace Vaseis
                 {
                     Name = "EnchantmentLab",
                     AFM = "010220002",
+                    About = "Τελειωμό δεν έχουν τα... βάσανα στις ζωές των ηρώων στις «Άγριες Μέλισσες» με τη Δρόσω να αντιμετωπίζει τον χειρότερο εφιάλτη της, από τον Τάκη που ισχυρίζεται ότι την αγαπάει και θέλει να την κερδίσει ξανά. Ο Τάκης ήρθε στο Διαφάνι και ζητά από τη Δρόσω να φύγουν μαζί εκβιάζοντάς την - από αγάπη όπως λέει - ότι θα αποκαλύψει τα μυστικά της. Σύντομα κάνει τις απειλές του πραγματικότητα, φέρνοντας την καταστροφή για τη Δρόσω Σταμίρη. Η Ασημίνα σε επόμενο επεισόδιο το σκάει με τον μικρό Σέργιο και ο Μπάμπης συλλαμβάνεται για την εξαφάνιση της Ασημίνας, ενώ μια άφιξη στο Διαφάνι «απειλεί» να φανερώσει το μυστικό της Βιολέτας.",
                     DOY = "Δ.Ο.Υ. ΑΜΑΛΙΑΔΑΣ",
                     Country = "Greece",
                     City = "Athens",
@@ -74,6 +75,8 @@ namespace Vaseis
                     DOY = "Δ.Ο.Υ. ΚΙΛΚΙΣ",
                     Country = "Canada",
                     City = "Toronto",
+                    About = "Ο Τάκης έχει επιβάλλει την παρουσία του στο σπίτι των Σταμίρη στο Διαφάνι και με εκβιασμούς και φτηνούς ηρωισμούς προσπαθεί να κάνει δική του τη Δρόσω. Ο Νικηφόρος έρχεται στα χέρια με τον Τάκη και απαγορεύει στη Δρόσω να ξαναδεί τον μικρό Σέργιο. Κάτι που τη διαλύει!"
+                    + "Στο spoiler του Αλέξη Μίχα στην εκπομπή «Το Πρωινό» για τις εξελίξεις στις « «Άγριες Μέλισσες» Δούκας και Μυρσίνη δεν αντέχουν ο ένας τον άλλον και αλληλοκατηγορούνται με αποτέλεσμα να φτάσουν στο διαζύγιο. ",
                     StreetName = "Cocoan",
                     StreetNumber = "24",
                     TelephoneNumber = "(+1) 1501199811",
@@ -89,6 +92,7 @@ namespace Vaseis
                     Country = "Serbia",
                     City = "Belgrade",
                     StreetName = "Lidl",
+                    About = "Στο άλλο «μέτωπο» της σειράς, η Ελένη πηγαίνει στον εισαγγελέα Αλέξη Γραμματικό και καταθέτει εναντίον του Βόσκαρη. Αναφέρει την κακοποίηση και τους βιασμούς και ξεσπά σκάνδαλο, ενώ ο Βόσκαρης ετοιμάζεται να παντρευτεί την Σοφούλα Τόλλια. Η Ελένη θα νιώσει αποκομμένη από τους πάντες και τα πάντα στο Διαφάνι. Στο πλευρό της ο Λάμπρος, ενώ ο Γραμματικός καλεί σε απολογία τον Βόσκαρη, αλλά χρειάζονται και άλλες μαρτυρίες από άλλες γυναίκες για να του απαγγελθούν κατηγορίες. Ο ίδιος ο Αλέξης Γραμματικός θα προσεγγίσει μια πρώην κρατούμενη του Βόσκαρη για να την πείσει να μιλήσει εναντίον του τότε διευθυντή των φυλακών. ",
                     StreetNumber = "27",
                     TelephoneNumber = "(+41) 2412202012",
                     DateCreated = new DateTime(2020, 1, 11),
@@ -104,6 +108,7 @@ namespace Vaseis
                     City = "Patras",
                     StreetName = "Filippimenos",
                     StreetNumber = "2",
+                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
                     TelephoneNumber = "(+41) 2612202012",
                     DateCreated = new DateTime(2019, 2, 2),
                     CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
@@ -116,11 +121,18 @@ namespace Vaseis
                     DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
                     Country = "Greece",
                     City = "Patras",
+                    About = "Kατάφερε να γίνει viral για τον λάθος λόγο. Στο χθεσινό επεισόδιο του Survivor η Άννα Μαρία τσακώθηκε με την Ελίζαμπεθ Ελέτσι, την συμπαίκτριά της στην ομάδα των «Διασήμων» και μας χάρισε το μαργαριτάρι της χρονιάς."
+
+                    + "Θέλοντας -και καλά!- να διορθώσει την συμπαίκτριά της, της είπε με ύφος που θα ζήλευε και ο Μπαμπινιώτης: «Επειδή είπες ότι ξέρουμε ελληνικά, το ‘παρά ταύτα’ δεν σημαίνει ‘παρόλα αυτά’, το ‘παρά ταύτα’ σημαίνει ‘αμέσως τώρα’. Είναι λάθος λοιπόν»."
+
+                    + "Μπορεί ο Φατσέας να εκτίμησε το δωρεάν μάθημα ελληνικής, αλλά ένα μικρό θεματάκι με την ερμηνεία το είχαμε. Γιατί το λάθος με το «πάραυτα» εδώ που τα λέμε το κάνει η μισή Ελλάδα."
+
+                    + "Είναι το πιο συνηθισμένο λάθος που κάνουν οι μισοί τουλάχιστον Έλληνες. Χρησιμοποιούν τη λέξη «πάραυτα» νομίζοντας ότι σημαίνει… παρόλα αυτά.",
                     StreetName = "Pantelehmonos",
                     StreetNumber = "12",
                     TelephoneNumber = "(+41) 2612202012",
                     DateCreated = new DateTime(2020, 10, 10),
-                    CompanyPicture = ""
+                    CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
                 },
 
                 new CompanyDataModel()
@@ -132,9 +144,10 @@ namespace Vaseis
                     City = "Patras",
                     StreetName = "Apollonws",
                     StreetNumber = "8",
+                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",           
                     TelephoneNumber = "(+30) 2612202212",
                     DateCreated = new DateTime(2020, 10, 20),
-                    CompanyPicture = ""
+                    CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
                 },
 
                 new CompanyDataModel()
@@ -143,6 +156,7 @@ namespace Vaseis
                     AFM = "101000210",
                     DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
                     Country = "Greece",
+                    About =  "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
                     City = "Patras",
                     StreetName = "Pantanashs",
                     StreetNumber = "4",
@@ -159,6 +173,7 @@ namespace Vaseis
                     Country = "Greece",
                     City = "Eretria",
                     StreetName = "Zacharia",
+                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
                     StreetNumber = "2",
                     TelephoneNumber = "(+41) 2229034008",
                     DateCreated = new DateTime(2018, 5, 6),
@@ -172,6 +187,7 @@ namespace Vaseis
                     DOY = "Δ.Ο.Υ. ΚΑΡΔΙΤΣΑΣ ",
                     Country = "Malta",
                     City = "Oslo",
+                    About =  "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
                     StreetName = "Queen Elizabeta's",
                     StreetNumber = "666",
                     TelephoneNumber = "(+30) 2229035208",
@@ -205,13 +221,13 @@ namespace Vaseis
                                 };
 
             // For each and every company in the companies list...
-            foreach(var company in companies)
+            foreach (var company in companies)
             {
                 // For each department in the list with every possible option for a department's name...
                 foreach (var dep in departmentOptionsList)
                 {
                     // Creates a department data model that has as department the department and the company from the according lists
-                    var department = new DepartmentDataModel() { DepartmentName = dep.Key, Company = company, Color = dep.Value };
+                    var department = new CompanyDataModel() { DepartmentName = dep.Key, Company = company, Color = dep.Value };
                     // Adds the data model in the departments data model
                     context.Departments.Add(department);
                 }
@@ -225,10 +241,6 @@ namespace Vaseis
 
             #endregion
 
-            #region Subjects
-
-            #endregion
-
             #region Jobs
 
             //Creates a list of Job data model
@@ -239,11 +251,11 @@ namespace Vaseis
                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
                            .Generate(40);
 
-           // Adds the generated jobs in the users db set
+            // Adds the generated jobs in the users db set
             context.Jobs.AddRange(jobs);
 
-           // Saves changes
-           await context.SaveChangesAsync();
+            // Saves changes
+            await context.SaveChangesAsync();
 
             #endregion
 
@@ -295,6 +307,8 @@ namespace Vaseis
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(32))
                             .Generate(400);
 
+            
+
             // Adds the generated employees in the users db set
             context.Users.AddRange(employeesDm);
 
@@ -336,6 +350,8 @@ namespace Vaseis
             // Parses all the users from the db set the are of type manager to a list
             var managers = await context.Users.Where(x => x.Type == UserType.Manager).ToListAsync();
 
+    
+
             // Add data to evaluators
             // For each company in the companies list...
             foreach (var company in companies)
@@ -368,13 +384,49 @@ namespace Vaseis
             // Parses all the users from the db set the are of type evaluator to a list
             var evaluators = await context.Users.Where(x => x.Type == UserType.Evaluator).ToListAsync();
 
+            context.Users.AddRange(new List<UserDataModel>() //in memory
+            {
+                new UserDataModel()
+                {
+                    Username = "GewrgikaMantalakia",
+                    Password = "wxAmanAman",
+                    Email = "vasoulakok@hotmail.com",
+                    ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfl8a3emNH5v8fgYNkyMvnXkcqyGiW_2KLQ&usqp=CAU",
+                    FirstName = "Vasiliki",
+                    LastName = "Kokkala",
+                    YearsOfExperience = 55,
+                    Type = UserType.Administrator,
+                    Bio = "Τρακτέρ ή γεωργικός ελκυστήρας ονομάζεται το όχημα με μεγάλη δύναμη, ώστε να μπορεί να μετακινεί γεωργικά και άλλα μηχανήματα. Έχει όμως επικρατήσει σε διεθνή κλίμακα, να λέγονται τρακτέρ τα μηχανήματα που προσφέρουν τεράστιες υπηρεσίες στην καλλιέργεια της γης. Κυρίως χρησιμοποιείται για την έλξη διαφόρων γεωργικών μηχανημάτων όπως άροτρα, φρέζες, καλλιεργητές, κ.α. καθώς και για συντήρηση αθλητικών χώρων και πάρκων. Αυτή τη δουλειά παλιότερα την έκαναν τα ζώα, οι ανάγκες όμως αυξήθηκαν και η πρόοδος της τεχνολογίας έδωσε τη δυνατότητα να καλυφθούν αυτές με πολύ καλύτερο τρόπο."
+                        +  "Τα τρακτέρ παλιά κινούνταν με ατμό ή βενζίνη, ενώ με την εφεύρεση του ντίζελ επικράτησε ως καύσιμο το πετρέλαιο . Υπάρχουν τρακτέρ τροχοφόρα και ερπυστριοφόρα, τα οποία χρησιμοποιούνται για βαθιά άροση και για τη μετακίνηση σε ανώμαλα εδάφη. Στην Ελλάδα τα πρώτα τρακτέρ κυκλοφόρησαν το 1924."
+                },
+                new UserDataModel()
+                {
+                    Username = "0xCAFFEEBABA",
+                    Password = "neraki23",
+                    Email = "papapap@kaka.com",
+                    ProfilePicture = "https://image.freepik.com/free-photo/white-coffee-cup-roasted-coffee-beans-around_35570-794.jpg",
+                    FirstName = "Katherine",
+                    LastName = "Papa",
+                    YearsOfExperience = 5,
+                    Type = UserType.Administrator,
+                    Bio = "The GRANT statement grants privileges to MySQL user accounts. To grant a privilege with GRANT, you must have the GRANT OPTION privilege, and you must have the privileges that you are granting. (Alternatively, if you have the UPDATE privilege for the grant tables in the mysql system database, you can grant any account any privilege.) When the read_only system variable is enabled, GRANT additionally requires the SUPER privilege."
+                        + "The REVOKE statement is related to GRANT and enables administrators to remove account privileges. See Section 13.7.1.6, “REVOKE Statement”."
+                }
+            });
+
+            await context.SaveChangesAsync();
+
+            var admins = await context.Users.ToListAsync();
+
+
+
             #endregion
 
             #region UsersJobFilesPair
 
             // For each manager in the managers list...
             foreach (var manager in managers)
-            {  
+            {
                 // For each employee in the employees list...
                 foreach (var employee in employees)
                 {
@@ -383,14 +435,14 @@ namespace Vaseis
                     {
                         // Get all the evaluators of that department
                         // Finds all the evaluators in the evaluators list that...
-                        var departmentEvaluators = evaluators.FindAll(delegate (UserDataModel evaluator) 
+                        var departmentEvaluators = evaluators.FindAll(delegate (UserDataModel evaluator)
                         {
                             // Have the same department id as the manager
                             return evaluator.DepartmentId == manager.DepartmentId;
                         });
                         // Get a random number between 0 and 2
                         // ( Every department has 3 evaluators )
-                        var i = new Random().Next(0,2);
+                        var i = new Random().Next(0, 2);
                         // Create an new users and job files pair
                         var pair = new UsersJobFilesPairDataModel()
                         {
@@ -481,7 +533,7 @@ namespace Vaseis
             foreach (var evaluation in evaluations)
             {
                 finalGrade = (float)(evaluation.InterviewGrade * 0.4 + evaluation.ReportGrade * 0.4 + evaluation.FilesGrade * 0.2);
-               //*100 to become an integer
+                //*100 to become an integer
                 evaluation.FinalGrade = (int)finalGrade;
             }
 
@@ -511,7 +563,7 @@ namespace Vaseis
 
             // Generates the acquired degrees
             var acquiredDegrees = new Faker<AcquiredDegreeDataModel>()
-                            .RuleFor(x => x.Grade, faker => faker.Random.Int(5,10))
+                            .RuleFor(x => x.Grade, faker => faker.Random.Int(5, 10))
                             .RuleFor(x => x.YearEarned, faker => faker.Date.Past(30, DateTime.Now))
                             .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
                             .RuleFor(x => x.DegreeId, faker => faker.Random.Int(1, 40))
@@ -530,7 +582,7 @@ namespace Vaseis
             var recommendationPapers = new Faker<RecomendationPaperDataModel>()
                 .RuleFor(x => x.Referee, faker => faker.Person.FullName)
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 399))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(500);
 
 
@@ -544,13 +596,14 @@ namespace Vaseis
 
             #region Subjects
 
-
+            ///Below i have created many different subjects so that i can relate 
+            ///Many fathers
             context.Subjects.AddRange(new List<SubjectDataModel>()
             {
                 new SubjectDataModel()
                 {
                 Title = "Arts",
-                Description = "Creating graphical design components"
+                Description = " graphical components"
                 },
 
                 new SubjectDataModel()
@@ -583,14 +636,22 @@ namespace Vaseis
            .RuleFor(x => x.Title, faker => faker.Commerce.Product())
            .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
            .RuleFor(x => x.SubjectId, faker => faker.Random.Int(1, 3))
-           .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 120))
-           .Generate(500);
+           //.RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 120))
+           .Generate(40);
 
             context.Subjects.AddRange(moreSubjects);
 
             await context.SaveChangesAsync();
 
+            var evenMoreSubjects = new Faker<SubjectDataModel>()
+           .RuleFor(x => x.Title, faker => faker.Commerce.Product())
+           .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
+           .RuleFor(x => x.SubjectId, faker => faker.Random.Int(3,44))
+           .Generate(50);
 
+            context.Subjects.AddRange(evenMoreSubjects);
+
+            await context.SaveChangesAsync();
 
             #endregion
 
@@ -600,7 +661,7 @@ namespace Vaseis
             var certificates = new Faker<CertificateDataModel>()
                 .RuleFor(x => x.Title, faker => faker.Lorem.Sentence(2))
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(1000);
 
             // Adds the generated awards in the awards db set
@@ -643,7 +704,7 @@ namespace Vaseis
             var awards = new Faker<AwardDataModel>()
                 .RuleFor(x => x.Name, faker => faker.Random.ListItem(awardsList))
                 .RuleFor(x => x.AcquiredDate, faker => faker.Date.Past(5, DateTime.Now))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(1000);
 
             // Adds the generated awards in the awards db set
@@ -695,10 +756,10 @@ namespace Vaseis
             // Generates the projects
             var projects = new Faker<ProjectDataModel>()
                 .RuleFor(x => x.Title, faker => faker.Lorem.Sentence(2))
-                .RuleFor (x => x.Url, faker => faker.Internet.Url())
+                .RuleFor(x => x.Url, faker => faker.Internet.Url())
                 .RuleFor(x => x.MadeForWho, faker => faker.Random.Enum<MadeForWho>())
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph())
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
                 .Generate(3000);
 
             // Adds the generated projects in the projects db set
@@ -706,12 +767,6 @@ namespace Vaseis
 
             // Saves changes
             await context.SaveChangesAsync();
-
-            #endregion
-
-            #region RecommendationPapers
-
-
 
             #endregion
 
@@ -746,9 +801,8 @@ namespace Vaseis
                                                         .Include(x => x.Certificates)
                                                         .Include(x => x.RecommendationPapers)
                                                         .Include(x => x.Languages)
-                                                        .Where(x => x.Type == UserType.Evaluator)
+                                                       // .Where(x => x.Type == UserType.Evaluator)
                                                         .ToListAsync();
-
 
 
             //Add to all subjects, the Children Subjetcs that have THIS subject as father
@@ -762,6 +816,13 @@ namespace Vaseis
 
             var JobsWithJoins = await context.Jobs.Include(x => x.JobPositions)
                                                              .ToListAsync();
+
+            var DeprtmentsWithJoins = await context.Departments.Include(x => x.Users)
+                                                               .Include(x => x.Jobs)
+                                                               .ToListAsync();
+
+            var companiiesWithJoins = await context.Companies.Include(x => x.Departments).ToListAsync();
+
 
         }
     }

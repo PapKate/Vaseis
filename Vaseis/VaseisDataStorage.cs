@@ -38,8 +38,31 @@ namespace Vaseis
         /// </summary>
         public Task<List<SubjectDataModel>> GetSubjects()
         {
-            return DbContext.Subjects.ToListAsync();
+            return DbContext.Subjects.Include(x => x.ChildrenSubjects).ToListAsync();            
         }
+
+
+        /// <summary>
+        /// Get all the Companies
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<CompanyDataModel>> GetCompanies()
+        {
+            return DbContext.Companies.ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets the company's users emmesaaaaa yoah
+        /// </summary>
+        /// <param name="companyId">The company's id</param>
+        public Task<DepartmentDataModel> GetDepartmentUsers(int companyId)
+        {
+            return DbContext.Departments.Include(x => x.Users)
+                                        .Include(x => x.Jobs)
+                                      .Where(x => x.CompanyId == companyId)
+                                      .FirstOrDefaultAsync();
+        }
+
 
         /// <summary>
         /// Gets the company's data
@@ -68,6 +91,33 @@ namespace Vaseis
             model.Password = newPassword;
 
             // Push the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
+        }
+
+
+        /// <summary>
+        /// This function creates a new subject to the database through the linked dialog
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public async Task<SubjectDataModel> CreateNewSubject(string title, string description, string parent)
+        {
+            var model = new SubjectDataModel()
+            {
+                Title = title,
+                Description = description,
+                Subject = await DbContext.Subjects.FirstAsync(x=>x.Title == parent)
+            };
+
+            // Add it
+            DbContext.Subjects.Add(model);
+
+            // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
             // Return the model
@@ -236,14 +286,14 @@ namespace Vaseis
         /// </summary>
         /// <param name="companyId">The company's id</param>
         /// <returns></returns>
-        public Task<List<DepartmentDataModel>> GetCompanyDepartments(int companyId)
+        public Task<List<CompanyDataModel>> GetCompanyDepartments(int companyId)
         {
             return DbContext.Departments.Include(x => x.Company)
                                         .Where(x => x.CompanyId == companyId)
                                         .ToListAsync();
         }
 
-       
+
 
         /// <summary>
         /// Gets the job positions created by an evaluator
@@ -286,8 +336,8 @@ namespace Vaseis
         /// <param name="jobPosition">The job position</param>
         /// <param name="salary">The salary</param>
         /// <returns></returns>
-        public async Task<JobPositionDataModel> UpdateJobPositionByEvaluator(JobPositionDataModel jobPosition, string jobPositionName, 
-                                                                             Department departmentName, int salary, 
+        public async Task<JobPositionDataModel> UpdateJobPositionByEvaluator(JobPositionDataModel jobPosition, string jobPositionName,
+                                                                             Department departmentName, int salary,
                                                                              DateTime announcementDate, DateTime submissionDate)
         {
             // Get the existing model
@@ -327,7 +377,7 @@ namespace Vaseis
                                         .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Reports)
                                         .Where(x => x.UsersJobFilesPair.EvaluatorId == evaluatorId)
                                         .Where(x => x.IsFinalized == isFinalized)
-                                        .ToListAsync();       
+                                        .ToListAsync();
         }
 
         /// <summary>
