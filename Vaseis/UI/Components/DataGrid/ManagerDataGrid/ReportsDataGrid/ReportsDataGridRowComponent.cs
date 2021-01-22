@@ -8,6 +8,9 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The report's data grid's row
+    /// </summary>
     public class ReportsDataGridRowComponent : BaseDataGridRowComponent
     {
         /// <summary>
@@ -373,12 +376,10 @@ namespace Vaseis
             Content = DetailsExpander;
         }
 
-        
-
         /// <summary>
         /// Opens a dialog notifying the evaluator the evaluation has been sent to a manager
         /// </summary>
-        private void ShowFinalizedDialogOnClick(object sender, RoutedEventArgs e)
+        private async void ShowFinalizedDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new finalized dialog
             var finalizedDialog = new MessageDialogComponent()
@@ -390,6 +391,10 @@ namespace Vaseis
             };
             // Adds it to the page's grid
             PageGrid.Children.Add(finalizedDialog);
+            // Updates the report data model
+            await Services.GetDataStorage.UpdateReportAsync(Report, true);
+            // Adds a new evaluation data model
+            await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
         }
 
         /// <summary>

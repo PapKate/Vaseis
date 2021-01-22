@@ -19,11 +19,6 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
-        /// The add button
-        /// </summary>
-        protected Button AddButton { get; private set; }
-
-        /// <summary>
         /// The job position's data grid
         /// </summary>
         protected EvaluatorJobPositionsDataGridComponent DataGrid { get; private set; }
@@ -57,7 +52,7 @@ namespace Vaseis
 
             };
             // Adds it to the page
-            PageGrid.Children.Add(DataGrid);
+            PageScrollViewer.Content = DataGrid;
         }
 
         #endregion

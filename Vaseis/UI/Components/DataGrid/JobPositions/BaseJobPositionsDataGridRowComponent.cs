@@ -87,18 +87,18 @@ namespace Vaseis
         #region Job position
 
         /// <summary>
-        /// The Employees's name
+        /// The job position's name
         /// </summary>
-        public string JobPositionText
+        public string JobPositionName
         {
-            get { return (string)GetValue(JobPositionTextProperty); }
-            set { SetValue(JobPositionTextProperty, value); }
+            get { return (string)GetValue(JobPositionNameProperty); }
+            set { SetValue(JobPositionNameProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="JobPositionText"/> dependency property
+        /// Identifies the <see cref="JobPositionName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty JobPositionTextProperty = DependencyProperty.Register(nameof(JobPositionText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty JobPositionNameProperty = DependencyProperty.Register(nameof(JobPositionName), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -107,16 +107,16 @@ namespace Vaseis
         /// <summary>
         /// The department's name
         /// </summary>
-        public string DepartmentText
+        public string DepartmentName
         {
-            get { return (string)GetValue(DepartmentTextProperty); }
-            set { SetValue(DepartmentTextProperty, value); }
+            get { return (string)GetValue(DepartmentNameProperty); }
+            set { SetValue(DepartmentNameProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="DepartmentText"/> dependency property
+        /// Identifies the <see cref="DepartmentName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty DepartmentTextProperty = DependencyProperty.Register(nameof(DepartmentText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty DepartmentNameProperty = DependencyProperty.Register(nameof(DepartmentName), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -143,16 +143,16 @@ namespace Vaseis
         /// <summary>
         /// The salary's name
         /// </summary>
-        public string SubjectText
+        public string SubjectName
         {
-            get { return (string)GetValue(SubjectTextProperty); }
-            set { SetValue(SubjectTextProperty, value); }
+            get { return (string)GetValue(SubjectNameProperty); }
+            set { SetValue(SubjectNameProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="SubjectText"/> dependency property
+        /// Identifies the <see cref="SubjectName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty SubjectTextProperty = DependencyProperty.Register(nameof(SubjectText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty SubjectNameProperty = DependencyProperty.Register(nameof(SubjectName), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -161,16 +161,16 @@ namespace Vaseis
         /// <summary>
         /// The deadline's dates
         /// </summary>
-        public string DeadlineText
+        public string DeadlineName
         {
-            get { return (string)GetValue(DeadlineTextProperty); }
-            set { SetValue(DeadlineTextProperty, value); }
+            get { return (string)GetValue(DeadlineNameProperty); }
+            set { SetValue(DeadlineNameProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="DeadlineText"/> dependency property
+        /// Identifies the <see cref="DeadlineName"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty DeadlineTextProperty = DependencyProperty.Register(nameof(DeadlineText), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
+        public static readonly DependencyProperty DeadlineNameProperty = DependencyProperty.Register(nameof(DeadlineName), typeof(string), typeof(BaseJobPositionsDataGridRowComponent));
 
         #endregion
 
@@ -281,14 +281,14 @@ namespace Vaseis
             // Creates and adds the job position's text block to the row's grid
             JobPosistionTextBlock = CreateAndAddRowItem(0);
             // Binds the job position's text block to the job position's name
-            JobPosistionTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobPositionText))
+            JobPosistionTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(JobPositionName))
             {
                 Source = this
             });
             // Creates a tool tip
             JobPositionToolTip = new ToolTipComponent();
             // Binds its text property to the text
-            JobPositionToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(JobPositionText))
+            JobPositionToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(JobPositionName))
             { 
                 Source = this
             });
@@ -298,14 +298,14 @@ namespace Vaseis
             // Creates and adds the department's text block to the row's grid
             DepartmentTextBlock = CreateAndAddRowItem(1);
             // Binds the department's text block to the department's name
-            DepartmentTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DepartmentText))
+            DepartmentTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DepartmentName))
             {
                 Source = this
             });
             // Creates a tool tip
             DepartmentToolTip = new ToolTipComponent();
             // Binds its text property to the text
-            DepartmentToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(DepartmentText))
+            DepartmentToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(DepartmentName))
             {
                 Source = this
             });
@@ -323,14 +323,14 @@ namespace Vaseis
             // Creates and adds the subject's text block to the row's grid
             SubjectTextBlock = CreateAndAddRowItem(3);
             // Binds the subject's text block to the subject's name
-            SubjectTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(SubjectText))
+            SubjectTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(SubjectName))
             {
                 Source = this
             });
             // Creates a tool tip
             SubjectToolTip= new ToolTipComponent();
             // Binds its text property to the text
-            SubjectToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(SubjectText))
+            SubjectToolTip.SetBinding(ToolTipComponent.TextProperty, new Binding(nameof(SubjectName))
             {
                 Source = this
             });
@@ -353,7 +353,7 @@ namespace Vaseis
             // Sets the column span
             Grid.SetColumnSpan(DeadlineTextBlock, 4);
             // Binds the subject's text block to the subject's name
-            DeadlineTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DeadlineText))
+            DeadlineTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(DeadlineName))
             {
                 Source = this
             });

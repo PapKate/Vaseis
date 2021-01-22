@@ -49,7 +49,7 @@ namespace Vaseis
 
             CompanyGrid = new Grid()
             {
-                Background = Company.CompanyColor.HexToBrush(),
+                Background = White.HexToBrush(),
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
 

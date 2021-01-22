@@ -384,7 +384,7 @@ namespace Vaseis
 
             #endregion 
 
-            string jobPosition = User.Type.ToString();
+            var jobPosition = User.Type.ToString();
 
             if (User.Type == UserType.Employee)
                 jobPosition = User.JobPosition.Job.JobTitle;

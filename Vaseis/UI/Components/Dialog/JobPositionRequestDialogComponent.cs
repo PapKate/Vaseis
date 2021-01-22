@@ -107,8 +107,8 @@ namespace Vaseis
             if (JobPositionDataGridRow != null)
             {
                 // Add the text from the row to the input text in the dialog accordingly
-                JobPositionBlock.Text = JobPositionDataGridRow.JobPositionText;
-                DepartmentBlock.Text = JobPositionDataGridRow.DepartmentText;
+                JobPositionBlock.Text = JobPositionDataGridRow.JobPositionName;
+                DepartmentBlock.Text = JobPositionDataGridRow.DepartmentName;
             }
         }
 

@@ -27,8 +27,6 @@ namespace Vaseis
 
         #endregion
 
-        protected TabControl appTabControl { get; private set; }
-
         #region Private Methods
 
         /// <summary>
@@ -77,9 +75,6 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-
-
-
             //var logInPage = new LoginPage();
 
             //logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
@@ -117,9 +112,9 @@ namespace Vaseis
                                                        .Include(x => x.Certificates)
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Administrator);
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
 
-            var view = new AdminView(user);
+            var view = new ManagerView(user);
 
             appGrid.Children.Add(view);
 

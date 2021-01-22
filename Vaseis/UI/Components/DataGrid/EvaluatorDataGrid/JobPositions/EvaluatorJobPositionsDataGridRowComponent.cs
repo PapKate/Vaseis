@@ -79,12 +79,12 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectText = JobPosition.Subjects.FirstOrDefault().Title;
-            JobPositionText = JobPosition.Job.JobTitle;
-            DepartmentText = JobPosition.Job.Department.DepartmentName.ToString();
+            SubjectName = ControlsFactory.CreateSubjectsString(JobPosition.Subjects);
+            JobPositionName = JobPosition.Job.JobTitle;
+            DepartmentName = JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);
             NumberOfRequestsText = JobPosition.JobPositionRequests.Count().ToString();
-            DeadlineText = $"{JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPosition.SubmissionDate.Value.ToShortDateString()}";
+            DeadlineName = $"{JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion

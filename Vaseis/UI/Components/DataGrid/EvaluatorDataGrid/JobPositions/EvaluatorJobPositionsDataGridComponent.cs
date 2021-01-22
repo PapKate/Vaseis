@@ -54,7 +54,7 @@ namespace Vaseis
         {
             base.OnInitialized();
             // Query the job positions assigned to an evaluator and add them as rows to the data grid
-            var jobPositions = await Services.GetDataStorage.GetCompanyJobPositions(Evaluator.Department.CompanyId);
+            var jobPositions = await Services.GetDataStorage.GetCompanyJobPositionsAsync(Evaluator.Department.CompanyId);
 
             // For each job position
             foreach (var jobPosition in jobPositions)

@@ -1,7 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
@@ -30,6 +33,32 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// Creates a string that contains all the subject titles
+        /// </summary>
+        /// <param name="subjects">A list of subject data models</param>
+        /// <returns></returns>
+        public static string CreateSubjectsString(IEnumerable<SubjectDataModel> subjects)
+        {
+            var subjectNames = new List<string>();
+            subjects.ToList().ForEach(x => subjectNames.Add(x.Title));
+
+            return string.Join(", ", subjectNames);
+        }
+
+        /// <summary>
+        /// Splits the string by ", " into an array of strings
+        /// </summary>
+        /// <param name="subjectsString">The string to split</param>
+        /// <returns></returns>
+        public static IEnumerable<string> SplitSubjectsString(string subjectsString)
+        {
+            // Creates an array of string from the string splitted at ", "
+            var subjectTitlesList = subjectsString.Split(", ");
+            // Returns it
+            return subjectTitlesList;
+        }
+
+        /// <summary>
         /// Formats an integer to the correct currency representation
         /// </summary>
         /// <param name="value">The value we want to get in currency format</param>
@@ -51,22 +80,6 @@ namespace Vaseis
             // Returns the integer
             return newValue;
         }
-
-        /// <summary>
-        /// Convert String to Null able int
-        /// </summary>
-        /// <param name="thisOne"></param>
-        /// <returns></returns>
-        public static int? GradeToNullableInt(string thisOne) 
-        {
-            var sDouble = Convert.ToDouble(thisOne);
-
-            var f = sDouble * 100;
-            var fuck = (int)f;
-
-            return fuck;
-        }
-
 
         /// <summary>
         /// Finds the department enum by its string name
@@ -131,7 +144,7 @@ namespace Vaseis
             // If not null return the new value else 0
             var parsedGrade = grade * 0.01 ?? default(int);
             // returns the grade scaled to 10
-            return parsedGrade;
+            return Math.Round(parsedGrade, 2);
         }
 
         /// <summary>
@@ -146,6 +159,21 @@ namespace Vaseis
 
             // Returns the evaluation's grade
             return finalGrade;
+        }
+
+        /// <summary>
+        /// Convert String to Null able int
+        /// </summary>
+        /// <param name="thisOne"></param>
+        /// <returns></returns>
+        public static int? GradeToNullableInt(string thisOne)
+        {
+            var sDouble = Convert.ToDouble(thisOne);
+
+            var f = sDouble * 100;
+            var fuck = (int)f;
+
+            return fuck;
         }
 
         /// <summary>

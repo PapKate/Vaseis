@@ -233,17 +233,25 @@ namespace Vaseis
 
             //Creates a list of Job data model
             var jobs = new Faker<JobDataModel>()
-                           .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
-                           .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
-                           .RuleFor(x => x.CompanyId, faker => faker.Random.Int(1, 9))
-                           .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
-                           .Generate(40);
+                            .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
+                            .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
+                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
+                            .Generate(200);
 
-           // Adds the generated jobs in the users db set
+            // Adds the generated jobs in the users db set
             context.Jobs.AddRange(jobs);
 
-           // Saves changes
-           await context.SaveChangesAsync();
+            // Saves changes
+            await context.SaveChangesAsync();
+
+            // Gets the jobs with their departments
+            var jobsNO = await context.Jobs.Include(x => x.Department).ToListAsync();
+            // For each job...
+            foreach(var job in jobsNO)
+                // Sets the job's company id to the job's department's company's id
+                job.CompanyId = job.Department.CompanyId;
+            // Save changes
+            await context.SaveChangesAsync();
 
             #endregion
 
@@ -251,8 +259,7 @@ namespace Vaseis
 
             /// Creates a list of Job Position data model
             var pastJobPositions = new Faker<JobPositionDataModel>()
-                            .RuleFor(x => x.CreatorId, faker => faker.Random.Int(473, 688))
-                            .RuleFor(x => x.JobId, faker => faker.Random.Int(1, 40))
+                            .RuleFor(x => x.JobId, faker => faker.Random.Int(1, 200))
                             .RuleFor(x => x.StartDate, faker => faker.Date.Between(new DateTime(2008, 01, 07), new DateTime(2020, 11, 28)))
                             .Generate(100);
 
@@ -263,17 +270,19 @@ namespace Vaseis
             await context.SaveChangesAsync();
 
             var newJobPositions = new Faker<JobPositionDataModel>()
-                                .RuleFor(x => x.CreatorId, faker => faker.Random.Int(473, 688))
-                                .RuleFor(x => x.JobId, faker => faker.Random.Int(1, 40))
+                                .RuleFor(x => x.JobId, faker => faker.Random.Int(1, 200))
                                 .RuleFor(x => x.AnnouncementDate, faker => faker.Date.Between(new DateTime(2021, 01, 01), new DateTime(2021, 01, 28)))
                                 .RuleFor(x => x.SubmissionDate, faker => faker.Date.Between(new DateTime(2021, 01, 30), new DateTime(2021, 03, 15)))
-                                .Generate(20);
+                                .Generate(60);
 
             // Adds the generated jobs in the users db set
             context.JobPositions.AddRange(newJobPositions);
 
             //  Saves changes
             await context.SaveChangesAsync();
+
+            // The job positions
+            var jobPositions = await context.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).ToListAsync();
 
             #endregion
 
@@ -288,7 +297,6 @@ namespace Vaseis
                             .RuleFor(x => x.FirstName, faker => faker.Person.FirstName)
                             .RuleFor(x => x.LastName, faker => faker.Person.LastName)
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
-                            .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 100))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
                             .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
@@ -302,7 +310,7 @@ namespace Vaseis
             await context.SaveChangesAsync();
 
             // Parses all the users from the db set the are of type employee to a list
-            var employees = await context.Users.Where(x => x.Type == UserType.Employee).ToListAsync();
+            var employees = await context.Users.Include(x => x.Department).Where(x => x.Type == UserType.Employee).ToListAsync();
 
             // Add data to managers
             // For each company in the companies list...
@@ -366,10 +374,41 @@ namespace Vaseis
             await context.SaveChangesAsync();
 
             // Parses all the users from the db set the are of type evaluator to a list
-            var evaluators = await context.Users.Where(x => x.Type == UserType.Evaluator).ToListAsync();
+            var evaluators = await context.Users.Include(x => x.Department).Where(x => x.Type == UserType.Evaluator).ToListAsync();
 
+            context.Users.AddRange(new List<UserDataModel>() //in memory
+            {
+                new UserDataModel()
+                {
+                    Username = "GewrgikaMantalakia",
+                    Password = "wxAmanAman",
+                    Email = "vasoulakok@hotmail.com",
+                    ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfl8a3emNH5v8fgYNkyMvnXkcqyGiW_2KLQ&usqp=CAU",
+                    FirstName = "Vasiliki",
+                    LastName = "Kokkala",
+                    YearsOfExperience = 55,
+                    Type = UserType.Administrator,
+                    Bio = "Τρακτέρ ή γεωργικός ελκυστήρας ονομάζεται το όχημα με μεγάλη δύναμη, ώστε να μπορεί να μετακινεί γεωργικά και άλλα μηχανήματα. Έχει όμως επικρατήσει σε διεθνή κλίμακα, να λέγονται τρακτέρ τα μηχανήματα που προσφέρουν τεράστιες υπηρεσίες στην καλλιέργεια της γης. Κυρίως χρησιμοποιείται για την έλξη διαφόρων γεωργικών μηχανημάτων όπως άροτρα, φρέζες, καλλιεργητές, κ.α. καθώς και για συντήρηση αθλητικών χώρων και πάρκων. Αυτή τη δουλειά παλιότερα την έκαναν τα ζώα, οι ανάγκες όμως αυξήθηκαν και η πρόοδος της τεχνολογίας έδωσε τη δυνατότητα να καλυφθούν αυτές με πολύ καλύτερο τρόπο."
+                        +  "Τα τρακτέρ παλιά κινούνταν με ατμό ή βενζίνη, ενώ με την εφεύρεση του ντίζελ επικράτησε ως καύσιμο το πετρέλαιο . Υπάρχουν τρακτέρ τροχοφόρα και ερπυστριοφόρα, τα οποία χρησιμοποιούνται για βαθιά άροση και για τη μετακίνηση σε ανώμαλα εδάφη. Στην Ελλάδα τα πρώτα τρακτέρ κυκλοφόρησαν το 1924."
+                },
+                new UserDataModel()
+                {
+                    Username = "0xCAFFEEBABA",
+                    Password = "neraki23",
+                    Email = "papapap@kaka.com",
+                    ProfilePicture = "https://image.freepik.com/free-photo/white-coffee-cup-roasted-coffee-beans-around_35570-794.jpg",
+                    FirstName = "Katherine",
+                    LastName = "Papa",
+                    YearsOfExperience = 5,
+                    Type = UserType.Administrator,
+                    Bio = "The GRANT statement grants privileges to MySQL user accounts. To grant a privilege with GRANT, you must have the GRANT OPTION privilege, and you must have the privileges that you are granting. (Alternatively, if you have the UPDATE privilege for the grant tables in the mysql system database, you can grant any account any privilege.) When the read_only system variable is enabled, GRANT additionally requires the SUPER privilege."
+                        + "The REVOKE statement is related to GRANT and enables administrators to remove account privileges. See Section 13.7.1.6, “REVOKE Statement”."
+                }
+            });
 
+            await context.SaveChangesAsync();
 
+            var admins = await context.Users.ToListAsync();
 
             #endregion
 
@@ -414,13 +453,58 @@ namespace Vaseis
 
             #endregion
 
+            #region Extra find all
+
+            // For each employee...
+            foreach(var employee in employees)
+            {
+                // Returns a list of job positions found with...
+                var companyJobPositions = jobPositions.FindAll(delegate (JobPositionDataModel jobPosition)
+                {
+                    // The same department id as the employee
+                    return jobPosition.Job.Department.CompanyId == employee.Department.CompanyId;
+                });
+                if(companyJobPositions.Count() > 0)
+                {
+                    // Gets a random number between 0 and the count of the company's job positions list
+                    var i = new Random().Next(0, companyJobPositions.Count() - 1);
+                    // Sets the employee's job position id to the randomly picked job position's id
+                    employee.JobPositionId = companyJobPositions[i].Id;
+                    employee.DepartmentId = companyJobPositions[i].Job.DepartmentId;
+                }
+            }
+
+            // Gets all the job positions
+            var jobPositionsNO = await context.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).ToListAsync();
+
+            // For each job position...
+            foreach (var jobPosition in jobPositionsNO)
+            {
+                // Returns a list of evaluators...
+                var companyEvaluators = evaluators.FindAll(delegate (UserDataModel evaluator)
+                {
+                    // Found with the same company id as the job position
+                    return evaluator.Department.CompanyId == jobPosition.Job.Department.CompanyId;
+                });
+                if (companyEvaluators.Count() > 0)
+                {
+                    // Get a random number between 0 and to last evaluator in evaluators list
+                    var i = new Random().Next(0, companyEvaluators.Count() - 1);
+                    // Sets the creator's id randomly as one of the ids of the found evaluators
+                    jobPosition.CreatorId = companyEvaluators[i].Id;
+                }
+            }
+
+            await context.SaveChangesAsync();
+
+            #endregion
+
             #region JobPositionRequests
 
             // Creates a list of job position requests data model for the job position requests
             var jobPositionsRequests = new Faker<JobPositionRequestDataModel>()
                                     .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(101, 120))
                                     .RuleFor(x => x.RequestsReason, faker => faker.Lorem.Sentences(3))
-                                    .RuleFor(x => x.UsersJobFilesPairId, faker => faker.Random.Int(1, 400))
                                     .Generate(500);
 
             // Adds the generated job position requests in the job position requests db set
@@ -428,6 +512,25 @@ namespace Vaseis
 
             // Saves changes
             await context.SaveChangesAsync();
+            var jobPositionRequestsNO = await context.JobPositionRequests.Include(x => x.JobPosition).ThenInclude(y => y.Job).ThenInclude(z => z.Department).ToListAsync();
+            var userJobPairsNO = await context.UsersJobFilesPairs.Include(x => x.JobPositionRequests)
+                                                                 .Include(x => x.Evaluations)
+                                                                 .Include(x => x.Reports)
+                                                                 .Include(x => x.Employee)
+                                                                 .ToListAsync();
+            foreach(var jobPositionRequest in jobPositionRequestsNO)
+            {
+                var pairs = userJobPairsNO.FindAll(delegate (UsersJobFilesPairDataModel pair)
+                {
+                    return pair.Employee.DepartmentId == jobPositionRequest.JobPosition.Job.DepartmentId;
+                });
+                if(pairs.Count() > 0)
+                {
+                    // Gets a random number between 0 and the count of the pairs' list
+                    var i = new Random().Next(0, pairs.Count() - 1);
+                    jobPositionRequest.UsersJobFilesPairId = pairs[i].Id;
+                }
+            }
 
             #endregion
 
@@ -435,17 +538,20 @@ namespace Vaseis
 
             foreach (var jobPositionsRequest in jobPositionsRequests)
             {
-                // Creates a list of report data model for the reports
-                var report = new Faker<ReportDataModel>()
-                            .RuleFor(x => x.ReportText, faker => faker.Rant.Review("job"))
-                            .RuleFor(x => x.UsersJobFilesPairId, jobPositionsRequest.UsersJobFilesPairId)
-                            .RuleFor(x => x.JobPositionRequestId, jobPositionsRequest.Id)
-                            .RuleFor(x => x.IsWritten, true)
-                            .RuleFor(x => x.IsFinalized, faker => faker.Random.Bool())
-                            .Generate(1);
+                if(jobPositionsRequest.UsersJobFilesPairId != null)
+                {
+                    // Creates a list of report data model for the reports
+                    var report = new Faker<ReportDataModel>()
+                                .RuleFor(x => x.ReportText, faker => faker.Rant.Review("job"))
+                                .RuleFor(x => x.UsersJobFilesPairId, jobPositionsRequest.UsersJobFilesPairId)
+                                .RuleFor(x => x.JobPositionRequestId, jobPositionsRequest.Id)
+                                .RuleFor(x => x.IsWritten, true)
+                                .RuleFor(x => x.IsFinalized, faker => faker.Random.Bool())
+                                .Generate(1);
 
-                // Adds the generated reports in the users db set
-                context.Reports.AddRange(report);
+                    // Adds the generated reports in the users db set
+                    context.Reports.AddRange(report);
+                }
             }
 
             // Saves changes
@@ -457,8 +563,10 @@ namespace Vaseis
 
             foreach (var jobPositionsRequest in jobPositionsRequests)
             {
-                // Creates a list of evaluation data model for the evaluations
-                var evaluation = new Faker<EvaluationDataModel>()
+                if (jobPositionsRequest.UsersJobFilesPairId != null)
+                {
+                    // Creates a list of evaluation data model for the evaluations
+                    var evaluation = new Faker<EvaluationDataModel>()
                              .RuleFor(x => x.InterviewGrade, faker => faker.Random.Int(100, 1000))
                              .RuleFor(x => x.ReportGrade, faker => faker.Random.Int(100, 1000))
                              .RuleFor(x => x.FilesGrade, faker => faker.Random.Int(100, 1000))
@@ -469,8 +577,9 @@ namespace Vaseis
                              .RuleFor(x => x.IsAprovedByManager, faker => faker.Random.Bool())
                              .Generate(1);
 
-                // Adds the generated evaluations in the evaluations db set
-                context.Evaluations.AddRange(evaluation);
+                    // Adds the generated evaluations in the evaluations db set
+                    context.Evaluations.AddRange(evaluation);
+                }
             }
 
             // Saves changes
@@ -547,7 +656,6 @@ namespace Vaseis
 
             #region Subjects
 
-
             context.Subjects.AddRange(new List<SubjectDataModel>()
             {
                 new SubjectDataModel()
@@ -564,7 +672,7 @@ namespace Vaseis
 
                 new SubjectDataModel()
                 {
-                Title = "farts",
+                Title = "Farts",
                 Description = "Au de parfume"
                 },
 
@@ -582,50 +690,16 @@ namespace Vaseis
             // List that contains all the companies
             var subjects = await context.Subjects.ToListAsync();
 
-            var moreSubjects = new Faker<SubjectDataModel>()
-           .RuleFor(x => x.Title, faker => faker.Commerce.Product())
-           .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-           .RuleFor(x => x.SubjectId, faker => faker.Random.Int(1, 3))
-           .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 120))
-           .Generate(500);
+            var childrenSubjects = new Faker<SubjectDataModel>()
+                               .RuleFor(x => x.Title, faker => faker.Commerce.Product())
+                               .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
+                               .RuleFor(x => x.SubjectId, faker => faker.Random.Int(1, 4))
+                               .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 160))
+                               .Generate(400);
 
-            context.Subjects.AddRange(moreSubjects);
-
-            await context.SaveChangesAsync();
-
-            context.Users.AddRange(new List<UserDataModel>() //in memory
-            {
-                new UserDataModel()
-                {
-                    Username = "GewrgikaMantalakia", 
-                    Password = "wxAmanAman",
-                    Email = "vasoulakok@hotmail.com",
-                    ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfl8a3emNH5v8fgYNkyMvnXkcqyGiW_2KLQ&usqp=CAU",
-                    FirstName = "Vasiliki",
-                    LastName = "Kokkala",
-                    YearsOfExperience = 55,
-                    Type = UserType.Administrator,
-                    Bio = "Τρακτέρ ή γεωργικός ελκυστήρας ονομάζεται το όχημα με μεγάλη δύναμη, ώστε να μπορεί να μετακινεί γεωργικά και άλλα μηχανήματα. Έχει όμως επικρατήσει σε διεθνή κλίμακα, να λέγονται τρακτέρ τα μηχανήματα που προσφέρουν τεράστιες υπηρεσίες στην καλλιέργεια της γης. Κυρίως χρησιμοποιείται για την έλξη διαφόρων γεωργικών μηχανημάτων όπως άροτρα, φρέζες, καλλιεργητές, κ.α. καθώς και για συντήρηση αθλητικών χώρων και πάρκων. Αυτή τη δουλειά παλιότερα την έκαναν τα ζώα, οι ανάγκες όμως αυξήθηκαν και η πρόοδος της τεχνολογίας έδωσε τη δυνατότητα να καλυφθούν αυτές με πολύ καλύτερο τρόπο."
-                        +  "Τα τρακτέρ παλιά κινούνταν με ατμό ή βενζίνη, ενώ με την εφεύρεση του ντίζελ επικράτησε ως καύσιμο το πετρέλαιο . Υπάρχουν τρακτέρ τροχοφόρα και ερπυστριοφόρα, τα οποία χρησιμοποιούνται για βαθιά άροση και για τη μετακίνηση σε ανώμαλα εδάφη. Στην Ελλάδα τα πρώτα τρακτέρ κυκλοφόρησαν το 1924."
-                },
-                new UserDataModel()
-                {    
-                    Username = "0xCAFFEEBABA",
-                    Password = "neraki23",
-                    Email = "papapap@kaka.com",
-                    ProfilePicture = "https://image.freepik.com/free-photo/white-coffee-cup-roasted-coffee-beans-around_35570-794.jpg",
-                    FirstName = "Katherine",
-                    LastName = "Papa",
-                    YearsOfExperience = 5,
-                    Type = UserType.Administrator,
-                    Bio = "The GRANT statement grants privileges to MySQL user accounts. To grant a privilege with GRANT, you must have the GRANT OPTION privilege, and you must have the privileges that you are granting. (Alternatively, if you have the UPDATE privilege for the grant tables in the mysql system database, you can grant any account any privilege.) When the read_only system variable is enabled, GRANT additionally requires the SUPER privilege."
-                        + "The REVOKE statement is related to GRANT and enables administrators to remove account privileges. See Section 13.7.1.6, “REVOKE Statement”."
-                }
-            });
+            context.Subjects.AddRange(childrenSubjects);
 
             await context.SaveChangesAsync();
-
-            var admins = await context.Users.ToListAsync();
 
 
             #endregion
@@ -767,31 +841,6 @@ namespace Vaseis
 
             #endregion
 
-            //var companiesWithUsers = await context.Companies.Include(x => x.ParentSubjects).ToListAsync();
-
-            var companiesWithDepartments = await context.Companies.Include(x => x.Departments)
-                                    .ToListAsync();
-
-            var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
-                                                        .Include(x => x.Certificates)
-                                                        .Include(x => x.RecommendationPapers)
-                                                        .Include(x => x.Languages)
-                                                        .Where(x => x.Type == UserType.Evaluator)
-                                                        .ToListAsync();
-
-
-
-            //Add to all subjects, the Children Subjetcs that have THIS subject as father
-            var SubjectsWithJoins = await context.Subjects.Include(x => x.ChildrenSubjects)
-                                                           .ToListAsync();
-
-            //matching every jobPosition with its subject of interest
-            var JobPostitionWithJoins = await context.JobPositions.Include(x => x.Subjects)
-                                                                  .ToListAsync();
-
-
-            var JobsWithJoins = await context.Jobs.Include(x => x.JobPositions)
-                                                             .ToListAsync();
 
         }
     }

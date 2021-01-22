@@ -56,8 +56,8 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            JobPositionText = JobPositionRequest.JobPosition.Job.JobTitle;
-            DepartmentText = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            JobPositionName = JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
             var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id).FirstOrDefault();
             var index = 1;
@@ -67,7 +67,7 @@ namespace Vaseis
                     index++;
             }
             NumberOfRequestsText = index.ToString();
-            DeadlineText = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
+            DeadlineName = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion

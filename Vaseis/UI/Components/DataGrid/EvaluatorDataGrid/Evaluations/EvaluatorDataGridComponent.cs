@@ -66,6 +66,22 @@ namespace Vaseis
         protected async override void OnInitialized()
         {
             base.OnInitialized();
+
+            var companyJobs = await Services.GetDataStorage.GetCompanyJobs(Evaluator.Department.CompanyId);
+            var jobTitles = new List<string>();
+            foreach(var job in companyJobs)
+            {
+                jobTitles.Add(job.JobTitle);
+            }
+
+            // Creates and adds the header's row
+            DataGridHeader = new EvaluatorMyEvaluationsDataGridHeaderComponent(this)
+            {
+                OptionNames = jobTitles
+            };
+            // Adds it to the stack panel
+            InfoDataStackPanel.Children.Add(DataGridHeader);
+
             // Query the job position requests by an employee and add them as rows to the data grid
             var evaluations = await Services.GetDataStorage.GetEvaluatorEvaluations(Evaluator.Id, false);
 
@@ -74,8 +90,10 @@ namespace Vaseis
             {
                 // Create a row of for the employee's job position data grid
                 var row = new EvaluatorDataGridRowComponent(PageGrid, evaluation);
+
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);
+                RowList.Add(row);
             }
         }
 
@@ -89,11 +107,6 @@ namespace Vaseis
         private void CreateGUI()
         {
             RowList = new List<EvaluatorDataGridRowComponent>();
-
-            // Creates and adds the header's row
-            DataGridHeader = new EvaluatorMyEvaluationsDataGridHeaderComponent(this);
-            // Adds it to the stack panel
-            InfoDataStackPanel.Children.Add(DataGridHeader);
         }
 
         #endregion
