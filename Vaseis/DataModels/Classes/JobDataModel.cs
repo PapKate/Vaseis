@@ -34,7 +34,7 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="CompanyDataModel.Id"/> of the related <see cref="CompanyDataModel"/>
         /// </summary>
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
 
         /// <summary>
         /// The related <see cref="CompanyDataModel"/>

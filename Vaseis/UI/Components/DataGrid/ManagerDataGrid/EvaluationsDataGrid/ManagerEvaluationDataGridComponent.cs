@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
@@ -65,7 +62,11 @@ namespace Vaseis
                 var row = new ManagerEvaluationDataGridRowComponent(PageGrid, result);
                 // ( When the plus button is clicked )
                 // Create the show dialog command
-                row.ShowDialogCommand = new RelayCommand(() => ShowConfirmationDialog(row));
+                row.ShowDialogCommand = new RelayCommand(async () => 
+                { 
+                    ShowConfirmationDialog(row);
+                    await Services.GetDataStorage.UpdateManagerEvaluationAsync(result);
+                });
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);
             }
@@ -97,7 +98,7 @@ namespace Vaseis
                 Title = "Success",
                 BrushColor = HookersGreen.HexToBrush(),
                 IsDialogOpen = true,
-                OkCommand = new RelayCommand(async() => 
+                OkCommand = new RelayCommand(() =>
                 {
                     InfoDataStackPanel.Children.Remove(dataGridRow);
                 })

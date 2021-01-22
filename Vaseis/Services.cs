@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace Vaseis
 {
@@ -8,7 +9,7 @@ namespace Vaseis
     /// </summary>
     public static class Services
     {
-        //public static read only LoggerFactory mLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
+        public static readonly LoggerFactory mLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
 
         /// <summary>
         /// Gets the database context used for accessing and manipulating the database
@@ -19,7 +20,7 @@ namespace Vaseis
             {
                 var optionsBuilder = new DbContextOptionsBuilder<VaseisDbContext>();
                 optionsBuilder.UseMySql("Server=localhost;Database=Vaseis;Uid=root;Pwd=12345678;");
-                //optionsBuilder.UseLoggerFactory(mLoggerFactory);
+                optionsBuilder.UseLoggerFactory(mLoggerFactory);
 
                 return new VaseisDbContext(optionsBuilder.Options);
             }

@@ -39,7 +39,7 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="UserDataModel.Id"/> of the evaluator who created the position
         /// </summary>
-        public int CreatorId { get; set; }
+        public int? CreatorId { get; set; }
 
         /// <summary>
         /// The <see cref="JobDataModel.Id"/> the Job supplied

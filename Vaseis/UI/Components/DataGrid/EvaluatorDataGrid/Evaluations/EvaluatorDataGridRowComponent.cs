@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -144,7 +145,21 @@ namespace Vaseis
             var evaluationDialog = new EvaluationDialogComponent(this, Evaluation)
             {
                 // And opens it
-                IsDialogOpen = true
+                IsDialogOpen = true,
+                FinalizedCommand = new RelayCommand(async() =>
+                {
+                    await Task.Delay(2000);
+                    // Creates a new finalized dialog
+                    var finalizedDialog = new MessageDialogComponent()
+                    {
+                        Message = "Your evaluation has been successfully sent to a manager",
+                        Title = "Success",
+                        BrushColor = HookersGreen.HexToBrush(),
+                        IsDialogOpen = true,
+                    };
+                    // Adds it to the page's grid
+                    PageGrid.Children.Add(finalizedDialog);
+                })
             };
             // Adds it to the page's grid
             PageGrid.Children.Add(evaluationDialog);
@@ -153,7 +168,7 @@ namespace Vaseis
         /// <summary>
         /// Opens a dialog notifying the evaluator the evaluation has been sent to a manager
         /// </summary>
-        private void ShowFinalizedDialogOnClick(object sender, RoutedEventArgs e)
+        private async void ShowFinalizedDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new finalized dialog
             var finalizedDialog = new MessageDialogComponent()
@@ -164,6 +179,10 @@ namespace Vaseis
                 IsDialogOpen = true,
                 OkCommand = new RelayCommand(() => this.Visibility = Visibility.Collapsed)
             };
+
+            // Updates the evaluation data model in the data base
+            await Services.GetDataStorage.UpdateEvaluatorEvaluationAsync(Evaluation, true);
+
             // Adds it to the page's grid
             PageGrid.Children.Add(finalizedDialog);
         }

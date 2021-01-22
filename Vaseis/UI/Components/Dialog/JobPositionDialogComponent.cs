@@ -1,25 +1,30 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using static Vaseis.Styles;
+using System.Windows.Data;
 
 namespace Vaseis
 {
-    public class JobPositionDialogComponent : DialogBaseComponent
+    /// <summary>
+    /// The base for the job position dialogs
+    /// </summary>
+    public abstract class JobPositionDialogComponent : DialogBaseComponent
     {
         /// <summary>
         /// The evaluator's my job positions data grid row
         /// </summary>
         public EvaluatorMyJobPositionsDataGridRowComponent EvaluatorMyJobPositionsDataGridRow { get; }
 
-        #region Protected Properties
-
         /// <summary>
         /// The JobTitle Input text
         /// </summary>
-        protected PickerComponent JobPositionPicker { get; private set; }
+        public PickerComponent JobPositionPicker { get; private set; }
+
+        #region Protected Properties
 
         /// <summary>
         /// The department PickerComponent
@@ -29,27 +34,82 @@ namespace Vaseis
         /// <summary>
         /// The JobPosition Salary Input
         /// </summary>
-        protected TextInputComponent SalaryInput { get; private set; }
+        public TextInputComponent SalaryInput { get; private set; }
 
         /// <summary>
         /// The JobPostion Date of Announcement PickerComponent
         /// </summary>
-        protected DatePicker AnnouncementDatePicker { get; private set; }
+        public DatePicker AnnouncementDatePicker { get; private set; }
 
         /// <summary>
         /// The JobPostion Date of submission PickerComponent
         /// </summary>
-        protected DatePicker SubmissionDatePicker { get; private set; }
+        public DatePicker SubmissionDatePicker { get; private set; }
 
         /// <summary>
         /// The JobPostion Date of startDate PickerComponent
         /// </summary>
         protected PickerComponent SubjectPicker { get; private set; }
 
+        protected TogglesListComponent ToggleList { get; private set; }
+
+        #endregion
+
+        #region Dependency Properties
+
+        #region JobPositionsList
+
         /// <summary>
-        /// The JobPostion create Button
+        /// The list with the job positions' names
         /// </summary>
-        protected Button CreateButton{ get; private set; }
+        public IEnumerable<string> JobPositionsList
+        {
+            get { return (IEnumerable<string>)GetValue(JobPositionsListProperty); }
+            set { SetValue(JobPositionsListProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="JobPositionsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty JobPositionsListProperty = DependencyProperty.Register(nameof(JobPositionsList), typeof(IEnumerable<string>), typeof(JobPositionDialogComponent));
+
+        #endregion
+
+        #region DepartmentsList
+
+        /// <summary>
+        /// The list with the departments' names
+        /// </summary>
+        public IEnumerable<string> DepartmentsList
+        {
+            get { return (IEnumerable<string>)GetValue(DepartmentsListProperty); }
+            set { SetValue(DepartmentsListProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DepartmentsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DepartmentsListProperty = DependencyProperty.Register(nameof(DepartmentsList), typeof(IEnumerable<string>), typeof(JobPositionDialogComponent));
+
+        #endregion
+
+        #region SubjectsList
+
+        /// <summary>
+        /// The list with the subjects' names
+        /// </summary>
+        public IEnumerable<string> SubjectsList
+        {
+            get { return (IEnumerable<string>)GetValue(SubjectsListProperty); }
+            set { SetValue(SubjectsListProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SubjectsList"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty SubjectsListProperty = DependencyProperty.Register(nameof(SubjectsList), typeof(IEnumerable<string>), typeof(JobPositionDialogComponent));
+
+        #endregion
 
         #endregion
 
@@ -58,17 +118,30 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public JobPositionDialogComponent()
-        {
-            CreateGUI();
-        }
-
         public JobPositionDialogComponent(EvaluatorMyJobPositionsDataGridRowComponent myJobPositionsDataGridRow)
         {
             EvaluatorMyJobPositionsDataGridRow = myJobPositionsDataGridRow ?? throw new ArgumentNullException(nameof(myJobPositionsDataGridRow));
 
             CreateGUI();
         }
+
+        /// <summary>
+        /// New row constructor
+        /// </summary>
+        public JobPositionDialogComponent()
+        {
+            CreateGUI();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the currently checked items of the list box
+        /// </summary>
+        public IEnumerable<CheckBox> CheckedItems()
+            => ToggleList.CheckedItems();
 
         #endregion
 
@@ -82,29 +155,35 @@ namespace Vaseis
             // Adds th dialog's title
             DialogTitle.Text = "Job position form";
 
-            #region Input Data
-
-            var testList = new List<string> { "Potato", "Zucchini", "Cucumber", "Pavlova", "Panna cotta", "Mascarpone", "Pastry", "Agriculture", "Tomato", "Cookies", "Pies" };
-
             // Creates the job name picker
             JobPositionPicker = new PickerComponent()
             {
+                CompleteFontSize = 24,
                 Margin = new Thickness(24),
                 HintText = "Job Position",
                 Width = 240,
-                OptionNames = testList
+                
             };
+            JobPositionPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(JobPositionsList))
+            { 
+                Source = this
+            });
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(JobPositionPicker);
 
             // Creates the department picker
             DepartmentPicker = new PickerComponent()
             {
+                CompleteFontSize = 24,
                 Margin = new Thickness(24),
                 HintText = "Department",
                 Width = 240,
-                OptionNames = testList
+                Visibility = Visibility.Hidden
             };
+            DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(DepartmentsList))
+            {
+                Source = this
+            });
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentPicker);
 
@@ -121,11 +200,15 @@ namespace Vaseis
             // Creates the subject picker
             SubjectPicker = new PickerComponent()
             {
+                CompleteFontSize = 24,
                 Margin = new Thickness(24, 0, 24, 0),
                 HintText = "Subject",
                 Width = 240,
-                OptionNames = testList
             };
+            SubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(SubjectsList))
+            {
+                Source = this
+            });
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(SubjectPicker);
 
@@ -137,37 +220,13 @@ namespace Vaseis
             SubmissionDatePicker = ControlsFactory.CreateDatePicker("Submission Date");
             InputWrapPanel.Children.Add(SubmissionDatePicker);
 
-            #endregion
-
-            // Creates the create button
-            CreateButton = StyleHelpers.CreateDialogButton(DarkPink, "Create");
-            CreateButton.Click += CreateJobPositionOnClick;
-            // Adds it to the dialog's button's stack panel
-            DialogButtonsStackPanel.Children.Add(CreateButton);
-        }
-
-        /// <summary>
-        /// Saves the new values in the data grid
-        /// </summary>
-        private void CreateJobPositionOnClick(object sender, RoutedEventArgs e)
-        {
-            // If the my job position row exists...
-            if (EvaluatorMyJobPositionsDataGridRow != null)
+            ToggleList = new TogglesListComponent();
+            ToggleList.SetBinding(TogglesListComponent.ToggleNamesProperty, new Binding(nameof(SubjectsList))
             {
-                // Sets the row's values according to the matching input in the dialog
-                // Job name
-                EvaluatorMyJobPositionsDataGridRow.JobPositionText = JobPositionPicker.Text;
-                // Department
-                EvaluatorMyJobPositionsDataGridRow.DepartmentText = DepartmentPicker.Text;
-                // Salary
-                EvaluatorMyJobPositionsDataGridRow.SalaryText = SalaryInput.Text;
-                // Subject
-                EvaluatorMyJobPositionsDataGridRow.SubjectText = SubjectPicker.Text;
-                // Deadline
-                EvaluatorMyJobPositionsDataGridRow.DeadlineText = $"{AnnouncementDatePicker.SelectedDate.Value.ToShortDateString()} - {SubmissionDatePicker.SelectedDate.Value.ToShortDateString()}";
-            }
-            // Closes the dialog
-            DialogHost.IsOpen = false;
+                Source = this
+            });
+            InputWrapPanel.Children.Add(ToggleList);
+
         }
 
         #endregion

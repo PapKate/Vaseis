@@ -20,11 +20,6 @@ namespace Vaseis
         /// </summary>
         public EvaluationDataModel Evaluation { get; }
 
-        /// <summary>
-        /// The dialog host
-        /// </summary>
-        public DialogHost EvaluationReportDialogHost { get; private set; }
-
         #endregion
 
         #region Protected Properties
@@ -58,6 +53,11 @@ namespace Vaseis
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="evaluatorDataGridRow">The data grid's row</param>
+        /// <param name="evaluation">The evaluation</param>
         public EvaluationDialogComponent(EvaluatorDataGridRowComponent evaluatorDataGridRow, EvaluationDataModel evaluation) : base(evaluatorDataGridRow)
         {
             Evaluation = evaluation ?? throw new ArgumentNullException(nameof(evaluation));
@@ -93,7 +93,7 @@ namespace Vaseis
         /// <summary>
         /// Displays the dialog's values to the data grid
         /// </summary>
-        protected override void TemporarySaveOnClick(RoutedEventArgs e)
+        protected async override void TemporarySaveOnClick(RoutedEventArgs e)
         {
             base.TemporarySaveOnClick(e);
             // Gets the report's grade value from the dialog and sets it accordingly on the data grid row
@@ -102,11 +102,18 @@ namespace Vaseis
             Evaluation.FilesGrade = ControlsFactory.GradeToNullableInt(QualificationsGradeInput.Text);
             // Sets the row's values according to the matching input in the dialog
             Evaluation.Comments = ParagraphTextBox.Text;
-            Evaluation.FinalGrade = ControlsFactory.CreateFinalGrade( Evaluation.FilesGrade, Evaluation.InterviewGrade, Evaluation.ReportGrade);
+            // Calculates and sets the final grade
+            Evaluation.FinalGrade = ControlsFactory.CreateFinalGrade(Evaluation.FilesGrade, Evaluation.InterviewGrade, Evaluation.ReportGrade);
+            // Updates the evaluation data model in the data base
+            await Services.GetDataStorage.UpdateEvaluatorEvaluationAsync(Evaluation, false);
+            // Updates the row
             EvaluatorDataGridRow.Update();
         }
 
-        protected override void FinalizedOnClick(RoutedEventArgs e)
+        /// <summary>
+        /// Updates the evaluation data model and the row
+        /// </summary>
+        protected async override void FinalizedOnClick(RoutedEventArgs e)
         {
             //call the base's virtual method
             base.FinalizedOnClick(e);
@@ -119,10 +126,11 @@ namespace Vaseis
 
             //update the finalized value to true
             EvaluatorDataGridRow.Update();
-
+            // Updates the evaluation data model in the data base
+            await Services.GetDataStorage.UpdateEvaluatorEvaluationAsync(Evaluation, true);
+            // Collapses the row until the next creation of the data grid's page
             EvaluatorDataGridRow.Visibility = Visibility.Collapsed;
         }
-
 
         #endregion
 
@@ -190,7 +198,6 @@ namespace Vaseis
             InputWrapPanel.Children.Add(InterviewGradeInput);
 
             #endregion
-
         }
 
         #endregion
