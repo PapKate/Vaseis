@@ -16,6 +16,20 @@ namespace Vaseis
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Private Properties
+
+        /// <summary>
+        /// The header
+        /// </summary>
+        private HeaderComponent Header { get; set; }
+
+        /// <summary>
+        /// The view
+        /// </summary>
+        private BaseView View { get; set; }
+
+        #endregion
+
         #region Constructors
 
         public MainWindow()
@@ -50,17 +64,17 @@ namespace Vaseis
             });
 
             // The header component
-            var header = new HeaderComponent(this)
+            Header = new HeaderComponent(this)
             {
-                Title = "username",
-                ImagePath = @"pack://application:,,,/UI/Images/logo.png",
+                Title = "",
+                ImagePath = @"pack://application:,,,/UI/Images/vaseis.png",
             };
 
             // Adds to the window grid the header
-            windowGrid.Children.Add(header);
+            windowGrid.Children.Add(Header);
 
             // Defines the row the header is set to in the parent grid
-            Grid.SetRow(header, 0);
+            Grid.SetRow(Header, 0);
 
             // A grid for the app that contains all the GUI elements except for the header
             var appGrid = new Grid()
@@ -75,35 +89,45 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-            //var logInPage = new LoginPage();
+            var logInPage = new LoginPage();
 
-            //logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
-            //{
-            //    if (e.Type == UserType.Administrator)
-            //    {
+            logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
+            {
+                // Sets the header's image as the user's profile picture
+                Header.ImagePath = e.ProfilePicture;
+                // Sets the header's title as the user's username
+                Header.Title = e.Username;
+                // If the user is an administrator...
+                if (e.Type == UserType.Administrator)
+                {
+                    // Creates the administrator's view
+                    View = new AdminView(e);
+                }
+                // If the user is an evaluator...
+                else if (e.Type == UserType.Evaluator)
+                {
+                    // Creates the evaluator's view
+                    View = new EvaluatorView(e);
+                }
+                // If the user is a manager...
+                else if (e.Type == UserType.Manager)
+                {
+                    // Creates the manager's view
+                    View = new ManagerView(e);
+                }
+                else
+                {
+                    // By default creates the employee's view
+                    View = new EmployeeView(e);
+                }
+                appGrid.Children.Add(View);
 
-            //    }
-            //    else if (e.Type == UserType.Evaluator)
-            //    {
-            //        var sideMenuComponent = new EvaluatorSideMenuComponent(appTabControl, e);
+                windowGrid.Children.Remove(logInPage);
+            });
 
-            //        // Adds to the app's grid the side menu
-            //        appGrid.Children.Add(sideMenuComponent);
-            //    }
-            //    else if (e.Type == UserType.Manager)
-            //    {
-            //        var sideMenuComponent = new ManagerSideMenuComponent(appTabControl, e);
+            windowGrid.Children.Add(logInPage);
 
-            //        // Adds to the app's grid the side menu
-            //        appGrid.Children.Add(sideMenuComponent);
-            //    }
-
-            //    windowGrid.Children.Remove(logInPage);
-            //});
-
-            //windowGrid.Children.Add(logInPage);
-
-            //Grid.SetRow(logInPage, 1);
+            Grid.SetRow(logInPage, 1);
 
             var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
                                                        .Include(x => x.Department).ThenInclude(y => y.Company)
@@ -112,16 +136,14 @@ namespace Vaseis
                                                        .Include(x => x.Certificates)
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
-
                                                        .FirstOrDefaultAsync(x => x.Type == UserType.Administrator);
 
             var view = new AdminView(user);
 
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee);
 
-            var view = new EmployeeView(user);
+            //var view = new EmployeeView(user);
 
-            appGrid.Children.Add(view);
+            //appGrid.Children.Add(view);
 
             // Sets the content as the window's grid
             Content = windowGrid;

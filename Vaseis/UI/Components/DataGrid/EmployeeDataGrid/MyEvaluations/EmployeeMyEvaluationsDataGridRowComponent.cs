@@ -102,7 +102,7 @@ namespace Vaseis
             FilesGrade = ControlsFactory.GetGrade(Evaluation.FilesGrade).ToString("F", CultureInfo.InvariantCulture);
             JobPositionName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = Evaluation.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
-            //Result = CreateResult(Evaluation.);
+            Result = CreateResult(Evaluation.Passed);
         }
 
         #endregion
@@ -115,7 +115,7 @@ namespace Vaseis
         /// </summary>
         /// <param name="evaluationGrade">The final evaluation's grade</param>
         /// <returns></returns>
-        protected string CreateResult(bool hasPassed)
+        protected string CreateResult(bool? hasPassed)
         {
             // By default the result is empty
             var result = "-";

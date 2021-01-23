@@ -36,6 +36,24 @@ namespace Vaseis
         #region Get 
 
         /// <summary>
+        /// Gets the logged in user
+        /// </summary>
+        /// <param name="username">The user's username</param>
+        /// <param name="password">The user's password</param>
+        /// <returns></returns>
+        public Task<UserDataModel> GetUser(string username, string password)
+        {
+            return DbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                                       .Include(x => x.Department).ThenInclude(y => y.Company)
+                                                       .Include(x => x.AcquiredDegrees)
+                                                       .Include(x => x.Awards)
+                                                       .Include(x => x.Certificates)
+                                                       .Include(x => x.Languages)
+                                                       .Include(x => x.RecommendationPapers)
+                                                       .FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
+        }
+
+        /// <summary>
         /// Gets all subjects
         /// </summary>
         public Task<List<SubjectDataModel>> GetSubjects()
