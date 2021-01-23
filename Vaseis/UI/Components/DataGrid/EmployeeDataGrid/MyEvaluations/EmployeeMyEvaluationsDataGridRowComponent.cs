@@ -96,13 +96,13 @@ namespace Vaseis
         {
             EmployeeName = Evaluation.UsersJobFilesPair.Employee.Username;
             EvaluatorName = Evaluation.UsersJobFilesPair.Evaluator.Username;
-            FinalGrade = "7";
+            FinalGrade = ControlsFactory.GetGrade(Evaluation.FinalGrade).ToString();
             InterviewGrade = ControlsFactory.GetGrade(Evaluation.InterviewGrade).ToString("F", CultureInfo.InvariantCulture);
             ReportGrade = ControlsFactory.GetGrade(Evaluation.ReportGrade).ToString("F", CultureInfo.InvariantCulture);
             FilesGrade = ControlsFactory.GetGrade(Evaluation.FilesGrade).ToString("F", CultureInfo.InvariantCulture);
             JobPositionName = Evaluation.JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = Evaluation.JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
-            Result = CreateResult(7);
+            //Result = CreateResult(Evaluation.);
         }
 
         #endregion
@@ -115,16 +115,16 @@ namespace Vaseis
         /// </summary>
         /// <param name="evaluationGrade">The final evaluation's grade</param>
         /// <returns></returns>
-        protected string CreateResult(int evaluationGrade)
+        protected string CreateResult(bool hasPassed)
         {
             // By default the result is empty
             var result = "-";
             // If the evaluation's grade is grater than 5...
-            if (evaluationGrade > 5)
+            if (hasPassed == true)
                 // Result set to pass
                 result = "Pass";
             // If evaluation grade smaller or equal to 5...
-            if (evaluationGrade <= 5)
+            if (hasPassed == false)
                 // Result set to fail
                 result = "Fail";
             // Returns the result

@@ -57,6 +57,7 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
+            SubjectName = ControlsFactory.CreateSubjectsString(JobPosition.Subjects);
             JobPositionName = JobPosition.Job.JobTitle;
             DepartmentName = JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);

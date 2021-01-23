@@ -112,9 +112,9 @@ namespace Vaseis
                                                        .Include(x => x.Certificates)
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee);
 
-            var view = new ManagerView(user);
+            var view = new EmployeeView(user);
 
             appGrid.Children.Add(view);
 

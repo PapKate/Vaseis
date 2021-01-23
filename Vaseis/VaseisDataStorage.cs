@@ -195,6 +195,7 @@ namespace Vaseis
                                                 .Include(x => x.JobPosition).ThenInclude(y => y.Job)
                                                                             .ThenInclude(z => z.Department)
                                                 .Include(x => x.JobPosition).ThenInclude(y => y.JobPositionRequests)
+                                                .Include(x => x.JobPosition).ThenInclude(y => y.Subjects)
                                                 .Where(x => x.UsersJobFilesPair.EmployeeId == employeeId)
                                                 .ToListAsync();
         }
@@ -307,7 +308,7 @@ namespace Vaseis
                                          .Include(x => x.JobPositionRequests)
                                          .Include(x => x.Subjects)
                                          .Where(x => x.Job.Department.Company.Id == companyId)
-                                         .Where(y => y.AnnouncementDate != null)
+                                         .Where(y => y.SubmissionDate > DateTime.Now)
                                          .ToListAsync();
         }
 

@@ -80,7 +80,7 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectName = JobPositionRequest.JobPosition.Subjects.FirstOrDefault().Title;
+            SubjectName = ControlsFactory.CreateSubjectsString(JobPositionRequest.JobPosition.Subjects);
             EmployeeText = JobPositionRequest.UsersJobFilesPair.Employee.Username;
             JobPositionName = JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
