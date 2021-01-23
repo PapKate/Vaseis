@@ -160,7 +160,7 @@ namespace Vaseis
                 Command = new RelayCommand(async () => 
                 {
                     // Attempt to get the user with the inserted credentials
-                    var user = await Services.GetDbContext.Users.FirstOrDefaultAsync(x => x.Username == EnterUsername.Text && x.Password == EnterPassword.Password);
+                    var user = await Services.GetDataStorage.GetUser(EnterUsername.Text, EnterPassword.Password);
 
                     // If a user isn't found...
                     if (user == null)

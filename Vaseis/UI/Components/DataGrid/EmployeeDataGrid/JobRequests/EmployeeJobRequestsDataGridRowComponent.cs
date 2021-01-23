@@ -61,7 +61,7 @@ namespace Vaseis
             DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
             var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.FirstOrDefault(y => y.Id == JobPositionRequest.Id);
-            var index = 1;
+            var index = 0;
             foreach (var request in JobPositionRequest.JobPosition.JobPositionRequests)
             {
                 index++;
