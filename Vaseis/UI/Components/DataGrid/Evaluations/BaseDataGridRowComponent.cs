@@ -81,7 +81,7 @@ namespace Vaseis
 
         #endregion
 
-        #region RemoveRow
+        #region ShowDialogCommand
 
         /// <summary>
         /// The open dialog command

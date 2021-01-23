@@ -593,8 +593,14 @@ namespace Vaseis
             foreach (var evaluation in evaluations)
             {
                 finalGrade = (float)(evaluation.InterviewGrade * 0.4 + evaluation.ReportGrade * 0.4 + evaluation.FilesGrade * 0.2);
-               //*100 to become an integer
+                //*100 to become an integer
                 evaluation.FinalGrade = (int)finalGrade;
+                if (evaluation.IsAprovedByManager == true)
+                { 
+                    var rng = new Random();
+                    var randomBool = rng.Next(0, 2) > 0;
+                    evaluation.Passed = randomBool;
+                }
             }
 
             // Saves changes

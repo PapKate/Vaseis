@@ -52,6 +52,11 @@ namespace Vaseis
         /// </summary>
         public bool IsAprovedByManager { get; set; } = false;
 
+        /// <summary>
+        /// The bool for whether an employee has passed the evaluation
+        /// </summary>
+        public bool? Passed { get; set; }
+
         #region Relationships
 
         /// <summary>

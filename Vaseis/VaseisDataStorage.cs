@@ -336,6 +336,22 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// Gets all the evaluations in a company
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public Task<List<EvaluationDataModel>> GetJobPositionOpenEvaluation(int jobPositionId)
+        {
+            return DbContext.Evaluations.Include(x => x.JobPositionRequest)
+                                        .ThenInclude(y => y.JobPosition)
+                                        .ThenInclude(z => z.Job)
+                                        .ThenInclude(w => w.Department)
+                                        .Where(x => x.JobPositionRequest.JobPositionId == jobPositionId)
+                                        .Where(x => x.IsFinalized == false)
+                                        .ToListAsync();
+        }
+
+        /// <summary>
         /// Gets the job positions created by an evaluator
         /// </summary>
         /// <param name="companyId">The company's id</param>
@@ -550,11 +566,12 @@ namespace Vaseis
         /// </summary>
         /// <param name="evaluation">The evaluation data model</param>
         /// <returns></returns>
-        public async Task<EvaluationDataModel> UpdateManagerEvaluationAsync(EvaluationDataModel evaluation)
+        public async Task<EvaluationDataModel> UpdateManagerEvaluationAsync(EvaluationDataModel evaluation, bool hasPassed)
         {
             // Get the existing model
             var model = await DbContext.Evaluations.FirstAsync(x => x.Id == evaluation.Id);
             model.IsAprovedByManager = true;
+            model.Passed = hasPassed;
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();

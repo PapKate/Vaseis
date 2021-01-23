@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 
 using static Vaseis.Styles;
@@ -54,18 +55,27 @@ namespace Vaseis
             base.OnInitialized();
             // Query the reports of the manager and add them as rows to the data grid
             var evaluationResults = await Services.GetDataStorage.GetManagerEvaluationsAsync(Manager.Id);
-
             // For each job position in the list...
             foreach (var result in evaluationResults)
             {
+                var openEvaluations = await Services.GetDataStorage.GetJobPositionOpenEvaluation(result.JobPositionRequest.JobPositionId);
+
                 // Create a row of for the employee's job position data grid
-                var row = new ManagerEvaluationDataGridRowComponent(PageGrid, result);
+                var row = new ManagerEvaluationDataGridRowComponent(PageGrid, result)
+                { 
+                    NumOfRemainingEvaluations = openEvaluations.Count().ToString()
+                };
                 // ( When the plus button is clicked )
                 // Create the show dialog command
                 row.ShowDialogCommand = new RelayCommand(async () => 
                 { 
                     ShowConfirmationDialog(row);
-                    await Services.GetDataStorage.UpdateManagerEvaluationAsync(result);
+                    await Services.GetDataStorage.UpdateManagerEvaluationAsync(result, false);
+                });
+                row.SendEvaluationCommand = new RelayCommand(async () =>
+                {
+                    ShowConfirmationDialog(row);
+                    await Services.GetDataStorage.UpdateManagerEvaluationAsync(result, true);
                 });
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);
