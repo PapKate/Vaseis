@@ -33,12 +33,46 @@ namespace Vaseis
 
         #region Public Methods
 
+        #region Get 
+
         /// <summary>
         /// Gets all subjects
         /// </summary>
         public Task<List<SubjectDataModel>> GetSubjects()
         {
-            return DbContext.Subjects.ToListAsync();
+            return DbContext.Subjects.Include(x => x.ChildrenSubjects).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Get all the Companies
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<CompanyDataModel>> GetCompanies()
+        {
+            return DbContext.Companies.ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets the company's users emmesaaaaa yoah
+        /// </summary>
+        /// <param name="companyId">The company's id</param>
+        public Task<List<DepartmentDataModel>> GetDepartmentUsers(int companyId)
+        {
+            return DbContext.Departments.Include(x => x.Users)
+                                        .Include(x => x.Jobs)
+                                      .Where(x => x.CompanyId == companyId)
+                                      .ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets the company's departments
+        /// </summary>
+        /// <param name="companyId">The company's id</param>
+        public Task<List<DepartmentDataModel>> GetDepartments(int companyId)
+        {
+            return DbContext.Departments.Where(x => x.CompanyId == companyId)
+                                        .ToListAsync();
         }
 
         public Task<List<CompanyDataModel>> GetCompanies()
@@ -57,7 +91,11 @@ namespace Vaseis
                                       .Include(x => x.Jobs)
                                       .Where(x => x.Id == companyId)
                                       .FirstOrDefaultAsync();
-        }
+        } 
+
+        #endregion
+
+        #region Update 
 
         /// <summary>
         /// Gets all the company's employees
@@ -99,6 +137,188 @@ namespace Vaseis
         }
 
         /// <summary>
+        ///Just updating the user's edited components 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="bio"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<UserDataModel> UpdateBioAndEmail(UserDataModel user, string bio, string email)
+        { 
+           var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
+
+            model.Bio = bio;
+
+            model.Email = email;
+
+            return model;
+        
+        }
+
+        /// <summary>
+        ///Just updating the user's edited components 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="bio"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email)
+        {
+            var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
+
+            model.Bio = bio;
+
+            model.Email = email;
+
+            return model;
+
+        }
+
+        #endregion
+
+        #region Create New DataModel
+
+        public async Task<CompanyDataModel> CreateCompany(string name, string doy, string afm, string About, string Telephone, string City, string Country, string streetNumber, string streetName, string CompanyPicsture,  IEnumerable<DepartmentDataModel> departments)
+        {
+            var newCompany = new CompanyDataModel()
+            { 
+            Name = name,
+            DateCreated = DateTime.Now,
+            DOY = doy, 
+            AFM = afm,
+            About = About, 
+            TelephoneNumber = Telephone,
+            City = City,
+            Country = Country,
+            StreetName = streetName,
+            StreetNumber = streetNumber,
+            CompanyPicture = CompanyPicsture,
+            Departments = departments
+            };
+
+            return newCompany;
+        }
+
+
+
+        //wrong
+        public async Task<DepartmentDataModel> AddNewDepartment(CompanyDataModel company, string name, string colour) 
+        {
+            //HOW AM I CREATE A  NEW ENUM TYPE?
+
+            var newDep = new DepartmentDataModel() 
+            {
+            Company = company,
+            CompanyId = company.Id,
+            //DepartmentName typeOfDepartment?
+            Color = colour
+            };
+
+            return newDep;
+        
+        }
+
+        //department
+        public async Task<JobDataModel> AddNewJob(CompanyDataModel company, int salary, string jobTitle)
+        {
+            var model = new JobDataModel()
+            { 
+            JobTitle = jobTitle,
+            Salary = salary,
+            Company = company,
+            CompanyId = company.Id       
+            };
+
+            DbContext.Jobs.Add(model);
+
+            await DbContext.SaveChangesAsync();
+
+            return model;
+        }
+
+
+        //wrong
+        public async Task<UserDataModel> NewUser(CompanyDataModel company, string username, string firstname, string lastName, string email, string jobTitle, string departmentName, string usertype)
+            {
+            //first i specify the company's departments
+            var models = await DbContext.Departments.Where(x => x.CompanyId == company.Id)
+                                        .ToListAsync();
+
+            DepartmentDataModel thisDepartment = new DepartmentDataModel();
+
+            //then i specify the department that the  user will be added to
+            foreach (var model in models)
+            {
+                if (model.DepartmentName.ToString() == departmentName)
+                {
+                    thisDepartment = model;
+                }
+            }
+            //define the pickers choice for the new user
+            var usersType = new UserType();
+
+            if (usertype == "Administrator") usersType = UserType.Administrator;
+            else if (usertype == "Employee") usersType = UserType.Employee;
+            else if (usertype == "Evaluator") usersType = UserType.Evaluator;
+            else usersType = UserType.Manager;
+
+            var jobs = thisDepartment.Jobs;
+            var thePickedJob = new JobDataModel();
+
+            if (jobs == null) {}
+
+            else  {
+                foreach (var job in jobs)
+                {
+                    if (job.JobTitle.ToString() == jobTitle)
+                        thePickedJob = job;
+                } 
+            };
+
+            var newUser = new UserDataModel()
+            {
+                Username = username,
+                LastName = lastName,
+                FirstName = firstname,
+                Email = email,     
+                DepartmentId = thisDepartment.Id,
+                Type = usersType,
+                
+            };
+
+            await DbContext.SaveChangesAsync();
+
+            return newUser;
+
+        }
+
+        /// <summary>
+        /// This function creates a new subject to the database through the linked dialog
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public async Task<SubjectDataModel> CreateNewSubject(string title, string description, string parent)
+        {
+            var model = new SubjectDataModel()
+            {
+                Title = title,
+                Description = description,
+                Subject = await DbContext.Subjects.FirstAsync(x=>x.Title == parent)
+            };
+
+            // Add it
+            DbContext.Subjects.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
+        }
+
+        /// <summary>
         /// Gets all the evaluators the have the same company id as the manager
         /// </summary>
         /// <param name="Manager">The manager</param>
@@ -108,6 +328,8 @@ namespace Vaseis
                                   .Where(y => y.Department.Id == Manager.Department.Id)
                                   .ToListAsync();
         }
+
+        #endregion
 
         #region Manager Reports
 
@@ -324,6 +546,7 @@ namespace Vaseis
                                         .ToListAsync();
         }
 
+
         /// <summary>
         /// Gets all the jobs in a company
         /// </summary>
@@ -393,10 +616,16 @@ namespace Vaseis
         /// <param name="jobPosition">The job position</param>
         /// <param name="salary">The salary</param>
         /// <returns></returns>
+
+        public async Task<JobPositionDataModel> UpdateJobPositionByEvaluator(JobPositionDataModel jobPosition, string jobPositionName,
+                                                                             Department departmentName, int salary,
+                                                                             DateTime announcementDate, DateTime submissionDate)
+
         public async Task<JobPositionDataModel> UpdateJobPositionByEvaluatorAsync(JobPositionDataModel jobPosition, string jobTitle, 
                                                                                   int salary, 
                                                                                   DateTime? announcementDate, DateTime? submissionDate,
                                                                                   IEnumerable<SubjectDataModel> subjects)
+
         {
             // Get the existing model
             var model = await DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).FirstAsync(x => x.Id == jobPosition.Id);
@@ -440,7 +669,7 @@ namespace Vaseis
                                         .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Reports)
                                         .Where(x => x.UsersJobFilesPair.EvaluatorId == evaluatorId)
                                         .Where(x => x.IsFinalized == isFinalized)
-                                        .ToListAsync();       
+                                        .ToListAsync();
         }
 
         /// <summary>

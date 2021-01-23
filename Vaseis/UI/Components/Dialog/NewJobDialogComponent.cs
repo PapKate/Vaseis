@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using static Vaseis.Styles;
 
 namespace Vaseis
@@ -20,15 +21,49 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Properties 
+        /// <summary>
+        /// The job's Title
+        /// </summary>
+        protected TextInputComponent JobTitle { get;  set; } 
+
+        /// <summary>
+        /// The job's Department
+        /// </summary>
+        protected PickerComponent Deprtment { get; set;  }
+
+        /// <summary>
+        /// The job's Salary
+        /// </summary>
+        protected TextInputComponent Salary { get;  set; }
+
+        #endregion
+
+
+        #region Dependency Properties
+
+        #region Departmetns 
+
+        public IEnumerable<string> DepartmentsOption
+        {
+            get { return (IEnumerable<string>)GetValue(DepartmentsOptionProperty); }
+            set { SetValue(DepartmentsOptionProperty, value); }
+        }
+
+
+        /// <summary>
+        /// Identifies the <see cref="OptionDepartments"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DepartmentsOptionProperty = DependencyProperty.Register(nameof(DepartmentsOption), typeof(IEnumerable<string>), typeof(NewJobDialogComponent));
+
+        #endregion
+
+        #endregion
+
         #region Constructor
         /// <summary>
         /// I use the company parameter to specify some characteristics suck as Company id etc
         /// </summary>
-        public NewJobDialogComponent()
-        {
-            CreateGUI();
-        }
-
         public NewJobDialogComponent(CompanyDataModel company)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
@@ -36,6 +71,21 @@ namespace Vaseis
             CreateGUI();
         }
 
+
+        #endregion
+
+        #region Protected Methods
+
+        protected async void CreateJobOnClick(object sender, RoutedEventArgs e)
+        {
+
+            var salary = Int32.Parse(Salary.Text);
+
+            await Services.GetDataStorage.AddNewJob(Company,salary, Deprtment.Text);
+
+            CloseDialogOnClick(this, e);
+
+        }
 
         #endregion
 
@@ -54,7 +104,7 @@ namespace Vaseis
             // Adds th dialog's title
             DialogTitle.Text = textHelper2;
 
-            var JobTitle = new TextInputComponent()
+             JobTitle = new TextInputComponent()
             {
                 HintText = "Job Title",
                 FontSize = 24,
@@ -64,7 +114,7 @@ namespace Vaseis
                 Padding = new Thickness(4, 0, 4, 0)
             };
 
-            var Salary = new TextInputComponent()
+            Salary = new TextInputComponent()
             {
                 HintText = "$alary",
                 FontSize = 24,
@@ -74,7 +124,7 @@ namespace Vaseis
                 Padding = new Thickness(4, 0, 4, 0)
             };
 
-            var Deprtment = new PickerComponent()
+             Deprtment = new PickerComponent()
             {
                 HintText = "Department",
                 FontSize = 24,
@@ -82,8 +132,12 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Padding = new Thickness(4, 0, 4, 0),
-                OptionNames = new List<string> { "Κόλαση", "Καθαρτήριο", "Παράδεισος" }
-            };
+                OptionNames = DepartmentsOption
+             };
+            Deprtment.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(DepartmentsOption))
+            {
+                Source = this
+            });
 
             var JobStackPanel = new StackPanel();
             JobStackPanel.Children.Add(JobTitle);
@@ -113,7 +167,7 @@ namespace Vaseis
 
             // Adds a corner radius
             ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
-            OkButton.Click += CloseDialogOnClick;
+            OkButton.Click += CreateJobOnClick;
 
             JobStackPanel.Children.Add(OkButton);
 

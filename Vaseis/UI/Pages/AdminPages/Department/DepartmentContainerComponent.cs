@@ -4,16 +4,11 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-
-using static Vaseis.Styles;
+using VaseiS;
 
 namespace Vaseis
 {
-    /// <summary>
-    /// The area filled with the employee buttons in the Employees page
-    /// </summary>
-    public class UserButtonsContainerComponent : ContentControl
+    public class DepartmentContainerComponent : ContentControl
     {
         #region Protected Properties
 
@@ -21,7 +16,7 @@ namespace Vaseis
         ///  The grid container of all the user buttons
         /// </summary>
         protected UniformGrid UserButtonsGrid { get; private set; }
- 
+
         /// <summary>
         /// The specific company
         /// </summary>
@@ -31,7 +26,7 @@ namespace Vaseis
 
         #region Constructors
 
-        public UserButtonsContainerComponent(CompanyDataModel company)
+        public DepartmentContainerComponent(CompanyDataModel company)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
 
@@ -46,18 +41,11 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-            var departments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);
+            var companyDepartments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);    
 
-            foreach (var department in departments)
+            foreach (var department in companyDepartments)
             {
-
-                var emplyoees = department.Users;
-
-                foreach (var employee in emplyoees)
-                {
-                    UserButtonsGrid.Children.Add(new UserButtonComponent(employee) { });
-                }
-
+                UserButtonsGrid.Children.Add(new DepartmentButtonComponent(department));
             }
         }
 
@@ -73,8 +61,6 @@ namespace Vaseis
             // The grid containing the buttons
             UserButtonsGrid = new UniformGrid()
             {
-                Columns = 3,
-
                 Margin = new Thickness(32),
             };
 

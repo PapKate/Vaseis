@@ -112,6 +112,11 @@ namespace Vaseis
                                                        .Include(x => x.Certificates)
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
+
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Administrator);
+
+            var view = new AdminView(user);
+
                                                        .FirstOrDefaultAsync(x => x.Type == UserType.Employee);
 
             var view = new EmployeeView(user);

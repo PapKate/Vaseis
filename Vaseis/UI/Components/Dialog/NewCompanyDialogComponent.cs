@@ -83,6 +83,16 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
+        protected TextInputComponent About { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TextInputComponent CompanyPicture { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextInputComponent StreetNumber { get; private set; }
 
         #endregion
@@ -92,6 +102,17 @@ namespace Vaseis
         public NewCompanyDialogComponent()
         {
             CreateGUI();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected async void CreateCompany(object sender, RoutedEventArgs e)
+        {
+            await Services.GetDataStorage.CreateCompany(CompanyName.Text, DOY.Text, AFM.Text, About.Text, TelephoneNumber.Text, City.Text, Country.Text, StreetNumber.Text, StreetAddress.Text, CompanyPicture.Text, null);
+
+            CloseDialogOnClick(this, e);
         }
 
         #endregion
@@ -117,6 +138,17 @@ namespace Vaseis
             InputWrapPanel.Children.Add(CompanyName);
 
             AFM = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "AFM",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(AFM);
+
+            //Some words about the company
+            About = new TextInputComponent()
             {
                 // With hint text the name
                 HintText = "AFM",
@@ -186,11 +218,15 @@ namespace Vaseis
             // And adds it to the dialog's input wrap panel
             InputWrapPanel.Children.Add(StreetNumber);
 
-            //kTODO: add the date picker to factor controls with parameter hint text
-            // Creates a date picker - calendar field
-            DateCreatedPicker = ControlsFactory.CreateDatePicker("Date created");
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(DateCreatedPicker);
+            CompanyPicture = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "Company's picture url",
+                Margin = new Thickness(24),
+                Width = 240
+            };
+            // And adds it to the dialog's input wrap panel
+            InputWrapPanel.Children.Add(StreetNumber);
 
             // Creates a new text input component
             DepartmentTextBox = new TextInputComponent()
@@ -230,6 +266,7 @@ namespace Vaseis
             // Creates the create a new user button
             CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create company");
             // Adds it to the buttons' stack panel
+            CreateNewButton.Click += CreateCompany;
 
             DialogButtonsStackPanel.Children.Add(CreateNewButton);
 

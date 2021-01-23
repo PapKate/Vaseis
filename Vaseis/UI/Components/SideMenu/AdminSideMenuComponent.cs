@@ -23,7 +23,7 @@ namespace Vaseis
         /// <summary>
         /// The companies button
         /// </summary>
-        protected SideMenuButtonComponent AddSubject { get; private set; }
+        protected SideMenuButtonComponent SubjectsButton { get; private set; }
 
         #endregion
 
@@ -44,7 +44,12 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+
+    
+            // Create and add the companies button
+
             // Create and add the my job requests button
+
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
             CompaniesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
@@ -57,7 +62,22 @@ namespace Vaseis
                 });
             });
 
+
+            // Create and add the subjects button
+            SubjectsButton = CreateAndAddSideMenuButton("Subjects", PackIconKind.AlphabetB);
+
+            SubjectsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Subjects",
+                    Icon = PackIconKind.AlphabetB,
+                    Content = new SubjectsPage()
+                });
+            });
+
             AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Transcribe);
+
 
         }
 

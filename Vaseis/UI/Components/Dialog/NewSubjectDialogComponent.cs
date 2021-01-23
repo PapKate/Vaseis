@@ -95,10 +95,31 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Methods
+
+        protected async void CreateNewSubjectOnClick(object sender, RoutedEventArgs e)
+        {
+
+            await Services.GetDataStorage.CreateNewSubject(SubjectTitleInput.Text, DescriptionInput.Text, BelongsToSubjectPicker.Text);
+
+            var messageDialog = new MessageDialogComponent()
+            {
+                BrushColor = DarkPink.HexToBrush(),
+                Message = "Subject was created",
+                Title = "Done yo"
+            };
+            // Adds the dialog to the out grid of the password dialog
+            OutGrid.Children.Add(messageDialog);
+
+        }
+
+        #endregion
+
         #region Private Methods
 
         private void CreateGUI()
         {
+            
             CreateSubjectStackPanel = new StackPanel();
 
             DialogTitle.Text = "Create new Subject";
@@ -112,6 +133,11 @@ namespace Vaseis
             };
             CreateSubjectStackPanel.Children.Add(SubjectTitleInput);
 
+            SubjectTitleInput.SetBinding(TextInputComponent.TextProperty, new Binding(nameof(SubjectTitle))
+            {
+                Source = this
+            });
+
             DescriptionInput = new TextInputComponent()
             {
                 // With hint text the name
@@ -120,6 +146,11 @@ namespace Vaseis
                 Width = 240
             };
             CreateSubjectStackPanel.Children.Add(DescriptionInput);
+
+            DescriptionInput.SetBinding(TextInputComponent.TextProperty, new Binding(nameof(SubjectDescription))
+            {
+                Source = this
+            });
 
             //Takes from the dependencies all the availiable subjects to pick as parent
             BelongsToSubjectPicker = new PickerComponent() 
@@ -137,10 +168,7 @@ namespace Vaseis
             //Adds all input components to a stackPanel
             CreateSubjectStackPanel.Children.Add(BelongsToSubjectPicker);
 
-            //Adds the stackPanel to the InputWrapPanel
-            //This was done to prevent the inputs from not being vertically aligned instead of two in each row
-            InputWrapPanel.Children.Add(CreateSubjectStackPanel);
-
+          
             //the ok Button
 
             OkButton = new Button()
@@ -163,10 +191,15 @@ namespace Vaseis
 
             // Adds a corner radius
             ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
-            OkButton.Click += CloseDialogOnClick;
+            OkButton.Click += CreateNewSubjectOnClick;
 
             //Adds the button the the dialog panel
-            DialogButtonsStackPanel.Children.Add(OkButton);
+            CreateSubjectStackPanel.Children.Add(OkButton);
+
+
+            //Adds the stackPanel to the InputWrapPanel
+            //This was done to prevent the inputs from not being vertically aligned instead of two in each row
+            InputWrapPanel.Children.Add(CreateSubjectStackPanel);
 
             Content = DialogHost;
 
