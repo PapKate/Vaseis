@@ -93,11 +93,6 @@ namespace Vaseis
                                         .ToListAsync();
         }
 
-        public Task<List<CompanyDataModel>> GetCompanies()
-        {
-            return DbContext.Companies.ToListAsync();
-        }
-
         /// <summary>
         /// Gets the company's data
         /// </summary>
@@ -262,7 +257,7 @@ namespace Vaseis
             var models = await DbContext.Departments.Where(x => x.CompanyId == company.Id)
                                         .ToListAsync();
 
-            DepartmentDataModel thisDepartment = new DepartmentDataModel();
+            var thisDepartment = new DepartmentDataModel();
 
             //then i specify the department that the  user will be added to
             foreach (var model in models)
@@ -634,16 +629,10 @@ namespace Vaseis
         /// <param name="jobPosition">The job position</param>
         /// <param name="salary">The salary</param>
         /// <returns></returns>
-
-        public async Task<JobPositionDataModel> UpdateJobPositionByEvaluator(JobPositionDataModel jobPosition, string jobPositionName,
-                                                                             Department departmentName, int salary,
-                                                                             DateTime announcementDate, DateTime submissionDate)
-
         public async Task<JobPositionDataModel> UpdateJobPositionByEvaluatorAsync(JobPositionDataModel jobPosition, string jobTitle, 
                                                                                   int salary, 
                                                                                   DateTime? announcementDate, DateTime? submissionDate,
                                                                                   IEnumerable<SubjectDataModel> subjects)
-
         {
             // Get the existing model
             var model = await DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).FirstAsync(x => x.Id == jobPosition.Id);
