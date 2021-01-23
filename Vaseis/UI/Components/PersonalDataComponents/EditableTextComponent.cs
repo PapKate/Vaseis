@@ -143,7 +143,6 @@ namespace Vaseis
             };
             InputTextBox.Visibility = Visibility.Collapsed;
             TextGrid.Children.Add(InputTextBox);
-
         }
 
         /// <summary>

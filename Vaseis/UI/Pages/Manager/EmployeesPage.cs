@@ -109,6 +109,7 @@ namespace Vaseis
             foreach(var employee in employees)
                 // Create and add the user button
                 EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
+
         }
 
         #endregion

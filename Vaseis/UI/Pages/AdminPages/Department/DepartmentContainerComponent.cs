@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using VaseiS;
 
 namespace Vaseis
 {
@@ -24,7 +26,7 @@ namespace Vaseis
 
         #region Constructors
 
-        public UserButtonsContainerComponent(CompanyDataModel company)
+        public DepartmentContainerComponent(CompanyDataModel company)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
 
@@ -39,13 +41,11 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-            var companyEmployees = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);
+            var companyDepartments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);    
 
-            var emplyoees = companyEmployees.Users;
-
-            foreach (var employee in emplyoees)
+            foreach (var department in companyDepartments)
             {
-                UserButtonsGrid.Children.Add(new UserButtonComponent(employee) { });
+                UserButtonsGrid.Children.Add(new DepartmentButtonComponent(department));
             }
         }
 

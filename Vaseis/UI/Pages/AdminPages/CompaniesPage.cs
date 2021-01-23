@@ -51,6 +51,7 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
+            //update sta companies (afou mporei na prose8ei)
             var companies = await Services.GetDataStorage.GetCompanies();
 
             foreach (var company in companies)
@@ -62,6 +63,8 @@ namespace Vaseis
 
         }
         #endregion
+
+
 
         /// <summary>
         /// Creates and adds the required GUI elements for the administrator's companies page

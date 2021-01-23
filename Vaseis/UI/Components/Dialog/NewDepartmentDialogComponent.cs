@@ -57,6 +57,17 @@ namespace Vaseis
 
         #endregion
 
+        #region  Protected Methods 
+
+        protected async void CreateNewDepartment(object sender, RoutedEventArgs e)
+        {
+            await Services.GetDataStorage.AddNewDepartment(Company, DepartmentInput.Text, ColorInput.Text);
+
+            CloseDialogOnClick(this, e);
+
+        }
+        #endregion
+
         #region Private Methods
 
         /// <summary>
@@ -81,22 +92,6 @@ namespace Vaseis
 
             DepartmentStackPanel.Children.Add(DepartmentInput);
 
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(DepartmentStackPanel);
-
-            // Creates the company's combo box
-            CompanyPicker = new PickerComponent()
-            {
-                HintText = "Company",
-                FontSize = 24,
-                Width = 240,
-                Margin = new Thickness(24, 0, 24, 0),
-                OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }
-            };
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(CompanyPicker);
-
-
             // Creates the color's input field
             ColorInput = new TextInputComponent()
             {
@@ -107,21 +102,18 @@ namespace Vaseis
 
             DepartmentStackPanel.Children.Add(ColorInput);
 
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(ColorInput);
-
-
             // Creates the create button
             CreateButton = StyleHelpers.CreateDialogButton(DarkPink, "Create");
-            //CreateButton.Click += CreateDepartmentOnClick;
+            CreateButton.Margin = new Thickness(32);
             // Adds it to the dialog's button's stack panel
-            DialogButtonsStackPanel.Children.Add(CreateButton);
 
+            CreateButton.Click += CreateNewDepartment;
+            //DialogButtonsStackPanel.Children.Add(CreateButton);
 
+            DepartmentStackPanel.Children.Add(CreateButton);
 
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentStackPanel);
-
-
 
         }
 

@@ -91,7 +91,7 @@ namespace Vaseis
         /// <summary>
         /// The related <see cref="CompanyDataModel"/>
         /// </summary>
-        public CompanyDataModel Department { get; set; }
+        public DepartmentDataModel Department { get; set; }
 
         /// <summary>
         /// The related <see cref="CompanyDataModel"/>

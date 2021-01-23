@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Vaseis;
 
-namespace Vaseis.UI.Components.Employees
+namespace VaseiS
 {
-    class DepartmentButtonComponent : DepartmentDataButton
+   public class DepartmentButtonComponent : DepartmentDataButton
     {
         #region Public Properties
 
         /// <summary>
-        /// The user
+        /// The DEPARTMENT
         /// </summary>
-        public CompanyDataModel Department { get; }
+        public DepartmentDataModel Department { get; }
 
         #endregion
 
         #region Constructors
 
         /// <param name="user">The user</param>
-        public DepartmentButtonComponent(CompanyDataModel department)
+        public DepartmentButtonComponent(DepartmentDataModel department)
         {
             Department = department ?? throw new ArgumentNullException(nameof(department));
-
             DepartmentName = Department.DepartmentName.ToString();
             Background = Department.Color.HexToBrush();
             Height = 150;

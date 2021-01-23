@@ -13,12 +13,24 @@ namespace Vaseis
     //This is a class that creates the row components fo rthe adminidtrator's companies page
     public class CompaniesComponent : ContentControl
     {
-        #region Proetcted Properties
+        #region Public Properties
 
         public CompanyDataModel Company { get; }
 
-
         public Grid CompanyGrid { get; private set; }
+
+        #endregion
+
+        #region Protected Properties
+        /// <summary>
+        /// used for the add user dialog below
+        /// </summary>
+        protected List<string> departmentNames { get; set; }
+
+        /// <summary>
+        /// used for the add user dialog below
+        /// </summary>
+        protected List<string> JobsList { get; set; }
 
         #endregion
 
@@ -102,6 +114,26 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Methods
+
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            var departments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);
+
+            departmentNames = new List<string>();
+
+            foreach (var department in departments)
+            { 
+                departmentNames.Add(department.DepartmentName.ToString());
+
+            } 
+
+        }
+
+        #endregion
+
         #region Private Methods
 
         private void CreateGUI()
@@ -175,11 +207,23 @@ namespace Vaseis
 
             #region About
 
+            var AboutTextBlock = new TextBlock()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                FontSize = 24,
+                FontWeight = FontWeights.Normal,
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Background = Styles.White.HexToBrush(),
+                TextWrapping = TextWrapping.Wrap,
+                Text = Company.About
+            };
+
             var aboutscroll = new ScrollViewer()
             {
-
+                MaxWidth = 800,
                 MaxHeight = 1000,
-                Content = Company.About,
+                CanContentScroll = true,
+                Content = AboutTextBlock,
             };
 
             var aboutExpander = new Expander()
@@ -274,7 +318,7 @@ namespace Vaseis
 
             //foreach (var company in Companies) { };
 
-            var jobsButtons = new UserButtonsContainerComponent(Company);
+            var jobsButtons = new JobsContainerComponent(Company);
 
             var JobsScroll = new ScrollViewer()
             {
@@ -325,7 +369,7 @@ namespace Vaseis
 
             //foreach (var company in Companies) { };
 
-            var departmentButtons = new UserButtonsContainerComponent(Company);
+            var departmentButtons = new DepartmentContainerComponent(Company);
 
             var departmentScroll = new ScrollViewer()
             {
@@ -385,6 +429,8 @@ namespace Vaseis
             #endregion
 
             #endregion
+
+            #region About The Company
 
             var firstRowGrid = new UniformGrid()
             {
@@ -463,6 +509,7 @@ namespace Vaseis
 
             Grid.SetRow(firstRowGrid, 0);
 
+            #endregion
 
             #endregion
 
@@ -517,7 +564,10 @@ namespace Vaseis
         private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new department dialog
-            var AddNewJob = new NewJobDialogComponent(Company);
+            var AddNewJob = new NewJobDialogComponent(Company)
+            {
+                DepartmentsOption = departmentNames,
+            };
             // Adds it to the page grid
             CompanyGrid.Children.Add(AddNewJob);
 
@@ -533,7 +583,12 @@ namespace Vaseis
         private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
         {
             // Creates a new department dialog
-            var AdduSER = new NewUserInputDialogComponent(Company);
+            var AdduSER = new NewUserInputDialogComponent(Company)
+            {
+                OptionDepartments = departmentNames,
+                OptionUserTypes = new List<string>() { "Administrator", "Employee", "Manager", "Evaluator"},
+              //Παπ θα πρέπει με βάση το department να του εμφανίζει τις αντίστοιχες δουλειές 
+            };
             // Adds it to the page grid
             CompanyGrid.Children.Add(AdduSER);
 

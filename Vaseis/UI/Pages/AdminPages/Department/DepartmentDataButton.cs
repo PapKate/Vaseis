@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Vaseis
 {
-    class DepartmentDataButton : ContentControl
+    public class DepartmentDataButton : ContentControl
     {
         #region Protected Properties
 
@@ -48,8 +48,7 @@ namespace Vaseis
         public static readonly DependencyProperty DepartmentNameProperty = DependencyProperty.Register(nameof(DepartmentName), typeof(string), typeof(DepartmentDataButton));
 
         #endregion
-
-        
+     
 
         #endregion
 

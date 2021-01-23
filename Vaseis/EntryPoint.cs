@@ -227,7 +227,7 @@ namespace Vaseis
                 foreach (var dep in departmentOptionsList)
                 {
                     // Creates a department data model that has as department the department and the company from the according lists
-                    var department = new CompanyDataModel() { DepartmentName = dep.Key, Company = company, Color = dep.Value };
+                    var department = new DepartmentDataModel() { DepartmentName = dep.Key, Company = company, Color = dep.Value };
                     // Adds the data model in the departments data model
                     context.Departments.Add(department);
                 }

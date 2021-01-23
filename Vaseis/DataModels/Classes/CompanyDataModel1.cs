@@ -25,11 +25,6 @@ namespace Vaseis
         public string Name { get; set; }
 
         /// <summary>
-        /// Just for the ui one color
-        /// </summary>
-        public string CompanyColor { get; set; }
-
-        /// <summary>
         /// The date the company was created
         /// </summary>
         public DateTime DateCreated { get; set; } = DateTime.Now;
@@ -83,14 +78,14 @@ namespace Vaseis
         /// The complete company's location
         /// </summary>
         [NotMapped]
-        public string Location => StreetName + " " + StreetNumber ;  
+        public string Location => StreetName + " " + StreetNumber;
 
         #region Relationships
 
         /// <summary>
         /// The related departments
         /// </summary>
-        public IEnumerable<CompanyDataModel> Departments { get; set; }
+        public IEnumerable<DepartmentDataModel> Departments { get; set; }
 
         /// <summary>
         /// The related users
