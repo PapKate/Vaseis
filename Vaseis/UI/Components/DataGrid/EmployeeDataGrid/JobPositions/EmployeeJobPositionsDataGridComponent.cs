@@ -60,11 +60,7 @@ namespace Vaseis
         {
             base.OnInitialized();
             // Query the reports of the manager and add them as rows to the data grid
-            var jobPositions = await Services.GetDbContext.JobPositions.Include(x => x.Job)
-                                                             .Include(x => x.Job.Department)
-                                                             .Include(x => x.JobPositionRequests)
-                                                             .Where(x => x.AnnouncementDate != null)
-                                                             .ToListAsync();
+            var jobPositions = await Services.GetDataStorage.GetCompanyJobPositionsAsync(Employee.Department.CompanyId);
 
             // For each job position in the list...
             foreach (var jobPosition in jobPositions)
