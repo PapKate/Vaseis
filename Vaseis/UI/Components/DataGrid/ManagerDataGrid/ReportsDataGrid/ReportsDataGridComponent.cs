@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+
+using static Vaseis.Styles;
 
 namespace Vaseis
-{ 
+{
     /// <summary>
     /// The reports' data grid
     /// </summary>
@@ -96,8 +94,23 @@ namespace Vaseis
                     {
                         // And opens it
                         IsDialogOpen = true,
-                        EvaluatorsList = evaluatorsList
+                        EvaluatorsList = evaluatorsList,
+                        FinalizedCommand = new RelayCommand(async () =>
+                        {
+                            await Task.Delay(2000);
+                            // Creates a new finalized dialog
+                            var finalizedDialog = new MessageDialogComponent()
+                            {
+                                Message = "Your report has been successfully sent to the evaluator",
+                                Title = "Success",
+                                BrushColor = HookersGreen.HexToBrush(),
+                                IsDialogOpen = true,
+                            };
+                            // Adds it to the page's grid
+                            PageGrid.Children.Add(finalizedDialog);
+                        })
                     };
+                    reportDialog.SelectedEvaluator(row.EvaluatorName);
                     // Adds it to the page's grid
                     PageGrid.Children.Add(reportDialog);
                 });

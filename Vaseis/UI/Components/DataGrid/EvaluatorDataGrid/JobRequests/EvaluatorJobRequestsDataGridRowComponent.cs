@@ -80,20 +80,21 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectText = JobPositionRequest.JobPosition.Subjects.FirstOrDefault().Title;
+            SubjectName = ControlsFactory.CreateSubjectsString(JobPositionRequest.JobPosition.Subjects);
             EmployeeText = JobPositionRequest.UsersJobFilesPair.Employee.Username;
-            JobPositionText = JobPositionRequest.JobPosition.Job.JobTitle;
-            DepartmentText = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
+            JobPositionName = JobPositionRequest.JobPosition.Job.JobTitle;
+            DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
-            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.Where(x => x.Id == JobPositionRequest.Id).FirstOrDefault();
+            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.FirstOrDefault(y => y.Id == JobPositionRequest.Id);
             var index = 1;
             foreach (var request in JobPositionRequest.JobPosition.JobPositionRequests)
             {
-                if (request.Id != jobRequest.Id)
-                    index++;
+                index++;
+                if (request.Id == jobRequest.Id)
+                    break;
             }
             NumberOfRequestsText = index.ToString();
-            DeadlineText = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
+            DeadlineName = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 
         #endregion

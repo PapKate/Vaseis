@@ -57,7 +57,7 @@ namespace Vaseis
 
             };
             // Adds it to the page
-            PageGrid.Children.Add(DataGrid);
+            PageScrollViewer.Content = DataGrid;
         }
 
         #endregion

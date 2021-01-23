@@ -1,7 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+
 using System.Collections.Generic;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -20,6 +22,7 @@ namespace Vaseis
         public Grid CompanyGrid { get; private set; }
 
         #endregion
+
 
         #region Protected Properties
         /// <summary>
@@ -93,6 +96,7 @@ namespace Vaseis
 
         #endregion
 
+
         #region Constructors
         public CompaniesComponent(CompanyDataModel company)
         {
@@ -134,6 +138,7 @@ namespace Vaseis
 
         #endregion
 
+
         #region Private Methods
 
         private void CreateGUI()
@@ -141,8 +146,13 @@ namespace Vaseis
 
             CompanyGrid = new Grid()
             {
+
                 Background = GhostWhite.HexToBrush(),
                 VerticalAlignment = VerticalAlignment.Stretch,             
+
+                Background = White.HexToBrush(),
+                VerticalAlignment = VerticalAlignment.Stretch,
+
             };
 
             CompanyGrid.ColumnDefinitions.Add(new ColumnDefinition()
@@ -530,6 +540,7 @@ namespace Vaseis
                 CornerRadius = new CornerRadius(8)
             };
 
+
             CompanyButton.Child = CompanyGrid;
 
            // ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
@@ -582,6 +593,55 @@ namespace Vaseis
         /// <param name="e"></param>
         private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
         {
+
+            ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
+
+            Content = CompanyButton;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// On click shows the add department dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
+            {
+                // Creates a new department dialog
+                var AddNewDepartment = new NewDepartmentDialogComponent(Company);
+               // Adds it to the page grid
+                CompanyGrid.Children.Add(AddNewDepartment);
+
+                // Sets the is open property to true
+                AddNewDepartment.IsDialogOpen = true;
+            }
+
+
+            ///// <summary>
+            /// On click shows the add department dialog
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
+           {
+              // Creates a new department dialog
+              var AddNewJob = new NewJobDialogComponent(Company);
+              // Adds it to the page grid
+              CompanyGrid.Children.Add(AddNewJob);
+
+              // Sets the is open property to true
+              AddNewJob.IsDialogOpen = true;
+            }
+
+            ///// <summary>
+            /// On click shows the add employee dialog
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
+           {
+
             // Creates a new department dialog
             var AdduSER = new NewUserInputDialogComponent(Company)
             {

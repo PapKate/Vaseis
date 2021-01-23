@@ -285,6 +285,17 @@ namespace Vaseis
 
                     Text = User.Department.Company.Name,
 
+
+            if (User.Type != UserType.Administrator)
+            {
+                // Creates the company text blocks
+                CompanyData = new TitleAndTextComponent()
+                {
+                    Title = "Company",
+
+                    Text = User.Department.Company.Name,
+
+
                     Margin = new Thickness(16)
                 };
                 // Adds them to the stack panel
@@ -400,7 +411,7 @@ namespace Vaseis
 
             #endregion 
 
-            string jobPosition = User.Type.ToString();
+            var jobPosition = User.Type.ToString();
 
             if (User.Type == UserType.Employee)
                 jobPosition = User.JobPosition.Job.JobTitle;
@@ -421,7 +432,7 @@ namespace Vaseis
 
             //The evaluators Average 
             // Creates the evaluator's average text block
-             EvalsAverage = new TextBlock()
+            EvalsAverage = new TextBlock()
             {
                 FontSize = 60,
                 FontFamily = Calibri,
@@ -439,6 +450,20 @@ namespace Vaseis
 
             if (User.Type != UserType.Administrator)
             {
+
+                // Creates the department's text block
+                DepartmentTitleBlock = new TextBlock()
+                {
+                    FontSize = 32,
+                    FontFamily = Calibri,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Foreground = DarkGray.HexToBrush(),
+                    Text = User.Department.DepartmentName.ToString(),
+                };
+                // Adds it to the stack panel
+                CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
+            }
+
 
                 // Creates the department's text block
                 DepartmentTitleBlock = new TextBlock()

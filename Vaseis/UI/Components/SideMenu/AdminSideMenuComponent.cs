@@ -44,8 +44,12 @@ namespace Vaseis
 
         private void CreateGUI()
         {
+
     
             // Create and add the companies button
+
+            // Create and add the my job requests button
+
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
             CompaniesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
@@ -57,6 +61,7 @@ namespace Vaseis
                     Content = new CompaniesPage()
                 });
             });
+
 
             // Create and add the subjects button
             SubjectsButton = CreateAndAddSideMenuButton("Subjects", PackIconKind.AlphabetB);
@@ -71,8 +76,10 @@ namespace Vaseis
                 });
             });
 
-        }
+            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Transcribe);
 
+
+        }
 
         #endregion
     }

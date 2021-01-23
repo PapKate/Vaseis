@@ -21,6 +21,11 @@ namespace Vaseis
         /// </summary>
         protected Grid PageGrid { get; private set; }
 
+        /// <summary>
+        /// The page's scroll viewer
+        /// </summary>
+        protected ScrollViewer PageScrollViewer { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -41,6 +46,9 @@ namespace Vaseis
         {
             // The page's grid
             PageGrid = new Grid();
+
+            PageScrollViewer = new ScrollViewer();
+            PageGrid.Children.Add(PageScrollViewer);
 
             // Sets the component's content to the page's scroll viewer
             Content = PageGrid;

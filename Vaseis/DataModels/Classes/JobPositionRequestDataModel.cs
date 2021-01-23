@@ -36,48 +36,13 @@ namespace Vaseis
         /// <summary>
         /// The <see cref="UsersJobFilesPairDataModel.Id"/> of the related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
-        public int UsersJobFilesPairId { get; set; }
+        public int? UsersJobFilesPairId { get; set; }
 
         /// <summary>
         /// The related <see cref="UsersJobFilesPairDataModel"/>
         /// </summary>
         public UsersJobFilesPairDataModel UsersJobFilesPair { get; set; }
 
-        ///// <summary>
-        ///// The <see cref="UserDataModel.Id"/> of the related <see cref="UserDataModel"/>
-        ///// The employee's id
-        ///// </summary>
-        //public int EmployeeId { get; set; }
-
-        ///// <summary>
-        ///// The related <see cref="UserDataModel"/>
-        ///// The employee that creates the request
-        ///// </summary>
-        //public UserDataModel Employee { get; set; }
-
-        ///// <summary>
-        ///// The <see cref="UserDataModel.Id"/> of the related <see cref="UserDataModel"/>
-        ///// The evaluator's id
-        ///// </summary>
-        //public int EvaluatorId { get; set; }
-
-        ///// <summary>
-        ///// The related <see cref="UserDataModel"/>
-        ///// The evaluator that evaluates the request
-        ///// </summary>
-        //public UserDataModel Evaluator { get; set; }
-
-        ///// <summary>
-        ///// The <see cref="UserDataModel.Id"/> of the related <see cref="UserDataModel"/>
-        ///// The manager's id
-        ///// </summary>
-        //public int ManagerId { get; set; }
-
-        ///// <summary>
-        ///// The related <see cref="UserDataModel"/>
-        ///// The manager that creates the report
-        ///// </summary>
-        //public UserDataModel Manager { get; set; }
 
         #endregion
 

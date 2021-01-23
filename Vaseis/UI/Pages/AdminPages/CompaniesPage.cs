@@ -21,7 +21,11 @@ namespace Vaseis
         /// <summary>
         /// The Page's stackpanel
         /// </summary>
+
         protected StackPanel companiesStackPanel { get; private set; }
+
+        protected StackPanel companiesStackPanel{ get; private set; }
+
 
         /// <summary>
         /// THe page's grid
@@ -31,13 +35,21 @@ namespace Vaseis
         #endregion
 
         #region Dependency Properties
+
         #endregion
 
+
+        #endregion      
         #region Constructors
 
 
         public CompaniesPage()
+
         {
+
+
+        {         
+           
 
 
             CreateGUI();
@@ -51,7 +63,9 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
+
             //update sta companies (afou mporei na prose8ei)
+
             var companies = await Services.GetDataStorage.GetCompanies();
 
             foreach (var company in companies)
@@ -63,6 +77,7 @@ namespace Vaseis
 
         }
         #endregion
+
 
 
 

@@ -47,6 +47,9 @@ namespace Vaseis
 
         #region Private Methods
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
             // Create and add the job positions button
@@ -97,7 +100,7 @@ namespace Vaseis
                 {
                     Text = "Employees",
                     Icon = PackIconKind.AccountGroup,
-                    Content = new EmployeesPage(User)
+                    Content = new EmployeesPage(User, TabControl)
                 });
             });
         }

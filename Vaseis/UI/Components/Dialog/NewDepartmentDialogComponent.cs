@@ -91,6 +91,22 @@ namespace Vaseis
             DepartmentStackPanel = new StackPanel();
 
             DepartmentStackPanel.Children.Add(DepartmentInput);
+          // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(DepartmentStackPanel);
+
+            // Creates the company's combo box
+            CompanyPicker = new PickerComponent()
+            {
+                HintText = "Company",
+                FontSize = 24,
+                Width = 240,
+                Margin = new Thickness(24, 0, 24, 0),
+                OptionNames = new List<string> { "EnchantmentLab", "Batter", "CoffeeMesh", "Gklitsa & Co" }
+            };
+            // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(CompanyPicker);
+
+
 
             // Creates the color's input field
             ColorInput = new TextInputComponent()

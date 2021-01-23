@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using MaterialDesignThemes.Wpf;
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-
-using MaterialDesignThemes.Wpf;
-
-using Microsoft.EntityFrameworkCore;
+using System.Windows.Input;
 
 using static Vaseis.Styles;
 
@@ -24,6 +22,11 @@ namespace Vaseis
         /// The manager
         /// </summary>
         public UserDataModel Manager { get; }
+
+        /// <summary>
+        /// The tab control
+        /// </summary>
+        public TabControl TabControl { get; }
 
         #endregion
 
@@ -73,7 +76,12 @@ namespace Vaseis
         /// The employee buttons grid
         /// </summary>
         protected UniformGrid EmployeeButtonsContainer { get; private set; }
-        
+
+        /// <summary>
+        /// The key binding for the enter key
+        /// </summary>
+        protected KeyBinding OnEnterKeyPressed { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -82,9 +90,10 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="manager">The manager</param>
-        public EmployeesPage(UserDataModel manager)
+        public EmployeesPage(UserDataModel manager, TabControl tabControl)
         {
             Manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            TabControl = tabControl ?? throw new System.ArgumentNullException(nameof(tabControl));
             CreateGUI();
         }
 
@@ -101,14 +110,16 @@ namespace Vaseis
             base.OnInitialized(e);
 
             // Gets all the employees of the manager's company
-            var employees = await Services.GetDbContext.Users
-                                            .Include(x => x.Department)
-                                            .Where(x => x.Type == UserType.Employee && x.Department.CompanyId == Manager.Department.CompanyId).ToListAsync();
+            var employees = await Services.GetDataStorage.GetCompanyEmployees(Manager.Department.CompanyId);
 
             // For every employee...
             foreach(var employee in employees)
                 // Create and add the user button
+
                 EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
+
+
+                EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee, TabControl));
 
         }
 
@@ -161,6 +172,7 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush()
             };
 
+
             // The input fields hint stack panel
             HintStackPanel = new StackPanel()
             {
@@ -202,12 +214,60 @@ namespace Vaseis
             // Adds the container to the page's stack panel
             PageStackPanel.Children.Add(EmployeeButtonsContainer);
 
+            // Creates a new key binding
+            OnEnterKeyPressed = new KeyBinding
+            {
+                // The key is enter
+                Key = Key.Enter,
+                // Sets the command for when the enter key is pressed
+                Command = new RelayCommand(() =>
+                {
+                    // For each button in the container...
+                    foreach(var child in EmployeeButtonsContainer.Children )
+                    {
+                        // Parser from object to user button the child
+                        var button = child as UserButtonComponent;
+                        // Splits the search bar's input 
+                        // whenever there is a space creates a string
+                        var search = SearchBar.Text.Split(" ");
+                        // If the text is null or empty...
+                        if (String.IsNullOrEmpty(SearchBar.Text))
+                            // Sets every button to visible
+                            button.Visibility = Visibility.Visible;
+                        // Else if the text matches a button's username
+                        else if (button.Username == SearchBar.Text)
+                            // Sets that button as visible
+                            button.Visibility = Visibility.Visible;
+                        // If there are spaces in the text...
+                        else if (search.Length > 1)
+                        {
+                            // If there is a possible combination that matches the button's full name...
+                            if (button.User.FullName == search[0] + " " + search[1]
+                              || button.User.FullName == search[1] + " " + search[0])
+                            {
+                                // Sets that button as visible
+                                button.Visibility = Visibility.Visible;
+                            }
+                            // Else...
+                            else
+                                // Collapses the button
+                                button.Visibility = Visibility.Collapsed;
+                        }
+                        // Else...
+                        else
+                            // Collapses the button
+                            button.Visibility = Visibility.Collapsed;
+                    }
+                })
+            };
+            // Adds it to the search bar's input bindings
+            SearchBar.InputBindings.Add(OnEnterKeyPressed);
+
             // Creates a scroll viewer and sets its content to the page's stack panel
             ScrollViewer = new ScrollViewer()
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
                 Content = PageStackPanel,
-                
             };
 
             // Sets the component's content to the scroll viewer

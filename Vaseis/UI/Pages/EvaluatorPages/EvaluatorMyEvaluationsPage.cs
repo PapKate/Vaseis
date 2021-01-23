@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
-
-using static Vaseis.Styles;
 
 
 namespace Vaseis
@@ -10,7 +7,7 @@ namespace Vaseis
     /// <summary>
     /// Represents the "my evaluations" page of the evaluator
     /// </summary>
-    public class EvaluatorMyEvaluationsPage : ContentControl
+    public class EvaluatorMyEvaluationsPage : BaseDataGridPage
     {
         #region Public Properties
         /// <summary>
@@ -21,28 +18,20 @@ namespace Vaseis
         #endregion
 
         #region Protected Properties
-
+        
         /// <summary>
-        /// The new evaluation dialog
+        /// The my evaluation data grid 
         /// </summary>
-        protected EvaluationDialogComponent EvaluationDialog { get; private set; }
-
-        /// <summary>
-        /// The add/open dialog button
-        /// </summary>
-        protected Button AddButton { get; private set; }
-
-        /// <summary>
-        /// The page's grid
-        /// </summary>
-        protected Grid PageGrid { get; private set; }
-
         protected EvaluatorDataGridComponent DataGrid { get; private set; }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="evaluator"></param>
         public EvaluatorMyEvaluationsPage(UserDataModel evaluator)
         {
             Evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator)); 
@@ -59,21 +48,13 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // The page's grid
-            PageGrid = new Grid()
-            {
-            };
-
             // Creates the data grid
             DataGrid = new EvaluatorDataGridComponent(PageGrid, Evaluator)
             {
 
             };
-            // Adds it to the page
-            PageGrid.Children.Add(DataGrid);
-
-            // Sets the component's content to the page's grid
-            Content = PageGrid;
+            // Adds the data grid to the scroll viewer
+            PageScrollViewer.Content = DataGrid;
         }
 
         #endregion

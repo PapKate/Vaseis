@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-
+using System.Linq;
 using static Vaseis.Styles;
 
 
@@ -31,11 +31,6 @@ namespace Vaseis
         /// The picker for company
         /// </summary>
         protected ComboBox OptionPicker { get; private set; }
-
-        /// <summary>
-        /// A list of all options
-        /// </summary>
-        protected List<ComboBoxItem> OptionItems { get; private set; }
 
         #endregion
 
@@ -123,6 +118,32 @@ namespace Vaseis
 
         #endregion
 
+
+        #region Constructors
+
+        public PickerComponent()
+        {
+            CreateGUI();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Searches through the items in the comboBox for the item with the same content's string as the given string
+        /// </summary>
+        /// <param name="itemName">The item we want to match with a combo box item</param>
+        public void SelectItem(string itemName)
+        {
+            // Set's the hint text to empty (else there is a delay)
+            HintAssist.SetHint(OptionPicker, "");
+            // Sets the selected item of the combo box as the first item with content the given string
+            OptionPicker.SelectedItem = OptionPicker.Items.OfType<ComboBoxItem>().First(x => x.Content.ToString() == itemName);
+        }
+
+        #endregion
+
         #region Protected Methods
 
         /// <summary>
@@ -136,15 +157,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Constructors
-
-        public PickerComponent()
-        {
-            CreateGUI();
-        }
-
-        #endregion
-
         #region Private Methods
 
         /// <summary>
@@ -152,23 +164,17 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // List of box items
-            OptionItems = new List<ComboBoxItem>();
-
             // Creates the combo box with items source the combo box items' list
             OptionPicker = new ComboBox()
             {
                 Width = 240,
+                MaxDropDownHeight = 200,
                 Margin = new Thickness(24),
+                FontSize = 24,
                 Foreground = DarkGray.HexToBrush(),
                 FontFamily = Calibri,
-                FontWeight = FontWeights.Normal,
-                ItemsSource = OptionItems,
+                
             };
-            OptionPicker.SetBinding(ComboBox.FontSizeProperty, new Binding(nameof(CompleteFontSize))
-            { 
-                Source = this
-            });
 
             OptionPicker.SetBinding(ComboBox.TextProperty, new Binding(nameof(Text))
             { 
@@ -181,7 +187,6 @@ namespace Vaseis
                 Margin = new Thickness(8, 0, 0, 0),
                 Foreground = DarkPink.HexToBrush(),
                 FontFamily = Calibri,
-                FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 IsHitTestVisible = false,
             };
@@ -205,13 +210,15 @@ namespace Vaseis
             Content = OptionPicker;
         }
 
-
         /// <summary>
         /// Handles the change of the <see cref="OptionNames"/> property internally
         /// </summary>
         /// <param name="e">Event args</param>
         private void OnDataNameChangedCore(DependencyPropertyChangedEventArgs e)
         {
+            // The items source list
+            var options = new List<ComboBoxItem>();
+
             // Get the new value
             var newValue = (IEnumerable<string>)e.NewValue;
             // If the new value is null...
@@ -228,9 +235,9 @@ namespace Vaseis
                     // with title "none"
                     Content = "none"
                 };
-                
+
                 // Adds it to the combo box items list
-                OptionItems.Add(OptionTitle);
+                options.Add(OptionTitle);
             }
             // Else...
             else
@@ -253,9 +260,11 @@ namespace Vaseis
                         Source = this
                     });
                     // Adds the combo box item to the list
-                    OptionItems.Add(OptionTitle);
+                    options.Add(OptionTitle);
                 }
             }
+
+            OptionPicker.ItemsSource = options;
 
             // Further handle the change
             OnOptionsNameChanged(e);

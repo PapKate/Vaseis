@@ -75,6 +75,11 @@ namespace Vaseis
                                         .ToListAsync();
         }
 
+        public Task<List<CompanyDataModel>> GetCompanies()
+        {
+            return DbContext.Companies.ToListAsync();
+        }
+
         /// <summary>
         /// Gets the company's data
         /// </summary>
@@ -91,6 +96,25 @@ namespace Vaseis
         #endregion
 
         #region Update 
+
+        /// <summary>
+        /// Gets all the company's employees
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public Task<List<UserDataModel>> GetCompanyEmployees(int companyId)
+        {
+            return DbContext.Users.Include(x => x.Department).ThenInclude(y => y.Company)
+                                      .Include(x => x.Awards)
+                                      .Include(x => x.Certificates)
+                                      .Include(x => x.Projects)
+                                      .Include(x => x.RecommendationPapers)
+                                      .Include(x => x.AcquiredDegrees)
+                                      .Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                      .Where(x => x.Department.CompanyId == companyId)
+                                      .Where(x => x.Type == UserType.Employee)
+                                      .ToListAsync();
+        }
 
         /// <summary>
         /// Updates the user's password
@@ -326,7 +350,56 @@ namespace Vaseis
                                     .Include(x => x.JobPositionRequest)
                                     .Include(x => x.JobPositionRequest.JobPosition.Job)
                                     .Include(x => x.JobPositionRequest.JobPosition.Job.Department)
-                                    .Where(x => x.UsersJobFilesPair.ManagerId == managerId).ToListAsync();
+                                    .Where(x => x.UsersJobFilesPair.ManagerId == managerId)
+                                    .Where(x => x.IsFinalized == false)
+                                    .ToListAsync();
+        }
+
+        /// <summary>
+        /// Updates a report data model
+        /// </summary>
+        /// <param name="report">The report</param>
+        /// <param name="isFinalised">If the report is finalized</param>
+        public async Task<ReportDataModel> UpdateReportAsync(ReportDataModel report, bool isFinalised)
+        {
+            // Get the employee
+            var jobFilesPair = await DbContext.UsersJobFilesPairs.FirstAsync(x => x.Id == report.UsersJobFilesPairId);
+            // If no pair is found and the report is finalized...
+            if (jobFilesPair == null && isFinalised == true)
+            {
+                // Creates a new pair
+                var newUserJobsPair = new UsersJobFilesPairDataModel()
+                {
+                    EmployeeId = report.UsersJobFilesPair.EmployeeId,
+                    EvaluatorId = report.UsersJobFilesPair.EvaluatorId,
+                    ManagerId = report.UsersJobFilesPair.ManagerId
+                };
+                // Add it
+                DbContext.UsersJobFilesPairs.Add(newUserJobsPair);
+            }
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Get the existing model
+            var model = await DbContext.Reports.FirstAsync(x => x.Id == report.Id);
+            // Sets the model's text as the report's text
+            model.ReportText = report.ReportText;
+            // If the report text if null or empty...
+            if (String.IsNullOrEmpty(report.ReportText))
+                // Sets the model's is written to false
+                model.IsWritten = false;
+            // Else...
+            else
+                // Sets it to true
+                model.IsWritten = true;
+            // Sets the model's is finalized
+            model.IsFinalized = isFinalised;
+
+            // Push the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
         }
 
         #endregion
@@ -344,6 +417,7 @@ namespace Vaseis
                                                 .Include(x => x.JobPosition).ThenInclude(y => y.Job)
                                                                             .ThenInclude(z => z.Department)
                                                 .Include(x => x.JobPosition).ThenInclude(y => y.JobPositionRequests)
+                                                .Include(x => x.JobPosition).ThenInclude(y => y.Subjects)
                                                 .Where(x => x.UsersJobFilesPair.EmployeeId == employeeId)
                                                 .ToListAsync();
         }
@@ -415,6 +489,13 @@ namespace Vaseis
 
         #region Job Positions
 
+        /// <summary>
+        /// Adds a job position request data model
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <param name="jobPositionId"></param>
+        /// <param name="requestReason"></param>
+        /// <returns></returns>
         public async Task<JobPositionRequestDataModel> AddJobPositionRequestAsync(int employeeId, int jobPositionId, string requestReason)
         {
             // Get the employee
@@ -443,13 +524,13 @@ namespace Vaseis
         /// </summary>
         /// <param name="companyId">The company's id</param>
         /// <returns></returns>
-        public Task<List<JobPositionDataModel>> GetCompanyJobPositions(int companyId)
+        public Task<List<JobPositionDataModel>> GetCompanyJobPositionsAsync(int companyId)
         {
             return DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).ThenInclude(z => z.Company)
                                          .Include(x => x.JobPositionRequests)
                                          .Include(x => x.Subjects)
                                          .Where(x => x.Job.Department.Company.Id == companyId)
-                                         .Where(y => y.AnnouncementDate != null)
+                                         .Where(y => y.SubmissionDate > DateTime.Now)
                                          .ToListAsync();
         }
 
@@ -458,7 +539,7 @@ namespace Vaseis
         /// </summary>
         /// <param name="companyId">The company's id</param>
         /// <returns></returns>
-        public Task<List<DepartmentDataModel>> GetCompanyDepartments(int companyId)
+        public Task<List<DepartmentDataModel>> GetCompanyDepartmentsAsync(int companyId)
         {
             return DbContext.Departments.Include(x => x.Company)
                                         .Where(x => x.CompanyId == companyId)
@@ -466,18 +547,45 @@ namespace Vaseis
         }
 
 
+        /// <summary>
+        /// Gets all the jobs in a company
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public Task<List<JobDataModel>> GetCompanyJobs(int companyId)
+        {
+            return DbContext.Jobs.Include(y => y.Department).ThenInclude(z => z.Company)
+                                         .Where(x => x.Department.Company.Id == companyId)
+                                         .ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets all the evaluations in a company
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public Task<List<EvaluationDataModel>> GetJobPositionOpenEvaluation(int jobPositionId)
+        {
+            return DbContext.Evaluations.Include(x => x.JobPositionRequest)
+                                        .ThenInclude(y => y.JobPosition)
+                                        .ThenInclude(z => z.Job)
+                                        .ThenInclude(w => w.Department)
+                                        .Where(x => x.JobPositionRequest.JobPositionId == jobPositionId)
+                                        .Where(x => x.IsFinalized == false)
+                                        .ToListAsync();
+        }
 
         /// <summary>
         /// Gets the job positions created by an evaluator
         /// </summary>
         /// <param name="companyId">The company's id</param>
         /// <returns></returns>
-        public Task<List<JobPositionDataModel>> GetEvaluatorJobPositions()
+        public Task<List<JobPositionDataModel>> GetEvaluatorJobPositions(int evaluatorId)
         {
             return DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department)
                                          .Include(x => x.JobPositionRequests)
                                          .Include(x => x.Subjects)
-                                         //.Where(x => x.CreatorId == evaluatorId)
+                                         .Where(x => x.CreatorId == evaluatorId)
                                          .Where(y => y.AnnouncementDate != null)
                                          .ToListAsync();
         }
@@ -508,18 +616,30 @@ namespace Vaseis
         /// <param name="jobPosition">The job position</param>
         /// <param name="salary">The salary</param>
         /// <returns></returns>
+
         public async Task<JobPositionDataModel> UpdateJobPositionByEvaluator(JobPositionDataModel jobPosition, string jobPositionName,
                                                                              Department departmentName, int salary,
                                                                              DateTime announcementDate, DateTime submissionDate)
+
+        public async Task<JobPositionDataModel> UpdateJobPositionByEvaluatorAsync(JobPositionDataModel jobPosition, string jobTitle, 
+                                                                                  int salary, 
+                                                                                  DateTime? announcementDate, DateTime? submissionDate,
+                                                                                  IEnumerable<SubjectDataModel> subjects)
+
         {
             // Get the existing model
-            var model = await DbContext.JobPositions.FirstAsync(x => x.Id == jobPosition.Id);
+            var model = await DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).FirstAsync(x => x.Id == jobPosition.Id);
+            var job = await DbContext.Jobs.Include(x => x.Department).FirstAsync(x => x.JobTitle == jobTitle);
+            model.JobId = job.Id;
+            
+            // Push the changes to the database
+            await DbContext.SaveChangesAsync();
 
-            model.Job.JobTitle = jobPositionName;
-            model.Job.Department.DepartmentName = departmentName;
+            model.Job = job;
+            model.Job.Department = job.Department;
             // Sets the job position's salary to the salary parameter
             model.Job.Salary = salary;
-
+            model.Subjects = subjects;
             model.AnnouncementDate = announcementDate;
             model.SubmissionDate = submissionDate;
 
@@ -553,6 +673,73 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// Adds an evaluation data model
+        /// </summary>
+        /// <param name="report">The report data model</param>
+        /// <returns></returns>
+        public async Task<EvaluationDataModel> AddEvaluatorEvaliation(ReportDataModel report)
+        {
+            // Create the model
+            var model = new EvaluationDataModel()
+            {
+                IsAprovedByManager = false,
+                IsFinalized = false,
+                JobPositionRequestId = report.JobPositionRequestId,
+                UsersJobFilesPairId = report.UsersJobFilesPairId
+            };
+
+            // Add it
+            DbContext.Evaluations.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
+        }
+
+        /// <summary>
+        /// Add a job position by an evaluator
+        /// </summary>
+        /// <param name="evaluatorId">The evaluator's id</param>
+        /// <param name="job">The job data model</param>
+        /// <param name="salary">The salary</param>
+        /// <param name="announcementDate">The announcement date</param>
+        /// <param name="submissionDate">The submission date</param>
+        /// <param name="subjects">The subjects</param>
+        /// <returns></returns>
+        public async Task<JobPositionDataModel> AddEvaluatorJobPosition(int evaluatorId, JobDataModel job, int salary,
+                                                                        DateTime? announcementDate, DateTime? submissionDate,
+                                                                        IEnumerable<SubjectDataModel> subjects)
+        {
+            // Create the model
+            var model = new JobPositionDataModel()
+            {
+                CreatorId = evaluatorId,
+                JobId = job.Id,
+                AnnouncementDate = announcementDate,
+                SubmissionDate = submissionDate,
+            };
+
+            // Add it
+            DbContext.JobPositions.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+            var id = model.Id;
+            model = await DbContext.JobPositions.Include(x => x.Job).ThenInclude(y => y.Department).Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            model.Job.Salary = salary;
+            model.Subjects = subjects;
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
+        }
+
+        /// <summary>
         /// Gets the evaluations of a user
         /// </summary>
         /// <param name="employee">A user</param>
@@ -567,6 +754,7 @@ namespace Vaseis
                                                                             .ThenInclude(z => z.Job)
                                                                             .ThenInclude(w => w.Department)
                                         .Where(x => x.UsersJobFilesPair.EmployeeId == employee.Id)
+                                        .Where(x => x.IsAprovedByManager == true)
                                         .ToListAsync();
         }
 
@@ -597,7 +785,9 @@ namespace Vaseis
                                         .Include(x => x.JobPositionRequest).ThenInclude(y => y.JobPosition)
                                                                             .ThenInclude(z => z.Job)
                                                                             .ThenInclude(w => w.Department)
-                                        .Where(x => x.UsersJobFilesPair.ManagerId == managerId) // && x => x.IsApproved == false
+                                        .Where(x => x.UsersJobFilesPair.ManagerId == managerId)
+                                        .Where(x => x.IsAprovedByManager == false)
+                                        .Where(x => x.IsFinalized == true)
                                         .ToListAsync();
         }
 
@@ -606,13 +796,37 @@ namespace Vaseis
         /// </summary>
         /// <param name="evaluation">The evaluation data model</param>
         /// <returns></returns>
-        public async Task<EvaluationDataModel> UpdateEvaluationAsync(EvaluationDataModel evaluation)
+        public async Task<EvaluationDataModel> UpdateManagerEvaluationAsync(EvaluationDataModel evaluation, bool hasPassed)
         {
             // Get the existing model
             var model = await DbContext.Evaluations.FirstAsync(x => x.Id == evaluation.Id);
+            model.IsAprovedByManager = true;
+            model.Passed = hasPassed;
 
+            // Push the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            // Return the model
+            return model;
+        }
+
+        /// <summary>
+        /// Updates an evaluation's values
+        /// </summary>
+        /// <param name="evaluation">The evaluation data model</param>
+        /// <returns></returns>
+        public async Task<EvaluationDataModel> UpdateEvaluatorEvaluationAsync(EvaluationDataModel evaluation, bool isFinalised)
+        {
+            // Get the existing model
+            var model = await DbContext.Evaluations.FirstAsync(x => x.Id == evaluation.Id);
+            // Sets the model's values accordingly
+            model.FinalGrade = evaluation.FinalGrade;
+            model.FilesGrade = evaluation.FilesGrade;
+            model.ReportGrade = evaluation.ReportGrade;
             model.InterviewGrade = evaluation.InterviewGrade;
             model.Comments = evaluation.Comments;
+            model.IsAprovedByManager = false;
+            model.IsFinalized = isFinalised;
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();

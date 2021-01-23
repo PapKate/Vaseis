@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 using static Vaseis.Styles;
 
@@ -88,7 +89,7 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Property
+        #region Dependency Properties
 
         #region EvaluatorsList
 
@@ -105,6 +106,23 @@ namespace Vaseis
         /// Identifies the <see cref="EvaluatorsList"/> dependency property
         /// </summary>
         public static readonly DependencyProperty EvaluatorsListProperty = DependencyProperty.Register(nameof(EvaluatorsList), typeof(IEnumerable<string>), typeof(ReportDialogComponent));
+
+        #endregion
+
+        #region FinalizedCommand
+
+        /// <summary>
+        /// The dialog's finalized command
+        /// </summary>
+        public ICommand FinalizedCommand
+        {
+            get { return (ICommand)GetValue(FinalizedCommandProperty); }
+            set { SetValue(FinalizedCommandProperty, value); }
+        }
+        /// <summary>
+        /// Identifies the <see cref="FinalizedCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty FinalizedCommandProperty = DependencyProperty.Register(nameof(FinalizedCommand), typeof(ICommand), typeof(ReportDialogComponent));
 
         #endregion
 
@@ -135,10 +153,21 @@ namespace Vaseis
 
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Sets as selected item the combo box item with content the string
+        /// </summary>
+        /// <param name="itemName">The evaluator's username</param>
+        public void SelectedEvaluator(string itemName)
+            => EvaluatorPicker.SelectItem(itemName);
+
+        #endregion
+
         #region Protected Methods
 
         /// <summary>
-        /// Displays the data grid's values in the report
+        /// Displays the data grid's values in the dialog
         /// </summary>
         protected override void DialogVisibilityChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -236,8 +265,7 @@ namespace Vaseis
                     OptionNames = EvaluatorsList,
                     HintText = "Evaluator",
                     Width = 240,
-                    FontSize = 24,
-                    FontFamily = Calibri
+                    CompleteFontSize = 24,
                 };
                 // Binds the option names of the evaluator picker to the evaluator list
                 EvaluatorPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(EvaluatorsList))
@@ -319,7 +347,10 @@ namespace Vaseis
             DialogButtonsStackPanel.Children.Add(FinalizeButton);
             // On click calls method
             FinalizeButton.Click += FinalizedOnClick;
-
+            FinalizeButton.SetBinding(Button.CommandProperty, new Binding(nameof(FinalizedCommand))
+            { 
+                Source = this
+            });
             // Sets the component's content to the dialog host
             Content = DialogHost;
         }
@@ -327,14 +358,14 @@ namespace Vaseis
         /// <summary>
         /// Saves the new values in the data grid
         /// </summary>
-        private void TemporarySaveOnClick (object sender, RoutedEventArgs e)
+        private async void TemporarySaveOnClick (object sender, RoutedEventArgs e)
         {
-            
             // If the report row exists...
             if (ReportDataGridRow != null)
             {
                 // Sets the report's data model values according to the matching input in the dialog
                 Report.ReportText = ParagraphTextBox.Text;
+                Report.UsersJobFilesPair.Evaluator.Username = EvaluatorPicker.Text;
                 // If the paragraph text is NOT empty...
                 if (ParagraphTextBox.Text != "")
                     // Sets the is written property of the report's data grid's row to true
@@ -343,7 +374,8 @@ namespace Vaseis
                 else
                     // Sets it to false
                     Report.IsWritten = false;
-
+                // Updates the report data model in the data base
+                await Services.GetDataStorage.UpdateReportAsync(Report, false);
                 // Updates the reports data grid's row
                 ReportDataGridRow.Update();
             }
@@ -359,9 +391,21 @@ namespace Vaseis
         /// Closes the dialog 
         /// Sends the report to the evaluator
         /// </summary>
-        private void FinalizedOnClick(object sender, RoutedEventArgs e)
+        private async void FinalizedOnClick(object sender, RoutedEventArgs e)
         {
-
+            if(ReportDataGridRow != null)
+            {
+                //Set the finalized value to true (finalized)
+                Report.IsFinalized = true;
+                //update the inputs to the memory
+                TemporarySaveOnClick(sender, e);
+                //update the finalized value to true
+                await Services.GetDataStorage.UpdateReportAsync(Report, true);
+                // Creates a new evaluation 
+                await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
+                // Collapses the row until the next creation of the data grid's page
+                ReportDataGridRow.Visibility = Visibility.Collapsed;
+            }
             FinalizedOnClick(e);
             // Closes the dialog
             DialogHost.IsOpen = false;
