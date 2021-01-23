@@ -115,7 +115,12 @@ namespace Vaseis
             // For every employee...
             foreach(var employee in employees)
                 // Create and add the user button
+
+                EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
+
+
                 EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee, TabControl));
+
         }
 
         #endregion

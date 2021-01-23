@@ -1,6 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+
+using System.Collections.Generic;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -12,14 +15,87 @@ namespace Vaseis
     //This is a class that creates the row components fo rthe adminidtrator's companies page
     public class CompaniesComponent : ContentControl
     {
-        #region Proetcted Properties
+        #region Public Properties
 
         public CompanyDataModel Company { get; }
-
 
         public Grid CompanyGrid { get; private set; }
 
         #endregion
+
+
+        #region Protected Properties
+        /// <summary>
+        /// used for the add user dialog below
+        /// </summary>
+        protected List<string> departmentNames { get; set; }
+
+        /// <summary>
+        /// used for the add user dialog below
+        /// </summary>
+        protected List<string> JobsList { get; set; }
+
+        #endregion
+
+        #region Dependency Properties
+
+        #region Employees
+
+        /// <summary>
+        /// The company's Employees
+        /// </summary>
+        public IEnumerable<string> Employees
+        {
+            get { return (IEnumerable<string>)GetValue(EmployeesProperty); }
+            set { SetValue(EmployeesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Employees"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty EmployeesProperty = DependencyProperty.Register(nameof(Employees), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+
+        #endregion
+
+        #region Department
+
+        /// <summary>
+        /// The company's departments
+        /// </summary>
+        public IEnumerable<string> Departments
+        {
+            get { return (IEnumerable<string>)GetValue(DepartmentsProperty); }
+            set { SetValue(DepartmentsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Departments"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DepartmentsProperty = DependencyProperty.Register(nameof(Departments), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+
+
+        #endregion
+
+        #region Jobs
+        /// <summary>
+        /// The company's jobs
+        /// </summary>
+        public IEnumerable<string> JobTitles
+        {
+            get { return (IEnumerable<string>)GetValue(JobTitlesProperty); }
+            set { SetValue(JobTitlesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="JobTitles"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty JobTitlesProperty = DependencyProperty.Register(nameof(JobTitles), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+
+
+        #endregion
+
+        #endregion
+
 
         #region Constructors
         public CompaniesComponent(CompanyDataModel company)
@@ -42,6 +118,27 @@ namespace Vaseis
 
         #endregion
 
+        #region Protected Methods
+
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            var departments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);
+
+            departmentNames = new List<string>();
+
+            foreach (var department in departments)
+            { 
+                departmentNames.Add(department.DepartmentName.ToString());
+
+            } 
+
+        }
+
+        #endregion
+
+
         #region Private Methods
 
         private void CreateGUI()
@@ -49,10 +146,14 @@ namespace Vaseis
 
             CompanyGrid = new Grid()
             {
+
+                Background = GhostWhite.HexToBrush(),
+                VerticalAlignment = VerticalAlignment.Stretch,             
+
                 Background = White.HexToBrush(),
                 VerticalAlignment = VerticalAlignment.Stretch,
-            };
 
+            };
 
             CompanyGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
@@ -116,13 +217,23 @@ namespace Vaseis
 
             #region About
 
-            var about = new UserButtonsContainerComponent();
+            var AboutTextBlock = new TextBlock()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                FontSize = 24,
+                FontWeight = FontWeights.Normal,
+                Foreground = Styles.DarkGray.HexToBrush(),
+                Background = Styles.White.HexToBrush(),
+                TextWrapping = TextWrapping.Wrap,
+                Text = Company.About
+            };
 
             var aboutscroll = new ScrollViewer()
             {
-
+                MaxWidth = 800,
                 MaxHeight = 1000,
-                Content = Company.About,
+                CanContentScroll = true,
+                Content = AboutTextBlock,
             };
 
             var aboutExpander = new Expander()
@@ -132,8 +243,6 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 Content = aboutscroll,
             };
-
-            // employeesAndJobsGrid.Children.Add(hmmExpander);
 
             var aboutGrid = new Grid();
 
@@ -151,13 +260,13 @@ namespace Vaseis
 
             Grid.SetColumn(aboutExpander, 0);
 
-            var employeessButton = ControlsFactory.CreateAddButton();
-            employeessButton.Margin = new Thickness(24, 0, 0, 0);
-            employeessButton.Visibility = Visibility.Collapsed;
+            var aboutButton = ControlsFactory.CreateAddButton();
+            aboutButton.Margin = new Thickness(24, 0, 0, 0);
+            aboutButton.Visibility = Visibility.Collapsed;
 
-            aboutGrid.Children.Add(employeessButton);
+            aboutGrid.Children.Add(aboutButton);
 
-            Grid.SetColumn(employeessButton, 1);
+            Grid.SetColumn(aboutButton, 1);
 
             employeesAndJobsGrid.Children.Add(aboutGrid);
 
@@ -168,9 +277,7 @@ namespace Vaseis
 
             #region Employees
 
-            //foreach (var company in Companies) { };
-
-            var employeehmmm = new UserButtonsContainerComponent();
+            var employeehmmm = new UserButtonsContainerComponent(Company);
 
             var employeescroll = new ScrollViewer()
             {
@@ -186,8 +293,6 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 Content = employeescroll,
             };
-
-           // employeesAndJobsGrid.Children.Add(hmmExpander);
 
             var emplopyeesGrid = new Grid();
 
@@ -205,25 +310,25 @@ namespace Vaseis
 
             Grid.SetColumn(employeesExpander, 0);
 
-            var aboutButton = ControlsFactory.CreateAddButton();
-            aboutButton.Margin = new Thickness(24, 0, 0, 0);
-            aboutButton.Click += ShowEmployeeDialogComponent;
+            var employeeButton = ControlsFactory.CreateAddButton();
+            employeeButton.Margin = new Thickness(24, 0, 0, 0);
+            employeeButton.Click += ShowEmployeeDialogComponent;
 
-            emplopyeesGrid.Children.Add(aboutButton);
+            emplopyeesGrid.Children.Add(employeeButton);
 
-            Grid.SetColumn(aboutButton, 1);
+            Grid.SetColumn(employeeButton, 1);
 
             employeesAndJobsGrid.Children.Add(emplopyeesGrid);
 
             Grid.SetRow(emplopyeesGrid, 1);
-   
+
             #endregion
 
             #region  Jobs
 
             //foreach (var company in Companies) { };
 
-            var jobsButtons = new UserButtonsContainerComponent();
+            var jobsButtons = new JobsContainerComponent(Company);
 
             var JobsScroll = new ScrollViewer()
             {
@@ -239,11 +344,6 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 Content = JobsScroll,
             };
-
-            //   employeesAndJobsGrid.Children.Add(jobsExpander);
-
-            //     Grid.SetRow(jobsExpander, 2);
-
 
             var jobsGrid = new Grid();
 
@@ -279,7 +379,7 @@ namespace Vaseis
 
             //foreach (var company in Companies) { };
 
-            var departmentButtons = new UserButtonsContainerComponent();
+            var departmentButtons = new DepartmentContainerComponent(Company);
 
             var departmentScroll = new ScrollViewer()
             {
@@ -339,6 +439,8 @@ namespace Vaseis
             #endregion
 
             #endregion
+
+            #region About The Company
 
             var firstRowGrid = new UniformGrid()
             {
@@ -417,6 +519,7 @@ namespace Vaseis
 
             Grid.SetRow(firstRowGrid, 0);
 
+            #endregion
 
             #endregion
 
@@ -425,16 +528,71 @@ namespace Vaseis
             Grid.SetColumn(InfoAboutTheCompanyGrid, 1);
 
 
-            var CompanyButton = new Button()
+            var CompanyButton = new Border()
             {
-                Style = MaterialDesignStyles.RaisedButton,
+                //Style = MaterialDesignStyles.RaisedButton,
                 Height = double.NaN,
                 Margin = new Thickness(24),
                 Padding = new Thickness(8),
+                Background = DarkBlue.HexToBrush(),
                 BorderThickness = new Thickness(0),
-                Content = CompanyGrid,
-                Background = Company.CompanyColor.HexToBrush(),
+               //  Content = CompanyGrid,
+                CornerRadius = new CornerRadius(8)
             };
+
+
+            CompanyButton.Child = CompanyGrid;
+
+           // ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
+
+            Content = CompanyButton;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// On click shows the add department dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new department dialog
+            var AddNewDepartment = new NewDepartmentDialogComponent(Company);
+            // Adds it to the page grid
+            CompanyGrid.Children.Add(AddNewDepartment);
+
+            // Sets the is open property to true
+            AddNewDepartment.IsDialogOpen = true;
+        }
+
+
+        ///// <summary>
+        /// On click shows the add department dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new department dialog
+            var AddNewJob = new NewJobDialogComponent(Company)
+            {
+                DepartmentsOption = departmentNames,
+            };
+            // Adds it to the page grid
+            CompanyGrid.Children.Add(AddNewJob);
+
+            // Sets the is open property to true
+            AddNewJob.IsDialogOpen = true;
+        }
+
+        ///// <summary>
+        /// On click shows the add employee dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
+        {
 
             ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
 
@@ -483,15 +641,20 @@ namespace Vaseis
             /// <param name="e"></param>
             private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
            {
+
             // Creates a new department dialog
-            var AdduSER = new NewUserInputDialogComponent(Company);
+            var AdduSER = new NewUserInputDialogComponent(Company)
+            {
+                OptionDepartments = departmentNames,
+                OptionUserTypes = new List<string>() { "Administrator", "Employee", "Manager", "Evaluator"},
+              //Παπ θα πρέπει με βάση το department να του εμφανίζει τις αντίστοιχες δουλειές 
+            };
             // Adds it to the page grid
             CompanyGrid.Children.Add(AdduSER);
 
             // Sets the is open property to true
             AdduSER.IsDialogOpen = true;
-            }
+        }
 
     }
 }
-

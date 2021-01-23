@@ -21,7 +21,11 @@ namespace Vaseis
         /// <summary>
         /// The Page's stackpanel
         /// </summary>
+
+        protected StackPanel companiesStackPanel { get; private set; }
+
         protected StackPanel companiesStackPanel{ get; private set; }
+
 
         /// <summary>
         /// THe page's grid
@@ -32,12 +36,21 @@ namespace Vaseis
 
         #region Dependency Properties
 
-        #endregion      
+        #endregion
 
+
+        #endregion      
         #region Constructors
+
+
         public CompaniesPage()
+
+        {
+
+
         {         
            
+
 
             CreateGUI();
         }
@@ -49,6 +62,9 @@ namespace Vaseis
         protected async override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
+
+
+            //update sta companies (afou mporei na prose8ei)
 
             var companies = await Services.GetDataStorage.GetCompanies();
 
@@ -62,6 +78,9 @@ namespace Vaseis
         }
         #endregion
 
+
+
+
         /// <summary>
         /// Creates and adds the required GUI elements for the administrator's companies page
         /// </summary>
@@ -72,7 +91,7 @@ namespace Vaseis
             pageGrid = new Grid();
 
             scrollViewer = new ScrollViewer();
-  
+
             companiesStackPanel = new StackPanel();
 
             pageGrid.Children.Add(scrollViewer);
@@ -85,7 +104,7 @@ namespace Vaseis
                 Content = "Add Company",
                 Margin = new Thickness(0, 24, 24, 12),
                 Foreground = Styles.DarkGray.HexToBrush(),
-                Background = Styles.White.HexToBrush(),      
+                Background = Styles.White.HexToBrush(),
             };
 
             addCompany.Click += ShowCompanyDialogComponentOnClick;

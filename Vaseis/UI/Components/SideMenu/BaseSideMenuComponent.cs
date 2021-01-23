@@ -43,6 +43,11 @@ namespace Vaseis
         /// </summary>
         protected SideMenuButtonComponent ProfileButton { get; private set; }
 
+        /// <summary>
+        /// The profile button
+        /// </summary>
+        protected SideMenuButtonComponent Managers { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -124,6 +129,18 @@ namespace Vaseis
                 };
 
                 TabControl.Items.Add(tabItem);
+            });
+
+            Managers = CreateAndAddSideMenuButton("Employees", PackIconKind.Abc);
+
+            Managers.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Employees",
+                    Icon = PackIconKind.AlphabetB,
+                    Content = new ManagersEditEmployeeProfile(User)
+                });
             });
 
             // Add the container to the border

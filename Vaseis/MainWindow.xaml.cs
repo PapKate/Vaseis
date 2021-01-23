@@ -129,14 +129,17 @@ namespace Vaseis
 
             Grid.SetRow(logInPage, 1);
 
-            //var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
-            //                                           .Include(x => x.Department).ThenInclude(y => y.Company)
-            //                                           .Include(x => x.AcquiredDegrees)
-            //                                           .Include(x => x.Awards)
-            //                                           .Include(x => x.Certificates)
-            //                                           .Include(x => x.Languages)
-            //                                           .Include(x => x.RecommendationPapers)
-            //                                           .FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Id == 22);
+            var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                                       .Include(x => x.Department).ThenInclude(y => y.Company)
+                                                       .Include(x => x.AcquiredDegrees)
+                                                       .Include(x => x.Awards)
+                                                       .Include(x => x.Certificates)
+                                                       .Include(x => x.Languages)
+                                                       .Include(x => x.RecommendationPapers)
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Administrator);
+
+            var view = new AdminView(user);
+
 
             //var view = new EmployeeView(user);
 

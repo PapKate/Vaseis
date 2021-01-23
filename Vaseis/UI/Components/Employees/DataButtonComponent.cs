@@ -117,7 +117,6 @@ namespace Vaseis
             UserFullNameText = new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                TextTrimming = TextTrimming.CharacterEllipsis,
                 FontSize = 24,
                 FontWeight = FontWeights.Normal,
             };
@@ -153,7 +152,9 @@ namespace Vaseis
 
         }
 
+        }
+
         #endregion
 
     }
-}
+

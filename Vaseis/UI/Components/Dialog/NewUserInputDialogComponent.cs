@@ -4,12 +4,19 @@ using static Vaseis.Styles;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System;
+using System.Windows.Data;
 
 namespace Vaseis
 {
     public class NewUserInputDialogComponent : DialogBaseComponent
     {
         #region Protected Properties
+
+        /// <summary>
+        /// The company in which the new user gets added
+        /// </summary>
+        protected CompanyDataModel Company { get; private set; }
 
         /// <summary>
         /// The new user  Username input 
@@ -62,21 +69,6 @@ namespace Vaseis
         //The Ienumerable Porperties such as Companies, Departments etc, dont need OnPathChanged because the 
         //are used in pickerComponents which have it already implemented in pickerComponentClass
 
-        #region Companies 
-
-        public IEnumerable<string> OptionCompanies
-        {
-            get { return (IEnumerable<string>)GetValue(OptionCompaniesProperty); }
-            set { SetValue(OptionCompaniesProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="OptionCompanies"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty OptionCompaniesProperty = DependencyProperty.Register(nameof(OptionCompanies), typeof(IEnumerable<string>), typeof(NewUserInputDialogComponent));
-
-        #endregion
-
         #region Departmetns 
 
         public IEnumerable<string> OptionDepartments
@@ -92,7 +84,7 @@ namespace Vaseis
 
         #endregion
 
-        #region Option 
+        #region User Types 
 
         public IEnumerable<string> OptionUserTypes
         {
@@ -107,16 +99,47 @@ namespace Vaseis
 
         #endregion
 
+        #region Jobs Positions 
+
+        public IEnumerable<string> OptionJobPosition
+        {
+            get { return (IEnumerable<string>)GetValue(OptionJobPositionProperty); }
+            set { SetValue(OptionJobPositionProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="OptionJobPosition"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty OptionJobPositionProperty = DependencyProperty.Register(nameof(OptionJobPosition), typeof(IEnumerable<string>), typeof(NewUserInputDialogComponent));
+
+        #endregion
+
         #endregion
 
         #region Constructors
 
         public NewUserInputDialogComponent(CompanyDataModel company)
         {
+            Company = company ?? throw new ArgumentNullException(nameof(company));
+
             CreateGUI();
         }
 
         #endregion
+
+        #region Protected Methods 
+
+        protected async void CreateNewUserOnClick(object sender, RoutedEventArgs e)
+        {
+            await Services.GetDataStorage.NewUser(Company,UsernameInput.Text, FirstNameInput.Text,LastNameInput.Text,EmailInput.Text,JobPositionInput.Text,DepartmentPicker.Text,UserTypePicker.Text);
+
+            CloseDialogOnClick(this, e);
+               
+        }
+
+
+        #endregion
+
 
         #region Private Methods
 
@@ -127,6 +150,8 @@ namespace Vaseis
         {
             // Sets the dialog text to new user form
             DialogTitle.Text = "New user form";
+
+            #region Inputs
 
             // Creates a username input component...
             UsernameInput = new TextInputComponent()
@@ -178,35 +203,25 @@ namespace Vaseis
                 // With hint text the text 
                 HintText = "Job position",
                 Margin = new Thickness(24),
-                Width = 240
+                Width = 240,
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(JobPositionInput);
 
-            // Test list
-            var newList = new List<string> { "Yeet", "Boom", "Potato" };
+            #endregion
 
-
-            //newList.Add("Test");
-
-            // The picker for company
-            CompanyPicker = new PickerComponent()
-            {
-                HintText = "Company",
-                OptionNames = newList,
-                FontSize = 24,
-            };
-
-            // Adds the picker to the wrap panel
-            //InputWrapPanel.Children.Add(CompanyPicker);
 
             // The picker for department
             DepartmentPicker = new PickerComponent()
             {
                 HintText = "Department",
                 FontSize = 24,
-                OptionNames = newList
-            };
+                OptionNames = OptionDepartments
+            };     
+            DepartmentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionDepartments))
+            {
+                Source = this
+            });
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentPicker);
 
@@ -215,13 +230,19 @@ namespace Vaseis
             {
                 HintText = "User type",
                 FontSize = 24,
-                OptionNames = newList
+                OptionNames = OptionUserTypes
             };
+            UserTypePicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(OptionUserTypes))
+            {
+                Source = this
+            });
+
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(UserTypePicker);
 
             // Creates the create a new user button
             CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create user");
+            CreateNewButton.Click += CreateNewUserOnClick;
             // Adds it to the buttons' stack panel
             DialogButtonsStackPanel.Children.Add(CreateNewButton);
             
