@@ -19,7 +19,7 @@ namespace Vaseis
         /// <summary>
         /// /The user
         /// </summary>
-        public UserDataModel User { get; }
+        public UserDataModel User { get; set; }
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Vaseis
         /// <summary>
         /// The change password dialog component
         /// </summary>
-        protected ChangePasswordDialog ChangePasswordDialog { get; private set; }
+        protected ChangePasswordDialog ChangePasswordDialog { get;}
 
         /// <summary>
         /// The page's grid
@@ -116,9 +116,19 @@ namespace Vaseis
         protected TitleAndListComponent CertificatesContainer { get; private set; }
 
         /// <summary>
+        /// The user's languages
+        /// </summary>
+        protected TitleAndListComponent LanguagesContainer { get; private set; }
+
+        /// <summary>
         /// The user's rec papers
         /// </summary>
         protected TitleAndListComponent RecommendationPapersContainer { get; private set; }
+
+        /// <summary>
+        /// The user's projects
+        /// </summary>
+        protected TitleAndListComponent ProjectsContainer { get; private set; }
 
         /// <summary>
         /// The Change Password Button that opens a dialogue button
@@ -160,6 +170,7 @@ namespace Vaseis
         protected async override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
+
             if (User.Type == UserType.Evaluator)
             {
                 var evaluations = await Services.GetDataStorage.GetEvaluatorEvaluations(User.Id, true);
@@ -521,6 +532,48 @@ namespace Vaseis
             };
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(RecommendationPapersContainer);
+
+            #endregion
+
+            #region Languages
+
+            var languages = new List<string>();
+
+            foreach (var language in User.Languages)
+            {
+                languages.Add(language.Name.ToString());
+            };
+
+            LanguagesContainer = new TitleAndListComponent()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Title = "Languages",
+                DataNames = languages
+            };
+            // Adds it to the stack panel
+            CompanyDataStackPanel.Children.Add(LanguagesContainer);
+
+
+            #endregion
+
+            #region Projects
+
+            var projects = new List<string>();
+
+            foreach (var project in User.Projects)
+            {
+                projects.Add(project.Title);
+            };
+
+            ProjectsContainer = new TitleAndListComponent()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Title = "Projects",
+                DataNames = projects
+            };
+            // Adds it to the stack panel
+            CompanyDataStackPanel.Children.Add(ProjectsContainer);
+
 
             #endregion
 

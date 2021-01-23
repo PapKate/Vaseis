@@ -760,7 +760,7 @@ namespace Vaseis
                 .RuleFor(x => x.MadeForWho, faker => faker.Random.Enum<MadeForWho>())
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph())
                 .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
-                .Generate(3000);
+                .Generate(5000);
 
             // Adds the generated projects in the projects db set
             context.Projects.AddRange(projects);
@@ -801,6 +801,7 @@ namespace Vaseis
                                                         .Include(x => x.Certificates)
                                                         .Include(x => x.RecommendationPapers)
                                                         .Include(x => x.Languages)
+                                                        .Include(x => x.Projects)
                                                        // .Where(x => x.Type == UserType.Evaluator)
                                                         .ToListAsync();
 

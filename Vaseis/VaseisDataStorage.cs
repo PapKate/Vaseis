@@ -86,7 +86,7 @@ namespace Vaseis
                                       .Include(x => x.Jobs)
                                       .Where(x => x.Id == companyId)
                                       .FirstOrDefaultAsync();
-        }
+        } 
 
         #endregion
 
@@ -138,7 +138,7 @@ namespace Vaseis
         /// <param name="bio"></param>
         /// <param name="email"></param>
         /// <returns></returns>
-        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email, string )
+        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email)
         {
             var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
 
