@@ -162,6 +162,9 @@ namespace Vaseis
                     // Attempt to get the user with the inserted credentials
                     var user = await Services.GetDataStorage.GetUser(EnterUsername.Text, EnterPassword.Password);
 
+                    EnterUsername.Text = "";
+                    EnterPassword.Password = "";
+
                     // If a user isn't found...
                     if (user == null)
                     {

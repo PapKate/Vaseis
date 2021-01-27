@@ -15,6 +15,11 @@ namespace Vaseis
         /// </summary>
         public UserDataModel User { get; }
 
+        /// <summary>
+        /// The side menu
+        /// </summary>
+        public BaseSideMenuComponent SideMenu { get; set; }
+
         #endregion
 
         #region Protected Properties
@@ -51,14 +56,15 @@ namespace Vaseis
         /// Adds the side menu to the view grid
         /// </summary>
         /// <param name="sideMenu">The side menu</param>
-        protected void CreateView(BaseSideMenuComponent sideMenu)
+        protected BaseSideMenuComponent CreateView(BaseSideMenuComponent sideMenu)
         {
             // Adds the side menu to the grid
             ViewGrid.Children.Add(sideMenu);
             // Sets it on its first column
             Grid.SetColumn(sideMenu, 0);
+            // Returns the side menu
+            return sideMenu;
         }
-
 
         #endregion
 

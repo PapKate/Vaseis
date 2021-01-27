@@ -46,11 +46,6 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ReportsDataGridComponent()
-        {
-            CreateGUI();
-        }
-
         public ReportsDataGridComponent(Grid pageGrid, UserDataModel manager)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
@@ -95,7 +90,28 @@ namespace Vaseis
                         // And opens it
                         IsDialogOpen = true,
                         EvaluatorsList = evaluatorsList,
-                        FinalizedCommand = new RelayCommand(async () =>
+                        
+                    };
+                    // Creates the finalized command
+                    reportDialog.FinalizedCommand = new RelayCommand(async () =>
+                    {
+                        // If the report is not written...
+                        if (string.IsNullOrEmpty(reportDialog.ParagraphTextBox.Text))
+                        {
+                            // Creates a new message dialog
+                            var errorDialog = new MessageDialogComponent()
+                            {
+                                Message = "Your report could no be finalized as no report was written!\n" +
+                                          "Please fill out your report and try again.",
+                                Title = "Error",
+                                BrushColor = Red.HexToBrush(),
+                                IsDialogOpen = true,
+                            };
+                            // Adds it to the page's grid
+                            PageGrid.Children.Add(errorDialog);
+                        }
+                        // Else...
+                        else
                         {
                             await Task.Delay(2000);
                             // Creates a new finalized dialog
@@ -108,8 +124,13 @@ namespace Vaseis
                             };
                             // Adds it to the page's grid
                             PageGrid.Children.Add(finalizedDialog);
-                        })
-                    };
+                            // Updates the report data model
+                            await Services.GetDataStorage.UpdateReportAsync(report, true);
+                            // Adds a new evaluation data model
+                            await Services.GetDataStorage.AddEvaluatorEvaliation(report);
+                        }
+                    });
+                    // Finds the selected evaluator by the name in the row
                     reportDialog.SelectedEvaluator(row.EvaluatorName);
                     // Adds it to the page's grid
                     PageGrid.Children.Add(reportDialog);

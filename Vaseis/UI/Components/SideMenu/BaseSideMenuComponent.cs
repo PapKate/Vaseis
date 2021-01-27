@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,9 +30,14 @@ namespace Vaseis
         #region Protected Properties
 
         /// <summary>
-        /// The sideMenu container
+        /// The side menu's grid
         /// </summary>
-        protected StackPanel SideMenuContainer { get; private set; }
+        protected Grid SideMenuGrid { get; private set; }
+
+        /// <summary>
+        /// The sideMenu buttons' container
+        /// </summary>
+        protected StackPanel SideMenuButtonsContainer { get; private set; }
 
         /// <summary>
         /// The side menu's border
@@ -44,9 +50,9 @@ namespace Vaseis
         protected SideMenuButtonComponent ProfileButton { get; private set; }
 
         /// <summary>
-        /// The profile button
+        /// The log out button
         /// </summary>
-        protected SideMenuButtonComponent Managers { get; private set; }
+        protected SideMenuButtonComponent LogOutButton { get; private set; }
 
         #endregion
 
@@ -68,7 +74,7 @@ namespace Vaseis
         #region Protected Methods
 
         /// <summary>
-        /// Creates and adds a <see cref="SideMenuButtonComponent"/> to the <see cref="SideMenuContainer"/>
+        /// Creates and adds a <see cref="SideMenuButtonComponent"/> to the <see cref="SideMenuButtonsContainer"/>
         /// </summary>
         /// <param name="text">The text of the button</param>
         /// <param name="icon">The icon of the button</param>
@@ -83,7 +89,7 @@ namespace Vaseis
             };
 
             // Add it to the container
-            SideMenuContainer.Children.Add(button);
+            SideMenuButtonsContainer.Children.Add(button);
 
             // Create the button
             return button;
@@ -98,24 +104,24 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            SideMenuGrid = new Grid();
+
             // Create the side menu border
             SideMenuBorder = new Border()
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 
-                //BorderBrush = DarkGray.HexToBrush(),
-                //BorderThickness = new Thickness(0, 0, 1, 0)
                 Effect = ControlsFactory.CreateShadow()
             };
 
             // Create the buttons container
-            SideMenuContainer = new StackPanel()
+            SideMenuButtonsContainer = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Background = White.HexToBrush(),
 
             };
-
+            SideMenuGrid.Children.Add(SideMenuButtonsContainer);
             // Create the profile button
             ProfileButton = CreateAndAddSideMenuButton("Profile", PackIconKind.AccountCircle);
             // On click opens in a tab the profile page
@@ -127,27 +133,49 @@ namespace Vaseis
                     Icon = PackIconKind.AccountCircle,
                     Content = new ProfilePage(User),
                 };
-
+                // Adds it to the tab control items
                 TabControl.Items.Add(tabItem);
+
+                tabItem.IsSelected = true;
             });
 
-            Managers = CreateAndAddSideMenuButton("Employees", PackIconKind.Abc);
-
-            Managers.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
-            {
-                TabControl.Items.Add(new TabItemComponent(TabControl)
-                {
-                    Text = "Employees",
-                    Icon = PackIconKind.AlphabetB,
-                    Content = new ManagersEditEmployeeProfile(User)
-                });
-            });
+            // Creates the log out button
+            LogOutButton = new SideMenuButtonComponent() 
+            { 
+                Text = "Log out", 
+                Icon = PackIconKind.ExitRun 
+            };
+            // Adds it to the grid
+            SideMenuGrid.Children.Add(LogOutButton);
+            // Sets it at the bottom
+            LogOutButton.VerticalAlignment = VerticalAlignment.Bottom;
+            // On click fires the event
+            LogOutButton.SideMenuButton.Click += DisconnectUserOnClick;
 
             // Add the container to the border
-            SideMenuBorder.Child = SideMenuContainer;
+            SideMenuBorder.Child = SideMenuGrid;
 
             Content = SideMenuBorder;
         }
+
+        /// <summary>
+        /// Disconnects a user on click
+        /// Fires the event in the main window
+        /// </summary>
+        private void DisconnectUserOnClick(object sender, RoutedEventArgs e)
+        {
+            // Calls the event
+            UserDisconnected(this, User);
+        }
+
+        #endregion
+
+        #region Public Events
+
+        /// <summary>
+        /// Fires every time a user connects to the application
+        /// </summary>
+        public event EventHandler<UserDataModel> UserDisconnected = (sender, e) => { };
 
         #endregion
 

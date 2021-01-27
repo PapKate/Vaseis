@@ -8,7 +8,7 @@ namespace Vaseis
     /// <summary>
     /// The evaluator's data grid header
     /// </summary>
-    public class EvaluattionBaseDataGridHeaderComponent : DataGridHeaderComponent
+    public class EvaluattionBaseDataGridHeaderComponent : EvaluatorMyEvaluationsDataGridHeaderComponent
     {
         #region Protected Properties
 
@@ -24,7 +24,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluattionBaseDataGridHeaderComponent()
+        public EvaluattionBaseDataGridHeaderComponent(BaseDataGridComponent myEvaluationsDataGrid) : base(myEvaluationsDataGrid)
         {
             CreateGUI();
         }

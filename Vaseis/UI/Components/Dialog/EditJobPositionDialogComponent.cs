@@ -148,7 +148,7 @@ namespace Vaseis
                 JobPosition.AnnouncementDate = upDatedJobPosition.AnnouncementDate;
                 JobPosition.SubmissionDate = upDatedJobPosition.SubmissionDate;
                 JobPosition.Job.Salary = upDatedJobPosition.Job.Salary;
-                JobPosition.Subjects = upDatedJobPosition.Subjects;
+                JobPosition.JobsAndSubjects = upDatedJobPosition.JobsAndSubjects;
                 // Updates the row
                 EvaluatorMyJobPositionsDataGridRow.Update();
             }

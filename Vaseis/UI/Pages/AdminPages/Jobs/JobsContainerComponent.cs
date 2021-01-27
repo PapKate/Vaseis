@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using VaseiS;
 
 namespace Vaseis
 {
@@ -50,7 +49,7 @@ namespace Vaseis
 
                 foreach (var job in jobs)
                 {
-                    UserButtonsGrid.Children.Add(new JobsButtonComponent(job));
+                    UserButtonsGrid.Children.Add(new JobButtonComponent(job));
                 }
             }
         }
@@ -67,7 +66,8 @@ namespace Vaseis
             // The grid containing the buttons
             UserButtonsGrid = new UniformGrid()
             {
-                Margin = new Thickness(32),
+                Margin = new Thickness(24),
+                Columns = 2
             };
 
             // The component's content is the grid

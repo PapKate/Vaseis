@@ -44,7 +44,7 @@ namespace Vaseis
         /// <summary>
         /// The "why I want this job" input field
         /// </summary>
-        protected TextBox ParagraphTextBox { get; private set; }
+        public TextBox ParagraphTextBox { get; private set; }
 
         /// <summary>
         /// The request's create Button

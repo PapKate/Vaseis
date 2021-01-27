@@ -23,7 +23,7 @@ namespace Vaseis
         /// <summary>
         /// The department's name
         /// </summary>
-        public Department DepartmentName { get; set; }
+        public string DepartmentName { get; set; }
 
         /// <summary>
         /// The department's color

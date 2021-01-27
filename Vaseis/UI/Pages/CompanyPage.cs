@@ -90,7 +90,7 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-            CompanyVar = await Services.GetDataStorage.GetCompanyData(Company.Id);
+            CompanyVar = await Services.GetDataStorage.GetCompanyDataAsync(Company.Id);
 
             Image.Source = new BitmapImage(new Uri(CompanyVar.CompanyPicture));
 
@@ -112,11 +112,11 @@ namespace Vaseis
 
             AboutTile.BioText = CompanyVar.About;
 
-            EmployeeTextBlock.Username = CompanyVar.Users.Count().ToString();
+            EmployeeTextBlock.Title = CompanyVar.Users.Count().ToString();
 
-            DepartmentsTextBlock.Username = CompanyVar.Departments.Count().ToString();
+            DepartmentsTextBlock.Title = CompanyVar.Departments.Count().ToString();
 
-            JobsTextButton.Username = CompanyVar.Jobs.Count().ToString();
+            JobsTextButton.Title = CompanyVar.Jobs.Count().ToString();
         }
 
         #endregion
@@ -297,7 +297,7 @@ namespace Vaseis
 
             EmployeeTextBlock = new DataButtonComponent()
             {
-                FullName = "Employees",              
+                Text = "Employees",              
                 Background = "ff4455".HexToBrush()
             };
 
@@ -305,7 +305,7 @@ namespace Vaseis
 
             DepartmentsTextBlock = new DataButtonComponent()
             {
-                FullName = "Departments",
+                Text = "Departments",
                 Background = "ff4455".HexToBrush()
             };
 
@@ -314,7 +314,7 @@ namespace Vaseis
 
             JobsTextButton = new DataButtonComponent()
             {
-                FullName = "Jobs",               
+                Text = "Jobs",               
                 Background = "ff4455".HexToBrush()
             };
 

@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UI\Components\Employees\PersonalData\**" />
-    <EmbeddedResource Remove="UI\Components\Employees\PersonalData\**" />
-    <None Remove="UI\Components\Employees\PersonalData\**" />
-    <Page Remove="UI\Components\Employees\PersonalData\**" />
+    <Compile Remove="UI\Components\DataButtons\PersonalData\**" />
+    <EmbeddedResource Remove="UI\Components\DataButtons\PersonalData\**" />
+    <None Remove="UI\Components\DataButtons\PersonalData\**" />
+    <Page Remove="UI\Components\DataButtons\PersonalData\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -87,7 +87,7 @@ namespace Vaseis
                         OkCommand = new RelayCommand(async () =>
                         {
                             InfoDataStackPanel.Children.Remove(row);
-                            //await Services.GetDataStorage.UpdateEmployeeJobPositionAsync(Employee.Id, row.Evaluation.JobPositionRequest.JobPosition);
+                            await Services.GetDataStorage.UpdateEmployeeJobPositionAsync(Employee.Id, row.Evaluation.JobPositionRequest.JobPosition);
                         })
                     };
                     // Adds it to the page's grid

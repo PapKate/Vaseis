@@ -1,9 +1,8 @@
-﻿using MaterialDesignThemes.Wpf;
-
+﻿
 using System;
 
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,27 +12,54 @@ using static Vaseis.Styles;
 namespace Vaseis
 {
     //This is a class that creates the row components fo rthe adminidtrator's companies page
-    public class CompaniesComponent : ContentControl
+    public class CompanyCardComponent : ContentControl
     {
         #region Public Properties
 
         public CompanyDataModel Company { get; }
 
-        public Grid CompanyGrid { get; private set; }
+        /// <summary>
+        /// The page's grid
+        /// </summary>
+        public Grid PageGrid { get; }
+
+        /// <summary>
+        /// The page's grid
+        /// </summary>
+        public Grid DialogHelperGrid { get; }
 
         #endregion
 
-
         #region Protected Properties
         /// <summary>
-        /// used for the add user dialog below
+        /// A list with all the company's departments
         /// </summary>
-        protected List<string> departmentNames { get; set; }
+        protected List<string> DepartmentNames { get; set; }
 
         /// <summary>
-        /// used for the add user dialog below
+        /// A list with all the company's departments that have no manager
         /// </summary>
-        protected List<string> JobsList { get; set; }
+        protected List<string> EmptyDepartmentNames { get; set; }
+
+        /// <summary>
+        /// The company's grid
+        /// </summary>
+        protected Grid CompanyGrid { get; private set; }
+
+        /// <summary>
+        /// The users' grid
+        /// </summary>
+        protected UniformGrid UsersGrid { get; private set; }
+
+        /// <summary>
+        /// The departments' grid
+        /// </summary>
+        protected UniformGrid DepartmentsGrid { get; private set; }
+
+        /// <summary>
+        /// The new user dialog
+        /// </summary>
+        protected NewUserDialogComponent AddUser { get; private set; }
 
         #endregion
 
@@ -44,16 +70,26 @@ namespace Vaseis
         /// <summary>
         /// The company's Employees
         /// </summary>
-        public IEnumerable<string> Employees
+        public IEnumerable<UserDataModel> Employees
         {
-            get { return (IEnumerable<string>)GetValue(EmployeesProperty); }
+            get { return (IEnumerable<UserDataModel>)GetValue(EmployeesProperty); }
             set { SetValue(EmployeesProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="Employees"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty EmployeesProperty = DependencyProperty.Register(nameof(Employees), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+        public static readonly DependencyProperty EmployeesProperty = DependencyProperty.Register(nameof(Employees), typeof(IEnumerable<UserDataModel>), typeof(CompanyCardComponent), new PropertyMetadata(OnEmployeesChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Employees"/> property
+        /// </summary>
+        private static void OnEmployeesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as CompanyCardComponent;
+
+            sender.OnEmployeesChangedCore(e);
+        }
 
         #endregion
 
@@ -62,17 +98,26 @@ namespace Vaseis
         /// <summary>
         /// The company's departments
         /// </summary>
-        public IEnumerable<string> Departments
+        public IEnumerable<DepartmentDataModel> Departments
         {
-            get { return (IEnumerable<string>)GetValue(DepartmentsProperty); }
+            get { return (IEnumerable<DepartmentDataModel>)GetValue(DepartmentsProperty); }
             set { SetValue(DepartmentsProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="Departments"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty DepartmentsProperty = DependencyProperty.Register(nameof(Departments), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+        public static readonly DependencyProperty DepartmentsProperty = DependencyProperty.Register(nameof(Departments), typeof(IEnumerable<DepartmentDataModel>), typeof(CompanyCardComponent), new PropertyMetadata(OnDepartmentsChanged));
 
+        /// <summary>
+        /// Handles the change of the <see cref="Departments"/> property
+        /// </summary>
+        private static void OnDepartmentsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as CompanyCardComponent;
+
+            sender.OnDepartmentsChangedCore(e);
+        }
 
         #endregion
 
@@ -80,29 +125,36 @@ namespace Vaseis
         /// <summary>
         /// The company's jobs
         /// </summary>
-        public IEnumerable<string> JobTitles
+        public IEnumerable<JobDataModel> Jobs
         {
-            get { return (IEnumerable<string>)GetValue(JobTitlesProperty); }
-            set { SetValue(JobTitlesProperty, value); }
+            get { return (IEnumerable<JobDataModel>)GetValue(JobsProperty); }
+            set { SetValue(JobsProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="JobTitles"/> dependency property
+        /// Identifies the <see cref="Jobs"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty JobTitlesProperty = DependencyProperty.Register(nameof(JobTitles), typeof(IEnumerable<string>), typeof(CompaniesComponent));
+        public static readonly DependencyProperty JobsProperty = DependencyProperty.Register(nameof(Jobs), typeof(IEnumerable<JobDataModel>), typeof(CompanyCardComponent));
 
 
         #endregion
 
         #endregion
-
 
         #region Constructors
-        public CompaniesComponent(CompanyDataModel company)
+        
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="company">The company data model</param>
+        /// <param name="pageGrid">The page's grid</param>
+        public CompanyCardComponent(CompanyDataModel company, Grid pageGrid)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
+            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
 
             CreateGUI();
+            Update();
         }
 
         #endregion
@@ -111,50 +163,45 @@ namespace Vaseis
 
         public void Update()
         {
-
-
-
+            Employees = Company.Users;
+            Departments = Company.Departments;
         }
 
         #endregion
 
         #region Protected Methods
 
-        protected async override void OnInitialized(EventArgs e)
+        /// <summary>
+        /// Handles the change of the <see cref="CompanyCardComponent.Employees"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnEmployeesChanged(DependencyPropertyChangedEventArgs e)
         {
-            base.OnInitialized(e);
 
-            var departments = await Services.GetDataStorage.GetDepartmentUsers(Company.Id);
+        }
 
-            departmentNames = new List<string>();
-
-            foreach (var department in departments)
-            { 
-                departmentNames.Add(department.DepartmentName.ToString());
-
-            } 
+        /// <summary>
+        /// Handles the change of the <see cref="CompanyCardComponent.Departments"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnDepartmentsChanged(DependencyPropertyChangedEventArgs e)
+        {
 
         }
 
         #endregion
 
-
         #region Private Methods
 
         private void CreateGUI()
         {
+            DepartmentNames = new List<string>();
+            EmptyDepartmentNames = new List<string>();
 
             CompanyGrid = new Grid()
             {
-
-                Background = GhostWhite.HexToBrush(),
-                VerticalAlignment = VerticalAlignment.Stretch,             
-
                 Background = White.HexToBrush(),
-                VerticalAlignment = VerticalAlignment.Stretch,
-
             };
-
             CompanyGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
                 Width = new GridLength(1, GridUnitType.Auto)
@@ -170,7 +217,8 @@ namespace Vaseis
             var CompanyPicAndLogo = new ImageAndNameComponent()
             {
                 ImagePath = Company.CompanyPicture,
-                Text = Company.Name
+                Text = Company.Name,
+                Width = 400
             };
 
             CompanyGrid.Children.Add(CompanyPicAndLogo);
@@ -178,7 +226,7 @@ namespace Vaseis
 
             #endregion
 
-            Grid InfoAboutTheCompanyGrid = new Grid();
+            var InfoAboutTheCompanyGrid = new Grid() { Margin = new Thickness(0,24,0,0) };
 
             InfoAboutTheCompanyGrid.RowDefinitions.Add(new RowDefinition()
             {
@@ -192,7 +240,7 @@ namespace Vaseis
                 Height = new GridLength(1, GridUnitType.Auto)
             });
 
-            Grid employeesAndJobsGrid = new Grid();
+            var employeesAndJobsGrid = new Grid() { Margin = new Thickness(0,0,0,24) };
 
 
             #region Expanders Region
@@ -213,7 +261,6 @@ namespace Vaseis
             {
                 Height = new GridLength(1, GridUnitType.Auto)
             });
-
 
             #region About
 
@@ -242,6 +289,7 @@ namespace Vaseis
                 Width = 1000,
                 Foreground = DarkGray.HexToBrush(),
                 Content = aboutscroll,
+                Background = White.HexToBrush()
             };
 
             var aboutGrid = new Grid();
@@ -272,18 +320,21 @@ namespace Vaseis
 
             Grid.SetRow(aboutGrid, 0);
 
-
             #endregion
 
             #region Employees
 
-            var employeehmmm = new UserButtonsContainerComponent(Company);
+            UsersGrid = new UniformGrid()
+            { 
+                Margin = new Thickness(24),
+                Columns = 3
+            };
 
             var employeescroll = new ScrollViewer()
             {
 
-                MaxHeight = 1000,
-                Content = employeehmmm,
+                MaxHeight = 400,
+                Content = UsersGrid,
             };
 
             var employeesExpander = new Expander()
@@ -292,6 +343,7 @@ namespace Vaseis
                 Width = 1000,
                 Foreground = DarkGray.HexToBrush(),
                 Content = employeescroll,
+                Background = White.HexToBrush()
             };
 
             var emplopyeesGrid = new Grid();
@@ -310,13 +362,14 @@ namespace Vaseis
 
             Grid.SetColumn(employeesExpander, 0);
 
-            var employeeButton = ControlsFactory.CreateAddButton();
-            employeeButton.Margin = new Thickness(24, 0, 0, 0);
-            employeeButton.Click += ShowEmployeeDialogComponent;
+            var addEmployeeButton = ControlsFactory.CreateAddButton();
+            addEmployeeButton.Background = HookersGreen.HexToBrush();
+            addEmployeeButton.Margin = new Thickness(24, 0, 0, 0);
+            addEmployeeButton.Click += ShowEmployeeDialogComponent;
 
-            emplopyeesGrid.Children.Add(employeeButton);
+            emplopyeesGrid.Children.Add(addEmployeeButton);
 
-            Grid.SetColumn(employeeButton, 1);
+            Grid.SetColumn(addEmployeeButton, 1);
 
             employeesAndJobsGrid.Children.Add(emplopyeesGrid);
 
@@ -343,6 +396,7 @@ namespace Vaseis
                 Width = 1000,
                 Foreground = DarkGray.HexToBrush(),
                 Content = JobsScroll,
+                Background = White.HexToBrush()
             };
 
             var jobsGrid = new Grid();
@@ -379,13 +433,16 @@ namespace Vaseis
 
             //foreach (var company in Companies) { };
 
-            var departmentButtons = new DepartmentContainerComponent(Company);
+            DepartmentsGrid = new UniformGrid()
+            {
+                Margin = new Thickness(24),
+                Columns = 2
+            };
 
             var departmentScroll = new ScrollViewer()
             {
-
-                MaxHeight = 1000,
-                Content = departmentButtons,
+                MaxHeight = 400,
+                Content = DepartmentsGrid,
             };
 
             var departmentExpander = new Expander()
@@ -394,6 +451,7 @@ namespace Vaseis
                 Foreground = DarkGray.HexToBrush(),
                 Width = 1000,
                 Content = departmentScroll,
+                Background = White.HexToBrush()
             };
 
             var departmentsGrid = new Grid();
@@ -413,7 +471,7 @@ namespace Vaseis
             Grid.SetColumn(departmentExpander, 0);
 
             var addDepartmentButton = ControlsFactory.CreateAddButton();
-
+            addDepartmentButton.Background = DarkPink.HexToBrush();
             addDepartmentButton.Margin = new Thickness(24, 0, 0, 0);
 
             addDepartmentButton.Click += ShowAddDepartmentDialogOnClick;
@@ -510,7 +568,7 @@ namespace Vaseis
             var DateCreatedData = new TitleAndTextComponent()
             {
                 Title = "Created on",
-                Text = Company.DateCreated.ToString(),
+                Text = Company.DateCreated.ToShortDateString(),
             };
 
             firstRowGrid.Children.Add(DateCreatedData);
@@ -523,138 +581,145 @@ namespace Vaseis
 
             #endregion
 
-
             CompanyGrid.Children.Add(InfoAboutTheCompanyGrid);
             Grid.SetColumn(InfoAboutTheCompanyGrid, 1);
 
-
-            var CompanyButton = new Border()
+            var CompanyBorder = new Border()
             {
-                //Style = MaterialDesignStyles.RaisedButton,
-                Height = double.NaN,
-                Margin = new Thickness(24),
-                Padding = new Thickness(8),
-                Background = DarkBlue.HexToBrush(),
-                BorderThickness = new Thickness(0),
-               //  Content = CompanyGrid,
-                CornerRadius = new CornerRadius(8)
+                Margin = new Thickness(32),
+                BorderThickness = new Thickness(12),
+                BorderBrush = DarkBlue.HexToBrush(),
+                CornerRadius = new CornerRadius(12),
+                Padding = new Thickness(24),
+                Background = White.HexToBrush(),
+                Effect = ControlsFactory.CreateShadow()
             };
+            CompanyBorder.Child = CompanyGrid;
 
-
-            CompanyButton.Child = CompanyGrid;
-
-           // ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
-
-            Content = CompanyButton;
+            Content = CompanyBorder;
         }
 
-        #endregion
 
         /// <summary>
         /// On click shows the add department dialog
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new department dialog
-            var AddNewDepartment = new NewDepartmentDialogComponent(Company);
+            var AddNewDepartment = new NewDepartmentDialogComponent(Company, this);
             // Adds it to the page grid
-            CompanyGrid.Children.Add(AddNewDepartment);
+            PageGrid.Children.Add(AddNewDepartment);
 
             // Sets the is open property to true
             AddNewDepartment.IsDialogOpen = true;
         }
 
-
-        ///// <summary>
+        /// <summary>
         /// On click shows the add department dialog
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
         {
-            // Creates a new department dialog
-            var AddNewJob = new NewJobDialogComponent(Company)
+            // Creates a new job dialog
+            var AddNewJob = new NewJobDialogComponent(Company, this)
             {
-                DepartmentsOption = departmentNames,
+                DepartmentsOption = DepartmentNames,
             };
             // Adds it to the page grid
-            CompanyGrid.Children.Add(AddNewJob);
+            PageGrid.Children.Add(AddNewJob);
 
             // Sets the is open property to true
             AddNewJob.IsDialogOpen = true;
         }
-
-        ///// <summary>
+        
+        /// <summary>
         /// On click shows the add employee dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
         {
+            // Creates a new user dialog
+            AddUser = new NewUserDialogComponent(Company, this, PageGrid)
+            {
+                JobPositionOptions = new List<string> { "Ax", "Koula", "Polu", "Kwlopaido", "o", "Kuriakos" },
+                DepartmentOptions = DepartmentNames,
+                EmptyDepartmentOptions = EmptyDepartmentNames,
+                UserTypeOptions = new List<string> { "Evaluator", "Manager", "Employee" } 
+            };
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddUser);
 
-            ButtonAssist.SetCornerRadius(CompanyButton, new CornerRadius(8));
+            // Sets the is open property to true
+            AddUser.IsDialogOpen = true;
+        }
 
-            Content = CompanyButton;
+        /// <summary>
+        /// Handles the change of the <see cref="Employees"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnEmployeesChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<UserDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+                
+            }
+            else
+            {
+                UsersGrid.Children.Clear();
+
+                foreach (var employee in newValue)
+                    UsersGrid.Children.Add(new UserButtonComponent(employee));
+            }
+
+            // Further handle the change
+            OnEmployeesChanged(e);
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="Departments"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnDepartmentsChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<DepartmentDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+
+            }
+            else
+            {
+                // Deletes all the grid's children 
+                DepartmentsGrid.Children.Clear();
+                // For each department
+                foreach (var department in newValue)
+                {
+                    // Add to the grid a new department button representing the department
+                    DepartmentsGrid.Children.Add(new DepartmentButtonComponent(department));
+                    // Adds to the list the department's name
+                    DepartmentNames.Add(department.DepartmentName);
+                    if(department.Users != null)
+                    {
+                        // If there is no manager in a department...
+                        if (department.Users.ToList().Any(x => x.Type == UserType.Manager) == false)
+                            // Adds the department's name to the empty list
+                            EmptyDepartmentNames.Add(department.DepartmentName);
+                        // If all departments have a manager...
+                        if (EmptyDepartmentNames.Count == 0)
+                            // Add the message to the picker
+                            EmptyDepartmentNames.Add("All have a manager");
+                    }
+                }
+            }
+
+            // Further handle the change
+            OnEmployeesChanged(e);
         }
 
         #endregion
-
-        /// <summary>
-        /// On click shows the add department dialog
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
-            {
-                // Creates a new department dialog
-                var AddNewDepartment = new NewDepartmentDialogComponent(Company);
-               // Adds it to the page grid
-                CompanyGrid.Children.Add(AddNewDepartment);
-
-                // Sets the is open property to true
-                AddNewDepartment.IsDialogOpen = true;
-            }
-
-
-            ///// <summary>
-            /// On click shows the add department dialog
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
-           {
-              // Creates a new department dialog
-              var AddNewJob = new NewJobDialogComponent(Company);
-              // Adds it to the page grid
-              CompanyGrid.Children.Add(AddNewJob);
-
-              // Sets the is open property to true
-              AddNewJob.IsDialogOpen = true;
-            }
-
-            ///// <summary>
-            /// On click shows the add employee dialog
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
-           {
-
-            // Creates a new department dialog
-            var AdduSER = new NewUserInputDialogComponent(Company)
-            {
-                OptionDepartments = departmentNames,
-                OptionUserTypes = new List<string>() { "Administrator", "Employee", "Manager", "Evaluator"},
-              //Παπ θα πρέπει με βάση το department να του εμφανίζει τις αντίστοιχες δουλειές 
-            };
-            // Adds it to the page grid
-            CompanyGrid.Children.Add(AdduSER);
-
-            // Sets the is open property to true
-            AdduSER.IsDialogOpen = true;
-        }
-
     }
 }

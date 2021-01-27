@@ -82,28 +82,15 @@ namespace Vaseis
         }
 
         /// <summary>
-        /// Finds the department enum by its string name
+        /// Parses a string to an integer
         /// </summary>
-        public static Department GetDepartment(string departmentName)
+        /// <param name="value">The string</param>
+        public static int ParseStringToInt(string value)
         {
-            // Gets an array of all the values the department enum has
-            var departments = Enum.GetValues(typeof(Department));
-            // By default the found department is the first department of the enum
-            var departmentWithName = Department.Accounting;
-            // For each department in the enum
-            foreach(var department in departments)
-            {
-                // If the department is the same as the given...
-                if (department.ToString() == departmentName)
-                {
-                    // Sets the found department as this one
-                    departmentWithName = (Department)department;
-                    // Break out of the for each
-                    break;
-                }
-            }
-            // Returns the found department enum
-            return departmentWithName;
+            // Parses the string to an int
+            var newValue = int.Parse(value, NumberStyles.Integer);
+            // Returns the integer
+            return newValue;
         }
 
         /// <summary>
@@ -175,6 +162,34 @@ namespace Vaseis
 
             return fuck;
         }
+
+        /// <summary>
+        /// Finds the user type enum from a string
+        /// </summary>
+        /// <param name="value">The string representing the <see cref="valueEnum.ToString()"/></param>
+        /// <returns></returns>
+        public static UserType FindUserType(string value)
+        {
+            // Gets an array of all the values the user type enum has
+            var types = Enum.GetValues(typeof(UserType));
+            // By default the found type is an employee
+            var foundType = UserType.Employee;
+            // For each user type...
+            foreach(var type in types)
+            {
+                // If the type is the same as the value...
+                if (type.ToString() == value)
+                {
+                    // Sets the found type as the type
+                    foundType = (UserType)type;
+                    // Breaks out of the for each
+                    break;
+                }
+            }
+            // Returns the found user type
+            return foundType;
+        }
+
 
         /// <summary>
         /// Creates the data grid's rows

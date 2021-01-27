@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -56,19 +57,13 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectName = ControlsFactory.CreateSubjectsString(JobPositionRequest.JobPosition.Subjects);
+            var subjectList = new List<SubjectDataModel>();
+            JobPositionRequest.JobPosition.JobsAndSubjects.ToList().ForEach(x => subjectList.Add(x.Subject));
+            SubjectName = ControlsFactory.CreateSubjectsString(subjectList);
             JobPositionName = JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPositionRequest.JobPosition.Job.Salary);
-            var jobRequest = JobPositionRequest.JobPosition.JobPositionRequests.FirstOrDefault(y => y.Id == JobPositionRequest.Id);
-            var index = 0;
-            foreach (var request in JobPositionRequest.JobPosition.JobPositionRequests)
-            {
-                index++;
-                if (request.Id == jobRequest.Id)
-                    break;
-            }
-            NumberOfRequestsText = index.ToString();
+            NumberOfRequestsText = JobPositionRequest.JobPosition.JobPositionRequests.Count().ToString();
             DeadlineName = $"{JobPositionRequest.JobPosition.AnnouncementDate.Value.ToShortDateString()} - {JobPositionRequest.JobPosition.SubmissionDate.Value.ToShortDateString()}";
         }
 

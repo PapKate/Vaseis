@@ -14,7 +14,7 @@ namespace Vaseis
     /// <summary>
     /// The page for manager to browse through their company's employees
     /// </summary>
-    public class EmployeesPage : ContentControl
+    public class ManagerEmployeesPage : ContentControl
     {
         #region Public Properties
 
@@ -90,7 +90,7 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="manager">The manager</param>
-        public EmployeesPage(UserDataModel manager, TabControl tabControl)
+        public ManagerEmployeesPage(UserDataModel manager, TabControl tabControl)
         {
             Manager = manager ?? throw new ArgumentNullException(nameof(manager));
             TabControl = tabControl ?? throw new System.ArgumentNullException(nameof(tabControl));
@@ -115,10 +115,6 @@ namespace Vaseis
             // For every employee...
             foreach(var employee in employees)
                 // Create and add the user button
-
-                EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee));
-
-
                 EmployeeButtonsContainer.Children.Add(new UserButtonComponent(employee, TabControl));
 
         }
@@ -235,7 +231,7 @@ namespace Vaseis
                             // Sets every button to visible
                             button.Visibility = Visibility.Visible;
                         // Else if the text matches a button's username
-                        else if (button.Username == SearchBar.Text)
+                        else if (button.Title == SearchBar.Text)
                             // Sets that button as visible
                             button.Visibility = Visibility.Visible;
                         // If there are spaces in the text...

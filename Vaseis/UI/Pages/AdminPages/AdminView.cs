@@ -31,7 +31,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates and adds the administrators's side menu
-            CreateView(new AdminSideMenuComponent(TabControl, User));
+            SideMenu = CreateView(new AdminSideMenuComponent(TabControl, User));
         }
 
         #endregion

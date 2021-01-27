@@ -26,7 +26,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates and adds the evaluator's side menu
-            CreateView(new EvaluatorSideMenuComponent(TabControl, User));
+            SideMenu = CreateView(new EvaluatorSideMenuComponent(TabControl, User));
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -22,7 +23,6 @@ namespace Vaseis
 
         #endregion
 
-
         #region Protected Properties
 
         /// <summary>
@@ -34,6 +34,11 @@ namespace Vaseis
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="manager">The manager's data model</param>
         public ManagerEvaluationDataGridComponent(Grid pageGrid, UserDataModel manager)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
@@ -53,6 +58,22 @@ namespace Vaseis
         protected async override void OnInitialized()
         {
             base.OnInitialized();
+
+            var companyJobs = await Services.GetDataStorage.GetCompanyJobs(Manager.Department.CompanyId);
+            var jobTitles = new List<string>();
+            foreach (var job in companyJobs)
+            {
+                jobTitles.Add(job.JobTitle);
+            }
+
+            // Creates and adds the header's row
+            DataGridHeader = new EvaluattionBaseDataGridHeaderComponent(this)
+            { 
+                OptionNames = jobTitles
+            };
+            // Adds it to the stack panel
+            InfoDataStackPanel.Children.Add(DataGridHeader);
+
             // Query the reports of the manager and add them as rows to the data grid
             var evaluationResults = await Services.GetDataStorage.GetManagerEvaluationsAsync(Manager.Id);
             // For each job position in the list...
@@ -65,6 +86,7 @@ namespace Vaseis
                 { 
                     NumOfRemainingEvaluations = openEvaluations.Count().ToString()
                 };
+
                 // ( When the plus button is clicked )
                 // Create the show dialog command
                 row.ShowDialogCommand = new RelayCommand(async () => 
@@ -79,6 +101,7 @@ namespace Vaseis
                 });
                 // Adds the row to the stack panel
                 InfoDataStackPanel.Children.Add(row);
+                RowList.Add(row);
             }
         }
         #endregion
@@ -90,10 +113,9 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            // Creates and adds the header's row
-            DataGridHeader = new EvaluattionBaseDataGridHeaderComponent();
-            // Adds it to the stack panel
-            InfoDataStackPanel.Children.Add(DataGridHeader);
+            
+            RowList = new List<EvaluationBaseDataGridRowComponent>();
+
         }
 
         /// <summary>

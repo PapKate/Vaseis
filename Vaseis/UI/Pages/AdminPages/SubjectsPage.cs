@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
+using static Vaseis.Styles;
 
 namespace Vaseis
 {
@@ -24,12 +28,12 @@ namespace Vaseis
         /// <summary>
         /// The Page's stackpanel
         /// </summary>
-        protected StackPanel subjectsStackPanel { get; private set; }
+        protected StackPanel SubjectsStackPanel { get; private set; }
 
         /// <summary>
         /// THe page's grid
         /// </summary>
-        protected Grid pageGrid { get; private set; }
+        protected Grid PageGrid { get; private set; }
 
         /// <summary>
         /// The add subject Button
@@ -39,10 +43,38 @@ namespace Vaseis
         ///<summary>
         ///Used for all the options for the picker inside the dialog "new Subject"
         ///</summary>
-        protected List<string> allTheSubjectTitles { get; private set; }
+        protected List<string> AllTheSubjectTitles { get; private set; }
         #endregion
 
         #region Dependency Properties
+
+        #region New card
+
+        /// <summary>
+        /// The new card bool
+        /// </summary>
+        public bool NewCard
+        {
+            get { return (bool)GetValue(NewCardProperty); }
+            set { SetValue(NewCardProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NewCard"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NewCardProperty = DependencyProperty.Register(nameof(NewCard), typeof(bool), typeof(SubjectsPage), new PropertyMetadata(OnNewCardChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property
+        /// </summary>
+        private static void OnNewCardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as SubjectsPage;
+
+            sender.OnNewCardChangedCore(e);
+        }
+
+        #endregion
 
         #endregion
 
@@ -64,30 +96,39 @@ namespace Vaseis
 
             var subjects = await Services.GetDataStorage.GetSubjects();
        
-            allTheSubjectTitles = new List<string>();
+            AllTheSubjectTitles = new List<string>();
 
             foreach (var subject in subjects)
             {
+                AllTheSubjectTitles.Add(subject.Title);
+
                 var subjectsChildren = new List<string>();
 
                 foreach (var children in subject.ChildrenSubjects)
                 {
                     subjectsChildren.Add(children.Title);
-
-                    allTheSubjectTitles.Add(children.Title);
                 }
 
-                var showSubject = new SubjectsComponent()
+                var subjectCard = new SubjectCardComponent()
                 {
                     Title = subject.Title,
                     Description = subject.Description,
                     DataNames = subjectsChildren
                 };
 
-                subjectsStackPanel.Children.Add(showSubject);
-
+                SubjectsStackPanel.Children.Add(subjectCard);
             }
         
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnNewCardChanged(DependencyPropertyChangedEventArgs e)
+        {
+
         }
 
         #endregion
@@ -96,34 +137,26 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-            pageGrid = new Grid() { };
+            PageGrid = new Grid() { };
 
             scrollViewer = new ScrollViewer();
 
-            subjectsStackPanel = new StackPanel();
+            SubjectsStackPanel = new StackPanel();
 
-            scrollViewer.Content = subjectsStackPanel;
+            scrollViewer.Content = SubjectsStackPanel;
 
-            var AddSubjectButton = new Button()
-            {
-                HorizontalAlignment = HorizontalAlignment.Right,
-                FontSize = 18,
-                FontWeight = FontWeights.Normal,
-                Content = "Add Subject",
-                Margin = new Thickness(0, 24, 24, 12),
-                Foreground = Styles.DarkBlue.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
-            };
+            var AddSubjectButton = StyleHelpers.CreateDataButton(DarkBlue, "Add subject");
+            AddSubjectButton.HorizontalAlignment = HorizontalAlignment.Right;
 
             AddSubjectButton.Click += ShowAddSubjectDialogComponentOnClick;
 
-            subjectsStackPanel.Children.Add(AddSubjectButton);
+            SubjectsStackPanel.Children.Add(AddSubjectButton);
 
         
 
-            pageGrid.Children.Add(scrollViewer);
+            PageGrid.Children.Add(scrollViewer);
 
-            Content = pageGrid;
+            Content = PageGrid;
 
         }
 
@@ -137,17 +170,62 @@ namespace Vaseis
             // Creates a new user dialog
             var newSubject = new NewSubjectDialogComponent()
             {
-                ParentSubjectOptions = allTheSubjectTitles
+                ParentSubjectOptions = AllTheSubjectTitles,
+                CreateCommand = new RelayCommand(() =>
+                {
+                    NewCard = true;
+                })
             };
             // Adds it to the page grid
 
             //gia na mhn kollaei sto ena column to prwto 
-            subjectsStackPanel.Children.Add(newSubject);
+            PageGrid.Children.Add(newSubject);
 
             // Sets the is open property to true
             newSubject.IsDialogOpen = true;
         }
 
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private async void OnNewCardChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+            // If the new card is true...
+            if (newValue == true)
+            {
+                // For the new company to be created first
+                await Task.Delay(200);
+                // Gets all the subjects
+                var subjects = await Services.GetDataStorage.GetSubjects();
+                // Gets the last created
+                var latestSubject = subjects[subjects.Count() - 1];
+                // Adds to the subjects titles the title of the latest one
+                AllTheSubjectTitles.Add(latestSubject.Title);
+
+                var subjectsChildren = new List<string>();
+                if(latestSubject.ChildrenSubjects != null)
+                {
+                    foreach (var children in latestSubject.ChildrenSubjects)
+                    {
+                        subjectsChildren.Add(children.Title);
+                    }
+                }
+
+                // Creates a card component with...
+                var subjectCard = new SubjectCardComponent()
+                {
+                    Title = latestSubject.Title,
+                    Description = latestSubject.Description,
+                    DataNames = subjectsChildren
+                };
+                // Adds the card to the stack panel
+                SubjectsStackPanel.Children.Add(subjectCard);
+
+            }
+        }
 
         #endregion
 

@@ -6,6 +6,9 @@ using System.Windows.Controls;
 
 namespace Vaseis
 {
+    /// <summary>
+    /// The administrator's side menu
+    /// </summary>
     public class AdminSideMenuComponent : BaseSideMenuComponent
     {
         #region Protected Properties
@@ -14,11 +17,6 @@ namespace Vaseis
         /// The companies button
         /// </summary>
         protected SideMenuButtonComponent CompaniesButton { get; private set; }
-
-        /// <summary>
-        /// The admin's profile button
-        /// </summary>
-        protected SideMenuButtonComponent AdminProfileButton { get; private set; }
 
         /// <summary>
         /// The companies button
@@ -42,14 +40,12 @@ namespace Vaseis
 
         #region Private Methods
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
-
-    
             // Create and add the companies button
-
-            // Create and add the my job requests button
-
             CompaniesButton = CreateAndAddSideMenuButton("Companies", PackIconKind.DomainPlus);
 
             CompaniesButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
@@ -58,26 +54,25 @@ namespace Vaseis
                 {
                     Text = "Companies",
                     Icon = PackIconKind.DomainPlus,
-                    Content = new CompaniesPage()
+                    Content = new CompaniesPage(),
+                    IsSelected = true
                 });
+                
             });
 
-
             // Create and add the subjects button
-            SubjectsButton = CreateAndAddSideMenuButton("Subjects", PackIconKind.AlphabetB);
+            SubjectsButton = CreateAndAddSideMenuButton("Subjects", PackIconKind.Transcribe);
 
             SubjectsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
             {
                 TabControl.Items.Add(new TabItemComponent(TabControl)
                 {
                     Text = "Subjects",
-                    Icon = PackIconKind.AlphabetB,
-                    Content = new SubjectsPage()
+                    Icon = PackIconKind.Transcribe,
+                    Content = new SubjectsPage(),
+                    IsSelected = true
                 });
             });
-
-            AddSubject = CreateAndAddSideMenuButton("Add Subject", PackIconKind.Transcribe);
-
 
         }
 

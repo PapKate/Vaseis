@@ -149,8 +149,5 @@ namespace Vaseis
             }
 
             #endregion
-
-     
-
-}
+    }
 }
