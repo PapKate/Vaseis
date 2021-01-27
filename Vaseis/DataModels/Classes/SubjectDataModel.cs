@@ -50,15 +50,9 @@ namespace Vaseis
         #endregion
 
         /// <summary>
-        /// The <see cref="JobPositionDataModel.Id"/> of the related <see cref="JobPositionDataModel"/>
+        /// The job position and subjects
         /// </summary>
-        public int? JobPositionId { get; set; }
-
-        /// <summary>
-        /// The related <see cref="JobPositionDataModel"/>
-        /// </summary>
-        public JobPositionDataModel JobPosition { get; set; }
-      
+        public IEnumerable<JobPositionSubjectDataModel> JobsAndSubjects { get; set; }
 
         #endregion
 

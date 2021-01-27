@@ -157,6 +157,11 @@ namespace Vaseis
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="pageGrid">The page's grid</param>
+        /// <param name="report">The report data model</param>
         public ReportsDataGridRowComponent(Grid pageGrid, ReportDataModel report)
         {
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
@@ -381,20 +386,38 @@ namespace Vaseis
         /// </summary>
         private async void ShowFinalizedDialogOnClick(object sender, RoutedEventArgs e)
         {
-            // Creates a new finalized dialog
-            var finalizedDialog = new MessageDialogComponent()
+            // If the report is not written...
+            if(string.IsNullOrEmpty(ReportTextBlock.Text))
             {
-                Message = "Your report has been successfully sent to an evaluator",
-                Title = "Success",
-                BrushColor = HookersGreen.HexToBrush(),
-                IsDialogOpen = true
-            };
-            // Adds it to the page's grid
-            PageGrid.Children.Add(finalizedDialog);
-            // Updates the report data model
-            await Services.GetDataStorage.UpdateReportAsync(Report, true);
-            // Adds a new evaluation data model
-            await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
+                // Creates a new message dialog
+                var errorDialog = new MessageDialogComponent()
+                {
+                    Message = "Your report could no be finalized as no report was written!\nPlease fill out your report and try again.",
+                    Title = "Error",
+                    BrushColor = Red.HexToBrush(),
+                    IsDialogOpen = true,
+                };
+                // Adds it to the page's grid
+                PageGrid.Children.Add(errorDialog);
+            }
+            // Else...
+            else
+            {
+                // Creates a new finalized dialog
+                var finalizedDialog = new MessageDialogComponent()
+                {
+                    Message = "Your report has been successfully sent to an evaluator",
+                    Title = "Success",
+                    BrushColor = HookersGreen.HexToBrush(),
+                    IsDialogOpen = true
+                };
+                // Adds it to the page's grid
+                PageGrid.Children.Add(finalizedDialog);
+                // Updates the report data model
+                await Services.GetDataStorage.UpdateReportAsync(Report, true);
+                // Adds a new evaluation data model
+                await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
+            }
         }
 
         /// <summary>

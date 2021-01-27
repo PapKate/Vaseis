@@ -75,7 +75,7 @@ namespace Vaseis
         /// <summary>
         /// The comments' input text area
         /// </summary>
-        protected TextBox ParagraphTextBox { get; private set; }
+        public TextBox ParagraphTextBox { get; private set; }
 
         /// <summary>
         /// Finalize and send report button
@@ -395,20 +395,23 @@ namespace Vaseis
         {
             if(ReportDataGridRow != null)
             {
-                //Set the finalized value to true (finalized)
-                Report.IsFinalized = true;
-                //update the inputs to the memory
-                TemporarySaveOnClick(sender, e);
-                //update the finalized value to true
-                await Services.GetDataStorage.UpdateReportAsync(Report, true);
-                // Creates a new evaluation 
-                await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
-                // Collapses the row until the next creation of the data grid's page
-                ReportDataGridRow.Visibility = Visibility.Collapsed;
+                if(string.IsNullOrEmpty(ParagraphTextBox.Text) == false)
+                {
+                    //Set the finalized value to true (finalized)
+                    Report.IsFinalized = true;
+                    //update the inputs to the memory
+                    TemporarySaveOnClick(sender, e);
+                    //update the finalized value to true
+                    await Services.GetDataStorage.UpdateReportAsync(Report, true);
+                    // Creates a new evaluation 
+                    await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
+                    // Collapses the row until the next creation of the data grid's page
+                    ReportDataGridRow.Visibility = Visibility.Collapsed;
+                    FinalizedOnClick(e);
+                    // Closes the dialog
+                    DialogHost.IsOpen = false;
+                }
             }
-            FinalizedOnClick(e);
-            // Closes the dialog
-            DialogHost.IsOpen = false;
         }
 
         #endregion

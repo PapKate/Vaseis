@@ -13,11 +13,11 @@ namespace Vaseis
     /// <summary>
     /// The my evaluations' data grid header
     /// </summary>
-    public class EvaluatorMyEvaluationsDataGridHeaderComponent : EvaluattionBaseDataGridHeaderComponent
+    public class EvaluatorMyEvaluationsDataGridHeaderComponent : DataGridHeaderComponent
     {
         #region Public Properties
 
-        public EvaluatorDataGridComponent MyEvaluationsDataGrid { get; }
+        public BaseDataGridComponent MyEvaluationsDataGrid { get; }
 
         #endregion
 
@@ -116,12 +116,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EvaluatorMyEvaluationsDataGridHeaderComponent()
-        {
-            CreateGUI();
-        }
-
-        public EvaluatorMyEvaluationsDataGridHeaderComponent(EvaluatorDataGridComponent myEvaluationsDataGrid)
+        public EvaluatorMyEvaluationsDataGridHeaderComponent(BaseDataGridComponent myEvaluationsDataGrid)
         {
             MyEvaluationsDataGrid = myEvaluationsDataGrid ?? throw new ArgumentNullException(nameof(myEvaluationsDataGrid));
 

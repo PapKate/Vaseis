@@ -11,6 +11,13 @@ namespace Vaseis
     /// </summary>
     public abstract class BaseDataGridComponent : ContentControl
     {
+
+        /// <summary>
+        /// A list with all the data grid's rows
+        /// </summary>
+        public List<EvaluationBaseDataGridRowComponent> RowList { get; set; }
+
+
         #region Protected Properties
 
         /// <summary>

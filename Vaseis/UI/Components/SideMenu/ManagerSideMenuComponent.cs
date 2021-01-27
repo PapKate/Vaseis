@@ -61,6 +61,7 @@ namespace Vaseis
                 {
                     Text = "Job positions",
                     Icon = PackIconKind.FolderSearch,
+                    IsSelected = true,
                     Content = new ManagerJobPositionsPage(User)
                 });
             });
@@ -74,6 +75,7 @@ namespace Vaseis
                 {
                     Text = "Reports",
                     Icon = PackIconKind.ClipboardFlow,
+                    IsSelected = true,
                     Content = new ManagerReportsPage(User)
                 });
             });
@@ -87,6 +89,7 @@ namespace Vaseis
                 {
                     Text = "Evaluation results",
                     Icon = PackIconKind.ClipboardList,
+                    IsSelected = true,
                     Content = new ManagerEvaluationResultsPage(User)
                 });
             });
@@ -100,7 +103,8 @@ namespace Vaseis
                 {
                     Text = "Employees",
                     Icon = PackIconKind.AccountGroup,
-                    Content = new EmployeesPage(User, TabControl)
+                    IsSelected = true,
+                    Content = new ManagerEmployeesPage(User, TabControl)
                 });
             });
         }

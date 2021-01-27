@@ -81,10 +81,28 @@ namespace Vaseis
                     // Create the request command
                     requestDialog.RequestCommand = new RelayCommand(async () =>
                     {
-                        // Removes from the data grid's stack panel the row
-                        InfoDataStackPanel.Children.Remove(row);
-
-                        await Services.GetDataStorage.AddJobPositionRequestAsync(Employee.Id, row.JobPosition.Id, requestDialog.ParagraphText);
+                        // If the request's reason is not filled...
+                        if (string.IsNullOrEmpty(requestDialog.ParagraphTextBox.Text))
+                        {
+                            // Creates error dialog
+                            var errorDialog = new MessageDialogComponent()
+                            {
+                                BrushColor = Red.HexToBrush(),
+                                Message = "The request was not created as the reason for applying was not filled.",
+                                Title = "Error"
+                            };
+                            // Adds it to the page's grid
+                            PageGrid.Children.Add(errorDialog);
+                        }
+                        // Else...
+                        else
+                        {
+                            // Removes from the data grid's stack panel the row
+                            InfoDataStackPanel.Children.Remove(row);
+                            // Adds a job position request
+                            var request = await Services.GetDataStorage.AddJobPositionRequestAsync(Employee.Id, row.JobPosition.Id, requestDialog.ParagraphTextBox.Text);
+                            await Services.GetDataStorage.AddReportAsync(request);
+                        }
                     });
 
                     // Adds it to the page's grid

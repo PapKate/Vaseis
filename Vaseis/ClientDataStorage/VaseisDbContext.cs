@@ -94,6 +94,11 @@ namespace Vaseis
         /// </summary>
         public DbSet<ProjectDataModel> Projects { get; set; }
 
+        /// <summary>
+        /// The relationship between job positions and subjects
+        /// </summary>
+        public DbSet<JobPositionSubjectDataModel> JobPositionSubjects { get; set; }
+
         #endregion
 
         #region Constructors
@@ -260,14 +265,6 @@ namespace Vaseis
 
             #region JobPosiion
 
-            // For the subjects related to a JobPosition
-            modelBuilder.Entity<JobPositionDataModel>()
-                .HasMany(x => x.Subjects)
-                .WithOne(x => x.JobPosition)
-                .HasPrincipalKey(x => x.Id)
-                .HasForeignKey(x => x.JobPositionId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // For the job position requests related to a JobPosition
             modelBuilder.Entity<JobPositionDataModel>()
                 .HasMany(x => x.JobPositionRequests)
@@ -287,6 +284,25 @@ namespace Vaseis
                 .HasForeignKey(x => x.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            #endregion
+
+            #region JobPositionSubject
+
+            modelBuilder.Entity<JobPositionSubjectDataModel>()
+                .HasKey(x => new { x.JobPositionId, x.SubjectId });
+
+            modelBuilder.Entity<JobPositionSubjectDataModel>()
+                .HasOne(x => x.JobPosition)
+                .WithMany(x => x.JobsAndSubjects)
+                .HasForeignKey(x => x.JobPositionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<JobPositionSubjectDataModel>()
+                .HasOne(x => x.Subject)
+                .WithMany(x => x.JobsAndSubjects)
+                .HasForeignKey(x => x.SubjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             #endregion
 
         }

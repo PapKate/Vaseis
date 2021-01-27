@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,19 +12,23 @@ namespace Vaseis
     /// <summary>
     /// A dialog for a new company
     /// </summary>
-    public class NewCompanyDialogComponent : DialogBaseComponent
+    public class NewCompanyDialogComponent : CreateDialogBaseComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The created company data model
+        /// </summary>
+        public CompanyDataModel Company { get; private set; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
         /// List with the input fields names
         /// </summary>
         protected List<string> CompanyInputFields { get; private set; }
-
-        /// <summary>
-        /// Temporary save report button
-        /// </summary>
-        protected Button CreateNewButton { get; private set; }
 
         /// <summary>
         /// The date picker for the date created
@@ -34,6 +39,11 @@ namespace Vaseis
         /// The text input for the department
         /// </summary>
         protected TextInputComponent DepartmentTextBox { get; private set; }
+
+        /// <summary>
+        /// The text input for the department's color
+        /// </summary>
+        protected TextInputComponent DepartmentColorTextBox { get; private set; }
 
         /// <summary>
         /// The add department button
@@ -94,6 +104,11 @@ namespace Vaseis
         /// 
         /// </summary>
         protected TextInputComponent StreetNumber { get; private set; }
+        
+        /// <summary>
+        /// The department names
+        /// </summary>
+        protected Dictionary<string, string> DepartmentData { get; private set; }
 
         #endregion
 
@@ -108,11 +123,28 @@ namespace Vaseis
 
         #region Protected Methods
 
-        protected async void CreateCompany(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Creates and adds a new company
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected async void CreateCompanyAsync(object sender, RoutedEventArgs e)
         {
-            await Services.GetDataStorage.CreateCompany(CompanyName.Text, DOY.Text, AFM.Text, About.Text, TelephoneNumber.Text, City.Text, Country.Text, StreetNumber.Text, StreetAddress.Text, CompanyPicture.Text, null);
-
+            // If the department's text blocks for name and color are null... do nothing
+            if (string.IsNullOrEmpty(DepartmentTextBox.Text) || string.IsNullOrEmpty(DepartmentColorTextBox.Text)) { }
+            // Else...
+            else 
+                // Add them to the dictionary
+                DepartmentData.Add(DepartmentTextBox.Text, DepartmentColorTextBox.Text);
+            // Creates the company
+            Company = await Services.GetDataStorage.CreateCompanyAsync(CompanyName.Text, DOY.Text, AFM.Text, 
+                                                                              About.Text, TelephoneNumber.Text, 
+                                                                              City.Text, Country.Text, StreetNumber.Text, 
+                                                                              StreetAddress.Text, CompanyPicture.Text,
+                                                                              DepartmentData);
+            // Closes the dialog
             CloseDialogOnClick(this, e);
+
         }
 
         #endregion
@@ -124,6 +156,8 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
+            DepartmentData = new Dictionary<string, string>();
+
             // Sets the dialog's title
             DialogTitle.Text = "New company form";
 
@@ -151,12 +185,12 @@ namespace Vaseis
             About = new TextInputComponent()
             {
                 // With hint text the name
-                HintText = "AFM",
+                HintText = "About",
                 Margin = new Thickness(24),
                 Width = 240
             };
             // And adds it to the dialog's input wrap panel
-            InputWrapPanel.Children.Add(AFM);
+            InputWrapPanel.Children.Add(About);
 
             DOY = new TextInputComponent()
             {
@@ -226,7 +260,7 @@ namespace Vaseis
                 Width = 240
             };
             // And adds it to the dialog's input wrap panel
-            InputWrapPanel.Children.Add(StreetNumber);
+            InputWrapPanel.Children.Add(CompanyPicture);
 
             // Creates a new text input component
             DepartmentTextBox = new TextInputComponent()
@@ -234,10 +268,21 @@ namespace Vaseis
                 // With hint text the name
                 HintText = "Department",
                 Margin = new Thickness(24),
-                Width = 220
+                Width = 240
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(DepartmentTextBox);
+
+            // Creates a new text input component
+            DepartmentColorTextBox = new TextInputComponent()
+            {
+                // With hint text the name
+                HintText = "D's hex color",
+                Margin = new Thickness(24),
+                Width = 220
+            };
+            // Adds it to the wrap panel
+            InputWrapPanel.Children.Add(DepartmentColorTextBox);
 
             // The add department
             AddDepartmentButton = new Button()
@@ -264,36 +309,40 @@ namespace Vaseis
             InputWrapPanel.Children.Add(AddDepartmentButton);
 
             // Creates the create a new user button
-            CreateNewButton = StyleHelpers.CreateDialogButton(HookersGreen, "Create company");
+            CreateButton.Background = DarkBlue.HexToBrush();
             // Adds it to the buttons' stack panel
-            CreateNewButton.Click += CreateCompany;
-
-            DialogButtonsStackPanel.Children.Add(CreateNewButton);
-
-            // Sets the component's content to the dialog host
-            Content = DialogHost;
+            CreateButton.Click += CreateCompanyAsync;
         }
 
         /// <summary>
         /// The user's input text on department text box
         /// </summary>
-        private string inputText;
+        private string departmentInputText;
+        /// <summary>
+        /// The user's input text on department color text box
+        /// </summary>
+        private string departmentColorInputText;
 
         /// <summary>
         /// Creates a department input field
         /// </summary>
         private void CreateDepartmentInputField(object sender, RoutedEventArgs e)
         {
-            inputText = DepartmentTextBox.InputTextBox.Text;
-            CreateInputField(inputText);
-        }
+            departmentInputText = DepartmentTextBox.InputTextBox.Text;
+            departmentColorInputText = DepartmentColorTextBox.InputTextBox.Text;
+            if (string.IsNullOrEmpty(departmentInputText) || string.IsNullOrEmpty(departmentColorInputText)) { }
+            else
+                DepartmentData.Add( departmentInputText, departmentColorInputText);
+            CreateInputField(departmentInputText, "Department");
+            CreateInputField(departmentColorInputText, "Department hex color");
 
+        }
 
         /// <summary>
         /// Creates a new input field
         /// </summary>
         /// <param name="inputHint">The hint text</param>
-        private void CreateInputField(string inputText)
+        private void CreateInputField(string inputText, string hintText)
         {
             // Creates a new text input component
             InputTextBox = new TextBox()
@@ -307,15 +356,15 @@ namespace Vaseis
                 HorizontalAlignment = HorizontalAlignment.Stretch,
             };
             // Adds a hint
-            ControlsFactory.CreateHint("Department", InputTextBox);
+            ControlsFactory.CreateHint(hintText, InputTextBox);
 
             // Sets the first department's input text to null
             DepartmentTextBox.InputTextBox.Text = "";
+            DepartmentColorTextBox.InputTextBox.Text = "";
 
             // And adds it to the dialog's input wrap panel
             InputWrapPanel.Children.Add(InputTextBox);
         }
-
 
         #endregion
     }

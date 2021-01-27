@@ -54,7 +54,8 @@ namespace Vaseis
                 {
                     Text = "Company",
                     Icon = PackIconKind.Domain,
-                    Content = new CompanyPage(User.Department.Company)
+                    Content = new CompanyPage(User.Department.Company),
+                    IsSelected = true
                 };
 
                 TabControl.Items.Add(tabItem);

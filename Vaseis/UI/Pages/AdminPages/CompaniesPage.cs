@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MaterialDesignThemes.Wpf;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
 using static Vaseis.Styles;
 
 namespace Vaseis
 {
-
-    //The companies page for the admin's side menu
+    /// <summary>
+    /// The companies page for the administrator's side menu
+    /// </summary>
     public class CompaniesPage : ContentControl
     {
         #region Protected Properties
@@ -16,42 +20,64 @@ namespace Vaseis
         /// <summary>
         /// The page's ScrollViewer
         /// </summary>
-        protected ScrollViewer scrollViewer { get; private set; }
+        protected ScrollViewer ScrollViewer { get; private set; }
 
         /// <summary>
-        /// The Page's stackpanel
+        /// The Page's stack panel
         /// </summary>
-
-        protected StackPanel companiesStackPanel { get; private set; }
-
-        protected StackPanel companiesStackPanel{ get; private set; }
-
+        protected StackPanel CompaniesStackPanel { get; private set; }
 
         /// <summary>
         /// THe page's grid
         /// </summary>
-        protected Grid pageGrid { get; private set; }
+        protected Grid PageGrid { get; private set; }
+
+        /// <summary>
+        /// The extra grid for error dialogs
+        /// </summary>
+        protected Grid DialogHelperGrid { get; private set; }
 
         #endregion
 
         #region Dependency Properties
 
+        #region New card
+
+        /// <summary>
+        /// The new card bool
+        /// </summary>
+        public bool NewCard
+        {
+            get { return (bool)GetValue(NewCardProperty); }
+            set { SetValue(NewCardProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NewCard"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty NewCardProperty = DependencyProperty.Register(nameof(NewCard), typeof(bool), typeof(CompaniesPage), new PropertyMetadata(OnNewCardChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property
+        /// </summary>
+        private static void OnNewCardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as CompaniesPage;
+
+            sender.OnNewCardChangedCore(e);
+        }
+
         #endregion
 
+        #endregion
 
-        #endregion      
         #region Constructors
 
-
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CompaniesPage()
-
-        {
-
-
         {         
-           
-
-
             CreateGUI();
         }
 
@@ -63,77 +89,100 @@ namespace Vaseis
         {
             base.OnInitialized(e);
 
-
-            //update sta companies (afou mporei na prose8ei)
-
-            var companies = await Services.GetDataStorage.GetCompanies();
-
+            // Gets all the companies
+            var companies = await Services.GetDataStorage.GetCompaniesWithDataAsync();
+            // For each company
             foreach (var company in companies)
             {
-                var companyComponent = new CompaniesComponent(company);
-
-                companiesStackPanel.Children.Add(companyComponent);
+                // Creates a card component with...
+                var companyCard = new CompanyCardComponent(company, PageGrid);
+                // Adds the card to the stack panel
+                CompaniesStackPanel.Children.Add(companyCard);
             }
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnNewCardChanged(DependencyPropertyChangedEventArgs e)
+        {
 
         }
+
         #endregion
 
-
-
-
-        /// <summary>
-        /// Creates and adds the required GUI elements for the administrator's companies page
-        /// </summary>
         #region Private Methods
 
+        /// <summary>
+        /// Creates and adds the required GUI elements
+        /// </summary>
         private void CreateGUI()
         {
-            pageGrid = new Grid();
+            PageGrid = new Grid();
+            DialogHelperGrid = new Grid();
+            DialogHelperGrid.Children.Add(PageGrid);
+            ScrollViewer = new ScrollViewer();
 
-            scrollViewer = new ScrollViewer();
+            CompaniesStackPanel = new StackPanel();
 
-            companiesStackPanel = new StackPanel();
+            PageGrid.Children.Add(ScrollViewer);
 
-            pageGrid.Children.Add(scrollViewer);
+            var addCompanyButton = StyleHelpers.CreateDataButton(DarkBlue, "Add company");
+            addCompanyButton.HorizontalAlignment = HorizontalAlignment.Right;
+            addCompanyButton.Click += ShowCompanyDialogComponentOnClick;
+            CompaniesStackPanel.Children.Add(addCompanyButton);
 
-            var addCompany = new Button()
-            {
-                HorizontalAlignment = HorizontalAlignment.Right,
-                FontSize = 18,
-                FontWeight = FontWeights.Normal,
-                Content = "Add Company",
-                Margin = new Thickness(0, 24, 24, 12),
-                Foreground = Styles.DarkGray.HexToBrush(),
-                Background = Styles.White.HexToBrush(),
-            };
+            ScrollViewer.Content = CompaniesStackPanel;
 
-            addCompany.Click += ShowCompanyDialogComponentOnClick;
-            companiesStackPanel.Children.Add(addCompany);
-
-            scrollViewer.Content = companiesStackPanel;
-
-            Content = pageGrid;
-
+            Content = DialogHelperGrid;
         }
 
         /// <summary>
-        /// On click shows the change password dialog
+        /// On click shows the new company dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ShowCompanyDialogComponentOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            var newCompany = new NewCompanyDialogComponent();
+            var newCompanyDialog = new NewCompanyDialogComponent
+            {
+                CreateCommand = new RelayCommand(() =>
+                {
+                    NewCard = true;
+                })
+            };
             // Adds it to the page grid
-
-            //gia na mhn kollaei sto ena column to prwto 
-            companiesStackPanel.Children.Add(newCompany);
+            PageGrid.Children.Add(newCompanyDialog);
 
             // Sets the is open property to true
-            newCompany.IsDialogOpen = true;
+            newCompanyDialog.IsDialogOpen = true;
         }
 
+        /// <summary>
+        /// Handles the change of the <see cref="NewCard"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private async void OnNewCardChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (bool)e.NewValue;
+            // If the new card is true...
+            if (newValue == true)
+            {
+                // For the new company to be created first
+                await Task.Delay(200);
+                // Gets all the companies
+                var companies = await Services.GetDataStorage.GetCompaniesWithDataAsync();
+                // Gets the last created
+                var latestCompany = companies[companies.Count() - 1];
+                // Creates a card component with...
+                var companyCard = new CompanyCardComponent(latestCompany, PageGrid);
+                // Adds the card to the stack panel
+                CompaniesStackPanel.Children.Add(companyCard);
+            }
+        }
 
         #endregion
 

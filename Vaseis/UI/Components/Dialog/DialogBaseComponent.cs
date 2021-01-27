@@ -268,10 +268,10 @@ namespace Vaseis
             InputScrollViewer = new ScrollViewer()
             {
                 VerticalAlignment = VerticalAlignment.Top,
-                // With content the bio's text block
+                // With content the input stack panel
                 Content = InputStackPanel,
-                CanContentScroll = true,
-                MaxHeight = 680
+                MaxHeight = 600,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
             };
 
             // Adds to the inner grid the wrap panel

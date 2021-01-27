@@ -34,11 +34,6 @@ namespace Vaseis
         /// </summary>
         protected EvaluatorMyEvaluationsDataGridHeaderComponent DataGridHeader { get; private set; }
 
-        /// <summary>
-        /// A list with all the data grid's rows
-        /// </summary>
-        public List<EvaluatorDataGridRowComponent> RowList { get; private set; }
-
         #endregion
 
         #region Constructors
@@ -106,7 +101,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            RowList = new List<EvaluatorDataGridRowComponent>();
+            RowList = new List<EvaluationBaseDataGridRowComponent>();
         }
 
         #endregion

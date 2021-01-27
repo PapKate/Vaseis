@@ -52,9 +52,9 @@ namespace Vaseis
         public JobDataModel Job { get; set; }
 
         /// <summary>
-        /// The job position subjects
+        /// The job position and subjects
         /// </summary>
-        public IEnumerable<SubjectDataModel> Subjects { get; set; }
+        public IEnumerable<JobPositionSubjectDataModel> JobsAndSubjects { get; set; }
 
         /// <summary>
         /// The job position's requests

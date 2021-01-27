@@ -1,10 +1,10 @@
-﻿using System.Windows.Controls;
+﻿using MaterialDesignThemes.Wpf;
+
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 using static Vaseis.Styles;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Vaseis
 {
@@ -92,7 +92,6 @@ namespace Vaseis
             {
                 FontSize = 24,
                 Foreground = DarkGray.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
                 Padding = new Thickness(4, 0, 4, 0)
             };
             // Binds the input text box's text property to text
@@ -107,7 +106,6 @@ namespace Vaseis
                 Foreground = DarkPink.HexToBrush(),
                 FontSize = 24,
                 FontFamily = Calibri,
-                FontWeight = FontWeights.Normal,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 IsHitTestVisible = false,
             };

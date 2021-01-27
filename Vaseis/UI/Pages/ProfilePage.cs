@@ -28,7 +28,7 @@ namespace Vaseis
         /// <summary>
         /// The change password dialog component
         /// </summary>
-        protected ChangePasswordDialog ChangePasswordDialog { get;}
+        protected ChangePasswordDialog ChangePasswordDialog { get; private set; }
 
         /// <summary>
         /// The page's grid
@@ -142,11 +142,6 @@ namespace Vaseis
 
         #endregion
 
-        #region Dependency Properties
-
-       
-        #endregion
-       
         #region Constructors
 
         /// <summary>
@@ -277,42 +272,30 @@ namespace Vaseis
 
             if (User.Type != UserType.Administrator)
             {
-
                 // Creates the company text blocks
                 CompanyData = new TitleAndTextComponent()
                 {
                     Title = "Company",
 
                     Text = User.Department.Company.Name,
-
-
-            if (User.Type != UserType.Administrator)
-            {
-                // Creates the company text blocks
-                CompanyData = new TitleAndTextComponent()
-                {
-                    Title = "Company",
-
-                    Text = User.Department.Company.Name,
-
 
                     Margin = new Thickness(16)
                 };
                 // Adds them to the stack panel
                 PersonalDataStackPanel.Children.Add(CompanyData);
+
+                // Creates the years of experience title and text component
+                YearsOfXp = new TitleAndTextComponent()
+                {
+                    Title = "Years of experience",
+
+                    Text = User.YearsOfExperience.ToString(),
+
+                    Margin = new Thickness(16),
+                };
+                // Adds them to the stack panel
+                PersonalDataStackPanel.Children.Add(YearsOfXp);
             }
-
-            // Creates the years of experience title and text component
-            YearsOfXp = new TitleAndTextComponent()
-            {
-                Title = "Years of experience",
-
-                Text = User.YearsOfExperience.ToString(),
-
-                Margin = new Thickness(16),
-            };
-            // Adds them to the stack panel
-            PersonalDataStackPanel.Children.Add(YearsOfXp);
 
             // Creates the email BioComponent
             EmailData = new EditableTextComponent()
@@ -429,8 +412,6 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(JobTitleBlock);
 
             //The evaluators Average (taken after a sum through joins)
-
-            //The evaluators Average 
             // Creates the evaluator's average text block
             EvalsAverage = new TextBlock()
             {
@@ -444,13 +425,12 @@ namespace Vaseis
             CompanyDataStackPanel.Children.Add(EvalsAverage);
       
 
-            //if he aint evaluator we dont want his evaluator average to be shown
-            if (User.Type == UserType.Evaluator) { }
-            else { EvalsAverage.Visibility = Visibility.Collapsed; }
+            //if he ain't evaluator we don't want his evaluator average to be shown
+            if (User.Type != UserType.Evaluator)
+                 EvalsAverage.Visibility = Visibility.Collapsed;
 
             if (User.Type != UserType.Administrator)
             {
-
                 // Creates the department's text block
                 DepartmentTitleBlock = new TextBlock()
                 {
@@ -458,26 +438,12 @@ namespace Vaseis
                     FontFamily = Calibri,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Foreground = DarkGray.HexToBrush(),
-                    Text = User.Department.DepartmentName.ToString(),
+                    Text = User.Department.DepartmentName,
                 };
                 // Adds it to the stack panel
                 CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
             }
 
-
-                // Creates the department's text block
-                DepartmentTitleBlock = new TextBlock()
-                {
-                    FontSize = 32,
-                    FontFamily = Calibri,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Foreground = DarkGray.HexToBrush(),
-                    Text = User.Department.DepartmentName.ToString(),
-                };
-                // Adds it to the stack panel
-                CompanyDataStackPanel.Children.Add(DepartmentTitleBlock);
-
-            }
             // Creates a bio tile
             BioTile = new BioComponent()
             {
@@ -546,7 +512,7 @@ namespace Vaseis
 
             foreach (var recommendationPaper in User.RecommendationPapers)
             {
-                recommendationPapers.Add(recommendationPaper.Description);
+                recommendationPapers.Add($"{recommendationPaper.Referee}\n{recommendationPaper.Description}");
             };
 
             RecommendationPapersContainer = new TitleAndListComponent()
@@ -578,18 +544,20 @@ namespace Vaseis
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(LanguagesContainer);
 
-
             #endregion
 
             #region Projects
 
             var projects = new List<string>();
-
-            foreach (var project in User.Projects)
+            if(User.Projects != null)
             {
-                projects.Add(project.Title);
-            };
+                foreach (var project in User.Projects)
+                {
+                    projects.Add(project.Title);
+                };
 
+            }
+            
             ProjectsContainer = new TitleAndListComponent()
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -599,9 +567,7 @@ namespace Vaseis
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(ProjectsContainer);
 
-
             #endregion
-
 
             var DataScrollViewer = new ScrollViewer()
             {
@@ -636,12 +602,10 @@ namespace Vaseis
         private void ShowChangePasswordDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            ChangePasswordDialog = new ChangePasswordDialog(User);
+            ChangePasswordDialog = new ChangePasswordDialog(User,PageGrid);
             // Adds it to the page grid
-
-            //gia na mhn kollaei sto ena column to prwto 
-            Grid.SetColumnSpan(ChangePasswordDialog, 3);
             PageGrid.Children.Add(ChangePasswordDialog);
+            Grid.SetColumnSpan(ChangePasswordDialog, 3);
 
             // Sets the is open property to true
             ChangePasswordDialog.IsDialogOpen = true;

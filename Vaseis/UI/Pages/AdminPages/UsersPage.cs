@@ -18,7 +18,7 @@ namespace Vaseis
         /// <summary>
         /// The create user dialog
         /// </summary>
-        protected NewUserInputDialogComponent CreateUserDialog { get; private set; }
+        protected NewUserDialogComponent CreateUserDialog { get; private set; }
 
         /// <summary>
         /// The create new company dialog

@@ -77,19 +77,22 @@ namespace Vaseis
             var dataButton = new Button()
             {
                 Background = background.HexToBrush(),
-                Height = 80,
-                Width = 280,
+                Height = 48,
+                Width = 200,
                 Content = new TextBlock()
                 {
-                    Foreground = Styles.DarkGray.HexToBrush(),
-                    FontSize = 32,
+                    Foreground = Styles.White.HexToBrush(),
+                    FontSize = 24,
                     FontWeight = FontWeights.SemiBold,
                     FontFamily = Styles.Calibri,
+                    TextAlignment = TextAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
                     Text = text
                 },
                 Padding = new Thickness(8),
                 BorderThickness = new Thickness(0),
-                Margin = new Thickness(32)
+                Margin = new Thickness(0, 24, 24, 0),
             };
 
             // Adds a corner radius

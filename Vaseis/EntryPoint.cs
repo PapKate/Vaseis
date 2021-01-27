@@ -70,7 +70,7 @@ namespace Vaseis
 
                 new CompanyDataModel()
                 {
-                    Name = "CoffeeMesh",
+                    Name = "Τα σουτζουκάκια της Μαρίας",
                     AFM = "240820001",
                     DOY = "Δ.Ο.Υ. ΚΙΛΚΙΣ",
                     Country = "Canada",
@@ -81,37 +81,7 @@ namespace Vaseis
                     StreetNumber = "24",
                     TelephoneNumber = "(+1) 1501199811",
                     DateCreated = new DateTime(2019, 11, 25),
-                    CompanyPicture = "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/bunch-of-roses-as-a-bed-royalty-free-image-964650398-1554826447.jpg?crop=1xw:1xh;center,top&resize=480:*"
-                },
-
-                new CompanyDataModel()
-                {
-                    Name = "YeetBoom",
-                    AFM = "101022018",
-                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
-                    Country = "Serbia",
-                    City = "Belgrade",
-                    StreetName = "Lidl",
-                    About = "Στο άλλο «μέτωπο» της σειράς, η Ελένη πηγαίνει στον εισαγγελέα Αλέξη Γραμματικό και καταθέτει εναντίον του Βόσκαρη. Αναφέρει την κακοποίηση και τους βιασμούς και ξεσπά σκάνδαλο, ενώ ο Βόσκαρης ετοιμάζεται να παντρευτεί την Σοφούλα Τόλλια. Η Ελένη θα νιώσει αποκομμένη από τους πάντες και τα πάντα στο Διαφάνι. Στο πλευρό της ο Λάμπρος, ενώ ο Γραμματικός καλεί σε απολογία τον Βόσκαρη, αλλά χρειάζονται και άλλες μαρτυρίες από άλλες γυναίκες για να του απαγγελθούν κατηγορίες. Ο ίδιος ο Αλέξης Γραμματικός θα προσεγγίσει μια πρώην κρατούμενη του Βόσκαρη για να την πείσει να μιλήσει εναντίον του τότε διευθυντή των φυλακών. ",
-                    StreetNumber = "27",
-                    TelephoneNumber = "(+41) 2412202012",
-                    DateCreated = new DateTime(2020, 1, 11),
-                    CompanyPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3utSbC6mOgwUqi05dtGp-btsnCG4lbkjFQ&usqp=CAU"
-                },
-
-                new CompanyDataModel()
-                {
-                    Name = "CEID",
-                    AFM = "101090018",
-                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
-                    Country = "Greece",
-                    City = "Patras",
-                    StreetName = "Filippimenos",
-                    StreetNumber = "2",
-                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
-                    TelephoneNumber = "(+41) 2612202012",
-                    DateCreated = new DateTime(2019, 2, 2),
-                    CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
+                    CompanyPicture = "https://beets-me.com/wp-content/uploads/2020/05/Soutzoukakia-smyrneika-fakis-6.jpg"
                 },
 
                 new CompanyDataModel()
@@ -132,22 +102,7 @@ namespace Vaseis
                     StreetNumber = "12",
                     TelephoneNumber = "(+41) 2612202012",
                     DateCreated = new DateTime(2020, 10, 10),
-                    CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
-                },
-
-                new CompanyDataModel()
-                {
-                    Name = "Ta Soutzoukakia Ths Marias",
-                    AFM = "101000218",
-                    DOY = "Δ.Ο.Υ. ΠΑΤΡΑΣ",
-                    Country = "Greece",
-                    City = "Patras",
-                    StreetName = "Apollonws",
-                    StreetNumber = "8",
-                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",           
-                    TelephoneNumber = "(+30) 2612202212",
-                    DateCreated = new DateTime(2020, 10, 20),
-                    CompanyPicture = "https://www.upatras.gr/sites/www.upatras.gr/files/posters/01f1a05053c6242fcfa23075e5b963c1_xl.jpg"
+                    CompanyPicture = "https://www.patrasevents.gr/imgsrv/f/full/1282553.jpg"
                 },
 
                 new CompanyDataModel()
@@ -162,38 +117,8 @@ namespace Vaseis
                     StreetNumber = "4",
                     TelephoneNumber = "(+60) 2610202212",
                     DateCreated = new DateTime(2020, 10, 19),
-                    CompanyPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTzDpT-yPy_tvXc6k7_vq7HMmgULZZ6snw1A&usqp=CAU"
+                    CompanyPicture = "https://media-cdn.tripadvisor.com/media/photo-p/18/14/32/bf/batterbutlers-logo.jpg"
                 },
-
-                new CompanyDataModel()
-                {
-                    Name = "YardTalesAndFlavours",
-                    AFM = "101000408",
-                    DOY = "Δ.Ο.Υ. ΕΡΕΤΡΙΑΣ",
-                    Country = "Greece",
-                    City = "Eretria",
-                    StreetName = "Zacharia",
-                    About = "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
-                    StreetNumber = "2",
-                    TelephoneNumber = "(+41) 2229034008",
-                    DateCreated = new DateTime(2018, 5, 6),
-                    CompanyPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaTNkUnPkAKLDJt6bdUAFheFGj-5VlT-wuLQ&usqp=CAU"
-                },
-
-                new CompanyDataModel()
-                {
-                    Name = "Google",
-                    AFM = "101008408",
-                    DOY = "Δ.Ο.Υ. ΚΑΡΔΙΤΣΑΣ ",
-                    Country = "Malta",
-                    City = "Oslo",
-                    About =  "Ο Μελέτης πάει να ζητήσει εξηγήσεις από τον Θέμελη που τους κατέδωσε, ενώ ο Κωνσταντής πρέπει να πάρει μια σημαντική απόφαση για την παράνομη επιχείρησή του. Τα νέα του αρραβώνα της Σοφούλας με τον Βόσκαρη σκάνε σα βόμβα στο καφενείο. Πώς θα το πούνε στον Άγγελο; Η Ελένη ζητάει από τον Τάκη να φύγει από το σπίτι τους, αλλά εκείνος είναι αποφασισμένος να ξανακερδίσει τη Δρόσω και παίζει το τελευταίο του χαρτί.",
-                    StreetName = "Queen Elizabeta's",
-                    StreetNumber = "666",
-                    TelephoneNumber = "(+30) 2229035208",
-                    DateCreated = new DateTime(2018, 5, 6),
-                    CompanyPicture = "https://www.google.gr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png"
-                }
 
             });
 
@@ -208,16 +133,16 @@ namespace Vaseis
             #region Departments
 
             // Creates a list of departments and fills it with every possible option
-            var departmentOptionsList = new Dictionary<Department, string>()
+            var departmentOptionsList = new Dictionary<string, string>()
                                 {
-                                    { Department.Research, "F5D547"},
-                                    { Department.Purchasing, "EF8354"},
-                                    { Department.Production, "8EB8E5"},
-                                    { Department.Marketing, "028090"},
-                                    { Department.HumanResourceManagement, "397367"},
-                                    { Department.Finance, "2E2E2E"},
-                                    { Department.Development, "9F1747"},
-                                    { Department.Accounting, "70C1B3"}
+                                    { "Research", "F5D547"},
+                                    { "Purchasing", "EF8354"},
+                                    { "Production", "8EB8E5"},
+                                    { "Marketing", "028090"},
+                                    { "Human resource management", "397367"},
+                                    { "Finance", "2E2E2E"},
+                                    { "Development", "9F1747"},
+                                    { "Accounting", "70C1B3"}
                                 };
 
             // For each and every company in the companies list...
@@ -247,7 +172,7 @@ namespace Vaseis
             var jobs = new Faker<JobDataModel>()
                             .RuleFor(x => x.JobTitle, faker => faker.Name.JobTitle())
                             .RuleFor(x => x.Salary, faker => faker.Random.Int(560, 10000))
-                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
+                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 32))
                             .Generate(200);
 
             // Adds the generated jobs in the users db set
@@ -312,11 +237,9 @@ namespace Vaseis
                             .RuleFor(x => x.YearsOfExperience, faker => faker.Random.Int(1, 50))
                             // The user type is employee
                             .RuleFor(x => x.Type, faker => UserType.Employee)
-                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 72))
+                            .RuleFor(x => x.DepartmentId, faker => faker.Random.Int(1, 32))
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(32))
-                            .Generate(400);
-
-            
+                            .Generate(200);
 
             // Adds the generated employees in the users db set
             context.Users.AddRange(employeesDm);
@@ -345,7 +268,8 @@ namespace Vaseis
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             .RuleFor(x => x.Type, faker => UserType.Manager)
-                            .RuleFor(x => x.Department, faker => department)
+                            .RuleFor(x => x.DepartmentId, department.Id)
+                            .RuleFor(x => x.CompanyId, company.Id)
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(32))
                             .Generate(1);
                     // Adds the generated manager to the users db set
@@ -379,9 +303,10 @@ namespace Vaseis
                             .RuleFor(x => x.ProfilePicture, faker => faker.Internet.Avatar())
                             .RuleFor(x => x.RegistrationDate, faker => faker.Date.Past(5, DateTime.Now))
                             .RuleFor(x => x.Type, faker => UserType.Evaluator)
-                            .RuleFor(x => x.Department, faker => department)
+                            .RuleFor(x => x.DepartmentId, department.Id)
+                            .RuleFor(x => x.CompanyId, company.Id)
                             .RuleFor(x => x.Bio, faker => faker.Lorem.Paragraph(32))
-                            .Generate(3);
+                            .Generate(2);
                     // Adds the generated evaluator to the users db set
                     context.Users.AddRange(evaluator);
                 }
@@ -424,44 +349,7 @@ namespace Vaseis
             });
 
             await context.SaveChangesAsync();
-
             var admins = await context.Users.ToListAsync();
-
-            context.Users.AddRange(new List<UserDataModel>() //in memory
-            {
-                new UserDataModel()
-                {
-                    Username = "GewrgikaMantalakia",
-                    Password = "wxAmanAman",
-                    Email = "vasoulakok@hotmail.com",
-                    ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfl8a3emNH5v8fgYNkyMvnXkcqyGiW_2KLQ&usqp=CAU",
-                    FirstName = "Vasiliki",
-                    LastName = "Kokkala",
-                    YearsOfExperience = 55,
-                    Type = UserType.Administrator,
-                    Bio = "Τρακτέρ ή γεωργικός ελκυστήρας ονομάζεται το όχημα με μεγάλη δύναμη, ώστε να μπορεί να μετακινεί γεωργικά και άλλα μηχανήματα. Έχει όμως επικρατήσει σε διεθνή κλίμακα, να λέγονται τρακτέρ τα μηχανήματα που προσφέρουν τεράστιες υπηρεσίες στην καλλιέργεια της γης. Κυρίως χρησιμοποιείται για την έλξη διαφόρων γεωργικών μηχανημάτων όπως άροτρα, φρέζες, καλλιεργητές, κ.α. καθώς και για συντήρηση αθλητικών χώρων και πάρκων. Αυτή τη δουλειά παλιότερα την έκαναν τα ζώα, οι ανάγκες όμως αυξήθηκαν και η πρόοδος της τεχνολογίας έδωσε τη δυνατότητα να καλυφθούν αυτές με πολύ καλύτερο τρόπο."
-                        +  "Τα τρακτέρ παλιά κινούνταν με ατμό ή βενζίνη, ενώ με την εφεύρεση του ντίζελ επικράτησε ως καύσιμο το πετρέλαιο . Υπάρχουν τρακτέρ τροχοφόρα και ερπυστριοφόρα, τα οποία χρησιμοποιούνται για βαθιά άροση και για τη μετακίνηση σε ανώμαλα εδάφη. Στην Ελλάδα τα πρώτα τρακτέρ κυκλοφόρησαν το 1924."
-                },
-                new UserDataModel()
-                {
-                    Username = "0xCAFFEEBABA",
-                    Password = "neraki23",
-                    Email = "papapap@kaka.com",
-                    ProfilePicture = "https://image.freepik.com/free-photo/white-coffee-cup-roasted-coffee-beans-around_35570-794.jpg",
-                    FirstName = "Katherine",
-                    LastName = "Papa",
-                    YearsOfExperience = 5,
-                    Type = UserType.Administrator,
-                    Bio = "The GRANT statement grants privileges to MySQL user accounts. To grant a privilege with GRANT, you must have the GRANT OPTION privilege, and you must have the privileges that you are granting. (Alternatively, if you have the UPDATE privilege for the grant tables in the mysql system database, you can grant any account any privilege.) When the read_only system variable is enabled, GRANT additionally requires the SUPER privilege."
-                        + "The REVOKE statement is related to GRANT and enables administrators to remove account privileges. See Section 13.7.1.6, “REVOKE Statement”."
-                }
-            });
-
-            await context.SaveChangesAsync();
-
-            var admins = await context.Users.ToListAsync();
-
-
 
             #endregion
 
@@ -483,9 +371,9 @@ namespace Vaseis
                             // Have the same department id as the manager
                             return evaluator.DepartmentId == manager.DepartmentId;
                         });
-                        // Get a random number between 0 and 2
-                        // ( Every department has 3 evaluators )
-                        var i = new Random().Next(0, 2);
+                        // Get a random number between 0 and 1
+                        // ( Every department has 2 evaluators )
+                        var i = new Random().Next(0, departmentEvaluators.Count() - 1);
                         // Create an new users and job files pair
                         var pair = new UsersJobFilesPairDataModel()
                         {
@@ -512,18 +400,18 @@ namespace Vaseis
             foreach(var employee in employees)
             {
                 // Returns a list of job positions found with...
-                var companyJobPositions = jobPositions.FindAll(delegate (JobPositionDataModel jobPosition)
+                var departmentJobPositions = jobPositions.FindAll(delegate (JobPositionDataModel jobPosition)
                 {
                     // The same department id as the employee
-                    return jobPosition.Job.Department.CompanyId == employee.Department.CompanyId;
+                    return jobPosition.Job.DepartmentId == employee.DepartmentId;
                 });
-                if(companyJobPositions.Count() > 0)
+                if(departmentJobPositions.Count() > 0)
                 {
-                    // Gets a random number between 0 and the count of the company's job positions list
-                    var i = new Random().Next(0, companyJobPositions.Count() - 1);
+                    // Gets a random number between 0 and the count of the department's job positions list
+                    var i = new Random().Next(0, departmentJobPositions.Count() - 1);
                     // Sets the employee's job position id to the randomly picked job position's id
-                    employee.JobPositionId = companyJobPositions[i].Id;
-                    employee.DepartmentId = companyJobPositions[i].Job.DepartmentId;
+                    employee.JobPositionId = departmentJobPositions[i].Id;
+                    employee.CompanyId = departmentJobPositions[i].Job.Department.CompanyId;
                 }
             }
 
@@ -556,7 +444,7 @@ namespace Vaseis
 
             // Creates a list of job position requests data model for the job position requests
             var jobPositionsRequests = new Faker<JobPositionRequestDataModel>()
-                                    .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(101, 120))
+                                    .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(101, 160))
                                     .RuleFor(x => x.RequestsReason, faker => faker.Lorem.Sentences(3))
                                     .Generate(500);
 
@@ -668,7 +556,7 @@ namespace Vaseis
                             .RuleFor(x => x.Title, faker => faker.Random.Enum<DegreeTitle>())
                             .RuleFor(x => x.School, faker => faker.Random.Enum<School>())
                             .RuleFor(x => x.LevelOfEducation, faker => faker.Random.Enum<LevelOfEducation>())
-                            .Generate(100);
+                            .Generate(50);
 
             // Adds the generated degrees in the degrees db set
             context.Degrees.AddRange(degrees);
@@ -684,9 +572,9 @@ namespace Vaseis
             var acquiredDegrees = new Faker<AcquiredDegreeDataModel>()
                             .RuleFor(x => x.Grade, faker => faker.Random.Int(5, 10))
                             .RuleFor(x => x.YearEarned, faker => faker.Date.Past(30, DateTime.Now))
-                            .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
-                            .RuleFor(x => x.DegreeId, faker => faker.Random.Int(1, 40))
-                            .Generate(60);
+                            .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                            .RuleFor(x => x.DegreeId, faker => faker.Random.Int(1, 50))
+                            .Generate(200);
 
             // Adds the generated acquired degrees in the acquired degrees db set
             context.AcquiredDegrees.AddRange(acquiredDegrees);
@@ -701,8 +589,8 @@ namespace Vaseis
             var recommendationPapers = new Faker<RecomendationPaperDataModel>()
                 .RuleFor(x => x.Referee, faker => faker.Person.FullName)
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
-                .Generate(500);
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                .Generate(400);
 
 
             // Adds the generated acquired recommendationPapers in the recommendation Papers db set
@@ -715,10 +603,8 @@ namespace Vaseis
 
             #region Subjects
 
-
             ///Below i have created many different subjects so that i can relate 
             ///Many fathers
-
             context.Subjects.AddRange(new List<SubjectDataModel>()
             {
                 new SubjectDataModel()
@@ -750,37 +636,43 @@ namespace Vaseis
             // Add the companies to the database
             await context.SaveChangesAsync();
 
-            // List that contains all the companies
-            var subjects = await context.Subjects.ToListAsync();
-
-
-            var moreSubjects = new Faker<SubjectDataModel>()
-           .RuleFor(x => x.Title, faker => faker.Commerce.Product())
-           .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-           .RuleFor(x => x.SubjectId, faker => faker.Random.Int(1, 3))
-           //.RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 120))
-           .Generate(40);
-
             var childrenSubjects = new Faker<SubjectDataModel>()
                                .RuleFor(x => x.Title, faker => faker.Commerce.Product())
                                .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
                                .RuleFor(x => x.SubjectId, faker => faker.Random.Int(1, 4))
-                               .RuleFor(x => x.JobPositionId, faker => faker.Random.Int(1, 160))
-                               .Generate(400);
-
+                               .Generate(20);
 
             context.Subjects.AddRange(childrenSubjects);
 
             await context.SaveChangesAsync();
 
-            var evenMoreSubjects = new Faker<SubjectDataModel>()
-           .RuleFor(x => x.Title, faker => faker.Commerce.Product())
-           .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-           .RuleFor(x => x.SubjectId, faker => faker.Random.Int(3,44))
-           .Generate(50);
+            // List that contains all the companies
+            var subjects = await context.Subjects.ToListAsync();
 
-            context.Subjects.AddRange(evenMoreSubjects);
+            #endregion
 
+            #region JobPositionSubjects
+
+            foreach(var jobPosition in jobPositionsNO)
+            {
+                var random = new Random();
+
+                var index1 = random.Next(1, 24 / 2) * 2;
+                var index2 = random.Next(0, 22 / 2) * 2 + 1;
+
+                var jobPositionSubject1 = new JobPositionSubjectDataModel()
+                {
+                    JobPositionId = jobPosition.Id,
+                    SubjectId = index1
+                };
+                context.JobPositionSubjects.Add(jobPositionSubject1);
+                var jobPositionSubject2 = new JobPositionSubjectDataModel()
+                {
+                    JobPositionId = jobPosition.Id,
+                    SubjectId = index2
+                };
+                context.JobPositionSubjects.Add(jobPositionSubject2);
+            }
 
             await context.SaveChangesAsync();
 
@@ -792,8 +684,8 @@ namespace Vaseis
             var certificates = new Faker<CertificateDataModel>()
                 .RuleFor(x => x.Title, faker => faker.Lorem.Sentence(2))
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
-                .Generate(1000);
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                .Generate(300);
 
             // Adds the generated awards in the awards db set
             context.Certificates.AddRange(certificates);
@@ -835,8 +727,8 @@ namespace Vaseis
             var awards = new Faker<AwardDataModel>()
                 .RuleFor(x => x.Name, faker => faker.Random.ListItem(awardsList))
                 .RuleFor(x => x.AcquiredDate, faker => faker.Date.Past(5, DateTime.Now))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
-                .Generate(1000);
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                .Generate(500);
 
             // Adds the generated awards in the awards db set
             context.Awards.AddRange(awards);
@@ -871,8 +763,8 @@ namespace Vaseis
             // Generates the languages
             var languages = new Faker<LanguagesDataModel>()
                 .RuleFor(x => x.Name, faker => faker.Random.ListItem(languagesList))
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 688))
-                .Generate(2000);
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                .Generate(500);
 
             // Adds the generated languages in the languages db set
             context.Languages.AddRange(languages);
@@ -890,8 +782,8 @@ namespace Vaseis
                 .RuleFor(x => x.Url, faker => faker.Internet.Url())
                 .RuleFor(x => x.MadeForWho, faker => faker.Random.Enum<MadeForWho>())
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph())
-                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 690))
-                .Generate(5000);
+                .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
+                .Generate(600);
 
             // Adds the generated projects in the projects db set
             context.Projects.AddRange(projects);
@@ -923,39 +815,38 @@ namespace Vaseis
 
             #endregion
 
-
             //var companiesWithUsers = await context.Companies.Include(x => x.ParentSubjects).ToListAsync();
 
-            var companiesWithDepartments = await context.Companies.Include(x => x.Departments)
-                                    .ToListAsync();
+            //var companiesWithDepartments = await context.Companies.Include(x => x.Departments)
+            //                        .ToListAsync();
 
-            var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
-                                                        .Include(x => x.Certificates)
-                                                        .Include(x => x.RecommendationPapers)
-                                                        .Include(x => x.Languages)
-                                                        .Include(x => x.Projects)
-                                                       // .Where(x => x.Type == UserType.Evaluator)
-                                                        .ToListAsync();
-
-
-            //Add to all subjects, the Children Subjetcs that have THIS subject as father
-            var SubjectsWithJoins = await context.Subjects.Include(x => x.ChildrenSubjects)
-                                                           .ToListAsync();
-
-            //matching every jobPosition with its subject of interest
-            var JobPostitionWithJoins = await context.JobPositions.Include(x => x.Subjects)
-                                                                  .ToListAsync();
+            //var employeesWithJoins = await context.Users.Include(x => x.AcquiredDegrees)
+            //                                            .Include(x => x.Certificates)
+            //                                            .Include(x => x.RecommendationPapers)
+            //                                            .Include(x => x.Languages)
+            //                                            .Include(x => x.Projects)
+            //                                           // .Where(x => x.Type == UserType.Evaluator)
+            //                                            .ToListAsync();
 
 
-            var JobsWithJoins = await context.Jobs.Include(x => x.JobPositions)
-                                                             .ToListAsync();
+            ////Add to all subjects, the Children Subjetcs that have THIS subject as father
+            //var SubjectsWithJoins = await context.Subjects.Include(x => x.ChildrenSubjects)
+            //                                               .ToListAsync();
+
+            ////matching every jobPosition with its subject of interest
+            //var JobPostitionWithJoins = await context.JobPositions.Include(x => x.Subjects)
+            //                                                      .ToListAsync();
 
 
-            var DeprtmentsWithJoins = await context.Departments.Include(x => x.Users)
-                                                               .Include(x => x.Jobs)
-                                                               .ToListAsync();
+            //var JobsWithJoins = await context.Jobs.Include(x => x.JobPositions)
+            //                                                 .ToListAsync();
 
-            var companiiesWithJoins = await context.Companies.Include(x => x.Departments).ToListAsync();
+
+            //var DeprtmentsWithJoins = await context.Departments.Include(x => x.Users)
+            //                                                   .Include(x => x.Jobs)
+            //                                                   .ToListAsync();
+
+            //var companiiesWithJoins = await context.Companies.Include(x => x.Departments).ToListAsync();
 
 
         }

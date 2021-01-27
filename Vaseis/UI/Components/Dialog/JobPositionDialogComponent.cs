@@ -1,8 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -197,21 +194,6 @@ namespace Vaseis
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(SalaryInput);
 
-            // Creates the subject picker
-            SubjectPicker = new PickerComponent()
-            {
-                CompleteFontSize = 24,
-                Margin = new Thickness(24, 0, 24, 0),
-                HintText = "Subject",
-                Width = 240,
-            };
-            SubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(SubjectsList))
-            {
-                Source = this
-            });
-            // Adds it to the wrap panel
-            InputWrapPanel.Children.Add(SubjectPicker);
-
             // Creates and adds the announcement date picker to the wrap panel
             AnnouncementDatePicker = ControlsFactory.CreateDatePicker("Announcement Date");
             InputWrapPanel.Children.Add(AnnouncementDatePicker);
@@ -220,13 +202,15 @@ namespace Vaseis
             SubmissionDatePicker = ControlsFactory.CreateDatePicker("Submission Date");
             InputWrapPanel.Children.Add(SubmissionDatePicker);
 
+            // Creates a new toggle component
             ToggleList = new TogglesListComponent();
+            // Binds its toggle names property to the subjects' list 
             ToggleList.SetBinding(TogglesListComponent.ToggleNamesProperty, new Binding(nameof(SubjectsList))
             {
                 Source = this
             });
+            // Adds it to the wrap panel
             InputWrapPanel.Children.Add(ToggleList);
-
         }
 
         #endregion

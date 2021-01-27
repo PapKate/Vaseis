@@ -5,6 +5,7 @@ using System.Windows;
 using static Vaseis.Styles;
 using System.Windows.Data;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Vaseis
 {
@@ -80,7 +81,9 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectName = ControlsFactory.CreateSubjectsString(JobPositionRequest.JobPosition.Subjects);
+            var subjectList = new List<SubjectDataModel>();
+            JobPositionRequest.JobPosition.JobsAndSubjects.ToList().ForEach(x => subjectList.Add(x.Subject));
+            SubjectName = ControlsFactory.CreateSubjectsString(subjectList);
             EmployeeText = JobPositionRequest.UsersJobFilesPair.Employee.Username;
             JobPositionName = JobPositionRequest.JobPosition.Job.JobTitle;
             DepartmentName = JobPositionRequest.JobPosition.Job.Department.DepartmentName.ToString();

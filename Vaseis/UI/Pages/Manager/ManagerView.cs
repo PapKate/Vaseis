@@ -28,7 +28,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates and adds the manager's side menu
-            CreateView(new ManagerSideMenuComponent(TabControl, User));
+            SideMenu = CreateView(new ManagerSideMenuComponent(TabControl, User));
         }
 
         #endregion

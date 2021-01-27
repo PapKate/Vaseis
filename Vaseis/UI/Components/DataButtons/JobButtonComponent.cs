@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vaseis
 {
-    public class JobsButtonComponent : JobsDataButton
+    public class JobButtonComponent : DataButtonComponent
     {
         #region Public Properties
 
         /// <summary>
-        /// The Job
+        /// The job
         /// </summary>
         public JobDataModel Job { get; }
 
@@ -17,17 +15,21 @@ namespace Vaseis
 
         #region Constructors
 
-        /// <param name="user">The user</param>
-        public JobsButtonComponent(JobDataModel job)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="job">The job</param>
+        public JobButtonComponent(JobDataModel job)
         {
             Job = job ?? throw new ArgumentNullException(nameof(job));
-            Department = Job.Department.DepartmentName.ToString();
-            JobTitle = Job.JobTitle.ToString();
+            Title = Job.JobTitle;
+            Text = Job.Department.DepartmentName;
+
             Background = Job.Department.Color.HexToBrush();
-            Height = 150;
+            Height = 200;
         }
 
         #endregion
-    }
 
+    }
 }

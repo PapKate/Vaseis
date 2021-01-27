@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -57,7 +58,9 @@ namespace Vaseis
         /// </summary>
         public void Update()
         {
-            SubjectName = ControlsFactory.CreateSubjectsString(JobPosition.Subjects);
+            var subjectList = new List<SubjectDataModel>();
+            JobPosition.JobsAndSubjects.ToList().ForEach(x => subjectList.Add(x.Subject));
+            SubjectName = ControlsFactory.CreateSubjectsString(subjectList);
             JobPositionName = JobPosition.Job.JobTitle;
             DepartmentName = JobPosition.Job.Department.DepartmentName.ToString();
             SalaryText = ControlsFactory.CreateSalaryFormat(JobPosition.Job.Salary);

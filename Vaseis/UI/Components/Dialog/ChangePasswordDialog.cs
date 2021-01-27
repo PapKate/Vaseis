@@ -20,6 +20,8 @@ namespace Vaseis
         /// </summary>
         public UserDataModel User { get; }
 
+        public Grid PageGrid { get; }
+
         #endregion
 
         #region Protected Properties
@@ -101,9 +103,10 @@ namespace Vaseis
 
         #region Constructors
 
-        public ChangePasswordDialog(UserDataModel user)
+        public ChangePasswordDialog(UserDataModel user, Grid pageGrid)
         {
             User = user ?? throw new ArgumentNullException(nameof(user));
+            PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
 
             CreateGUI();
         }
@@ -129,7 +132,8 @@ namespace Vaseis
                     Title = "Errorrrrrr"
                 };
                 // Adds the dialog to the out grid of the password dialog
-                OutGrid.Children.Add(errorDialog);
+                PageGrid.Children.Add(errorDialog);
+                Grid.SetColumnSpan(errorDialog, 3);
             }
             else
             {
@@ -140,7 +144,8 @@ namespace Vaseis
                     Title = "Error"
                 };
                 // Adds the dialog to the out grid of the password dialog
-                OutGrid.Children.Add(errorDialog);
+                PageGrid.Children.Add(errorDialog);
+                Grid.SetColumnSpan(errorDialog, 3);
             }
         }
 

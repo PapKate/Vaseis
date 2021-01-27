@@ -123,26 +123,34 @@ namespace Vaseis
                 appGrid.Children.Add(View);
 
                 windowGrid.Children.Remove(logInPage);
+
+                View.SideMenu.UserDisconnected += new EventHandler<UserDataModel>((sender, e) => 
+                {
+                    appGrid.Children.Remove(View);
+
+                    windowGrid.Children.Add(logInPage);
+                });
+
             });
 
             windowGrid.Children.Add(logInPage);
 
             Grid.SetRow(logInPage, 1);
 
-            var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
-                                                       .Include(x => x.Department).ThenInclude(y => y.Company)
-                                                       .Include(x => x.AcquiredDegrees)
-                                                       .Include(x => x.Awards)
-                                                       .Include(x => x.Certificates)
-                                                       .Include(x => x.Languages)
-                                                       .Include(x => x.RecommendationPapers)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Administrator);
-
-            var view = new AdminView(user);
 
 
-            //var view = new EmployeeView(user);
+            //var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
+            //                                           .Include(x => x.Department).ThenInclude(y => y.Company)
+            //                                           .Include(x => x.AcquiredDegrees)
+            //                                           .Include(x => x.Awards)
+            //                                           .Include(x => x.Certificates)
+            //                                           .Include(x => x.Languages)
+            //                                           .Include(x => x.RecommendationPapers)
+            //                                           .Include(x => x.Projects)
+            //                                           //.FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Username == "Jessie_Cummings73");
+            //                                           .FirstOrDefaultAsync(x => x.Type == UserType.Manager && x.Id == 202);
 
+            //var view = new ManagerView(user);
             //appGrid.Children.Add(view);
 
             // Sets the content as the window's grid
@@ -150,6 +158,5 @@ namespace Vaseis
         }
 
         #endregion
-
     }
 }

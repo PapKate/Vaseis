@@ -9,7 +9,7 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class NewSubjectDialogComponent : DialogBaseComponent
+    public class NewSubjectDialogComponent : CreateDialogBaseComponent
     {
         #region Proetcted Properties
 
@@ -26,18 +26,28 @@ namespace Vaseis
         /// <summary>
         /// The picker that the administrator picks the subject(parent), the subject belongs to
         /// </summary>
-        protected PickerComponent BelongsToSubjectPicker { get; private set; }
+        protected PickerComponent SubjectParentPicker { get; private set; }
+
 
         /// <summary>
-        /// The button that sends the values when Admin is done
+        /// The stack panel for the description section
         /// </summary>
-        protected Button OkButton { get; private set; }
+        protected StackPanel TextStackPanel { get; private set; }
 
         /// <summary>
-        /// The StackPanel that holds all the elements and get put in the InputWrapPanel
+        /// The description text
         /// </summary>
-        protected StackPanel CreateSubjectStackPanel { get; private set; }
+        protected TextBlock TextTitleBlock { get; private set; }
 
+        /// <summary>
+        /// The description text box's border
+        /// </summary>
+        protected Border TextBorder { get; private set; }
+
+        /// <summary>
+        /// The description' input text area
+        /// </summary>
+        protected TextBox ParagraphTextBox { get; private set; }
 
         #endregion
 
@@ -97,20 +107,20 @@ namespace Vaseis
 
         #region Protected Methods
 
+        /// <summary>
+        /// Creates a new subject
+        /// </summary>
         protected async void CreateNewSubjectOnClick(object sender, RoutedEventArgs e)
         {
+            string parent;
+            if (string.IsNullOrEmpty(SubjectParentPicker.Text))
+                parent = "";
+            else
+                parent = SubjectParentPicker.Text;
 
-            await Services.GetDataStorage.CreateNewSubject(SubjectTitleInput.Text, DescriptionInput.Text, BelongsToSubjectPicker.Text);
+            var newSubject = await Services.GetDataStorage.CreateNewSubject(SubjectTitleInput.Text, ParagraphTextBox.Text, parent);
 
-            var messageDialog = new MessageDialogComponent()
-            {
-                BrushColor = DarkPink.HexToBrush(),
-                Message = "Subject was created",
-                Title = "Done yo"
-            };
-            // Adds the dialog to the out grid of the password dialog
-            OutGrid.Children.Add(messageDialog);
-
+            CloseDialogOnClick(sender, e);
         }
 
         #endregion
@@ -119,90 +129,96 @@ namespace Vaseis
 
         private void CreateGUI()
         {
-            
-            CreateSubjectStackPanel = new StackPanel();
-
             DialogTitle.Text = "Create new Subject";
 
             SubjectTitleInput = new TextInputComponent()
             {
                 // With hint text the name
-                HintText ="New subject's title",
+                HintText ="Title",
                 Margin = new Thickness(24),
                 Width = 240
             };
-            CreateSubjectStackPanel.Children.Add(SubjectTitleInput);
+            InputWrapPanel.Children.Add(SubjectTitleInput);
 
             SubjectTitleInput.SetBinding(TextInputComponent.TextProperty, new Binding(nameof(SubjectTitle))
             {
                 Source = this
             });
 
-            DescriptionInput = new TextInputComponent()
-            {
-                // With hint text the name
-                HintText = "Subject's Description",
-                Margin = new Thickness(24),
-                Width = 240
-            };
-            CreateSubjectStackPanel.Children.Add(DescriptionInput);
-
-            DescriptionInput.SetBinding(TextInputComponent.TextProperty, new Binding(nameof(SubjectDescription))
-            {
-                Source = this
-            });
-
             //Takes from the dependencies all the availiable subjects to pick as parent
-            BelongsToSubjectPicker = new PickerComponent() 
+            SubjectParentPicker = new PickerComponent() 
             { 
-                HintText = "Subject's parent Subject",
-                FontSize = 24,
+                HintText = "Parent",
+                CompleteFontSize = 24,
                 OptionNames = ParentSubjectOptions
             };
             //binds the pickerComponent to the giver list of all the subjects
-            BelongsToSubjectPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(ParentSubjectOptions))
+            SubjectParentPicker.SetBinding(PickerComponent.OptionNamesProperty, new Binding(nameof(ParentSubjectOptions))
             {
                 Source = this
             });
 
             //Adds all input components to a stackPanel
-            CreateSubjectStackPanel.Children.Add(BelongsToSubjectPicker);
+            InputWrapPanel.Children.Add(SubjectParentPicker);
 
-          
-            //the ok Button
 
-            OkButton = new Button()
+            // Creates a stack panel for the comments area
+            TextStackPanel = new StackPanel()
             {
-                Background = DarkBlue.HexToBrush(),
-                Height = 40,
-                Width = 164,
-                Margin = new Thickness(28),
-                Content = new TextBlock()
-                {
-                    Foreground = White.HexToBrush(),
-                    FontSize = 24,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "OK"
-                },
-                Padding = new Thickness(0),
-                BorderThickness = new Thickness(0),
+                Margin = new Thickness(24, 0, 24, 0),
+                Orientation = Orientation.Vertical,
+                Width = 520
             };
 
-            // Adds a corner radius
-            ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
-            OkButton.Click += CreateNewSubjectOnClick;
+            // Adds to the wrap panel the comments stack panel
+            InputStackPanel.Children.Add(TextStackPanel);
 
-            //Adds the button the the dialog panel
-            CreateSubjectStackPanel.Children.Add(OkButton);
+            // The title block for comments
+            TextTitleBlock = new TextBlock()
+            {
+                Text = "Description",
+                Foreground = DarkGray.HexToBrush(),
+                FontSize = 24,
+                FontFamily = Calibri,
+                FontWeight = FontWeights.Normal,
+                Margin = new Thickness(0, 0, 0, 8)
+            };
 
+            // Adds the text block to the comments' stack panel...
+            TextStackPanel.Children.Add(TextTitleBlock);
 
-            //Adds the stackPanel to the InputWrapPanel
-            //This was done to prevent the inputs from not being vertically aligned instead of two in each row
-            InputWrapPanel.Children.Add(CreateSubjectStackPanel);
+            // The border for the comments input area
+            TextBorder = new Border()
+            {
+                BorderBrush = DarkGray.HexToBrush(),
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(5)
+            };
 
-            Content = DialogHost;
+            // The text input field for comments
+            ParagraphTextBox = new TextBox()
+            {
+                MinLines = 6,
+                FontFamily = Calibri,
+                FontSize = 20,
+                TextWrapping = TextWrapping.Wrap,
+                AcceptsReturn = true,
+                Padding = new Thickness(4),
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                MinHeight = 200,
+                MaxHeight = 300
+            };
 
+            // Adds to the border the input field for the comments
+            TextBorder.Child = ParagraphTextBox;
+
+            // Adds tot he stack panel the border
+            TextStackPanel.Children.Add(TextBorder);
+
+            // Sets the create button's background to dark blue
+            CreateButton.Background = DarkBlue.HexToBrush();
+            // On click calls method
+            CreateButton.Click += CreateNewSubjectOnClick;
         }
 
         #endregion

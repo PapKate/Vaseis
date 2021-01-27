@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Linq;
 using static Vaseis.Styles;
-
+using System;
 
 namespace Vaseis
 {

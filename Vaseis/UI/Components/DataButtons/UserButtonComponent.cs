@@ -24,6 +24,7 @@ namespace Vaseis
         #endregion
 
         #region Constructors
+        
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -32,8 +33,8 @@ namespace Vaseis
         {
             User = user ?? throw new ArgumentNullException(nameof(user));
 
-            Username = user.Username;
-            FullName = user.FullName;
+            Title = user.Username;
+            Text = user.FullName;
             Background = user.Department.Color.HexToBrush();
             Height = 150;
         }
@@ -47,8 +48,8 @@ namespace Vaseis
             User = user ?? throw new ArgumentNullException(nameof(user));
             TabControl = tabControl ?? throw new System.ArgumentNullException(nameof(tabControl));
 
-            Username = user.Username;
-            FullName = user.FullName;
+            Title = user.Username;
+            Text = user.FullName;
             Background = user.Department.Color.HexToBrush();
             Height = 150;
 
@@ -64,7 +65,7 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-            UserButton.Click += new RoutedEventHandler((sender, e) =>
+            DataButton.Click += new RoutedEventHandler((sender, e) =>
             {
                 var tabItem = new TabItemComponent(TabControl)
                 {

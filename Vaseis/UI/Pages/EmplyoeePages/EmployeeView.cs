@@ -31,7 +31,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             // Creates and adds the employee's side menu
-            CreateView(new EmployeeSideMenuComponent(TabControl, User));
+            SideMenu = CreateView(new EmployeeSideMenuComponent(TabControl, User));
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ using static Vaseis.Styles;
 
 namespace Vaseis
 {
-    public class SubjectsComponent : ContentControl
+    public class SubjectCardComponent : ContentControl
     {
         #region Protected Properties
 
@@ -71,10 +72,9 @@ namespace Vaseis
 
         // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(nameof(Title), typeof(string), typeof(SubjectsComponent));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(SubjectCardComponent));
 
         #endregion
-
 
         #region Description
 
@@ -87,7 +87,7 @@ namespace Vaseis
             set { SetValue(DescriptionProperty, value); }
         }
 
-           public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string), typeof(SubjectsComponent));
+           public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string), typeof(SubjectCardComponent));
 
         #endregion
 
@@ -102,17 +102,17 @@ namespace Vaseis
             set { SetValue(DataNamesProperty, value); }
         }
 
-        public TextBlock DescriptionTitleBlock { get; private set; }
+        public TextBlock DescriptionTextBlock { get; private set; }
 
         /// <summary>
         /// Identifies the <see cref="DataNames"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty DataNamesProperty = DependencyProperty.Register(nameof(DataNames), typeof(IEnumerable<string>), typeof(SubjectsComponent), new PropertyMetadata(OnDataNameChanged));
+        public static readonly DependencyProperty DataNamesProperty = DependencyProperty.Register(nameof(DataNames), typeof(IEnumerable<string>), typeof(SubjectCardComponent), new PropertyMetadata(OnDataNameChanged));
 
 
         private static void OnDataNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sender = d as SubjectsComponent;
+            var sender = d as SubjectCardComponent;
 
             sender.OnDataNameChangedCore(e);
         }
@@ -136,7 +136,7 @@ namespace Vaseis
 
         #region Constructors
 
-        public SubjectsComponent()
+        public SubjectCardComponent()
         {
             CreateGUI();
         }
@@ -150,14 +150,19 @@ namespace Vaseis
         /// </summary>
         private void CreateGUI()
         {
-
             // Creates the stack panel
             TitleAndDataStackPanel = new StackPanel()
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(32),
                 Background = White.HexToBrush(),
+                Margin = new Thickness(16)
             };
+
+            var titleStackPanel = new StackPanel()
+            { 
+                Orientation = Orientation.Horizontal
+            };
+            TitleAndDataStackPanel.Children.Add(titleStackPanel);
 
             TitleHeader = new TextBlock()
             {
@@ -165,158 +170,76 @@ namespace Vaseis
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
                 Foreground = DarkBlue.HexToBrush(),
-                Margin = new Thickness(24, 24, 0, 0),
-                Text = "Title :         "
+                Margin = new Thickness(24),
+                Text = "Title :"
             };
+            titleStackPanel.Children.Add(TitleHeader);
 
             // Creates the title block
             TitleBlock = new TextBlock()
             {
+                Margin = new Thickness(24),
                 FontSize = 32,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
                 Foreground = DarkBlue.HexToBrush(),
-                Margin = new Thickness(24, 24, 0, 0),
             };
+            titleStackPanel.Children.Add(TitleBlock);
             //   Binds the title block's text property to the title dependency property
             TitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title))
             {
                 Source = this
-            });     
+            });
+
+            var descriptionStackPanel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
+            TitleAndDataStackPanel.Children.Add(descriptionStackPanel);
 
             DescriptionHeader = new TextBlock()
             {
-                FontSize = 32,
+                Margin = new Thickness(24),
+                FontSize = 24,
                 FontFamily = Calibri,
                 FontWeight = FontWeights.Bold,
                 Foreground = DarkBlue.HexToBrush(),
-                Margin = new Thickness(24, 24, 0, 0),
-                Text = "Description :  "
+                Text = "Description:"
             };
+            descriptionStackPanel.Children.Add(DescriptionHeader);
 
-            // Creates the title block
-            DescriptionTitleBlock = new TextBlock()
+            // Creates the text block for the description
+            DescriptionTextBlock = new TextBlock()
             {
-                FontSize = 32,
+                FontSize = 24,
                 FontFamily = Calibri,
-                FontWeight = FontWeights.Bold,
                 Foreground = DarkBlue.HexToBrush(),
-                Margin = new Thickness(24, 24, 0, 0),
-                MaxWidth = 1000
+                TextWrapping = TextWrapping.Wrap,
             };
             // Binds the title block's text property to the title dependency property
-            DescriptionTitleBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Description))
+            DescriptionTextBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(Description))
             {
                 Source = this
             });
 
-         
-            ChildrenHeader = new TextBlock()
+            var DescriptionScrollViewer = new ScrollViewer()
             {
-                FontSize = 32,
-                FontFamily = Calibri,
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(8),
-                Foreground = DarkBlue.HexToBrush(),
-                Text = "More Specific subjects :",
-                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(24),
+                MaxWidth = 1200,
+                MaxHeight = 200,
+                Content = DescriptionTextBlock
             };
-
-            var border = new Border()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,             
-                Margin = new Thickness(0, 24, 24, 12),
-                BorderBrush = DarkBlue.HexToBrush(),
-                BorderThickness = new Thickness(4),
-                CornerRadius = new CornerRadius(4),
-                Background = Styles.White.HexToBrush(),
-            };
-       
-
-            border.Child = ChildrenHeader;
-
-            #region Grid
-
-            var grid = new Grid()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-
-            grid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Auto)
-            });
-
-            grid.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(1, GridUnitType.Auto)
-            });
-
-            grid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Auto)
-            });
-
-            grid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Auto)
-            });
-
-            grid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Auto)
-            });
-
-            grid.RowDefinitions.Add(new RowDefinition()
-            {
-                Height = new GridLength(1, GridUnitType.Auto)
-            });
-
-            Grid.SetRow(TitleHeader, 0);
-            Grid.SetColumn(TitleHeader, 0);
-
-            Grid.SetRow(TitleBlock, 0);
-            Grid.SetColumn(TitleBlock, 1);
-
-            Grid.SetRow(DescriptionHeader, 1);
-            Grid.SetColumn(DescriptionTitleBlock, 0);
-            Grid.SetRowSpan(DescriptionTitleBlock, 3);
-
-            Grid.SetRow(DescriptionTitleBlock, 1);
-            Grid.SetColumn(DescriptionTitleBlock, 1);
-
-            grid.Children.Add(TitleHeader);
-            grid.Children.Add(TitleBlock);
-            grid.Children.Add(DescriptionHeader);
-            grid.Children.Add(DescriptionTitleBlock);
-
-            #endregion
-
-            TitleAndDataStackPanel.Children.Add(grid);
-            TitleAndDataStackPanel.Children.Add(border);
-
-            // Creates the data grid
-            DataTextGrid = new UniformGrid()
-            {
-                Columns = 5,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
-            };
-
-            // Adds it to the stack panel
-            TitleAndDataStackPanel.Children.Add(DataTextGrid);
-
-
+            descriptionStackPanel.Children.Add(DescriptionScrollViewer);
 
             var SubjectBorder = new Border()
             {
-                //Style = MaterialDesignStyles.RaisedButton,
-                Height = double.NaN,
-                Margin = new Thickness(24),
-                Padding = new Thickness(8),
-                Background = DarkBlue.HexToBrush(),
-                BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(8)
+                Margin = new Thickness(32),
+                BorderThickness = new Thickness(16),
+                BorderBrush = DarkBlue.HexToBrush(),
+                CornerRadius = new CornerRadius(16),
+                Padding = new Thickness(24),
+                Background = White.HexToBrush(),
+                Effect = ControlsFactory.CreateShadow()
             };
 
             SubjectBorder.Child = TitleAndDataStackPanel;
@@ -353,8 +276,42 @@ namespace Vaseis
                 TitleAndDataStackPanel.Children.Add(DataBlock);
             }
             // Else...
-            else
+            else if(newValue.ToList().Count() > 0)
             {
+                ChildrenHeader = new TextBlock()
+                {
+                    FontSize = 28,
+                    FontFamily = Calibri,
+                    FontWeight = FontWeights.SemiBold,
+                    Margin = new Thickness(4),
+                    Foreground = DarkBlue.HexToBrush(),
+                    Text = "More specific subjects:",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                var border = new Border()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    BorderBrush = DarkBlue.HexToBrush(),
+                    BorderThickness = new Thickness(4),
+                    CornerRadius = new CornerRadius(4),
+                    Background = Styles.White.HexToBrush(),
+                };
+
+                border.Child = ChildrenHeader;
+                TitleAndDataStackPanel.Children.Add(border);
+
+                // Creates the data grid
+                DataTextGrid = new UniformGrid()
+                {
+                    Columns = 5,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                // Adds it to the stack panel
+                TitleAndDataStackPanel.Children.Add(DataTextGrid);
+
                 // For each string in the list...
                 foreach (var dataText in DataNames)
                 {
@@ -367,7 +324,6 @@ namespace Vaseis
                             Width = 10,
                             Fill = DarkBlue.HexToBrush(),
                             Margin = new Thickness(24),
-
                         }
                     };
                     // Creates a new text block item ...
@@ -388,13 +344,12 @@ namespace Vaseis
                     DataTextGrid.Children.Add(DataDot);
                 }
             }
-
+            
             // Further handle the change
             OnDataNameChanged(e);
         }
 
         #endregion
-
 
     }
 }
