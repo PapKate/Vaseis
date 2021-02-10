@@ -59,7 +59,7 @@ namespace Vaseis
                 {
                     Text = "Companies",
                     Icon = PackIconKind.DomainPlus,
-                    Content = new CompaniesPage(),
+                    Content = new CompaniesPage(User),
                     IsSelected = true
                 });
                 

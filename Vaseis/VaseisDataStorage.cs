@@ -184,7 +184,7 @@ namespace Vaseis
         /// <param name="bio"></param>
         /// <param name="email"></param>
         /// <returns></returns>
-        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email, string jobTitle, String departmentName)
+        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email)
         {
             var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
 
@@ -201,7 +201,7 @@ namespace Vaseis
 
         #region Create New DataModel
 
-        public async Task<LogDataModel> CreateNewLog(String username, String Action, String Details) {
+        public async Task<LogDataModel> CreateNewLog(string username, string Action, string Details) {
 
             var model = new LogDataModel()
             {
@@ -219,7 +219,7 @@ namespace Vaseis
         
         }
 
-        public async Task<CompanyDataModel> CreateCompanyAsync(string name, string doy, string afm, 
+        public async Task<CompanyDataModel> CreateCompanyAsync(UserDataModel user, string name, string doy, string afm, 
                                                                string About, string Telephone, string City, 
                                                                string Country, string streetNumber, string streetName, 
                                                                string CompanyPicsture, Dictionary<string, string> departments)
@@ -266,6 +266,8 @@ namespace Vaseis
             
             // Gets the updated company
             var updatedCompanyData = await GetCompanyDataAsync(companyId);
+
+            await Services.GetDataStorage.CreateNewLog(user.Username, "created a new company",$"The Company  {model.Name}");
 
             // Return the model
             return updatedCompanyData;
@@ -557,13 +559,18 @@ namespace Vaseis
         public async Task<JobPositionRequestDataModel> DeleteJobPositionRequestAsync(int requestId)
         {
             // Get the existing model
-            var model = await DbContext.JobPositionRequests.FirstAsync(x => x.Id == requestId);
+            var model = await DbContext.JobPositionRequests
+                                             .Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                             .Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Employee)
+                                             .FirstAsync(x => x.Id == requestId);
 
             // Remove it
             DbContext.JobPositionRequests.Remove(model);
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
+
+            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Employee.Username, "Deleted request", $"for the Job {model.JobPosition.Job.JobTitle}");
 
             // Return the model
             return model;
@@ -591,6 +598,14 @@ namespace Vaseis
             model.JobPosition = jobPosition;
             model.Department = jobPosition.Job.Department;
 
+            var acquiredJobPositionRequest = model.JobPositionRequests.First(x => x.JobPositionId == jobPosition.Id);
+
+            DbContext.JobPositionRequests.Remove(acquiredJobPositionRequest);
+
+            await Services.GetDataStorage.CreateNewLog(model.Username, "Aquiered a new Job", $"Thesis: {jobPosition.Job.JobTitle}");
+
+            // Push the changes to the database
+            await DbContext.SaveChangesAsync();
             // Return the model
             return model;
 
@@ -623,6 +638,8 @@ namespace Vaseis
             // Add it
             DbContext.JobPositionRequests.Add(model);
 
+            await Services.GetDataStorage.CreateNewLog(jobFilesPair.Employee.Username, "Created a new Job request", $"for the position {model.JobPosition.Job.JobTitle}");
+
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
@@ -642,6 +659,8 @@ namespace Vaseis
 
             // Add it
             DbContext.Reports.Add(model);
+
+            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Manager.Username, " Created a new report", $"for the User {model.UsersJobFilesPair.Employee.Username}");
 
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();

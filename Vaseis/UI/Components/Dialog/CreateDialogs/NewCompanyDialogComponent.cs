@@ -1,5 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
-
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +20,11 @@ namespace Vaseis
         /// The created company data model
         /// </summary>
         public CompanyDataModel Company { get; private set; }
+
+        /// <summary>
+        /// The connected Admin
+        /// </summary>
+        public UserDataModel User { get; private set; }
 
         #endregion
 
@@ -114,8 +119,10 @@ namespace Vaseis
 
         #region Constructors
 
-        public NewCompanyDialogComponent()
+        public NewCompanyDialogComponent(UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -137,7 +144,7 @@ namespace Vaseis
                 // Add them to the dictionary
                 DepartmentData.Add(DepartmentTextBox.Text, DepartmentColorTextBox.Text);
             // Creates the company
-            Company = await Services.GetDataStorage.CreateCompanyAsync(CompanyName.Text, DOY.Text, AFM.Text, 
+            Company = await Services.GetDataStorage.CreateCompanyAsync(User, CompanyName.Text, DOY.Text, AFM.Text, 
                                                                               About.Text, TelephoneNumber.Text, 
                                                                               City.Text, Country.Text, StreetNumber.Text, 
                                                                               StreetAddress.Text, CompanyPicture.Text,
