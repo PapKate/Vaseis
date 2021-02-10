@@ -42,14 +42,24 @@ namespace Vaseis
         protected TextInputComponent EmailInput { get; private set; }
 
         /// <summary>
+        /// The password header Text
+        /// </summary>
+        protected TextBlock PasswordHeader { get; private set; }
+
+        /// <summary>
         /// The new user password input 
         /// </summary>
-        protected TextInputComponent PasswordInput { get; private set; }
+        protected PasswordBox PasswordInput { get; private set; }
+
+        /// <summary>
+        /// The confirm password header Text
+        /// </summary>
+        protected TextBlock ConfirmPasswordHeader { get; private set; }
 
         /// <summary>
         /// The new user confirm password input 
         /// </summary>
-        protected TextInputComponent ConfirmPasswordInput { get; private set; }
+        protected PasswordBox ConfirmPasswordInput { get; private set; }
 
         /// <summary>
         /// The new user  email input 
@@ -208,7 +218,7 @@ namespace Vaseis
                 jobPositionName = JobPositionPicker.Text;
 
             // If the password inputs do not match...
-            if(PasswordInput.Text != ConfirmPasswordInput.Text)
+            if(PasswordInput.Password != ConfirmPasswordInput.Password)
             {
                 // Creates a message dialog
                 var errorMessage = new MessageDialogComponent()
@@ -224,7 +234,7 @@ namespace Vaseis
             {
                 // Creates a new user and returns the updated company
                 var updatedCompany = await Services.GetDataStorage.AddNewUserAsync(Company.Id, UsernameInput.Text,
-                                                            PasswordInput.Text,
+                                                            PasswordInput.Password,
                                                             FirstNameInput.Text, LastNameInput.Text,
                                                             EmailInput.Text, ControlsFactory.ParseStringToInt(YearsOfExpInput.Text), ProfilePicInput.Text,
                                                             jobPositionName, departmentName,
@@ -282,23 +292,46 @@ namespace Vaseis
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(EmailInput);
 
+            //Acts as HintText to the password cmponent since it cant have a hinttext from its own
+            PasswordHeader = new TextBlock() { 
+                Text = "Password",
+                Margin = new Thickness(24,24,24,2),
+                Width = 240,
+                FontSize = 24,
+                FontFamily = Calibri,
+                Foreground = DarkPink.HexToBrush()
+            };
+
+            InputWrapPanel.Children.Add(PasswordHeader);
+
+            //Acts as HintText to the password cmponent since it cant have a hinttext from its own
+            ConfirmPasswordHeader = new TextBlock()
+            {
+                Text = "Confirm Password",
+                Margin = new Thickness(24, 24, 24, 2),
+                Width = 240,
+                Foreground = DarkPink.HexToBrush(),
+                FontSize = 24,
+                FontFamily = Calibri,
+            };
+
+            InputWrapPanel.Children.Add(ConfirmPasswordHeader);
+
             // Creates a password input component...
-            PasswordInput = new TextInputComponent()
+            PasswordInput = new PasswordBox()
             {
                 // With hint text the text 
-                HintText = "Password",
-                Margin = new Thickness(24),
+                Margin = new Thickness(24, 2, 24, 24),
                 Width = 240
             };
             // Adds it to the wrap panel
             InputWrapPanel.Children.Add(PasswordInput);
 
             // Creates a confirm password input component...
-            ConfirmPasswordInput = new TextInputComponent()
+            ConfirmPasswordInput = new PasswordBox()
             {
                 // With hint text the text 
-                HintText = "Confirm password",
-                Margin = new Thickness(24),
+                Margin = new Thickness(24,2,24,24),
                 Width = 240
             };
             // Adds it to the wrap panel

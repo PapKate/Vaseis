@@ -235,6 +235,46 @@ namespace Vaseis
         }
 
         /// <summary>
+        /// Creates the data grid's rows
+        /// </summary>
+        public static Grid CreateLogDataGridRowGrid()
+        {
+            var rowGrid = new Grid()
+            {
+                Height = 52,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+           
+             rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(240, GridUnitType.Pixel)
+            });
+            
+            for (var i = 0; i <= 4 - 1; i++)
+            {
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(350, GridUnitType.Pixel)
+                });
+            }
+
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(800, GridUnitType.Pixel)
+            });
+
+            
+               rowGrid.ColumnDefinitions.Add(new ColumnDefinition()
+             {
+                 Width = new GridLength(1, GridUnitType.Auto)
+             });
+       
+
+            return rowGrid;
+        }
+
+        /// <summary>
         /// Creates a hint
         /// </summary>
         /// <param name="hintText">The hint's text</param>

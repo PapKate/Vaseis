@@ -57,6 +57,11 @@ namespace Vaseis
         protected UniformGrid DepartmentsGrid { get; private set; }
 
         /// <summary>
+        /// The jobs' grid
+        /// </summary>
+        protected UniformGrid JobstsGrid { get; private set; }
+
+        /// <summary>
         /// The new user dialog
         /// </summary>
         protected NewUserDialogComponent AddUser { get; private set; }
@@ -121,28 +126,10 @@ namespace Vaseis
 
         #endregion
 
-        #region Jobs
-        /// <summary>
-        /// The company's jobs
-        /// </summary>
-        public IEnumerable<JobDataModel> Jobs
-        {
-            get { return (IEnumerable<JobDataModel>)GetValue(JobsProperty); }
-            set { SetValue(JobsProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Jobs"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty JobsProperty = DependencyProperty.Register(nameof(Jobs), typeof(IEnumerable<JobDataModel>), typeof(CompanyCardComponent));
-
-
-        #endregion
-
         #endregion
 
         #region Constructors
-        
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -185,6 +172,15 @@ namespace Vaseis
         /// </summary>
         /// <param name="e">Event args</param>
         protected virtual void OnDepartmentsChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="CompanyCardComponent.Jobs"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnJobsChanged(DependencyPropertyChangedEventArgs e)
         {
 
         }
@@ -379,13 +375,10 @@ namespace Vaseis
 
             #region  Jobs
 
-            //foreach (var company in Companies) { };
-
             var jobsButtons = new JobsContainerComponent(Company);
 
             var JobsScroll = new ScrollViewer()
             {
-
                 MaxHeight = 1000,
                 Content = jobsButtons,
             };
@@ -599,6 +592,7 @@ namespace Vaseis
             Content = CompanyBorder;
         }
 
+        #region Events
 
         /// <summary>
         /// On click shows the add department dialog
@@ -653,6 +647,10 @@ namespace Vaseis
             AddUser.IsDialogOpen = true;
         }
 
+        #endregion
+
+        #region Core
+
         /// <summary>
         /// Handles the change of the <see cref="Employees"/> property internally
         /// </summary>
@@ -678,10 +676,6 @@ namespace Vaseis
             OnEmployeesChanged(e);
         }
 
-        /// <summary>
-        /// Handles the change of the <see cref="Departments"/> property internally
-        /// </summary>
-        /// <param name="e">Event args</param>
         private void OnDepartmentsChangedCore(DependencyPropertyChangedEventArgs e)
         {
             // Get the new value
@@ -719,6 +713,8 @@ namespace Vaseis
             // Further handle the change
             OnEmployeesChanged(e);
         }
+
+        #endregion
 
         #endregion
     }

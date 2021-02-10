@@ -99,6 +99,8 @@ namespace Vaseis
         /// </summary>
         public DbSet<JobPositionSubjectDataModel> JobPositionSubjects { get; set; }
 
+
+        public DbSet<LogDataModel> Logs { get; set; }
         #endregion
 
         #region Constructors
@@ -304,6 +306,8 @@ namespace Vaseis
                 .OnDelete(DeleteBehavior.Cascade);
             
             #endregion
+
+
 
         }
 

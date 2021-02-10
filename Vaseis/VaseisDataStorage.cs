@@ -62,6 +62,11 @@ namespace Vaseis
         }
 
 
+        public Task<List<LogDataModel>> GetLogHistory()
+        {
+            return DbContext.Logs.ToListAsync();
+        }
+
         /// <summary>
         /// Get all the Companies
         /// </summary>
@@ -106,11 +111,7 @@ namespace Vaseis
                                       .Include(x => x.Jobs)
                                       .Where(x => x.Id == companyId)
                                       .FirstOrDefaultAsync();
-        } 
-
-        #endregion
-
-        #region Update 
+        }
 
         /// <summary>
         /// Gets all the company's employees
@@ -130,6 +131,10 @@ namespace Vaseis
                                       .Where(x => x.Type == UserType.Employee)
                                       .ToListAsync();
         }
+
+        #endregion
+
+        #region Update 
 
         /// <summary>
         /// Updates the user's password
@@ -166,6 +171,8 @@ namespace Vaseis
 
             model.Email = email;
 
+            await DbContext.SaveChangesAsync();
+
             return model;
         
         }
@@ -177,7 +184,7 @@ namespace Vaseis
         /// <param name="bio"></param>
         /// <param name="email"></param>
         /// <returns></returns>
-        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email)
+        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email, string jobTitle, String departmentName)
         {
             var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
 
@@ -185,12 +192,32 @@ namespace Vaseis
 
             model.Email = email;
 
+            await DbContext.SaveChangesAsync();
+
             return model;
         }
 
         #endregion
 
         #region Create New DataModel
+
+        public async Task<LogDataModel> CreateNewLog(String username, String Action, String Details) {
+
+            var model = new LogDataModel()
+            {
+                Username = username,
+                Action = Action,
+                Details = Details,
+                When = DateTime.Now
+            };
+
+            DbContext.Logs.Add(model);
+
+            await DbContext.SaveChangesAsync();
+
+            return model;
+        
+        }
 
         public async Task<CompanyDataModel> CreateCompanyAsync(string name, string doy, string afm, 
                                                                string About, string Telephone, string City, 

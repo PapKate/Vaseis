@@ -23,6 +23,11 @@ namespace Vaseis
         /// </summary>
         protected SideMenuButtonComponent SubjectsButton { get; private set; }
 
+        /// <summary>
+        /// The logs button
+        /// </summary>
+        protected SideMenuButtonComponent LogsButton { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -70,6 +75,20 @@ namespace Vaseis
                     Text = "Subjects",
                     Icon = PackIconKind.Transcribe,
                     Content = new SubjectsPage(),
+                    IsSelected = true
+                });
+            });
+
+            // Create and add the Logs button
+            LogsButton = CreateAndAddSideMenuButton("Logs", PackIconKind.Die1);
+
+            LogsButton.SideMenuButton.Click += new RoutedEventHandler((sender, e) =>
+            {
+                TabControl.Items.Add(new TabItemComponent(TabControl)
+                {
+                    Text = "Logs History",
+                    Icon = PackIconKind.Die1,
+                    Content = new LogPage(),
                     IsSelected = true
                 });
             });

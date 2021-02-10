@@ -183,6 +183,8 @@ namespace Vaseis
                         return;
                     }
 
+                    await Services.GetDataStorage.CreateNewLog(user.Username, "Logged in", "successfull login");
+
                     // Fire the event
                     UserConnected(this, user);
                 })

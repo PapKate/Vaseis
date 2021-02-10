@@ -18,7 +18,10 @@ namespace Vaseis
         
         #region Public Properties
 
-        public CompanyDataModel Company { get; }
+        /// <summary>
+        /// The company
+        /// </summary>
+        public CompanyDataModel Company { get; set; }
 
         #endregion
 
@@ -52,16 +55,60 @@ namespace Vaseis
         /// The helper variable to take given company's data
         /// </summary>
         protected CompanyDataModel CompanyVar { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent AFMData { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent DOYData { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent CountryData { get; private set; }
+  
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent CityData { get; private set; }
+   
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent AddressData { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent TelephoneData { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected TitleAndTextComponent DateCreatedData { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextBlock LogoBlock { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected DataButtonComponent EmployeeTextBlock { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected DataButtonComponent DepartmentsTextBlock { get; private set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected DataButtonComponent JobsTextButton { get; private set; }
 
         #endregion

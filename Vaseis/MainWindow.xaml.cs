@@ -128,6 +128,9 @@ namespace Vaseis
                 {
                     appGrid.Children.Remove(View);
 
+                    Header.ImagePath = @"pack://application:,,,/UI/Images/vaseis.png";
+                    Header.Title = "";
+
                     windowGrid.Children.Add(logInPage);
                 });
 
