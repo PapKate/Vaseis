@@ -17,7 +17,7 @@ namespace Vaseis
         /// <summary>
         /// The Box that receives the Email (not the email's title, the email email :P )
         /// </summary>
-        protected TextInputComponent InputTextBox { get; private set; }
+        public TextInputComponent InputTextBox { get; private set; }
 
         #endregion
 

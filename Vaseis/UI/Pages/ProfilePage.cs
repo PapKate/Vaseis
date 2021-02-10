@@ -364,14 +364,15 @@ namespace Vaseis
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 // Sets the edit command
-                EditCommand = new RelayCommand(() =>
-                {
+                EditCommand = new RelayCommand(()=>
+                {           
                     // Sets the components' editable properties to true
                     BioTile.IsEditable = true;
                     EmailData.IsEditable = true;
                 }),
-                SaveCommand = new RelayCommand(() =>
+                SaveCommand = new RelayCommand(async () =>
                 {
+                    await Services.GetDataStorage.UpdateBioAndEmail(User, BioTile.BioTextBox.Text, EmailData.InputTextBox.Text);
                     // Sets the components' editable properties to false
                     BioTile.IsEditable = false;
                     EmailData.IsEditable = false;

@@ -162,8 +162,9 @@ namespace Vaseis
         /// Disconnects a user on click
         /// Fires the event in the main window
         /// </summary>
-        private void DisconnectUserOnClick(object sender, RoutedEventArgs e)
+        private async void DisconnectUserOnClick(object sender, RoutedEventArgs e)
         {
+            await Services.GetDataStorage.CreateNewLog( User.Username, "Logged out", "logged out successfully");
             // Calls the event
             UserDisconnected(this, User);
         }

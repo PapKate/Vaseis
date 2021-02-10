@@ -15,6 +15,15 @@ namespace Vaseis
     /// </summary>
     public class CompaniesPage : ContentControl
     {
+        #region Public Properties
+
+        /// <summary>
+        /// the connected admin
+        /// </summary>
+        public UserDataModel User { get; private set; }
+
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -76,8 +85,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public CompaniesPage()
-        {         
+        public CompaniesPage(UserDataModel user)
+        {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -146,11 +157,12 @@ namespace Vaseis
         private void ShowCompanyDialogComponentOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            var newCompanyDialog = new NewCompanyDialogComponent
+            var newCompanyDialog = new NewCompanyDialogComponent(User)
             {
                 CreateCommand = new RelayCommand(() =>
                 {
                     NewCard = true;
+
                 })
             };
             // Adds it to the page grid
