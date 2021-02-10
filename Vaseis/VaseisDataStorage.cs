@@ -737,22 +737,45 @@ namespace Vaseis
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
 
+            // Gets the existing pairs
+            var existringJobPositionAndSubjectsPairs = await DbContext.JobPositionSubjects.Include(x => x.Subject).Where(x => x.JobPositionId == jobPosition.Id).ToListAsync();
+
+            var oldSubjects = new List<SubjectDataModel>();
+
             // Creates a new list for the job position and subject pair
             var jobPositionAndSubjectsList = new List<JobPositionSubjectDataModel>();
+            // For each pair...
+            foreach (var existringPair in existringJobPositionAndSubjectsPairs) 
+            {
+                oldSubjects.Add(existringPair.Subject);
+                //If in the new subjects the old one is not in...
+                if(subjects.Contains(existringPair.Subject) == false)
+                {
+                    // Remove it
+                    DbContext.JobPositionSubjects.Remove(existringPair);
+                }
+                else
+                    jobPositionAndSubjectsList.Add(existringPair);
+            }
             // For each subject...
             foreach (var subject in subjects)
             {
-                // Creates a new JobPositionSubjectDataModel
-                var jobPositionAndSubject = new JobPositionSubjectDataModel()
+                // If this is a new subject...
+                if (oldSubjects.Contains(subject) == false)
                 {
-                    SubjectId = subject.Id,
-                    JobPositionId = model.Id
-                };
-                // Add it (in memory)
-                DbContext.JobPositionSubjects.Add(jobPositionAndSubject);
-                // Adds it to the list of pairs
-                jobPositionAndSubjectsList.Add(jobPositionAndSubject);
+                    // Creates a new JobPositionSubjectDataModel
+                    var jobPositionAndSubject = new JobPositionSubjectDataModel()
+                    {
+                        SubjectId = subject.Id,
+                        JobPositionId = model.Id
+                    };
+                    // Add it (in memory)
+                    DbContext.JobPositionSubjects.Add(jobPositionAndSubject);
+                    // Adds it to the list of pairs
+                    jobPositionAndSubjectsList.Add(jobPositionAndSubject);
+                }
             }
+            
             // Save the changes to the data base
             await DbContext.SaveChangesAsync();
             // Get the updated model

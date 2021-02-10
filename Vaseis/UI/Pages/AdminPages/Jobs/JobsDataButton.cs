@@ -54,7 +54,7 @@ namespace Vaseis
 
           #endregion
 
-          #region Department
+            #region Department
 
           /// <summary>
           /// The user's full name
