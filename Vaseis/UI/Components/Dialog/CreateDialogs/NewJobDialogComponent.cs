@@ -96,7 +96,7 @@ namespace Vaseis
                                                                               ControlsFactory.ParseSalaryToInt(SalaryInput.Text), 
                                                                               DeprtmentPicker.Text);
             // Sets the company's card's jobs as the update company's jobs
-            CompanyCard.Jobs = updatedCompany.Jobs;
+      //      CompanyCard.Jobs = updatedCompany.Jobs;
             // Closes the dialog
             CloseDialogOnClick(this, e);
         }

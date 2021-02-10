@@ -121,6 +121,8 @@ namespace Vaseis
             {
                 await Services.GetDataStorage.UpdatePassWord(User, NewPasswordInput.Password);
 
+                await Services.GetDataStorage.CreateNewLog(User.Username, "Changed his password", "Personal Data");
+
                 CloseDialogOnClick(this, e);
             }
             else if (CurrentPasswordInput.Password != User.Password)
