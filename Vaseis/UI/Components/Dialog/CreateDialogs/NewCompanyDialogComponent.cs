@@ -150,7 +150,7 @@ namespace Vaseis
                                                                               StreetAddress.Text, CompanyPicture.Text,
                                                                               DepartmentData);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Company", $"Company : {CompanyName.Text}");
+          //  await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Company", $"Company : {CompanyName.Text}");
 
 
             // Closes the dialog

@@ -16,6 +16,11 @@ namespace Vaseis
     {
         #region Public Properties
 
+        /// <summary>
+        /// The connected Admin
+        /// </summary>
+        public UserDataModel User { get; private set; }
+
         #endregion
 
         #region Proetcted Properties
@@ -80,8 +85,10 @@ namespace Vaseis
 
         #region Constructors
 
-        public SubjectsPage()
+        public SubjectsPage(UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -168,7 +175,7 @@ namespace Vaseis
         private void ShowAddSubjectDialogComponentOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            var newSubject = new NewSubjectDialogComponent()
+            var newSubject = new NewSubjectDialogComponent(User)
             {
                 ParentSubjectOptions = AllTheSubjectTitles,
                 CreateCommand = new RelayCommand(() =>

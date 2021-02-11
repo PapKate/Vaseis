@@ -46,11 +46,6 @@ namespace Vaseis
         /// </summary>
         protected Grid DialogHelperGrid { get; private set; }
 
-        /// <summary>
-        /// The connected Admin
-        /// </summary>
-        public UserDataModel User { get; protected set; }
-
         #endregion
 
         #region Dependency Properties
