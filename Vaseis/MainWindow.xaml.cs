@@ -155,10 +155,10 @@ namespace Vaseis
                                                        //.FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Username == "Jessie_Cummings73");
                                                        .FirstOrDefaultAsync(x => x.Type == UserType.Employee );
 
-            var view = new EmployeeView(user);
-            appGrid.Children.Add(view);
+            //var view = new ManagerView(user);
+            //appGrid.Children.Add(view);
 
-            // Sets the content as the window's grid
+            //Sets the content as the window's grid
             Content = windowGrid;
         }
 

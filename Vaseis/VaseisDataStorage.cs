@@ -280,12 +280,12 @@ namespace Vaseis
         /// <param name="departmentName">The department's name</param>
         /// <param name="colour">The department's representative color</param>
         /// <returns></returns>
-        public async Task<CompanyDataModel> AddNewDepartmentAsync(int companyId, string departmentName, string colour) 
+        public async Task<CompanyDataModel> AddNewDepartmentAsync(UserDataModel user, CompanyDataModel company, string departmentName, string colour) 
         {
             // Creates a new department data model
             var model = new DepartmentDataModel() 
             {
-                CompanyId = companyId,
+                CompanyId = company.Id,
                 DepartmentName = departmentName,
                 Color = colour
             };
@@ -297,7 +297,9 @@ namespace Vaseis
             await DbContext.SaveChangesAsync();
 
             // Gets the updated company
-            var updatedCompanyData = await GetCompanyDataAsync(companyId);
+            var updatedCompanyData = await GetCompanyDataAsync(company.Id);
+
+            await Services.GetDataStorage.CreateNewLog(user.Username, "Added a new Department ", $"Company: {company.Name} Department: {departmentName} ");
 
             // Return the model
             return updatedCompanyData;

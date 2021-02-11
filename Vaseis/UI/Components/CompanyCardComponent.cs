@@ -16,6 +16,9 @@ namespace Vaseis
     {
         #region Public Properties
 
+        /// <summary>
+        /// The clicked Company
+        /// </summary>
         public CompanyDataModel Company { get; }
 
         /// <summary>
@@ -27,6 +30,11 @@ namespace Vaseis
         /// The page's grid
         /// </summary>
         public Grid DialogHelperGrid { get; }
+
+        /// <summary>
+        /// The connected Admin
+        /// </summary>
+        public UserDataModel User { get; protected set; }
 
         #endregion
 
@@ -135,8 +143,9 @@ namespace Vaseis
         /// </summary>
         /// <param name="company">The company data model</param>
         /// <param name="pageGrid">The page's grid</param>
-        public CompanyCardComponent(CompanyDataModel company, Grid pageGrid)
+        public CompanyCardComponent(UserDataModel user, CompanyDataModel company, Grid pageGrid)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
             Company = company ?? throw new ArgumentNullException(nameof(company));
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
 
@@ -600,7 +609,7 @@ namespace Vaseis
         private void ShowAddDepartmentDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new department dialog
-            var AddNewDepartment = new NewDepartmentDialogComponent(Company, this);
+            var AddNewDepartment = new NewDepartmentDialogComponent(User,Company, this);
             // Adds it to the page grid
             PageGrid.Children.Add(AddNewDepartment);
 

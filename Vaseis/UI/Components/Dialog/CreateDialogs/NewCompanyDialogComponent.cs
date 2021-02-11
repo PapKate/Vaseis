@@ -149,6 +149,10 @@ namespace Vaseis
                                                                               City.Text, Country.Text, StreetNumber.Text, 
                                                                               StreetAddress.Text, CompanyPicture.Text,
                                                                               DepartmentData);
+
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Company", $"Company : {CompanyName.Text}");
+
+
             // Closes the dialog
             CloseDialogOnClick(this, e);
 
