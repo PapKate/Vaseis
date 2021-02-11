@@ -417,6 +417,7 @@ namespace Vaseis
                 await Services.GetDataStorage.UpdateReportAsync(Report, true);
                 // Adds a new evaluation data model
                 await Services.GetDataStorage.AddEvaluatorEvaliation(Report);
+                this.Visibility = Visibility.Collapsed;
             }
         }
 

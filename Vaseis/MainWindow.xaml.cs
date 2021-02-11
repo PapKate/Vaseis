@@ -153,9 +153,9 @@ namespace Vaseis
                                                        .Include(x => x.RecommendationPapers)
                                                        .Include(x => x.Projects)
                                                        //.FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Username == "Jessie_Cummings73");
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee );
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Evaluator && x.Id == 264);
 
-            var view = new EmployeeView(user);
+            var view = new EvaluatorView(user);
             appGrid.Children.Add(view);
 
             // Sets the content as the window's grid

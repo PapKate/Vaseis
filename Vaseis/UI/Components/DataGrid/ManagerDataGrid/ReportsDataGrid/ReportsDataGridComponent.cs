@@ -113,7 +113,7 @@ namespace Vaseis
                         // Else...
                         else
                         {
-                            await Task.Delay(2000);
+                            await Task.Delay(1000);
                             // Creates a new finalized dialog
                             var finalizedDialog = new MessageDialogComponent()
                             {
@@ -121,6 +121,11 @@ namespace Vaseis
                                 Title = "Success",
                                 BrushColor = HookersGreen.HexToBrush(),
                                 IsDialogOpen = true,
+                                OkCommand = new RelayCommand(() =>
+                                {
+                                    reportDialog.IsDialogOpen = false;
+                                    InfoDataStackPanel.Children.Remove(row);
+                                })
                             };
                             // Adds it to the page's grid
                             PageGrid.Children.Add(finalizedDialog);
