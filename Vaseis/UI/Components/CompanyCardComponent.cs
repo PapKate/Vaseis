@@ -642,14 +642,14 @@ namespace Vaseis
         private void ShowEmployeeDialogComponent(object sender, RoutedEventArgs e)
         {
             // Creates a new user dialog
-            AddUser = new NewUserDialogComponent(Company, this, PageGrid)
+            AddUser = new NewUserDialogComponent(User, Company, this, PageGrid)
             {
-                JobPositionOptions = new List<string> { "Ax", "Koula", "Polu", "Kwlopaido", "o", "Kuriakos" },
                 DepartmentOptions = DepartmentNames,
                 EmptyDepartmentOptions = EmptyDepartmentNames,
                 UserTypeOptions = new List<string> { "Evaluator", "Manager", "Employee" } 
             };
             // Adds it to the page grid
+
             PageGrid.Children.Add(AddUser);
 
             // Sets the is open property to true
