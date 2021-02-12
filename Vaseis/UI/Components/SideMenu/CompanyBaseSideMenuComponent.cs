@@ -2,6 +2,7 @@
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
+using System;
 
 namespace Vaseis
 {
@@ -10,6 +11,14 @@ namespace Vaseis
     /// </summary>
     public abstract class CompanyBaseSideMenuComponent : BaseSideMenuComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// the connected user
+        /// </summary>
+        public UserDataModel User { get; private set; }
+        #endregion
+
         #region Protected Properties
 
         /// <summary>
@@ -32,6 +41,8 @@ namespace Vaseis
         /// <param name="tabControl">The tab control</param>
         public CompanyBaseSideMenuComponent(TabControl tabControl, UserDataModel user) : base(tabControl, user)
         {
+          User = user??  throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -54,7 +65,7 @@ namespace Vaseis
                 {
                     Text = "Company",
                     Icon = PackIconKind.Domain,
-                    Content = new CompanyPage(User.Department.Company),
+                    Content = new CompanyPage(User.Department.Company, User),
                     IsSelected = true
                 };
 

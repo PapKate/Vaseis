@@ -11,6 +11,15 @@ namespace Vaseis
 {
     public class NewSubjectDialogComponent : CreateDialogBaseComponent
     {
+        #region Public Properties
+
+        /// <summary>
+        /// the connected Admin
+        /// </summary>
+        public UserDataModel User { get; private set; }
+
+        #endregion
+
         #region Proetcted Properties
 
         /// <summary>
@@ -98,8 +107,10 @@ namespace Vaseis
         #endregion
 
         #region Constructors
-        public NewSubjectDialogComponent()
+        public NewSubjectDialogComponent( UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             CreateGUI();
         }
 
@@ -119,6 +130,8 @@ namespace Vaseis
                 parent = SubjectParentPicker.Text;
 
             var newSubject = await Services.GetDataStorage.CreateNewSubject(SubjectTitleInput.Text, ParagraphTextBox.Text, parent);
+
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Subject-field", $"Subject: {SubjectTitleInput.Text}");
 
             CloseDialogOnClick(sender, e);
         }

@@ -74,7 +74,7 @@ namespace Vaseis
                 {
                     Text = "Subjects",
                     Icon = PackIconKind.Transcribe,
-                    Content = new SubjectsPage(),
+                    Content = new SubjectsPage(User),
                     IsSelected = true
                 });
             });

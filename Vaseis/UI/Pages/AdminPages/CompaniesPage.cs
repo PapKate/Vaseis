@@ -106,7 +106,7 @@ namespace Vaseis
             foreach (var company in companies)
             {
                 // Creates a card component with...
-                var companyCard = new CompanyCardComponent(company, PageGrid);
+                var companyCard = new CompanyCardComponent(User,company, PageGrid);
                 // Adds the card to the stack panel
                 CompaniesStackPanel.Children.Add(companyCard);
             }
@@ -190,7 +190,7 @@ namespace Vaseis
                 // Gets the last created
                 var latestCompany = companies[companies.Count() - 1];
                 // Creates a card component with...
-                var companyCard = new CompanyCardComponent(latestCompany, PageGrid);
+                var companyCard = new CompanyCardComponent(User, latestCompany, PageGrid);
                 // Adds the card to the stack panel
                 CompaniesStackPanel.Children.Add(companyCard);
             }
