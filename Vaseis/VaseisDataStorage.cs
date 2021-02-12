@@ -183,7 +183,6 @@ namespace Vaseis
 
             var model = new AwardDataModel()
             {
-                User = user,
                 UserId = user.Id,
                 AcquiredDate = (DateTime)when,
                 Name = awardTitle
@@ -194,7 +193,29 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            return user.Awards;
+            var updatedAwards = await DbContext.Awards.Where(x => x.UserId == user.Id).ToListAsync();
+
+            return updatedAwards;
+
+        }
+
+        public async Task<IEnumerable<LanguagesDataModel>> UpdateLanguages(UserDataModel user, string language)
+        {
+
+            var model = new LanguagesDataModel()
+            {
+                UserId = user.Id,
+                Name = language
+            };
+
+            DbContext.Languages.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            var updatedLanguages = await DbContext.Languages.Where(x => x.UserId == user.Id).ToListAsync();
+
+            return updatedLanguages;
 
         }
 
@@ -204,8 +225,7 @@ namespace Vaseis
 
             var model = new CertificateDataModel()
             {
-                User = user,
-                UserId = user.Id,
+               UserId = user.Id,
                Title = title,
                Description = description
             };
@@ -215,7 +235,9 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            return user.Certificates;
+            var updatedCertificates = await DbContext.Certificates.Where(x => x.UserId == user.Id).ToListAsync();
+
+            return updatedCertificates;
 
         }
 
@@ -227,6 +249,7 @@ namespace Vaseis
 
             var model = new ProjectDataModel()
             {
+                UserId = user.Id,
                 Title = title,
                 Url = url,
                 Description = description,
@@ -237,7 +260,10 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            return user.Projects;
+            var updatedProjects = await DbContext.Projects.Where(x => x.UserId == user.Id).ToListAsync();
+
+
+            return updatedProjects;
 
         }
 
@@ -246,7 +272,6 @@ namespace Vaseis
 
             var model = new RecommendationPaperDataModel()
             {
-                User = user,
                 UserId = user.Id,
                 Referee = Referee,
                 Description = recDescription
@@ -257,7 +282,9 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            return user.RecommendationPapers;
+            var updatedREcPapers = await DbContext.RecomendationPapers.Where(x => x.UserId == user.Id).ToListAsync();
+
+            return updatedREcPapers;
 
         }
 

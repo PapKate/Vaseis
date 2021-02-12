@@ -977,6 +977,7 @@ namespace Vaseis
             //The add awardButton
             AddRecommendationPaper = new Button()
             {
+                Height = 200,
                 Style = FlatButton,
                 Background = GhostWhite.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Left,

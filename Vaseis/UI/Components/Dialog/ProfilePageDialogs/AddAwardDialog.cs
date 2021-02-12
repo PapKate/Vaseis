@@ -70,9 +70,9 @@ namespace Vaseis
         protected async void NewAwardOnClick(object sender, RoutedEventArgs e)
         {
 
-            var updatedAwards =  await Services.GetDataStorage.UpdateAwards(User, DateAcquiredPicker.SelectedDate, AwardTitleInpuComponent.Text);
+            var updatedAwards =  await Services.GetDataStorage.UpdateAwards(User, DateAcquiredPicker.SelectedDate, AwardTitleInpuComponent.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Subject", $"Subject : {AwardTitleInpuComponent.Text}");
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Subject", $"Subject : {AwardTitleInpuComponent.InputTextBox.Text}");
 
             ProfilePage.Awards = updatedAwards;
 
