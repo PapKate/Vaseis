@@ -7,7 +7,7 @@ namespace Vaseis
     /// <summary>
     /// The recommendation papers
     /// </summary>
-    public class RecomendationPaperDataModel
+    public class RecommendationPaperDataModel
     {
         #region Public Properties
 
@@ -49,7 +49,7 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public RecomendationPaperDataModel()
+        public RecommendationPaperDataModel()
         {
 
         }

@@ -124,6 +124,7 @@ namespace Vaseis
                                       .Include(x => x.Awards)
                                       .Include(x => x.Certificates)
                                       .Include(x => x.Projects)
+                                      .Include(x => x.Languages)
                                       .Include(x => x.RecommendationPapers)
                                       .Include(x => x.AcquiredDegrees)
                                       .Include(x => x.JobPosition).ThenInclude(y => y.Job)
@@ -177,24 +178,87 @@ namespace Vaseis
         
         }
 
-        /// <summary>
-        ///Just updating the user's edited components 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="bio"></param>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        public async Task<UserDataModel> UpdateInfoByManager(UserDataModel user, string bio, string email)
+        public async Task<IEnumerable<AwardDataModel>> UpdateAwards(UserDataModel user, DateTime? when, string awardTitle)
         {
-            var model = await DbContext.Users.FirstAsync(x => x.Id == user.Id);
 
-            model.Bio = bio;
+            var model = new AwardDataModel()
+            {
+                User = user,
+                UserId = user.Id,
+                AcquiredDate = (DateTime)when,
+                Name = awardTitle
+            };
 
-            model.Email = email;
+            DbContext.Awards.Add(model);
 
+            // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            return model;
+            return user.Awards;
+
+        }
+
+
+        public async Task<IEnumerable<CertificateDataModel>> UpdateCertificates(UserDataModel user, string title, string description)
+        {
+
+            var model = new CertificateDataModel()
+            {
+                User = user,
+                UserId = user.Id,
+               Title = title,
+               Description = description
+            };
+
+            DbContext.Certificates.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            return user.Certificates;
+
+        }
+
+
+        public async Task<IEnumerable<ProjectDataModel>> UpdateProjects(UserDataModel user,string title, string url, string description)
+        {
+
+          //  if (forWho == 1) var madeFoWho  MadeForWho.Company;
+
+            var model = new ProjectDataModel()
+            {
+                Title = title,
+                Url = url,
+                Description = description,
+            };
+
+            DbContext.Projects.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            return user.Projects;
+
+        }
+
+        public async Task<IEnumerable<RecommendationPaperDataModel>> UpdateRecPapers(UserDataModel user, String Referee, string recDescription)
+        {
+
+            var model = new RecommendationPaperDataModel()
+            {
+                User = user,
+                UserId = user.Id,
+                Referee = Referee,
+                Description = recDescription
+            };
+
+            DbContext.RecomendationPapers.Add(model);
+
+            // Apply the changes to the database
+            await DbContext.SaveChangesAsync();
+
+            return user.RecommendationPapers;
+
         }
 
         #endregion
@@ -510,6 +574,11 @@ namespace Vaseis
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
+
+            var manager = await DbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.ManagerId);
+            var employee = await DbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
+
+            await Services.GetDataStorage.CreateNewLog(manager.Username, "Created a report", $"for {employee.Username}");
 
             // Return the model
             return model;
@@ -891,6 +960,11 @@ namespace Vaseis
 
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
+
+            var employee = Services.GetDbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
+            var evaluator = Services.GetDbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EvaluatorId);
+
+            await Services.GetDataStorage.CreateNewLog(report.UsersJobFilesPair.Evaluator.Username, "Created a report", $"for {report.UsersJobFilesPair.Employee.Username}");
 
             // Return the model
             return model;

@@ -124,7 +124,7 @@ namespace Vaseis
 
             //    windowGrid.Children.Remove(logInPage);
 
-            //    View.SideMenu.UserDisconnected += new EventHandler<UserDataModel>((sender, e) => 
+            //    View.SideMenu.UserDisconnected += new EventHandler<UserDataModel>((sender, e) =>
             //    {
             //        appGrid.Children.Remove(View);
 
@@ -153,12 +153,12 @@ namespace Vaseis
                                                        .Include(x => x.RecommendationPapers)
                                                        .Include(x => x.Projects)
                                                        //.FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Username == "Jessie_Cummings73");
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee );
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
 
-            //var view = new ManagerView(user);
-            //appGrid.Children.Add(view);
+            var view = new ManagerView(user);
+            appGrid.Children.Add(view);
 
-            //Sets the content as the window's grid
+            //  Sets the content as the window's grid
             Content = windowGrid;
         }
 

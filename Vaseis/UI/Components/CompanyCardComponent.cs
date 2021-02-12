@@ -601,6 +601,7 @@ namespace Vaseis
             Content = CompanyBorder;
         }
 
+
         #region Events
 
         /// <summary>
@@ -623,7 +624,7 @@ namespace Vaseis
         private void ShowAddJobDialogOnClick(object sender, RoutedEventArgs e)
         {
             // Creates a new job dialog
-            var AddNewJob = new NewJobDialogComponent(Company, this)
+            var AddNewJob = new NewJobDialogComponent(User, Company, this)
             {
                 DepartmentsOption = DepartmentNames,
             };
@@ -644,6 +645,7 @@ namespace Vaseis
             // Creates a new user dialog
             AddUser = new NewUserDialogComponent(User, Company, this, PageGrid)
             {
+
                 DepartmentOptions = DepartmentNames,
                 EmptyDepartmentOptions = EmptyDepartmentNames,
                 UserTypeOptions = new List<string> { "Evaluator", "Manager", "Employee" } 

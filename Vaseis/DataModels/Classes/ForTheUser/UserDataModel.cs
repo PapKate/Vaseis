@@ -131,7 +131,7 @@ namespace Vaseis
         /// <summary>
         /// The recommendation papers
         /// </summary>
-        public IEnumerable<RecomendationPaperDataModel> RecommendationPapers { get; set; }
+        public IEnumerable<RecommendationPaperDataModel> RecommendationPapers { get; set; }
 
         /// <summary>
         /// The certificates

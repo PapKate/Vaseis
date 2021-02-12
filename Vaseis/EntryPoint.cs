@@ -586,7 +586,7 @@ namespace Vaseis
 
             #region RecommendationPapers
 
-            var recommendationPapers = new Faker<RecomendationPaperDataModel>()
+            var recommendationPapers = new Faker<RecommendationPaperDataModel>()
                 .RuleFor(x => x.Referee, faker => faker.Person.FullName)
                 .RuleFor(x => x.Description, faker => faker.Lorem.Paragraph(25))
                 .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
@@ -764,7 +764,7 @@ namespace Vaseis
             var languages = new Faker<LanguagesDataModel>()
                 .RuleFor(x => x.Name, faker => faker.Random.ListItem(languagesList))
                 .RuleFor(x => x.UserId, faker => faker.Random.Int(1, 296))
-                .Generate(500);
+                .Generate(700);
 
             // Adds the generated languages in the languages db set
             context.Languages.AddRange(languages);
