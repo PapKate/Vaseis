@@ -28,15 +28,12 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
-        public TextInputComponent Language { get; private set; }
-
-
+        public TextInputComponent LanguageInput { get; private set; }
 
         /// <summary>
         /// The button that sends the values when user is done
         /// </summary>
         protected Button OkButton { get; private set; }
-
 
         #region Constructors
 
@@ -51,15 +48,14 @@ namespace Vaseis
 
         #endregion
 
-
-        protected async void NewRecOnClick(object sender, RoutedEventArgs e)
+        protected async void NewLanguageOnClick(object sender, RoutedEventArgs e)
         {
 
-            //var updatedRecs = await Services.GetDataStorage.UpdateRecPapers(User, Language.Text);
+            var updatedLanguages = await Services.GetDataStorage.UpdateLanguages(User, LanguageInput.InputTextBox.Text);
 
-            //await Services.GetDataStorage.CreateNewLog(User.Username, "Has a new Rec. Paper", $"Referee : {Language.Text}");
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new Language", $"Language : {LanguageInput.InputTextBox.Text}");
 
-            //ProfilePage.RecommendationPapers = updatedRecs;
+            ProfilePage.Languages = updatedLanguages;
 
             CloseDialogOnClick(this, e);
         }
@@ -72,11 +68,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add award";
-
-        
-
-   
+            DialogTitle.Text = "Add Language";
 
             //the ok Button
             OkButton = new Button()
@@ -99,19 +91,19 @@ namespace Vaseis
 
 
             //i use a stack panel so that the input fields are set in a column
-            var AddRecPaper = new StackPanel();
+            var AddLanguage = new StackPanel();
 
-            AddRecPaper.Children.Add(Language);
+            AddLanguage.Children.Add(LanguageInput);
           //  AddRecPaper.Children.Add(DescriptionInput);
 
 
             // Adds a corner radius
-            ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); ;
-            OkButton.Click += NewRecOnClick;
+            ButtonAssist.SetCornerRadius(OkButton, new CornerRadius(8)); 
+            OkButton.Click += NewLanguageOnClick;
 
-            AddRecPaper.Children.Add(OkButton);
+            AddLanguage.Children.Add(OkButton);
 
-            InputWrapPanel.Children.Add(AddRecPaper);
+            InputWrapPanel.Children.Add(AddLanguage);
 
             Content = DialogHost;
         }
