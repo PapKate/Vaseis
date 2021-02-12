@@ -15,8 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="UI\Images\employee.png" />
-    <None Remove="UI\Images\logo.png" />
+    <None Remove="UI\Images\1.png" />
+    <None Remove="UI\Images\2.png" />
+    <None Remove="UI\Images\cottonLogo.png" />
+    <None Remove="UI\Images\logoSmall.png" />
+    <None Remove="UI\Images\logoVaseis.png" />
     <None Remove="UI\Images\vaseis.png" />
   </ItemGroup>
 
@@ -29,8 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="UI\Images\employee.png" />
-    <Resource Include="UI\Images\logo.png" />
+    <Resource Include="UI\Images\1.png" />
+    <Resource Include="UI\Images\2.png" />
+    <Resource Include="UI\Images\cottonLogo.png" />
+    <Resource Include="UI\Images\logoSmall.png" />
+    <Resource Include="UI\Images\logoVaseis.png" />
     <Resource Include="UI\Images\vaseis.png" />
   </ItemGroup>
 
