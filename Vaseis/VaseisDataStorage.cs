@@ -641,7 +641,7 @@ namespace Vaseis
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
 
-            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Employee.Username, "Deleted request", $"for the Job {model.JobPosition.Job.JobTitle}");
+            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Employee.Username, "Deleted request", $"For the Job {model.JobPosition.Job.JobTitle}");
 
             // Return the model
             return model;
@@ -656,22 +656,25 @@ namespace Vaseis
         public async Task<UserDataModel> UpdateEmployeeJobPositionAsync(int employeeId, JobPositionDataModel jobPosition)
         {
             // Get the existing model
-            var model = await DbContext.Users.FirstAsync(x => x.Id == employeeId);
+            var model = await DbContext.Users.Include(x => x.JobPositionRequests)
+                                             .Include(x => x.JobPosition).ThenInclude(y => y.Job)
+                                             .Include(x => x.Department)
+                                             .FirstAsync(x => x.Id == employeeId);
 
             model.JobPositionId = jobPosition.Id;
             model.DepartmentId = jobPosition.Job.Department.Id;
-            model.JobPosition = null;
-            model.Department = null;
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
 
-            model.JobPosition = jobPosition;
-            model.Department = jobPosition.Job.Department;
+            var pair = await DbContext.UsersJobFilesPairs.Include(x => x.Employee)
+                                                         .Include(x => x.JobPositionRequests).ThenInclude(y => y.JobPosition)
+                                                         .FirstAsync(x => x.EmployeeId == employeeId);
 
-            var acquiredJobPositionRequest = model.JobPositionRequests.First(x => x.JobPositionId == jobPosition.Id);
-
-            DbContext.JobPositionRequests.Remove(acquiredJobPositionRequest);
+            var acquiredJobPositionRequest = pair.JobPositionRequests.Where(x => x.JobPositionId == jobPosition.Id).ToList();
+            foreach(var request in acquiredJobPositionRequest)
+                DbContext.JobPositionRequests.Remove(request);
+            await DbContext.SaveChangesAsync();
 
             await Services.GetDataStorage.CreateNewLog(model.Username, "Aquiered a new Job", $"Thesis: {jobPosition.Job.JobTitle}");
 
@@ -861,12 +864,15 @@ namespace Vaseis
 
             // Creates a new list for the job position and subject pair
             var jobPositionAndSubjectsList = new List<JobPositionSubjectDataModel>();
+
+            existringJobPositionAndSubjectsPairs.ForEach(x => oldSubjects.Add(x.Subject));
+
             // For each pair...
             foreach (var existringPair in existringJobPositionAndSubjectsPairs) 
             {
-                oldSubjects.Add(existringPair.Subject);
+                var o = subjects.Any(x => x.Title == existringPair.Subject.Title);
                 //If in the new subjects the old one is not in...
-                if(subjects.Contains(existringPair.Subject) == false)
+                if (o == false)
                 {
                     // Remove it
                     DbContext.JobPositionSubjects.Remove(existringPair);
@@ -878,7 +884,7 @@ namespace Vaseis
             foreach (var subject in subjects)
             {
                 // If this is a new subject...
-                if (oldSubjects.Contains(subject) == false)
+                if (oldSubjects.Any(x => x.Title == subject.Title) == false)
                 {
                     // Creates a new JobPositionSubjectDataModel
                     var jobPositionAndSubject = new JobPositionSubjectDataModel()

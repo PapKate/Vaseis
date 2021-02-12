@@ -109,7 +109,7 @@ namespace Vaseis
             // Creates and adds a tool tip
             EditButton.ToolTip = new ToolTipComponent() { Text = "Edit evaluation" };
 
-            EditButton.Click += ShowRowDialog;
+            EditButton.Click += ShowEditEvaluationDialog;
 
             // Add it to the grid
             RowDataGrid.Children.Add(EditButton);
@@ -139,28 +139,37 @@ namespace Vaseis
         /// <summary>
         /// On click shows the evaluation dialog
         /// </summary>
-        private void ShowRowDialog(object sender, RoutedEventArgs e)
+        private void ShowEditEvaluationDialog(object sender, RoutedEventArgs e)
         {
             // Creates an evaluation dialog
             var evaluationDialog = new EvaluationDialogComponent(this, Evaluation)
             {
                 // And opens it
                 IsDialogOpen = true,
-                FinalizedCommand = new RelayCommand(async() =>
-                {
-                    await Task.Delay(2000);
-                    // Creates a new finalized dialog
-                    var finalizedDialog = new MessageDialogComponent()
-                    {
-                        Message = "Your evaluation has been successfully sent to a manager",
-                        Title = "Success",
-                        BrushColor = HookersGreen.HexToBrush(),
-                        IsDialogOpen = true,
-                    };
-                    // Adds it to the page's grid
-                    PageGrid.Children.Add(finalizedDialog);
-                })
             };
+            evaluationDialog.FinalizedCommand = new RelayCommand(async () =>
+            {
+                await Task.Delay(1000);
+                // Creates a new finalized dialog
+                var finalizedDialog = new MessageDialogComponent()
+                {
+                    Message = "Your evaluation has been successfully sent to a manager",
+                    Title = "Success",
+                    BrushColor = HookersGreen.HexToBrush(),
+                    IsDialogOpen = true,
+                    OkCommand = new RelayCommand(() =>
+                    {
+                        evaluationDialog.IsDialogOpen = false; 
+                        this.Visibility = Visibility.Collapsed;
+                    })
+                };
+                
+                // Updates the evaluation data model in the data base
+                await Services.GetDataStorage.UpdateEvaluatorEvaluationAsync(Evaluation, true);
+
+                // Adds it to the page's grid
+                PageGrid.Children.Add(finalizedDialog);
+            });
             // Adds it to the page's grid
             PageGrid.Children.Add(evaluationDialog);
         }

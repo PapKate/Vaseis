@@ -310,6 +310,8 @@ namespace Vaseis
                 // Sets the dialog host's is open to true
                 DialogHost.IsOpen = true;
             }
+            if (newValue == false)
+                DialogHost.IsOpen = false;
             // Calls the virtual method
             DialogVisibilityChanged(e);
         }

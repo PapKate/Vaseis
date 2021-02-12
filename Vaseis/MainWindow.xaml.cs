@@ -152,10 +152,12 @@ namespace Vaseis
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
                                                        .Include(x => x.Projects)
-                                                       //.FirstOrDefaultAsync(x => x.Type == UserType.Employee && x.Username == "Jessie_Cummings73");
+                                                       
+
                                                        .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
 
             var view = new ManagerView(user);
+
             appGrid.Children.Add(view);
 
             //  Sets the content as the window's grid

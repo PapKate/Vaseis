@@ -515,7 +515,6 @@ namespace Vaseis
                              .RuleFor(x => x.JobPositionRequestId, jobPositionsRequest.Id)
                              .RuleFor(x => x.UsersJobFilesPairId, jobPositionsRequest.UsersJobFilesPairId)
                              .RuleFor(x => x.IsFinalized, faker => faker.Random.Bool())
-                             .RuleFor(x => x.IsAprovedByManager, faker => faker.Random.Bool())
                              .Generate(1);
 
                     // Adds the generated evaluations in the evaluations db set
@@ -536,6 +535,12 @@ namespace Vaseis
                 finalGrade = (float)(evaluation.InterviewGrade * 0.4 + evaluation.ReportGrade * 0.4 + evaluation.FilesGrade * 0.2);
                 //*100 to become an integer
                 evaluation.FinalGrade = (int)finalGrade;
+                if(evaluation.IsFinalized == true)
+                {
+                    var rng = new Random();
+                    var randomBool = rng.Next(0, 2) > 0;
+                    evaluation.IsAprovedByManager = randomBool;
+                }
                 if (evaluation.IsAprovedByManager == true)
                 { 
                     var rng = new Random();
