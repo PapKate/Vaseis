@@ -23,6 +23,11 @@ namespace Vaseis
         public CompanyDataModel Company { get; }
 
         /// <summary>
+        /// The connected Admin
+        /// </summary>
+        public UserDataModel User { get; }
+
+        /// <summary>
         /// The page's grid
         /// </summary>
         public Grid PageGrid { get; }
@@ -188,8 +193,9 @@ namespace Vaseis
         /// <param name="company">The company data model</param>
         /// <param name="companyCard">The representative card</param>
         /// <param name="pageGrid">The page's grid</param>
-        public NewUserDialogComponent(CompanyDataModel company, CompanyCardComponent companyCard, Grid pageGrid)
+        public NewUserDialogComponent(UserDataModel user ,CompanyDataModel company, CompanyCardComponent companyCard, Grid pageGrid)
         {
+            User = user ?? throw new ArgumentNullException(nameof(company));
             Company = company ?? throw new ArgumentNullException(nameof(company));
             CompanyCard = companyCard ?? throw new ArgumentNullException(nameof(companyCard));
             PageGrid = pageGrid ?? throw new ArgumentNullException(nameof(pageGrid));
@@ -241,7 +247,9 @@ namespace Vaseis
                                                             ControlsFactory.FindUserType(UserTypePicker.Text));
                 // Sets the company's card's users as the update company's users
                 CompanyCard.Employees = updatedCompany.Users;
-                
+
+                await Services.GetDataStorage.CreateNewLog(User.Username, "Entered a new User", $"Company: {Company.Name} User : {UsernameInput.Name}");
+
                 // Closes the dialog
                 CloseDialogOnClick(this, e);
             }

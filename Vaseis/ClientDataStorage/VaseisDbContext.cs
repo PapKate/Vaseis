@@ -77,7 +77,7 @@ namespace Vaseis
         /// <summary>
         /// The recommendations table
         /// </summary>
-        public DbSet<RecomendationPaperDataModel> RecomendationPapers { get; set; }
+        public DbSet<RecommendationPaperDataModel> RecomendationPapers { get; set; }
         
         /// <summary>
         /// The awards table

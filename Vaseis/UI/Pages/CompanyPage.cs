@@ -23,6 +23,11 @@ namespace Vaseis
         /// </summary>
         public CompanyDataModel Company { get; set; }
 
+        /// <summary>
+        /// The connected user
+        /// </summary>
+        public UserDataModel User { get; set; }
+
         #endregion
 
         #region Protected Properties
@@ -30,6 +35,11 @@ namespace Vaseis
         /// The company's Picture
         /// </summary>
         public Image Image { get; protected set; }
+
+        /// <summary>
+        /// The edit buttons
+        /// </summary>
+        protected EditComponent EditButtons { get; private set; }
 
         /// <summary>
         /// The page's grid
@@ -59,32 +69,32 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent AFMData { get; private set; }
+        protected EditableTextComponent AFMData { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent DOYData { get; private set; }
+        protected EditableTextComponent DOYData { get; private set; }
         
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent CountryData { get; private set; }
+        protected EditableTextComponent CountryData { get; private set; }
   
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent CityData { get; private set; }
+        protected EditableTextComponent CityData { get; private set; }
    
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent AddressData { get; private set; }
+        protected EditableTextComponent AddressData { get; private set; }
         
         /// <summary>
         /// 
         /// </summary>
-        protected TitleAndTextComponent TelephoneData { get; private set; }
+        protected EditableTextComponent TelephoneData { get; private set; }
         
         /// <summary>
         /// 
@@ -94,7 +104,7 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
-        protected TextBlock LogoBlock { get; private set; }
+        protected EditableTextComponent LogoBlock { get; private set; }
         
         /// <summary>
         /// 
@@ -118,8 +128,10 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public CompanyPage(CompanyDataModel company)
+        public CompanyPage(CompanyDataModel company,UserDataModel user)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+
             Company = company ?? throw new ArgumentNullException(nameof(company));
 
             CreateGUI();
@@ -219,7 +231,7 @@ namespace Vaseis
             #region Company Info
 
             //Creates the afm textBlock
-            AFMData = new TitleAndTextComponent()
+            AFMData = new EditableTextComponent()
             {
                 Title = "AFM",
                 Margin = new Thickness(12),
@@ -229,7 +241,7 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(AFMData);
 
             //Creates the DOY textBlock
-            DOYData = new TitleAndTextComponent()
+            DOYData = new EditableTextComponent()
             {
                 Title = "DOY",
                 Margin = new Thickness(12),
@@ -239,7 +251,7 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(DOYData);
 
             //Creates the Country textBlock
-            CountryData = new TitleAndTextComponent()
+            CountryData = new EditableTextComponent()
             {
                 Title = "Country",
                 Margin = new Thickness(12),
@@ -249,7 +261,7 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(CountryData);
 
             //Creates the City textBlock
-            CityData = new TitleAndTextComponent()
+            CityData = new EditableTextComponent()
             {
                 Title = "City",
                 Margin = new Thickness(12),
@@ -259,7 +271,7 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(CityData);
 
             //Creates the Address textBlock
-            AddressData = new TitleAndTextComponent()
+            AddressData = new EditableTextComponent()
             {
                 Title = "Address",
                 Margin = new Thickness(12),
@@ -269,7 +281,7 @@ namespace Vaseis
             CompanyInfoStackPanel.Children.Add(AddressData);
 
             //Creates the Telephone textBlock
-            TelephoneData = new TitleAndTextComponent()
+            TelephoneData = new EditableTextComponent()
             {
                 Title = "Telephone",
                 Margin = new Thickness(12),
@@ -291,6 +303,78 @@ namespace Vaseis
 
             #endregion
 
+
+            #region Edit Company Info (Manager)
+
+
+            //(Down) we add them into the view, on if User.Type == Manager
+
+                // Creates the edit buttons
+                EditButtons = new EditComponent
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    // Sets the edit command
+                    EditCommand = new RelayCommand(() =>
+                    {
+                        // Sets the components' editable properties to true
+                        AFMData.IsEditable = true;
+                        DOYData.IsEditable = true;
+                        CountryData.IsEditable = true;
+                        CityData.IsEditable = true;
+                        AddressData.IsEditable = true;
+                        TelephoneData.IsEditable = true;
+                        LogoBlock.IsEditable = true;
+                        AboutTile.IsEditable = true;
+                    }),
+                    SaveCommand = new RelayCommand(async () =>
+                    {
+                       // await Services.GetDataStorage.Update
+                        // Sets the components' editable properties to false
+                        AddressData.IsEditable = false;
+                        DOYData.IsEditable = false;
+                        CountryData.IsEditable = false;
+                        CityData.IsEditable = false;
+                        AddressData.IsEditable = false;
+                        TelephoneData.IsEditable = false;
+                        LogoBlock.IsEditable = false;
+                        AboutTile.IsEditable = false;
+
+                        // Sets the components' save edit properties to true
+                        AFMData.SaveEdit = true;
+                        DOYData.SaveEdit = true;
+                        CountryData.SaveEdit = true;
+                        CityData.SaveEdit = true;
+                        AddressData.SaveEdit = true;
+                        TelephoneData.SaveEdit = true;
+                        LogoBlock.SaveEdit = true;
+                        AboutTile.SaveEdit = true;
+                    }),
+                    CancelCommand = new RelayCommand(() =>
+                    {
+                        // Sets the components' editable properties to false
+                        AFMData.IsEditable = false;
+                        DOYData.IsEditable = false;
+                        CountryData.IsEditable = false;
+                        CityData.IsEditable = false;
+                        AddressData.IsEditable = false;
+                        TelephoneData.IsEditable = false;
+                        LogoBlock.IsEditable = false;
+                        AboutTile.IsEditable = false;
+
+                        // Sets the components' save edit properties to true
+                        AFMData.SaveEdit = false;
+                        DOYData.SaveEdit = false;
+                        CountryData.SaveEdit = false;
+                        CityData.SaveEdit = false;
+                        AddressData.SaveEdit = false;
+                        TelephoneData.SaveEdit = false;
+                        LogoBlock.SaveEdit = false;
+                        AboutTile.SaveEdit = false;
+                    })
+                };
+ 
+
+            #endregion
             //The line that separates the CompanyPage
             Bar = new Border()
             {
@@ -313,7 +397,7 @@ namespace Vaseis
             };
 
             //JustlIKE Bio text
-            LogoBlock = new TextBlock()
+            LogoBlock = new EditableTextComponent()
             {
                 FontSize = 60,
                 FontFamily = Calibri,
@@ -331,6 +415,8 @@ namespace Vaseis
             };
 
             TopStackPanel.Children.Add(AboutTile);
+
+            if (User.Type == UserType.Manager) TopStackPanel.Children.Add(EditButtons);
 
             #endregion
 

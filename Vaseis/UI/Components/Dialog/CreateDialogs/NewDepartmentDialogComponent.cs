@@ -24,6 +24,12 @@ namespace Vaseis
         /// The company card
         /// </summary>
         public CompanyDataModel Company { get; }
+
+        /// <summary>
+        /// The admin/manager connected
+        /// </summary>
+        public UserDataModel User { get; protected set; }
+
         #endregion
 
         #region Protected Properties
@@ -50,8 +56,9 @@ namespace Vaseis
         /// <summary>
         /// Default constructor
         /// </summary>
-        public NewDepartmentDialogComponent(CompanyDataModel company, CompanyCardComponent companyCard)
+        public NewDepartmentDialogComponent(UserDataModel user, CompanyDataModel company, CompanyCardComponent companyCard)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
             Company = company ?? throw new ArgumentNullException(nameof(company));
             CompanyCard = companyCard ?? throw new ArgumentNullException(nameof(companyCard));
 
@@ -68,9 +75,10 @@ namespace Vaseis
         protected async void CreateNewDepartment(object sender, RoutedEventArgs e)
         {
             // Creates a new department and returns the updated company
-            var updatedCompany = await Services.GetDataStorage.AddNewDepartmentAsync(Company.Id, DepartmentInput.Text, ColorInput.Text);
+            var updatedCompany = await Services.GetDataStorage.AddNewDepartmentAsync(User, Company, DepartmentInput.Text, ColorInput.Text);
             // Sets the company's card's departments as the update company's departments
             CompanyCard.Departments = updatedCompany.Departments;
+
             // Closes the dialog
             CloseDialogOnClick(this, e);
         }

@@ -32,6 +32,36 @@ namespace Vaseis
         protected ChangePasswordDialog ChangePasswordDialog { get; private set; }
 
         /// <summary>
+        /// The add award dialog component
+        /// </summary>
+        protected AddAwardDialog AddAwardDialog { get; private set; }
+
+
+        /// <summary>
+        /// The add certificate dialog component
+        /// </summary>
+        protected AddCertificateDialog AddCertificateDialog { get; private set; }
+
+
+        /// <summary>
+        /// The add language dialog component
+        /// </summary>
+        protected AddLanguageDialog AddLanguageDialog { get; private set; }
+
+
+
+        /// <summary>
+        /// The add language dialog component
+        /// </summary>
+        protected AddProjectDialog AddProjectDialog { get; private set; }
+
+        /// <summary>
+        /// The add award dialog component
+        /// </summary>
+        protected AddRecommendationPaperDialog AddRecommendationPaperDialog { get; private set; }
+
+
+        /// <summary>
         /// The page's grid
         /// </summary>
         protected Grid PageGrid { get; private set; }
@@ -75,6 +105,33 @@ namespace Vaseis
         /// The stack panel for the user's company data
         /// </summary>
         protected StackPanel CompanyDataStackPanel { get; private set; }
+
+        /// <summary>
+        /// The stack panel for the user's awards
+        /// </summary>
+        protected StackPanel AwardsStackPanel { get; private set; }
+
+        /// <summary>
+        /// The stack panel for the user's rec
+        /// </summary>
+        protected StackPanel RecommendationPapersStackPanel { get; private set; }
+
+        /// <summary>
+        /// The stack panel for the user's languages
+        /// </summary>
+        protected StackPanel LanguagesStackPanel { get; private set; }
+
+
+        /// <summary>
+        /// The stack panel for the user's projects
+        /// </summary>
+        protected StackPanel ProjectsStackPanel { get; private set; }
+
+
+        /// <summary>
+        /// The stack panel for the user's certificates
+        /// </summary>
+        protected StackPanel CertificatesStackPanel { get; private set; }
 
         /// <summary>
         /// The edit buttons
@@ -137,9 +194,179 @@ namespace Vaseis
         protected Button ChangePassword { get; private set; }
 
         /// <summary>
+        /// The manager's add award button
+        /// </summary>
+        protected Button AddAward { get; private set; }
+
+        /// <summary>
+        /// The manager's add certificate button
+        /// </summary>
+        protected Button AddCertificate { get; private set; }
+
+        /// <summary>
+        /// The manager's add language button
+        /// </summary>
+        protected Button AddLanguage{ get; private set; }
+
+        /// <summary>
+        /// The manager's add recPaper button
+        /// </summary>
+        protected Button AddRecommendationPaper { get; private set; }
+
+        /// <summary>
+        /// The manager's add project button
+        /// </summary>
+        protected Button AddProject { get; private set; }
+
+        /// <summary>
         /// The evaluator's average grade
         /// </summary>
         protected TextBlock EvalsAverage { get; private set; }
+
+        #endregion
+
+        #region Dependency Properties
+
+        #region Awards
+
+        /// <summary>
+        /// The User's Awards
+        /// </summary>
+        public IEnumerable<AwardDataModel> Awards
+        {
+            get { return (IEnumerable<AwardDataModel>)GetValue(AwardsProperty); }
+            set { SetValue(AwardsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Awards"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty AwardsProperty = DependencyProperty.Register(nameof(Awards), typeof(IEnumerable<AwardDataModel>), typeof(ProfilePage), new PropertyMetadata(OnAwardsChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Awards"/> property
+        /// </summary>
+        private static void OnAwardsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ProfilePage;
+
+            sender.OnAwardsChangedCore(e);
+        }
+
+        #endregion
+
+        #region Recommendation Papers
+
+        /// <summary>
+        /// The User's Recommendation Papers
+        /// </summary>
+        public IEnumerable<RecommendationPaperDataModel> RecommendationPapers
+        {
+            get { return (IEnumerable<RecommendationPaperDataModel>)GetValue(RecommendationPapersProperty); }
+            set { SetValue(RecommendationPapersProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="RecommendationPapers"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty RecommendationPapersProperty = DependencyProperty.Register(nameof(RecommendationPapers), typeof(IEnumerable<RecommendationPaperDataModel>), typeof(ProfilePage), new PropertyMetadata(OnRecommendationPapersChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Awards"/> property
+        /// </summary>
+        private static void OnRecommendationPapersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ProfilePage;
+
+            sender.OnRecommendationPapersChangedCore(e);
+        }
+
+        #endregion
+
+        #region Certificates
+
+        /// <summary>
+        /// The User's Certificates
+        /// </summary>
+        public IEnumerable<CertificateDataModel> Certificates
+        {
+            get { return (IEnumerable<CertificateDataModel>)GetValue(CertificatesProperty); }
+            set { SetValue(CertificatesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Certificates"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CertificatesProperty = DependencyProperty.Register(nameof(Certificates), typeof(IEnumerable<CertificateDataModel>), typeof(ProfilePage), new PropertyMetadata(OnCertificatesChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Certificates"/> property
+        /// </summary>
+        private static void OnCertificatesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ProfilePage;
+
+            sender.OnCertificatesChangedCore(e);
+        }
+
+        #endregion
+
+
+        #region  Languages
+
+        /// <summary>
+        /// The User's Recommendation Papers
+        /// </summary>
+        public IEnumerable<LanguagesDataModel> Languages
+        {
+            get { return (IEnumerable<LanguagesDataModel>)GetValue(LanguagesProperty); }
+            set { SetValue(LanguagesProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Languages"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty LanguagesProperty = DependencyProperty.Register(nameof(Languages), typeof(IEnumerable<LanguagesDataModel>), typeof(ProfilePage), new PropertyMetadata(OnLanguagesChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Languages"/> property
+        /// </summary>
+        private static void OnLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ProfilePage;
+
+            sender.OnLanguagesChangedCore(e);
+        }
+
+        #endregion
+
+        #region Projects
+
+        /// <summary>
+        /// The User's Recommendation Papers
+        /// </summary>
+        public IEnumerable<ProjectDataModel> Projects
+        {
+            get { return (IEnumerable<ProjectDataModel>)GetValue(ProjectsProperty); }
+            set { SetValue(ProjectsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Projects"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ProjectsProperty = DependencyProperty.Register(nameof(Projects), typeof(IEnumerable<ProjectDataModel>), typeof(ProfilePage), new PropertyMetadata(OnProjectsChanged));
+
+        /// <summary>
+        /// Handles the change of the <see cref="Projects"/> property
+        /// </summary>
+        private static void OnProjectsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ProfilePage;
+
+            sender.OnProjectsChangedCore(e);
+        }
+
+        #endregion
 
         #endregion
 
@@ -153,16 +380,26 @@ namespace Vaseis
             User = user ?? throw new ArgumentNullException(nameof(user));
 
             CreateGUI();
+            Update();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void Update()
+        {
+            Awards = User.Awards;
         }
 
         #endregion
 
         #region Protected Methods
 
-        /// <summary>
-        /// Handles the initialization of the page
-        /// </summary>
-        /// <param name="e">Event args</param>
+            /// <summary>
+            /// Handles the initialization of the page
+            /// </summary>
+            /// <param name="e">Event args</param>
         protected async override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -184,10 +421,62 @@ namespace Vaseis
 
         }
 
+        #region OnChanged
+
         protected async void UpdateEdits(object sender, RoutedEventArgs e)
         {
             await Services.GetDataStorage.UpdateBioAndEmail(User, BioTile.BioText, EmailData.InputText);
         }
+
+        /// <summary>
+        /// Handles the change of the <see cref="ProfilePage.Awards"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnAwardsChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="ProfilePage.RecommendationPapers"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnRecommendationPapersChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="ProfilePage.Certificates"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnCertificatesChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="ProfilePage.Languages"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnLanguagesChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="ProfilePage.Projects"/> property
+        /// </summary>
+        /// <param name="e">Event args</param>
+        protected virtual void OnProjectsChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -465,10 +754,10 @@ namespace Vaseis
 
             #region Awards
 
-            //Did this to dd the awards into the awardsContainer because, the User.Awards returns AwardDataModel List
-            var awards = new List<string>();
+            AwardsStackPanel = new StackPanel();
 
-            // For each award...
+            List<String> awards = new List<string>();
+
             foreach (var award in User.Awards)
             {
                 // Add to the awards list a string with the award's name and its acquired date
@@ -481,12 +770,17 @@ namespace Vaseis
                 Title = "Awards",
                 DataNames = awards
             };
+
+            AwardsStackPanel.Children.Add(AwardsContainer);
+
             // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(AwardsContainer);
+            CompanyDataStackPanel.Children.Add(AwardsStackPanel);
 
             #endregion
 
             #region Certificates
+
+            CertificatesStackPanel = new StackPanel();
 
             //Did this to dd the awards into the awardsContainer because, the User.Certificates returns CertificatesDataModel List
             var certificates = new List<string>();
@@ -502,34 +796,19 @@ namespace Vaseis
                 Title = "Certificates",
                 DataNames = certificates
             };
+
+            CertificatesStackPanel.Children.Add(CertificatesContainer);
+
             // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(CertificatesContainer);
-
-            #endregion
-
-            #region Recommendation Papers
-
-            //Did this to dd the awards into the awardsContainer because, the User.Certificates returns CertificatesDataModel List
-            var recommendationPapers = new List<string>();
-
-            foreach (var recommendationPaper in User.RecommendationPapers)
-            {
-                recommendationPapers.Add($"{recommendationPaper.Referee}\n{recommendationPaper.Description}");
-            };
-
-            RecommendationPapersContainer = new TitleAndListComponent()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Title = "Recommendation papers",
-                DataNames = recommendationPapers
-            };
-            // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(RecommendationPapersContainer);
+            CompanyDataStackPanel.Children.Add(CertificatesStackPanel);
 
             #endregion
 
             #region Languages
-            
+
+
+            LanguagesStackPanel = new StackPanel();
+
             var languages = new List<string>();
 
             if (User.Languages != null)
@@ -546,12 +825,17 @@ namespace Vaseis
                 Title = "Languages",
                 DataNames = languages
             };
+
+            LanguagesStackPanel.Children.Add(LanguagesContainer);
+
             // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(LanguagesContainer);
+            CompanyDataStackPanel.Children.Add(LanguagesStackPanel);
 
             #endregion
 
             #region Projects
+
+            ProjectsStackPanel = new StackPanel();
 
             var projects = new List<string>();
             if(User.Projects != null)
@@ -569,8 +853,163 @@ namespace Vaseis
                 Title = "Projects",
                 DataNames = projects
             };
+
+            ProjectsStackPanel.Children.Add(ProjectsContainer);
+
             // Adds it to the stack panel
-            CompanyDataStackPanel.Children.Add(ProjectsContainer);
+            CompanyDataStackPanel.Children.Add(ProjectsStackPanel);
+
+            #endregion
+
+            #region Recommendation Papers
+
+            RecommendationPapersStackPanel = new StackPanel();
+
+            //Did this to dd the awards into the awardsContainer because, the User.Certificates returns CertificatesDataModel List
+            var recommendationPapers = new List<string>();
+
+            foreach (var recommendationPaper in User.RecommendationPapers)
+            {
+                recommendationPapers.Add($"{recommendationPaper.Referee}\n{recommendationPaper.Description}");
+            };
+
+            RecommendationPapersContainer = new TitleAndListComponent()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Title = "Recommendation papers",
+                DataNames = recommendationPapers
+            };
+
+            RecommendationPapersStackPanel.Children.Add(RecommendationPapersContainer);
+
+            // Adds it to the stack panel
+            CompanyDataStackPanel.Children.Add(RecommendationPapersStackPanel);
+
+            #endregion
+
+            #region Buttons
+
+            var buttonsGrid = new UniformGrid()
+            {
+                Columns = 5
+            };
+
+            //The add awardButton
+            AddAward = new Button()
+            {
+                Style = FlatButton,
+                Background = GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    Margin = new Thickness(8),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Calibri,
+                    Text = "Add award"
+                },
+            };
+            // On click calls method
+            AddAward.Click += ShowAddAwardOnClick;
+
+            //The add awardButton
+            AddCertificate = new Button()
+            {
+                Style = FlatButton,
+                Background = GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    Margin = new Thickness(8),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Calibri,
+                    Text = "Add certificate"
+                },
+            };
+            // On click calls method
+            AddCertificate.Click += ShowAddCertificateOnClick;
+
+            //The add awardButton
+            AddLanguage = new Button()
+            {
+                Style = FlatButton,
+                Background = GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    Margin = new Thickness(8),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Calibri,
+                    Text = "Add language"
+                },
+            };
+            // On click calls method
+            AddLanguage.Click += ShowAddLanguageOnClick;
+
+            //The add awardButton
+            AddProject = new Button()
+            {
+                Style = FlatButton,
+                Background = DarkBlue.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    Margin = new Thickness(8),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Calibri,
+                    Text = "Add project"
+                },
+            };
+            // On click calls method
+            AddProject.Click += ShowAddProjectOnClick;
+
+            //The add awardButton
+            AddRecommendationPaper = new Button()
+            {
+                Style = FlatButton,
+                Background = GhostWhite.HexToBrush(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Content = new TextBlock()
+                {
+                    Foreground = DarkBlue.HexToBrush(),
+                    FontSize = 18,
+                    Margin = new Thickness(8),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontWeight = FontWeights.Normal,
+                    FontFamily = Calibri,
+                    Text = "Add recommendation paper"
+                },
+            };
+            // On click calls method
+            AddRecommendationPaper.Click += ShowAddRecommendationPaperOnClick;
+
+            buttonsGrid.Children.Add(AddAward);
+            buttonsGrid.Children.Add(AddCertificate);
+            buttonsGrid.Children.Add(AddLanguage);
+            buttonsGrid.Children.Add(AddProject);
+            buttonsGrid.Children.Add(AddRecommendationPaper);
+
+            if (User.Type != UserType.Manager)
+            {
+                AddAward.Visibility = Visibility.Hidden;
+                AddCertificate.Visibility = Visibility.Hidden;
+                AddLanguage.Visibility = Visibility.Hidden;
+                AddProject.Visibility = Visibility.Hidden;
+                AddRecommendationPaper.Visibility = Visibility.Hidden;
+            }
+
+            CompanyDataStackPanel.Children.Add(buttonsGrid);
 
             #endregion
 
@@ -615,6 +1054,305 @@ namespace Vaseis
             // Sets the is open property to true
             ChangePasswordDialog.IsDialogOpen = true;
         }
+
+        #endregion
+
+        #region OnClick
+
+        /// <summary>
+        /// Add Award
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddAwardOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            AddAwardDialog = new AddAwardDialog(User, PageGrid, this);
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddAwardDialog);
+            Grid.SetColumnSpan(AddAwardDialog, 3);
+
+            // Sets the is open property to true
+            AddAwardDialog.IsDialogOpen = true;
+        }
+
+
+        /// <summary>
+        /// Add Certificate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddCertificateOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            AddCertificateDialog = new AddCertificateDialog(User, PageGrid, this);
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddCertificateDialog);
+            Grid.SetColumnSpan(AddCertificateDialog, 3);
+
+            // Sets the is open property to true
+            AddCertificateDialog.IsDialogOpen = true;
+        }
+
+        /// <summary>
+        /// Add Certificate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddLanguageOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            AddLanguageDialog = new AddLanguageDialog(User, PageGrid, this);
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddLanguageDialog);
+            Grid.SetColumnSpan(AddLanguageDialog, 3);
+
+            // Sets the is open property to true
+            AddLanguageDialog.IsDialogOpen = true;
+        }
+
+        /// <summary>
+        /// Add Certificate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddProjectOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            AddProjectDialog = new AddProjectDialog(User, PageGrid, this);
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddProjectDialog);
+            Grid.SetColumnSpan(AddProjectDialog, 3);
+
+            // Sets the is open property to true
+            AddProjectDialog.IsDialogOpen = true;
+        }
+
+        /// <summary>
+        /// Add Certificate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAddRecommendationPaperOnClick(object sender, RoutedEventArgs e)
+        {
+            // Creates a new user dialog
+            AddRecommendationPaperDialog = new AddRecommendationPaperDialog(User, PageGrid, this);
+            // Adds it to the page grid
+            PageGrid.Children.Add(AddRecommendationPaperDialog);
+            Grid.SetColumnSpan(AddRecommendationPaperDialog, 3);
+
+            // Sets the is open property to true
+            AddRecommendationPaperDialog.IsDialogOpen = true;
+        }
+
+        #endregion
+
+        #region Core
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="Awards"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnAwardsChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<AwardDataModel>)e.NewValue;
+
+            if (newValue == null)
+            { 
+            }
+            else
+            { // For each award...
+
+                AwardsStackPanel.Children.Clear();
+
+                List<String> awards = new List<string>();
+
+                foreach (var award in Awards)
+                {
+                    // Add to the awards list a string with the award's name and its acquired date
+                    awards.Add($"{award.Name}, {award.AcquiredDate.ToShortDateString()}");
+                };
+
+                AwardsContainer = new TitleAndListComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Title = "Awards",
+                    DataNames = awards
+                };
+                // Adds it to the stack panel
+                AwardsStackPanel.Children.Add(AwardsContainer);
+
+            }
+
+            // Further handle the change
+            OnAwardsChanged(e);
+        }
+
+        /// <summary>
+        /// Handles the change of the <see cref="Certificates"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnCertificatesChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<CertificateDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+            }
+            else
+            { // For each award...
+
+                CertificatesStackPanel.Children.Clear();
+
+                List<String> certificates = new List<string>();
+
+                foreach (var certificate in Certificates)
+                {
+                    // Add to the awards list a string with the award's name and its acquired date
+                    certificates.Add($"{certificate.Title}, {certificate.Title}");
+                };
+
+                CertificatesContainer = new TitleAndListComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Title = "Certificates",
+                    DataNames = certificates
+                };
+                // Adds it to the stack panel
+                AwardsStackPanel.Children.Add(CertificatesContainer);
+
+            }
+
+            // Further handle the change
+            OnAwardsChanged(e);
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="Languages"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnLanguagesChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<LanguagesDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+            }
+            else
+            { // For each award...
+
+                LanguagesStackPanel.Children.Clear();
+
+                List<String> languages = new List<string>();
+
+                foreach (var language in Languages)
+                {
+                    // Add to the awards list a string with the award's name and its acquired date
+                    languages.Add(language.Name);
+                };
+
+                LanguagesContainer = new TitleAndListComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Title = "Languages",
+                    DataNames = languages
+                };
+                // Adds it to the stack panel
+                LanguagesStackPanel.Children.Add(LanguagesContainer);
+
+            }
+
+            // Further handle the change
+            OnAwardsChanged(e);
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="Projects"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnProjectsChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<ProjectDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+            }
+            else
+            { // For each award...
+
+                ProjectsStackPanel.Children.Clear();
+
+                List<String> projects = new List<string>();
+
+                foreach (var project in Projects)
+                {
+                    // Add to the awards list a string with the award's name and its acquired date
+                    projects.Add(project.Title);
+                };
+
+                ProjectsContainer = new TitleAndListComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Title = "Project",
+                    DataNames = projects
+                };
+                // Adds it to the stack panel
+                ProjectsStackPanel.Children.Add(ProjectsContainer);
+
+            }
+
+            // Further handle the change
+            OnProjectsChanged(e);
+        }
+
+
+        /// <summary>
+        /// Handles the change of the <see cref="RecommendationPapers"/> property internally
+        /// </summary>
+        /// <param name="e">Event args</param>
+        private void OnRecommendationPapersChangedCore(DependencyPropertyChangedEventArgs e)
+        {
+            // Get the new value
+            var newValue = (IEnumerable<RecommendationPaperDataModel>)e.NewValue;
+
+            if (newValue == null)
+            {
+            }
+            else
+            { // For each award...
+
+                RecommendationPapersStackPanel.Children.Clear();
+
+                List<String> recommendationPapers = new List<string>();
+
+                foreach (var recommendationPaper in RecommendationPapers)
+                {
+                    // Add to the awards list a string with the award's name and its acquired date
+                    recommendationPapers.Add($"{recommendationPaper.Referee}@\n, {recommendationPaper.Description}");
+                };
+
+                RecommendationPapersContainer = new TitleAndListComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Title = "Recommendation Papers",
+                    DataNames = recommendationPapers
+                };
+                // Adds it to the stack panel
+                AwardsStackPanel.Children.Add(RecommendationPapersContainer);
+
+            }
+
+            // Further handle the change
+            OnRecommendationPapersChanged(e);
+        }
+
 
         #endregion
 

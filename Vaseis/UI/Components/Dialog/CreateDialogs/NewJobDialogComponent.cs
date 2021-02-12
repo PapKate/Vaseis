@@ -16,6 +16,11 @@ namespace Vaseis
         #region Public Properties
 
         /// <summary>
+        /// The connected Admin
+        /// </summary>
+        public UserDataModel User { get; }
+
+        /// <summary>
         /// The company the Admin wants to add a job to
         /// </summary>
         public CompanyDataModel Company { get; }
@@ -71,8 +76,9 @@ namespace Vaseis
         /// </summary>
         /// <param name="company">The company</param>
         /// <param name="companyCard">The company's representative card</param>
-        public NewJobDialogComponent(CompanyDataModel company, CompanyCardComponent companyCard)
+        public NewJobDialogComponent(UserDataModel user,CompanyDataModel company, CompanyCardComponent companyCard)
         {
+            User = user ?? throw new ArgumentNullException(nameof(user));
             Company = company ?? throw new ArgumentNullException(nameof(company));
             CompanyCard = companyCard ?? throw new ArgumentNullException(nameof(companyCard));
 
@@ -95,8 +101,11 @@ namespace Vaseis
                                                                               JobTitleInput.Text,
                                                                               ControlsFactory.ParseSalaryToInt(SalaryInput.Text), 
                                                                               DeprtmentPicker.Text);
+
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Added a new job-field", $"Job title : {JobTitleInput.Text}");
+
             // Sets the company's card's jobs as the update company's jobs
-      //      CompanyCard.Jobs = updatedCompany.Jobs;
+            // CompanyCard.Jobs = updatedCompany.Jobs;
             // Closes the dialog
             CloseDialogOnClick(this, e);
         }
