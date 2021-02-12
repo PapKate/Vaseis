@@ -46,7 +46,7 @@ namespace Vaseis
         /// <summary>
         /// Creates and adds the required GUI elements
         /// </summary>
-        private async void CreateGUI()
+        private void CreateGUI()
         {
             // The grid for the entire app's window
             var windowGrid = new Grid();
@@ -88,6 +88,7 @@ namespace Vaseis
 
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
+
 
             //var logInPage = new LoginPage();
 
@@ -159,6 +160,7 @@ namespace Vaseis
             var view = new ManagerView(user);
 
             appGrid.Children.Add(view);
+
 
             //  Sets the content as the window's grid
             Content = windowGrid;

@@ -6,6 +6,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using static Vaseis.Styles;
 
@@ -90,7 +92,7 @@ namespace Vaseis
             {
                 Text = "Cotton-field Workers",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                FontSize = 70,
+                FontSize = 64,
                 FontWeight = FontWeights.Bold,
                 Foreground = DarkBlue.HexToBrush(),
             };
@@ -238,17 +240,24 @@ namespace Vaseis
             usernameStackPanel.Children.Add(UsernameTextBlock);
             usernameStackPanel.Children.Add(usernameBorder);
 
+            var border = new Border()
+            {
+                BorderBrush = GhostWhite.HexToBrush(),
+                BorderThickness = new Thickness(0),
+                Effect = ControlsFactory.CreateShadow()
+            };
+            PageGrid.Children.Add(border);
             var middleGrid = new Grid()
             {
                 Background = GhostWhite.HexToBrush(),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
-            PageGrid.Children.Add(middleGrid);
+            border.Child = middleGrid;
+
 
             //the column (stack panel for the login components to be added in)
             var loginStackPanel = new StackPanel()
             {
-                Background = GhostWhite.HexToBrush(),
                 Margin = new Thickness(32, -100, 32, 0),
                 VerticalAlignment = VerticalAlignment.Center,
                 
@@ -261,9 +270,7 @@ namespace Vaseis
             loginStackPanel.Children.Add(LoginButton);
 
             middleGrid.Children.Add(loginStackPanel);
-
             Content = PageGrid;
-
         }
 
         #endregion
