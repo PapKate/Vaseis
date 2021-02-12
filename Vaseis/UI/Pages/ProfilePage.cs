@@ -6,6 +6,7 @@ using System.Windows.Data;
 using static Vaseis.Styles;
 using static Vaseis.MaterialDesignStyles;
 using System;
+using System.Linq;
 
 namespace Vaseis
 {
@@ -528,13 +529,16 @@ namespace Vaseis
             #endregion
 
             #region Languages
-
+            
             var languages = new List<string>();
 
-            foreach (var language in User.Languages)
+            if (User.Languages != null)
             {
-                languages.Add(language.Name.ToString());
-            };
+                foreach (var language in User.Languages)
+                {
+                    languages.Add(language.Name.ToString());
+                };
+            }
 
             LanguagesContainer = new TitleAndListComponent()
             {
