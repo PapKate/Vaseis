@@ -71,9 +71,9 @@ namespace Vaseis
         protected async void NewCertificateOnClick(object sender, RoutedEventArgs e)
         {
 
-            var updatedCertificates = await Services.GetDataStorage.UpdateCertificates(User, CertificateTitleInpuComponent.Text,CertificateDescriptionInpuComponent.Text);
+            var updatedCertificates = await Services.GetDataStorage.UpdateCertificates(User, CertificateTitleInpuComponent.InputTextBox.Text, CertificateDescriptionInpuComponent.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {CertificateTitleInpuComponent.Text}");
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {CertificateTitleInpuComponent.InputTextBox.Text}");
 
             ProfilePage.Certificates = updatedCertificates;
 

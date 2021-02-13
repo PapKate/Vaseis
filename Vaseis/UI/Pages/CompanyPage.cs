@@ -67,6 +67,11 @@ namespace Vaseis
         protected CompanyDataModel CompanyVar { get; private set; }
 
         /// <summary>
+        /// mE mIKrO m nA sKaSEiS aP tO kAkO SoU
+        /// </summary>
+        protected MessageDialogComponent noteDialog { get; private set;  }
+         
+        /// <summary>
         /// 
         /// </summary>
         protected EditableTextComponent AFMData { get; private set; }
@@ -104,7 +109,7 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
-        protected EditableTextComponent LogoBlock { get; private set; }
+        protected TextBlock LogoBlock { get; private set; }
         
         /// <summary>
         /// 
@@ -323,31 +328,39 @@ namespace Vaseis
                         CityData.IsEditable = true;
                         AddressData.IsEditable = true;
                         TelephoneData.IsEditable = true;
-                        LogoBlock.IsEditable = true;
                         AboutTile.IsEditable = true;
                     }),
                     SaveCommand = new RelayCommand(async () =>
                     {
                        // await Services.GetDataStorage.Update
                         // Sets the components' editable properties to false
-                        AddressData.IsEditable = false;
+                        AFMData.IsEditable = false;
                         DOYData.IsEditable = false;
                         CountryData.IsEditable = false;
                         CityData.IsEditable = false;
                         AddressData.IsEditable = false;
                         TelephoneData.IsEditable = false;
-                        LogoBlock.IsEditable = false;
                         AboutTile.IsEditable = false;
 
                         // Sets the components' save edit properties to true
-                        AFMData.SaveEdit = true;
-                        DOYData.SaveEdit = true;
+                        AFMData.SaveEdit = false;
+                        DOYData.SaveEdit = false;
                         CountryData.SaveEdit = true;
                         CityData.SaveEdit = true;
                         AddressData.SaveEdit = true;
                         TelephoneData.SaveEdit = true;
-                        LogoBlock.SaveEdit = true;
                         AboutTile.SaveEdit = true;
+
+                        await Services.GetDataStorage.UpdateCompanyInfo(Company, CountryData.InputTextBox.Text, CityData.InputTextBox.Text, AddressData.InputTextBox.Text, TelephoneData.InputTextBox.Text,AboutTile.BioTextBox.Text);                      
+
+                        noteDialog = new MessageDialogComponent()
+                        { 
+                            Title = "Note!",
+                            Message = "Any changes in company's AFM, DOY or Logo will not be permitted! ",
+                            BrushColor  = DarkPink.HexToBrush()
+                        };
+
+                        PageGrid.Children.Add(noteDialog);
                     }),
                     CancelCommand = new RelayCommand(() =>
                     {
@@ -358,7 +371,6 @@ namespace Vaseis
                         CityData.IsEditable = false;
                         AddressData.IsEditable = false;
                         TelephoneData.IsEditable = false;
-                        LogoBlock.IsEditable = false;
                         AboutTile.IsEditable = false;
 
                         // Sets the components' save edit properties to true
@@ -368,11 +380,10 @@ namespace Vaseis
                         CityData.SaveEdit = false;
                         AddressData.SaveEdit = false;
                         TelephoneData.SaveEdit = false;
-                        LogoBlock.SaveEdit = false;
                         AboutTile.SaveEdit = false;
                     })
                 };
- 
+
 
             #endregion
             //The line that separates the CompanyPage
@@ -397,7 +408,7 @@ namespace Vaseis
             };
 
             //JustlIKE Bio text
-            LogoBlock = new EditableTextComponent()
+            LogoBlock = new TextBlock()
             {
                 FontSize = 60,
                 FontFamily = Calibri,

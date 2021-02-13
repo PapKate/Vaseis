@@ -83,9 +83,9 @@ namespace Vaseis
         protected async void NewProjectOnClick(object sender, RoutedEventArgs e)
         {
 
-            var updatedProjects = await Services.GetDataStorage.UpdateProjects(User, ProjectTitleInpuComponent.Text, ProjectUrlInpuComponent.Text, ProjectDescriptionInpuComponent.Text);
+            var updatedProjects = await Services.GetDataStorage.UpdateProjects(User, ProjectTitleInpuComponent.InputTextBox.Text, ProjectUrlInpuComponent.InputTextBox.Text, ProjectDescriptionInpuComponent.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {ProjectTitleInpuComponent.Text}");
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {ProjectTitleInpuComponent.InputTextBox.Text}");
 
             ProfilePage.Projects = updatedProjects;
 
