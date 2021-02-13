@@ -148,12 +148,12 @@ namespace Vaseis
                                                        .Include(x => x.Languages)
                                                        .Include(x => x.RecommendationPapers)
                                                        .Include(x => x.Projects)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Manager);
+                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee);
 
-            var view = new ManagerView(user);
+            var view = new EmployeeView(user);
             appGrid.Children.Add(view);
 
-            //  Sets the content as the window's grid
+           // Sets the content as the window's grid
             Content = windowGrid;
         }
 

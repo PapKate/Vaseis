@@ -96,7 +96,7 @@ namespace Vaseis
         /// <param name="companyId">The company's id</param>
         public Task<List<DepartmentDataModel>> GetDepartments(int companyId)
         {
-            return DbContext.Departments.Where(x => x.CompanyId == companyId)
+            return DbContext.Departments.Include(x => x.Jobs).Where(x => x.CompanyId == companyId)
                                         .ToListAsync();
         }
 
@@ -176,6 +176,24 @@ namespace Vaseis
 
             return model;
         
+        }
+
+
+
+        public async Task<CompanyDataModel> UpdateCompanyInfo(CompanyDataModel company, string countryData, string city, string addrress, string telephone, string about) 
+        {
+            var model = await DbContext.Companies.FirstAsync(x => x.Id == company.Id);
+
+            model.Country = countryData;
+            model.City = city;
+            model.StreetName = addrress;
+            model.TelephoneNumber = telephone;
+            model.About = about;
+
+            await DbContext.SaveChangesAsync();
+
+            return model;
+
         }
 
         public async Task<IEnumerable<AwardDataModel>> UpdateAwards(UserDataModel user, DateTime? when, string awardTitle)
@@ -567,7 +585,7 @@ namespace Vaseis
         public async Task<ReportDataModel> UpdateReportAsync(ReportDataModel report, bool isFinalised)
         {
             // Get the employee
-            var jobFilesPair = await DbContext.UsersJobFilesPairs.FirstAsync(x => x.Id == report.UsersJobFilesPairId);
+            var jobFilesPair = await DbContext.UsersJobFilesPairs.Include(x => x.Employee).FirstAsync(x => x.Id == report.UsersJobFilesPairId);
             // If no pair is found and the report is finalized...
             if (jobFilesPair == null && isFinalised == true)
             {
@@ -726,7 +744,9 @@ namespace Vaseis
         public async Task<JobPositionRequestDataModel> AddJobPositionRequestAsync(int employeeId, int jobPositionId, string requestReason)
         {
             // Get the employee
-            var jobFilesPair = await DbContext.UsersJobFilesPairs.FirstAsync(x => x.EmployeeId == employeeId);
+            var jobFilesPair = await DbContext.UsersJobFilesPairs.Include(x => x.Employee).FirstAsync(x => x.EmployeeId == employeeId);
+
+            var jobTitle = DbContext.JobPositions.Include(x => x.Job).Where(x => x.Id == jobPositionId);
 
             // Create the model
             var model = new JobPositionRequestDataModel()
@@ -739,7 +759,7 @@ namespace Vaseis
             // Add it
             DbContext.JobPositionRequests.Add(model);
 
-            await Services.GetDataStorage.CreateNewLog(jobFilesPair.Employee.Username, "Created a new Job request", $"for the position {model.JobPosition.Job.JobTitle}");
+            await Services.GetDataStorage.CreateNewLog(jobFilesPair.Employee.Username, "Created a new Job request", $"for the position {jobTitle}");
 
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
@@ -761,7 +781,9 @@ namespace Vaseis
             // Add it
             DbContext.Reports.Add(model);
 
-            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Manager.Username, " Created a new report", $"for the User {model.UsersJobFilesPair.Employee.Username}");
+            var eh = await DbContext.UsersJobFilesPairs.Include(x => x.Employee).Include(x => x.Manager).FirstAsync(x => x.Id == model.UsersJobFilesPairId);
+
+            await Services.GetDataStorage.CreateNewLog( eh.Manager.Username , " Created a new report", $"for the User {eh.Employee.Username}");
 
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
@@ -946,6 +968,11 @@ namespace Vaseis
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
 
+
+            var eval = await Services.GetDbContext.Users.FirstAsync(x => x.Id == model.CreatorId);
+
+            await Services.GetDataStorage.CreateNewLog(eval.Username, "Updated job position salary", $"Thesis :  {model.Job.JobTitle} Salary : {model.Job.Salary}");
+
             // Return the model
             return model;
         }
@@ -994,8 +1021,8 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            var employee = Services.GetDbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
-            var evaluator = Services.GetDbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EvaluatorId);
+            var employee = Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
+            var evaluator = Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EvaluatorId);
 
             await Services.GetDataStorage.CreateNewLog(report.UsersJobFilesPair.Evaluator.Username, "Created a report", $"for {report.UsersJobFilesPair.Employee.Username}");
 
@@ -1062,6 +1089,10 @@ namespace Vaseis
 
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
+
+            var evaluator = await DbContext.Users.Where(x => x.Id == evaluatorId).FirstAsync();
+
+            await Services.GetDataStorage.CreateNewLog(evaluator.Username, "Added a Job Position", $"Thesis :  {model.Job.JobTitle}");
 
             // Return the model
             return model;
@@ -1147,7 +1178,7 @@ namespace Vaseis
         public async Task<EvaluationDataModel> UpdateEvaluatorEvaluationAsync(EvaluationDataModel evaluation, bool isFinalised)
         {
             // Get the existing model
-            var model = await DbContext.Evaluations.FirstAsync(x => x.Id == evaluation.Id);
+            var model = await DbContext.Evaluations.Include(x => x.UsersJobFilesPair).ThenInclude(y => y.Evaluator).FirstAsync(x => x.Id == evaluation.Id);
             // Sets the model's values accordingly
             model.FinalGrade = evaluation.FinalGrade;
             model.FilesGrade = evaluation.FilesGrade;
@@ -1159,6 +1190,9 @@ namespace Vaseis
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
+
+
+            await Services.GetDataStorage.CreateNewLog(model.UsersJobFilesPair.Evaluator.Username, "Updated an evaluation!", $"evaluation id :  {model.Id}");
 
             // Return the model
             return model;
@@ -1174,6 +1208,10 @@ namespace Vaseis
 
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
+
+
+            await Services.GetDataStorage.CreateNewLog( "-" , "Evaluation was removed from the system", $"Evaluation id :  {evaluationId}");
+
 
             // Return the model
             return model;
