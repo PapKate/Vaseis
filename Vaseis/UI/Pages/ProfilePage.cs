@@ -22,6 +22,10 @@ namespace Vaseis
         /// </summary>
         public UserDataModel User { get; set; }
 
+        /// <summary>
+        /// /The user
+        /// </summary>
+        public UserDataModel Manager { get; set; }
         #endregion
 
         #region Protected Properties
@@ -378,7 +382,18 @@ namespace Vaseis
         public ProfilePage(UserDataModel user)
         {
             User = user ?? throw new ArgumentNullException(nameof(user));
+            
+            CreateGUI();
+            Update();
+        }
 
+        /// <summary>
+        /// Creates and adds the required GUI elements for when manager sees employees profile pages
+        /// </summary>
+        public ProfilePage(UserDataModel user, UserDataModel manager)
+        {
+            User = user ?? throw new ArgumentNullException(nameof(user));
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
             CreateGUI();
             Update();
         }
@@ -415,8 +430,10 @@ namespace Vaseis
                     // Add their final grade
                     sum = sum + (float)evaluation.FinalGrade/100;
                 }
-                
-                EvalsAverage.Text = "Evaluator's Average : " + (sum / count).ToString();             
+
+                var average = sum / count;
+
+                EvalsAverage.Text = "Evaluator's Average : " + Math.Round(average, 2).ToString();             
             }
 
         }
@@ -687,7 +704,7 @@ namespace Vaseis
 
             var jobPosition = User.Type.ToString();
 
-            if (User.Type == UserType.Employee)
+            if (User.Type == UserType.Employee && User.JobPosition != null)
                 jobPosition = User.JobPosition.Job.JobTitle;
 
             // Creates the job title's text block
@@ -706,11 +723,10 @@ namespace Vaseis
             // Creates the evaluator's average text block
             EvalsAverage = new TextBlock()
             {
-                FontSize = 60,
+                FontSize = 44,
                 FontFamily = Calibri,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = DarkGray.HexToBrush(),
-               
             };
             // Adds it to the stack panel
             CompanyDataStackPanel.Children.Add(EvalsAverage);
@@ -787,7 +803,7 @@ namespace Vaseis
 
             foreach (var certificate in User.Certificates)
             {
-                certificates.Add(certificate.Title);
+                certificates.Add($"{certificate.Title},\n{certificate.Description}");
             };
 
             CertificatesContainer = new TitleAndListComponent()
@@ -842,7 +858,7 @@ namespace Vaseis
             {
                 foreach (var project in User.Projects)
                 {
-                    projects.Add(project.Title);
+                    projects.Add($"{project.Title}, {project.MadeForWho}\n{project.Description}\n-{project.Url}");
                 };
 
             }
@@ -887,133 +903,6 @@ namespace Vaseis
 
             #endregion
 
-            #region Buttons
-
-            var buttonsGrid = new UniformGrid()
-            {
-                Columns = 5
-            };
-
-            //The add awardButton
-            AddAward = new Button()
-            {
-                Style = FlatButton,
-                Background = GhostWhite.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Content = new TextBlock()
-                {
-                    Foreground = DarkBlue.HexToBrush(),
-                    FontSize = 18,
-                    Margin = new Thickness(8),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Add award"
-                },
-            };
-            // On click calls method
-            AddAward.Click += ShowAddAwardOnClick;
-
-            //The add awardButton
-            AddCertificate = new Button()
-            {
-                Style = FlatButton,
-                Background = GhostWhite.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Content = new TextBlock()
-                {
-                    Foreground = DarkBlue.HexToBrush(),
-                    FontSize = 18,
-                    Margin = new Thickness(8),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Add certificate"
-                },
-            };
-            // On click calls method
-            AddCertificate.Click += ShowAddCertificateOnClick;
-
-            //The add awardButton
-            AddLanguage = new Button()
-            {
-                Style = FlatButton,
-                Background = GhostWhite.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Content = new TextBlock()
-                {
-                    Foreground = DarkBlue.HexToBrush(),
-                    FontSize = 18,
-                    Margin = new Thickness(8),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Add language"
-                },
-            };
-            // On click calls method
-            AddLanguage.Click += ShowAddLanguageOnClick;
-
-            //The add awardButton
-            AddProject = new Button()
-            {
-                Style = FlatButton,
-                Background = DarkBlue.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Content = new TextBlock()
-                {
-                    Foreground = DarkBlue.HexToBrush(),
-                    FontSize = 18,
-                    Margin = new Thickness(8),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Add project"
-                },
-            };
-            // On click calls method
-            AddProject.Click += ShowAddProjectOnClick;
-
-            //The add awardButton
-            AddRecommendationPaper = new Button()
-            {
-                Height = 200,
-                Style = FlatButton,
-                Background = GhostWhite.HexToBrush(),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Content = new TextBlock()
-                {
-                    Foreground = DarkBlue.HexToBrush(),
-                    FontSize = 18,
-                    Margin = new Thickness(8),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontWeight = FontWeights.Normal,
-                    FontFamily = Calibri,
-                    Text = "Add recommendation paper"
-                },
-            };
-            // On click calls method
-            AddRecommendationPaper.Click += ShowAddRecommendationPaperOnClick;
-
-            buttonsGrid.Children.Add(AddAward);
-            buttonsGrid.Children.Add(AddCertificate);
-            buttonsGrid.Children.Add(AddLanguage);
-            buttonsGrid.Children.Add(AddProject);
-            buttonsGrid.Children.Add(AddRecommendationPaper);
-
-            if (User.Type != UserType.Manager)
-            {
-                AddAward.Visibility = Visibility.Hidden;
-                AddCertificate.Visibility = Visibility.Hidden;
-                AddLanguage.Visibility = Visibility.Hidden;
-                AddProject.Visibility = Visibility.Hidden;
-                AddRecommendationPaper.Visibility = Visibility.Hidden;
-            }
-
-            CompanyDataStackPanel.Children.Add(buttonsGrid);
-
-            #endregion
-
             var DataScrollViewer = new ScrollViewer()
             {
                 VerticalAlignment = VerticalAlignment.Top,
@@ -1025,16 +914,26 @@ namespace Vaseis
             Grid.SetColumn(DataScrollViewer, 2);
 
             #endregion
-
-            var NavigationMenu = new NavigationMenuComponent()
+            if(Manager != null || User.Type == UserType.Manager)
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(24)
-            };
+                var NavigationMenu = new NavigationMenuComponent()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                    Margin = new Thickness(24)
+                };
 
-            PageGrid.Children.Add(NavigationMenu);
-            Grid.SetColumn(NavigationMenu, 2);
+                NavigationMenu.AddAwardCommand = new RelayCommand(() => ShowAddAwardOnClick());
+                NavigationMenu.AddCertificateCommand = new RelayCommand(() => ShowAddCertificateOnClick());
+                NavigationMenu.AddLanguageCommand = new RelayCommand(() => ShowAddLanguageOnClick());
+                NavigationMenu.AddDegreeCommand = new RelayCommand(() => { });
+                NavigationMenu.AddProjectCommand = new RelayCommand(() => ShowAddProjectOnClick());
+                NavigationMenu.AddRecPapperCommand = new RelayCommand(() => ShowAddRecommendationPaperOnClick());
+
+
+                PageGrid.Children.Add(NavigationMenu);
+                Grid.SetColumn(NavigationMenu, 2);
+            }
 
             Content = PageGrid;
         }
@@ -1063,9 +962,7 @@ namespace Vaseis
         /// <summary>
         /// Add Award
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddAwardOnClick(object sender, RoutedEventArgs e)
+        private void ShowAddAwardOnClick()
         {
             // Creates a new user dialog
             AddAwardDialog = new AddAwardDialog(User, PageGrid, this);
@@ -1077,13 +974,10 @@ namespace Vaseis
             AddAwardDialog.IsDialogOpen = true;
         }
 
-
         /// <summary>
         /// Add Certificate
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddCertificateOnClick(object sender, RoutedEventArgs e)
+        private void ShowAddCertificateOnClick()
         {
             // Creates a new user dialog
             AddCertificateDialog = new AddCertificateDialog(User, PageGrid, this);
@@ -1098,9 +992,7 @@ namespace Vaseis
         /// <summary>
         /// Add Certificate
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddLanguageOnClick(object sender, RoutedEventArgs e)
+        private void ShowAddLanguageOnClick()
         {
             // Creates a new user dialog
             AddLanguageDialog = new AddLanguageDialog(User, PageGrid, this);
@@ -1115,9 +1007,7 @@ namespace Vaseis
         /// <summary>
         /// Add Certificate
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddProjectOnClick(object sender, RoutedEventArgs e)
+        private void ShowAddProjectOnClick()
         {
             // Creates a new user dialog
             AddProjectDialog = new AddProjectDialog(User, PageGrid, this);
@@ -1132,9 +1022,7 @@ namespace Vaseis
         /// <summary>
         /// Add Certificate
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowAddRecommendationPaperOnClick(object sender, RoutedEventArgs e)
+        private void ShowAddRecommendationPaperOnClick()
         {
             // Creates a new user dialog
             AddRecommendationPaperDialog = new AddRecommendationPaperDialog(User, PageGrid, this);
@@ -1213,7 +1101,7 @@ namespace Vaseis
                 foreach (var certificate in Certificates)
                 {
                     // Add to the awards list a string with the award's name and its acquired date
-                    certificates.Add($"{certificate.Title}, {certificate.Title}");
+                    certificates.Add($"{certificate.Title},\n{certificate.Description}");
                 };
 
                 CertificatesContainer = new TitleAndListComponent()
@@ -1295,7 +1183,7 @@ namespace Vaseis
                 foreach (var project in Projects)
                 {
                     // Add to the awards list a string with the award's name and its acquired date
-                    projects.Add(project.Title);
+                    projects.Add($"{project.Title}, {project.MadeForWho}\n{project.Description}\n-{project.Url}");
                 };
 
                 ProjectsContainer = new TitleAndListComponent()
@@ -1336,7 +1224,7 @@ namespace Vaseis
                 foreach (var recommendationPaper in RecommendationPapers)
                 {
                     // Add to the awards list a string with the award's name and its acquired date
-                    recommendationPapers.Add($"{recommendationPaper.Referee}@\n, {recommendationPaper.Description}");
+                    recommendationPapers.Add($"{recommendationPaper.Referee},\n{recommendationPaper.Description}");
                 };
 
                 RecommendationPapersContainer = new TitleAndListComponent()

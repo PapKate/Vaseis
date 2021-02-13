@@ -260,10 +260,10 @@ namespace Vaseis
         }
 
 
-        public async Task<IEnumerable<ProjectDataModel>> UpdateProjects(UserDataModel user,string title, string url, string description)
+        public async Task<IEnumerable<ProjectDataModel>> UpdateProjects(UserDataModel user,string title, string url, string description, string forWho)
         {
 
-          //  if (forWho == 1) var madeFoWho  MadeForWho.Company;
+          
 
             var model = new ProjectDataModel()
             {
@@ -272,6 +272,11 @@ namespace Vaseis
                 Url = url,
                 Description = description,
             };
+            
+            if (forWho == "Company's")
+                model.MadeForWho = MadeForWho.Company;
+            if(forWho == "Personal")
+                model.MadeForWho = MadeForWho.Personal;
 
             DbContext.Projects.Add(model);
 
@@ -620,8 +625,8 @@ namespace Vaseis
             // Push the changes to the database
             await DbContext.SaveChangesAsync();
 
-            var manager = await DbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.ManagerId);
-            var employee = await DbContext.Users.Include(x => x.Username).FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
+            var manager = await DbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.ManagerId);
+            var employee = await DbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
 
             await Services.GetDataStorage.CreateNewLog(manager.Username, "Created a report", $"for {employee.Username}");
 
@@ -1021,10 +1026,12 @@ namespace Vaseis
             // Apply the changes to the database
             await DbContext.SaveChangesAsync();
 
-            var employee = Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
-            var evaluator = Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EvaluatorId);
 
-            await Services.GetDataStorage.CreateNewLog(report.UsersJobFilesPair.Evaluator.Username, "Created a report", $"for {report.UsersJobFilesPair.Employee.Username}");
+            var employee = await Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EmployeeId);
+            var evaluator = await Services.GetDbContext.Users.FirstAsync(x => x.Id == report.UsersJobFilesPair.EvaluatorId);
+
+
+            await Services.GetDataStorage.CreateNewLog(evaluator.Username, "Created a report", $"for {employee.Username}");
 
             // Return the model
             return model;

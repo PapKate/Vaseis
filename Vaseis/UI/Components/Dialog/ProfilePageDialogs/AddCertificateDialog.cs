@@ -73,7 +73,9 @@ namespace Vaseis
 
             var updatedCertificates = await Services.GetDataStorage.UpdateCertificates(User, CertificateTitleInpuComponent.InputTextBox.Text, CertificateDescriptionInpuComponent.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {CertificateTitleInpuComponent.InputTextBox.Text}");
+
+            await Services.GetDataStorage.CreateNewLog(User.Username, $"A certificate was added to employee {User.Username}", $"Certificate : {CertificateTitleInpuComponent.InputTextBox.Text}");
+
 
             ProfilePage.Certificates = updatedCertificates;
 
@@ -89,16 +91,20 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add project";
+            DialogTitle.Text = "New Certificate Form";
 
             CertificateTitleInpuComponent = new TextInputComponent()
             {
-                HintText = "Certificate Title"
+                HintText = "Certificate Title",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
             CertificateDescriptionInpuComponent = new TextInputComponent()
             {
-                HintText = "Description"
+                HintText = "Description",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
             //the ok Button

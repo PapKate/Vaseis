@@ -55,13 +55,12 @@ namespace Vaseis
         /// <summary>
         /// 
         /// </summary>
-        public TextInputComponent ProjectMadeForWhoInpuComponent { get; private set; }
+        public PickerComponent ProjectMadeForWhoInpuComponent { get; private set; }
 
         /// <summary>
         /// The button that sends the values when user is done
         /// </summary>
         protected Button OkButton { get; private set; }
-
 
         #endregion
 
@@ -83,9 +82,11 @@ namespace Vaseis
         protected async void NewProjectOnClick(object sender, RoutedEventArgs e)
         {
 
-            var updatedProjects = await Services.GetDataStorage.UpdateProjects(User, ProjectTitleInpuComponent.InputTextBox.Text, ProjectUrlInpuComponent.InputTextBox.Text, ProjectDescriptionInpuComponent.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Got a Project", $"Project : {ProjectTitleInpuComponent.InputTextBox.Text}");
+            var updatedProjects = await Services.GetDataStorage.UpdateProjects(User, ProjectTitleInpuComponent.InputTextBox.Text, ProjectUrlInpuComponent.InputTextBox.Text, ProjectDescriptionInpuComponent.InputTextBox.Text, ProjectMadeForWhoInpuComponent.Text);
+
+            await Services.GetDataStorage.CreateNewLog(User.Username, $"A project was added to {User.Username}", $"Project : {ProjectTitleInpuComponent.InputTextBox.Text}");
+
 
             ProfilePage.Projects = updatedProjects;
 
@@ -101,29 +102,38 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add project";
+            DialogTitle.Text = "New Project Form";
 
             ProjectTitleInpuComponent = new TextInputComponent()
             {
-                HintText = "Project Title"
+                HintText = "Project Title",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
 
             ProjectUrlInpuComponent = new TextInputComponent()
             {
-                HintText = "Url"
+                HintText = "Url",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
 
             ProjectDescriptionInpuComponent = new TextInputComponent()
             {
-                HintText = "Description"
+                HintText = "Description",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
 
-            ProjectMadeForWhoInpuComponent = new TextInputComponent()
+            ProjectMadeForWhoInpuComponent = new PickerComponent()
             {
-                HintText = "Made for : Company/Me"
+                HintText = "Belongs to ?",
+                Width = 240,
+                CompleteFontSize = 24,
+                OptionNames = new List<string> { "Personal", "Company's" }
             };
 
 

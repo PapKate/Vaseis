@@ -89,69 +89,71 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
-            //var logInPage = new LoginPage();
 
-            //logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
-            //{
-            //    // Sets the header's image as the user's profile picture
-            //    Header.ImagePath = e.ProfilePicture;
-            //    // Sets the header's title as the user's username
-            //    Header.Title = e.Username;
-            //    // If the user is an administrator...
-            //    if (e.Type == UserType.Administrator)
-            //    {
-            //        // Creates the administrator's view
-            //        View = new AdminView(e);
-            //    }
-            //    // If the user is an evaluator...
-            //    else if (e.Type == UserType.Evaluator)
-            //    {
-            //        // Creates the evaluator's view
-            //        View = new EvaluatorView(e);
-            //    }
-            //    // If the user is a manager...
-            //    else if (e.Type == UserType.Manager)
-            //    {
-            //        // Creates the manager's view
-            //        View = new ManagerView(e);
-            //    }
-            //    else
-            //    {
-            //        // By default creates the employee's view
-            //        View = new EmployeeView(e);
-            //    }
-            //    appGrid.Children.Add(View);
+            var logInPage = new LoginPage();
 
-            //    windowGrid.Children.Remove(logInPage);
+            logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
+            {
+                // Sets the header's image as the user's profile picture
+                Header.ImagePath = e.ProfilePicture;
+                // Sets the header's title as the user's username
+                Header.Title = e.Username;
+                // If the user is an administrator...
+                if (e.Type == UserType.Administrator)
+                {
+                    // Creates the administrator's view
+                    View = new AdminView(e);
+                }
+                // If the user is an evaluator...
+                else if (e.Type == UserType.Evaluator)
+                {
+                    // Creates the evaluator's view
+                    View = new EvaluatorView(e);
+                }
+                // If the user is a manager...
+                else if (e.Type == UserType.Manager)
+                {
+                    // Creates the manager's view
+                    View = new ManagerView(e);
+                }
+                else
+                {
+                    // By default creates the employee's view
+                    View = new EmployeeView(e);
+                }
+                appGrid.Children.Add(View);
 
-            //    View.SideMenu.UserDisconnected += new EventHandler<UserDataModel>((sender, e) =>
-            //    {
-            //        appGrid.Children.Remove(View);
+                windowGrid.Children.Remove(logInPage);
 
-            //        Header.ImagePath = @"pack://application:,,,/UI/Images/vaseis.png";
-            //        Header.Title = "";
+                View.SideMenu.UserDisconnected += new EventHandler<UserDataModel>((sender, e) =>
+                {
+                    appGrid.Children.Remove(View);
 
-            //        windowGrid.Children.Add(logInPage);
-            //    });
+                    Header.ImagePath = @"pack://application:,,,/UI/Images/vaseis.png";
+                    Header.Title = "";
 
-            //});
+                    windowGrid.Children.Add(logInPage);
+                });
 
-            //windowGrid.Children.Add(logInPage);
+            });
 
-            //Grid.SetRow(logInPage, 1);
+            windowGrid.Children.Add(logInPage);
 
-            var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
-                                                       .Include(x => x.Department).ThenInclude(y => y.Company)
-                                                       .Include(x => x.AcquiredDegrees)
-                                                       .Include(x => x.Awards)
-                                                       .Include(x => x.Certificates)
-                                                       .Include(x => x.Languages)
-                                                       .Include(x => x.RecommendationPapers)
-                                                       .Include(x => x.Projects)
-                                                       .FirstOrDefaultAsync(x => x.Type == UserType.Employee);
+            Grid.SetRow(logInPage, 1);
 
-            var view = new EmployeeView(user);
-            appGrid.Children.Add(view);
+            //var user = await Services.GetDbContext.Users.Include(x => x.JobPosition).ThenInclude(y => y.Job)
+            //                                           .Include(x => x.Department).ThenInclude(y => y.Company)
+            //                                           .Include(x => x.AcquiredDegrees)
+            //                                           .Include(x => x.Awards)
+            //                                           .Include(x => x.Certificates)
+            //                                           .Include(x => x.Languages)
+            //                                           .Include(x => x.RecommendationPapers)
+            //                                           .Include(x => x.Projects)
+            //                                           .FirstOrDefaultAsync(x => x.Type == UserType.Evaluator);
+
+            //var view = new EvaluatorView(user);
+            //appGrid.Children.Add(view);
+
 
            // Sets the content as the window's grid
             Content = windowGrid;

@@ -68,7 +68,7 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add Language";
+            DialogTitle.Text = "New Language Form";
 
             //the ok Button
             OkButton = new Button()
@@ -93,8 +93,14 @@ namespace Vaseis
             //i use a stack panel so that the input fields are set in a column
             var AddLanguage = new StackPanel();
 
+            LanguageInput = new TextInputComponent()
+            {
+                HintText = "Language",
+                Width = 240,
+                Margin = new Thickness(24)
+            };
+
             AddLanguage.Children.Add(LanguageInput);
-          //  AddRecPaper.Children.Add(DescriptionInput);
 
 
             // Adds a corner radius

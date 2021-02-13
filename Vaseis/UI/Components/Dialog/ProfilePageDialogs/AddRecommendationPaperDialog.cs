@@ -76,16 +76,20 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add award";
+            DialogTitle.Text = "New Recommendation Paper Form";
 
             RefereeInput = new TextInputComponent()
             {
-                HintText = "Referee"
+                HintText = "Referee",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
             DescriptionInput = new TextInputComponent()
             { 
-                HintText = "Description"
+                HintText = "Description",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
             //the ok Button

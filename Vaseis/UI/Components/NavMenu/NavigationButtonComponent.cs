@@ -3,6 +3,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 using static Vaseis.Styles;
@@ -16,7 +17,7 @@ namespace Vaseis
         /// <summary>
         /// The nav button with the image
         /// </summary>
-        protected Button NavigationButton { get; private set; }
+        public Button NavigationButton { get; private set; }
 
         /// <summary>
         /// The tool tip's text
@@ -37,6 +38,24 @@ namespace Vaseis
         #endregion
 
         #region Dependency Properties
+
+        #region AddRecPapperCommand
+
+        /// <summary>
+        /// The edit command
+        /// </summary>
+        public ICommand ButtonCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandProperty); }
+            set { SetValue(ButtonCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ButtonCommand"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty ButtonCommandProperty = DependencyProperty.Register(nameof(ButtonCommand), typeof(ICommand), typeof(NavigationButtonComponent));
+
+        #endregion
 
         #region Button Icon
 
@@ -147,6 +166,11 @@ namespace Vaseis
             NavigationButton.GotFocus += OnGotFocusHandler;
             // When button loses focus calls method
             NavigationButton.LostFocus += OnLostFocusHandler;
+
+            NavigationButton.SetBinding(Button.CommandProperty, new Binding(nameof(ButtonCommand))
+            {
+                Source = this
+            });
 
             // Sets the component's content as the nav stack panel
             Content = NavigationButton;
