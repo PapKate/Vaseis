@@ -82,9 +82,11 @@ namespace Vaseis
         protected async void NewProjectOnClick(object sender, RoutedEventArgs e)
         {
 
+
             var updatedProjects = await Services.GetDataStorage.UpdateProjects(User, ProjectTitleInpuComponent.InputTextBox.Text, ProjectUrlInpuComponent.InputTextBox.Text, ProjectDescriptionInpuComponent.InputTextBox.Text, ProjectMadeForWhoInpuComponent.Text);
 
             await Services.GetDataStorage.CreateNewLog(User.Username, $"A project was added to {User.Username}", $"Project : {ProjectTitleInpuComponent.InputTextBox.Text}");
+
 
             ProfilePage.Projects = updatedProjects;
 

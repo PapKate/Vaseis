@@ -19,7 +19,7 @@ namespace Vaseis
         /// <summary>
         /// The clicked Company
         /// </summary>
-        public CompanyDataModel Company { get; }
+        public CompanyDataModel Company { get; private set; }
 
         /// <summary>
         /// The page's grid
@@ -73,6 +73,11 @@ namespace Vaseis
         /// The new user dialog
         /// </summary>
         protected NewUserDialogComponent AddUser { get; private set; }
+
+        /// <summary>
+        /// All the company's Jobs 
+        /// </summary>
+        protected List<string> allJobsTitles { get; private set; }
 
         #endregion
 
@@ -192,6 +197,25 @@ namespace Vaseis
         protected virtual void OnJobsChanged(DependencyPropertyChangedEventArgs e)
         {
 
+        }
+
+        protected async override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            var companyDepartments = await Services.GetDataStorage.GetDepartments(Company.Id);
+
+            allJobsTitles = new List<string>();
+
+            foreach (var department in companyDepartments)
+            {
+                var jobs = department.Jobs;
+
+                foreach (var job in jobs)
+                {
+                    allJobsTitles.Add(job.JobTitle);
+                }
+            }
         }
 
         #endregion
@@ -645,7 +669,7 @@ namespace Vaseis
             // Creates a new user dialog
             AddUser = new NewUserDialogComponent(User, Company, this, PageGrid)
             {
-
+                JobPositionOptions = allJobsTitles,
                 DepartmentOptions = DepartmentNames,
                 EmptyDepartmentOptions = EmptyDepartmentNames,
                 UserTypeOptions = new List<string> { "Evaluator", "Manager", "Employee" } 

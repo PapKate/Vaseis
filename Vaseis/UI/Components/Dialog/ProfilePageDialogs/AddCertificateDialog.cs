@@ -73,7 +73,9 @@ namespace Vaseis
 
             var updatedCertificates = await Services.GetDataStorage.UpdateCertificates(User, CertificateTitleInpuComponent.InputTextBox.Text, CertificateDescriptionInpuComponent.InputTextBox.Text);
 
+
             await Services.GetDataStorage.CreateNewLog(User.Username, $"A certificate was added to employee {User.Username}", $"Certificate : {CertificateTitleInpuComponent.InputTextBox.Text}");
+
 
             ProfilePage.Certificates = updatedCertificates;
 

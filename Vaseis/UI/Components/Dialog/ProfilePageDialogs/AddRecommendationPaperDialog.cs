@@ -59,9 +59,9 @@ namespace Vaseis
         protected async void NewRecOnClick(object sender, RoutedEventArgs e)
         {
 
-            var updatedRecs = await Services.GetDataStorage.UpdateRecPapers(User,RefereeInput.Text, DescriptionInput.Text);
+            var updatedRecs = await Services.GetDataStorage.UpdateRecPapers(User,RefereeInput.InputTextBox.Text, DescriptionInput.InputTextBox.Text);
 
-            await Services.GetDataStorage.CreateNewLog(User.Username, "Has a new Rec. Paper", $"Referee : {RefereeInput.Text}");
+            await Services.GetDataStorage.CreateNewLog(User.Username, "Has a new Rec. Paper", $"Referee : {RefereeInput.InputTextBox.Text}");
 
             ProfilePage.RecommendationPapers = updatedRecs;
 

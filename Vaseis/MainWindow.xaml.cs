@@ -89,6 +89,7 @@ namespace Vaseis
             // Defines the row the app grind is set to in the parent grid
             Grid.SetRow(appGrid, 1);
 
+
             var logInPage = new LoginPage();
 
             logInPage.UserConnected += new EventHandler<UserDataModel>((sender, e) =>
@@ -153,7 +154,8 @@ namespace Vaseis
             //var view = new EvaluatorView(user);
             //appGrid.Children.Add(view);
 
-            //  Sets the content as the window's grid
+
+           // Sets the content as the window's grid
             Content = windowGrid;
         }
 
