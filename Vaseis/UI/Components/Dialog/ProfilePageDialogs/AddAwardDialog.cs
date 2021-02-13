@@ -88,11 +88,13 @@ namespace Vaseis
         private void CreateGUI()
         {
             //Sets the dialog's title
-            DialogTitle.Text = "Add award";
+            DialogTitle.Text = "New Award Form";
 
             AwardTitleInpuComponent = new TextInputComponent()
             {
-            HintText = "Award Title"
+                HintText = "Award Title",
+                Width = 240,
+                Margin = new Thickness(24)
             };
 
             DateAcquiredPicker = ControlsFactory.CreateDatePicker("Date acquired");

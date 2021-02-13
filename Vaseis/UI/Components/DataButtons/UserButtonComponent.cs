@@ -17,6 +17,11 @@ namespace Vaseis
         public UserDataModel User { get; }
 
         /// <summary>
+        /// The manager
+        /// </summary>
+        public UserDataModel Manager { get; }
+
+        /// <summary>
         /// The tab control
         /// </summary>
         public TabControl TabControl { get; }
@@ -43,9 +48,10 @@ namespace Vaseis
         /// Default constructor
         /// </summary>
         /// <param name="user">The user</param>
-        public UserButtonComponent(UserDataModel user, TabControl tabControl)
+        public UserButtonComponent(UserDataModel user, TabControl tabControl, UserDataModel manager)
         {
             User = user ?? throw new ArgumentNullException(nameof(user));
+            Manager = manager ?? throw new ArgumentNullException(nameof(manager));
             TabControl = tabControl ?? throw new System.ArgumentNullException(nameof(tabControl));
 
             Title = user.Username;
@@ -71,7 +77,7 @@ namespace Vaseis
                 {
                     Text = User.Username,
                     Icon = PackIconKind.AccountCircle,
-                    Content = new ProfilePage(User),
+                    Content = new ProfilePage(User, Manager),
                 };
 
                 TabControl.Items.Add(tabItem);
